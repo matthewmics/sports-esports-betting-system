@@ -22,7 +22,6 @@ export const NavBar = () => {
                 </Menu.Item>
 
                 <Menu.Menu position='right'>
-
                     <Menu.Item>
                         <Button.Group>
                             <Button primary>Login</Button>
