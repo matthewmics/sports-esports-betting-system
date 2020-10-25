@@ -1,11 +1,15 @@
 import { configure } from "mobx";
 import { createContext } from "react";
+import MatchStore from "./matchStore";
 
 configure({ enforceActions: "always" });
 
 export class RootStore {
-  constructor() {
 
+  matchStore: MatchStore;
+
+  constructor() {
+    this.matchStore = new MatchStore();
   }
 }
 
