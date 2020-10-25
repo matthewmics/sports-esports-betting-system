@@ -38,6 +38,37 @@ namespace API.Data
                 ctx.Add(team);
             }
 
+            var matches = new List<Match>
+            {
+                new Match
+                {
+                    Category = "dota2",
+                    EventName = "ESL ONE",
+                    StartDate = DateTime.Now.AddDays(1),
+                    TeamA = teams[0], TeamB = teams[1],                    
+                },
+                new Match
+                {
+                    Category = "dota2",
+                    EventName = "ESL ONE",
+                    StartDate = DateTime.Now.AddDays(2),
+                    TeamA = teams[0], TeamB = teams[2],
+                },
+                new Match
+                {
+                    Category = "dota2",
+                    EventName = "ESL ONE",
+                    StartDate = DateTime.Now.AddDays(2),
+                    TeamA = teams[1], TeamB = teams[2],
+                },
+            };
+
+
+            foreach (var match in matches)
+            {
+                ctx.Add(match);
+            }
+
             ctx.SaveChanges();
         }
 
