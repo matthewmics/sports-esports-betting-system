@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { ITeam } from "../models/team";
+import { IMatch } from "../models/match";
 
 axios.defaults.baseURL = "http://localhost:5000/api";
 
@@ -20,15 +20,16 @@ const requests = {
     axios.delete(url).then(sleep(1000)).then(responseBody),
 };
 
-const Teams = {
-    list: (url: string): Promise<ITeam[]> => requests.get(`/teams`)
+// const Teams = {
+//     list: (): Promise<ITeam[]> => requests.get(`/teams`)
+// };
+
+export const Matches = {
+    list: (): Promise<IMatch[]> => requests.get(`/matches`)
 };
 
-const Matches = {
-    list: (url: string): Promise<ITeam[]> => requests.get(`/matches`)
-};
-
-export default {
-    Teams,
-    Matches
+const agent = {
+  Matches
 }
+
+export default agent;

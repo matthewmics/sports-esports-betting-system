@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Menu, Dropdown, Button, Image } from 'semantic-ui-react'
+import { Container, Menu, Button, Image } from 'semantic-ui-react'
 
 export const NavBar = () => {
     return (

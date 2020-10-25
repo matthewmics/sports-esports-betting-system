@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import 'semantic-ui-css/semantic.min.css'
 import { NavBar } from '../../features/nav/NavBar';
 import MatchesPage from '../../features/matches/MatchesPage';
