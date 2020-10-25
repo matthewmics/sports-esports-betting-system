@@ -9,15 +9,16 @@ namespace API.Models
     {
         public int Id { get; set; }
 
-        public string Category { get; set; }
-        public string EventName { get; set; }
-
-        public DateTime StartDate { get; set; }
-
         public Team TeamA { get; set; }
         public int TeamAId { get; set; }
 
         public Team TeamB { get; set; }
         public int TeamBId { get; set; }
+
+        public string Category { get; set; }
+        public string EventName { get; set; }
+
+        public DateTime StartDate { get; set; }
+
     }
 }
