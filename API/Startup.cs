@@ -18,6 +18,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using API.Security;
+using API.Interfaces;
 
 namespace API
 {
@@ -43,7 +45,10 @@ namespace API
             var builder = services.AddIdentityCore<AppUser>(opt =>
             {
                 // set the password strength here.
-            }); 
+                opt.Password.RequireDigit = false;
+                opt.Password.RequiredUniqueChars = 0;
+                opt.Password.RequireNonAlphanumeric = false;
+            });
             var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
             identityBuilder.AddEntityFrameworkStores<DataContext>();
             identityBuilder.AddSignInManager<SignInManager<AppUser>>();
@@ -60,22 +65,24 @@ namespace API
                         ValidateIssuer = false
                     };
 
-                    opt.Events = new JwtBearerEvents
-                    {
-                        OnMessageReceived = context =>
-                        {
-                            var accesstoken = context.Request.Query["access_token"];
-                            var path = context.HttpContext.Request.Path;
-                            if (!string.IsNullOrEmpty(accesstoken) && (path.StartsWithSegments("/chat")))
-                            {
-                                context.Token = accesstoken;
-                            }
-                            return Task.CompletedTask;
-                        }
-                    };
+                    //opt.Events = new JwtBearerEvents
+                    //{
+                    //    OnMessageReceived = context =>
+                    //    {
+                    //        var accesstoken = context.Request.Query["access_token"];
+                    //        var path = context.HttpContext.Request.Path;
+                    //        if (!string.IsNullOrEmpty(accesstoken) && (path.StartsWithSegments("/chat")))
+                    //        {
+                    //            context.Token = accesstoken;
+                    //        }
+                    //        return Task.CompletedTask;
+                    //    }
+                    //};
                 });
 
             services.AddAutoMapper(typeof(Startup));
+
+            services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -92,7 +99,7 @@ namespace API
 
             app.UseCors(builder =>
             {
-                builder.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:3000", "http://localhost:5000");
+                builder.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:3000");
             });
 
             app.UseAuthentication();
