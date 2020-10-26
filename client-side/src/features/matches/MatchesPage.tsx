@@ -37,13 +37,13 @@ const MatchesPage = () => {
                                             <Image src='/assets/noimage.png' centered
                                                 size='tiny' />
                                             {match.teamA.name}
-                                </Grid.Column>
+                                        </Grid.Column>
 
                                         <Grid.Column>
                                             <Image src='/assets/noimage.png' centered
                                                 size='tiny' />
                                             {match.teamB.name}
-                                </Grid.Column>
+                                        </Grid.Column>
                                     </Grid.Row>
                                 </Grid>
                             </Segment>

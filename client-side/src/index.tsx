@@ -4,12 +4,18 @@ import './index.css';
 import App from './app/layout/App';
 import reportWebVitals from './reportWebVitals';
 import './app/layout/styles.css'
+import { createBrowserHistory } from 'history';
+import { Router } from 'react-router-dom';
+import ScrollToTop from './app/layout/ScrollToTop';
+
+export const history = createBrowserHistory();
 
 ReactDOM.render(
-  /**<React.StrictMode>
-  </React.StrictMode>,**/
-  <App />,
-  document.getElementById('root')
+  <Router history={history}>
+    <ScrollToTop />
+    <App />
+  </Router>,
+document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function
