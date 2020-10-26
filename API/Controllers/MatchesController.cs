@@ -26,7 +26,7 @@ namespace API.Controllers
                 .ToListAsync();
 
             var matchesToReturn = _mapper.Map<ICollection<MatchDto>>(matches);
-
+            
             return Ok(matchesToReturn);
         }
 
