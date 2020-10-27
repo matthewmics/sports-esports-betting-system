@@ -22,23 +22,26 @@ const MatchesPage = () => {
                             <Segment clearing>
                                 <Label basic image>
                                     <img src='/assets/dota2.png' alt='Team' />
-                            DOTA 2
-                        </Label>
+                                    DOTA 2
+                                </Label>
+                                {" "}
+                                Beyond The Summit 13
                                 <span style={{ float: 'right', color: 'teal', lineHeight: '27px' }}>
                                     12m 06s from now
-                        </span>
+                                </span>
                             </Segment>
                             <Segment>
-                                <Grid columns={2} stackable textAlign='center'>
-                                    <Divider vertical>VS</Divider>
-
+                                <Grid columns={3} stackable textAlign='center'>
                                     <Grid.Row verticalAlign='middle'>
                                         <Grid.Column>
                                             <Image src='/assets/noimage.png' centered
                                                 size='tiny' />
                                             {match.teamA.name}
                                         </Grid.Column>
-
+                                        <Grid.Column width={2}>
+                                            VS <br />
+                                            <Label content='BO3' />
+                                        </Grid.Column>
                                         <Grid.Column>
                                             <Image src='/assets/noimage.png' centered
                                                 size='tiny' />
