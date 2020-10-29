@@ -6,15 +6,14 @@ import { RootStoreContext } from '../../stores/rootStore'
 const ModalContainer = () => {
 
     const rootStore = useContext(RootStoreContext);
-    const { modal: { open }, closeModal } = rootStore.modalStore;
+    const { modal: { open, body } } = rootStore.modalStore;
 
     return (
         <Modal open={open}
             size='tiny'
-            closeIcon
-            onClose={closeModal}>
+        >
             <Modal.Content>
-                This is for login
+                {body}
             </Modal.Content>
         </Modal>
     )
