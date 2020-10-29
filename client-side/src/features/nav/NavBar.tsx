@@ -1,8 +1,9 @@
 import React, { useContext } from 'react'
 import { Container, Menu, Button, Image } from 'semantic-ui-react'
-import { Link, NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { RootStoreContext } from '../../app/stores/rootStore'
 import { observer } from 'mobx-react-lite'
+import { LoginForm } from '../user/LoginForm'
 
 const NavBar = () => {
 
@@ -42,7 +43,7 @@ const NavBar = () => {
                 <Menu.Menu position='right'>
                     <Menu.Item>
                         <Button.Group>
-                            <Button primary onClick={openModal}>Login</Button>
+                            <Button primary onClick={() => {openModal(<LoginForm />)}}>Login</Button>
                             <Button.Or />
                             <Button positive>Register</Button>
                         </Button.Group>
