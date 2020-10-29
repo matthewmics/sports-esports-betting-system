@@ -1,8 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Container, Menu, Button, Image } from 'semantic-ui-react'
 import { Link, NavLink } from 'react-router-dom'
+import { RootStoreContext } from '../../app/stores/rootStore'
+import { observer } from 'mobx-react-lite'
 
-export const NavBar = () => {
+const NavBar = () => {
+
+    const rootStore = useContext(RootStoreContext);
+    const { openModal } = rootStore.modalStore;
+
     return (
         <Menu fixed='top'>
             <Container>
@@ -36,7 +42,7 @@ export const NavBar = () => {
                 <Menu.Menu position='right'>
                     <Menu.Item>
                         <Button.Group>
-                            <Button primary>Login</Button>
+                            <Button primary onClick={openModal}>Login</Button>
                             <Button.Or />
                             <Button positive>Register</Button>
                         </Button.Group>
@@ -46,3 +52,6 @@ export const NavBar = () => {
         </Menu>
     )
 }
+
+
+export default observer(NavBar);
