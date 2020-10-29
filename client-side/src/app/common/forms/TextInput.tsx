@@ -16,7 +16,7 @@ export const TextInput: React.FC<IProps> = ({
             <input {...input} placeholder={placeholder} />
             {touched && !!error &&
                 (
-                    <Label basic color='red'>
+                    <Label basic color='red' pointing>
                         {error}
                     </Label>
                 )
