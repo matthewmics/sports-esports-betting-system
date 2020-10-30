@@ -3,7 +3,11 @@ import { Field, Form as FinalForm } from 'react-final-form'
 import { Button, Form, Header } from 'semantic-ui-react'
 import { TextInput } from '../../app/common/forms/TextInput'
 import { RootStoreContext } from '../../app/stores/rootStore'
-import {combineValidators, isRequired} from 'revalidate'
+import { combineValidators, isRequired } from 'revalidate'
+import { IUserFormValues } from '../../app/models/user'
+import agent from '../../app/api/agent'
+import { FORM_ERROR } from 'final-form'
+import { ErrorMessage } from '../../app/common/forms/ErrorMessage'
 
 const validate = combineValidators({
     email: isRequired('email'),
@@ -13,12 +17,16 @@ const validate = combineValidators({
 export const LoginForm = () => {
     const rootStore = useContext(RootStoreContext);
     const { closeModal } = rootStore.modalStore;
+    const { login } = rootStore.userStore;
+
     return (
-        <FinalForm onSubmit={(values: any) => console.log(values)}
+        <FinalForm onSubmit={(values: IUserFormValues) => login(values).catch(error => (
+            { [FORM_ERROR]: error }
+        ))}
             validate={validate}
-            render={({ handleSubmit }) => {
+            render={({ handleSubmit, pristine, dirtySinceLastSubmit, submitError, valid }) => {
                 return (
-                    <Form onSubmit={handleSubmit} style={{ overflow: 'auto' }}>
+                    <Form onSubmit={handleSubmit} error style={{ overflow: 'auto' }}>
                         <Header as='h1' content='LOGIN' color='teal' />
                         <Field component={TextInput}
                             name='email'
@@ -27,12 +35,18 @@ export const LoginForm = () => {
                             name='password'
                             type='password'
                             placeholder='Password' />
+
+
+                        {submitError && !dirtySinceLastSubmit &&
+                            <ErrorMessage text='Invalid email or password' error={submitError} />}
+
                         <Button content='LOGIN' type='submit' primary
+                            icon='lock'
                             floated='right'
-                            icon='lock' />
+                            disabled={!valid && (!dirtySinceLastSubmit || pristine)} />
                         <Button content='CANCEL'
-                            onClick={closeModal}
-                            floated='right' />
+                            floated='right'
+                            onClick={closeModal} />
                     </Form>
                 )
             }} />

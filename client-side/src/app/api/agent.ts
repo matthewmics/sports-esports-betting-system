@@ -1,7 +1,11 @@
 import axios, { AxiosResponse } from "axios";
 import { IMatch } from "../models/match";
+import { IUser, IUserFormValues } from "../models/user";
 
 axios.defaults.baseURL = "http://localhost:5000/api";
+axios.interceptors.response.use(undefined, error => {
+  throw error.response;
+})
 
 const responseBody = (response: AxiosResponse) => response.data;
 
@@ -25,11 +29,16 @@ const requests = {
 // };
 
 export const Matches = {
-    list: (): Promise<IMatch[]> => requests.get(`/matches`)
+  list: (): Promise<IMatch[]> => requests.get(`/matches`)
+};
+
+export const User = {
+  login: (formValues: IUserFormValues): Promise<IUser> =>
+    requests.post('/users/login', formValues)
 };
 
 const agent = {
-  Matches
+  Matches, User
 }
 
 export default agent;
