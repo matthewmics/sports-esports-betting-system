@@ -63,10 +63,42 @@ namespace API.Data
                 },
             };
 
-
             foreach (var match in matches)
             {
                 ctx.Add(match);
+            }
+
+            var predictions = new List<Prediction>
+            {
+                new Prediction
+                {
+                    Match = matches[0],
+                    StartDate = matches[0].StartDate,
+                    Title = "Series Winner",
+                    Description = "Who will win the series?",
+                    PredictionStatusId = PredictionStatus.Open
+                },
+                new Prediction
+                {
+                    Match = matches[1],
+                    StartDate = matches[1].StartDate,
+                    Title = "Series Winner",
+                    Description = "Who will win the series?",
+                    PredictionStatusId = PredictionStatus.Open
+                },
+                new Prediction
+                {
+                    Match = matches[2],
+                    StartDate = matches[2].StartDate,
+                    Title = "Series Winner",
+                    Description = "Who will win the series?",
+                    PredictionStatusId = PredictionStatus.Open
+                },
+            };
+
+            foreach(var prediction in predictions)
+            {
+                ctx.Add(prediction);
             }
 
             ctx.SaveChanges();
