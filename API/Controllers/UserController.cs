@@ -12,14 +12,14 @@ using Microsoft.Extensions.Configuration;
 
 namespace API.Controllers
 {
-    public class UsersController : BaseController
+    public class UserController : BaseController
     {
         private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager;
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
         private readonly IConfiguration _configuration;
 
-        public UsersController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager,
+        public UserController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager,
             IJwtTokenGenerator jwtTokenGenerator, IConfiguration configuration)
         {
             _signInManager = signInManager;
