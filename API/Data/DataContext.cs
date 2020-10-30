@@ -17,6 +17,8 @@ namespace API.Data
 
         public DbSet<Match> Matches { get; set; }
         public DbSet<Team> Teams { get; set; }
+        public DbSet <Prediction> Predictions { get; set; }
+        public DbSet <PredictionStatus> PredictionStatuses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

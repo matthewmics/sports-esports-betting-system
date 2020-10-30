@@ -113,6 +113,52 @@ namespace API.Migrations
                     b.ToTable("Matches");
                 });
 
+            modelBuilder.Entity("API.Models.Prediction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("MatchId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("PredictionStatusId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MatchId");
+
+                    b.HasIndex("PredictionStatusId");
+
+                    b.ToTable("Predictions");
+                });
+
+            modelBuilder.Entity("API.Models.PredictionStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("DisplayText")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PredictionStatuses");
+                });
+
             modelBuilder.Entity("API.Models.Team", b =>
                 {
                     b.Property<int>("Id")
@@ -269,6 +315,21 @@ namespace API.Migrations
                     b.HasOne("API.Models.Team", "TeamB")
                         .WithMany("TeamBMatches")
                         .HasForeignKey("TeamBId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("API.Models.Prediction", b =>
+                {
+                    b.HasOne("API.Models.Match", "Match")
+                        .WithMany()
+                        .HasForeignKey("MatchId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Models.PredictionStatus", "PredictionStatus")
+                        .WithMany()
+                        .HasForeignKey("PredictionStatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
