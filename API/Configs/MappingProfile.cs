@@ -14,6 +14,9 @@ namespace API.Configs
         {
             CreateMap<Match, MatchDto>();
             CreateMap<Team, TeamDto>();
+            CreateMap<AppUser, UserDto>()
+                .ForMember(x => x.Username, x => x.MapFrom(x => x.UserName))
+                .ForMember(x => x.Token, x => x.MapFrom<TokenResolver>());
         }
     }
 }

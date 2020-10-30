@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using API.Interfaces;
 using Microsoft.Extensions.Configuration;
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
@@ -16,16 +18,24 @@ namespace API.Controllers
     {
         private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager;
-        private readonly IJwtTokenGenerator _jwtTokenGenerator;
-        private readonly IConfiguration _configuration;
+        private readonly IUserAccessor _userAccessor;
+        private readonly IMapper _mapper;
 
-        public UserController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager,
-            IJwtTokenGenerator jwtTokenGenerator, IConfiguration configuration)
+        public UserController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, IUserAccessor userAccessor,
+            IMapper mapper)
         {
             _signInManager = signInManager;
             _userManager = userManager;
-            _jwtTokenGenerator = jwtTokenGenerator;
-            _configuration = configuration;
+            _userAccessor = userAccessor;
+            _mapper = mapper;
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<ActionResult> CurrentUser()
+        {
+            var user = await _userManager.FindByNameAsync(_userAccessor.GetCurrentUsername());
+            return Ok(_mapper.Map<UserDto>(user));
         }
 
         [HttpPost("register")]
@@ -46,14 +56,7 @@ namespace API.Controllers
             var result = await _userManager.CreateAsync(userToCreate, user.Password);
             if (result.Succeeded)
             {
-                return Ok(new UserDto
-                {
-                    DisplayName = userToCreate.DisplayName,
-                    Email = userToCreate.Email,
-                    Username = userToCreate.UserName,
-                    Token = _jwtTokenGenerator.GenerateToken(userToCreate.UserName,
-                    _configuration.GetSection("AppSettings:TokenKey").Value)
-                });
+                return Ok(_mapper.Map<UserDto>(userToCreate));
             }
 
             throw new Exception("Problem creating user");
@@ -71,14 +74,7 @@ namespace API.Controllers
 
             if (result.Succeeded)
             {
-                return Ok(new UserDto
-                {
-                    DisplayName = userInDb.DisplayName,
-                    Email = userInDb.Email,
-                    Username = userInDb.UserName,
-                    Token = _jwtTokenGenerator.GenerateToken(userInDb.UserName,
-                    _configuration.GetSection("AppSettings:TokenKey").Value)
-                });
+                return Ok(_mapper.Map<UserDto>(userInDb));
             }
 
             return Unauthorized("Invalid email or password");
