@@ -14,5 +14,9 @@ namespace API.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string DisplayText { get; set; }
+
+        public const int Open = 0;
+        public const int Settled = 1;
+        public const int Cancelled = 2;
     }
 }
