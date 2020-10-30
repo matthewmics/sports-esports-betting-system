@@ -1,10 +1,18 @@
 import axios, { AxiosResponse } from "axios";
+import { toast } from "react-toastify";
 import { IMatch } from "../models/match";
 import { IUser, IUserFormValues } from "../models/user";
 
 axios.defaults.baseURL = "http://localhost:5000/api";
 axios.interceptors.response.use(undefined, error => {
+
+  if (error.message === "Network Error" && !error.response) {
+    toast.error("Network Error occured");
+    return;
+  }
+
   throw error.response;
+  
 })
 
 const responseBody = (response: AxiosResponse) => response.data;
@@ -34,7 +42,7 @@ export const Matches = {
 
 export const User = {
   login: (formValues: IUserFormValues): Promise<IUser> =>
-    requests.post('/users/login', formValues)
+    requests.post('/user/login', formValues)
 };
 
 const agent = {

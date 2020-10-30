@@ -1,14 +1,15 @@
 import React, { useContext } from 'react'
-import { Container, Menu, Button, Image } from 'semantic-ui-react'
+import { Container, Menu, Button, Image, Dropdown } from 'semantic-ui-react'
 import { NavLink } from 'react-router-dom'
 import { RootStoreContext } from '../../app/stores/rootStore'
 import { observer } from 'mobx-react-lite'
-import { LoginForm } from '../user/LoginForm'
+import LoginForm from '../user/LoginForm'
 
 const NavBar = () => {
 
     const rootStore = useContext(RootStoreContext);
     const { openModal } = rootStore.modalStore;
+    const { isLoggedIn, user } = rootStore.userStore;
 
     return (
         <Menu fixed='top'>
@@ -41,13 +42,24 @@ const NavBar = () => {
                 </Menu.Item>
 
                 <Menu.Menu position='right'>
-                    <Menu.Item>
-                        <Button.Group>
-                            <Button primary onClick={() => {openModal(<LoginForm />)}}>Login</Button>
-                            <Button.Or />
-                            <Button positive>Register</Button>
-                        </Button.Group>
-                    </Menu.Item>
+                    {isLoggedIn ? (
+                        <Menu.Item>
+                            <Image style={{backgroundColor: '#afafaf'}} bordered spaced avatar src='/assets/user_default.png'/>
+                            <Dropdown text={user!.displayName}>
+                                <Dropdown.Menu>
+                                    <Dropdown.Item icon='power' text='Logout' />
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        </Menu.Item>
+                    ) : (
+                            <Menu.Item>
+                                <Button.Group>
+                                    <Button primary onClick={() => { openModal(<LoginForm />) }}>Login</Button>
+                                    <Button.Or />
+                                    <Button positive>Register</Button>
+                                </Button.Group>
+                            </Menu.Item>
+                        )}
                 </Menu.Menu>
             </Container>
         </Menu>

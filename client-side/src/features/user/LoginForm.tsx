@@ -8,16 +8,17 @@ import { IUserFormValues } from '../../app/models/user'
 import agent from '../../app/api/agent'
 import { FORM_ERROR } from 'final-form'
 import { ErrorMessage } from '../../app/common/forms/ErrorMessage'
+import { observer } from 'mobx-react-lite'
 
 const validate = combineValidators({
     email: isRequired('email'),
     password: isRequired('password')
 })
 
-export const LoginForm = () => {
+const LoginForm = () => {
     const rootStore = useContext(RootStoreContext);
     const { closeModal } = rootStore.modalStore;
-    const { login } = rootStore.userStore;
+    const { login, loading } = rootStore.userStore;
 
     return (
         <FinalForm onSubmit={(values: IUserFormValues) => login(values).catch(error => (
@@ -36,14 +37,14 @@ export const LoginForm = () => {
                             type='password'
                             placeholder='Password' />
 
-
                         {submitError && !dirtySinceLastSubmit &&
                             <ErrorMessage text='Invalid email or password' error={submitError} />}
 
                         <Button content='LOGIN' type='submit' primary
                             icon='lock'
                             floated='right'
-                            disabled={!valid && (!dirtySinceLastSubmit || pristine)} />
+                            disabled={!valid && (!dirtySinceLastSubmit || pristine)} 
+                            loading={loading}/>
                         <Button content='CANCEL'
                             floated='right'
                             onClick={closeModal} />
@@ -52,3 +53,5 @@ export const LoginForm = () => {
             }} />
     )
 }
+
+export default observer(LoginForm);
