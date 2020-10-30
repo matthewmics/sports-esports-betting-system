@@ -1,12 +1,25 @@
-import React, { useContext } from 'react'
-import { Container, Menu, Button, Image, Dropdown } from 'semantic-ui-react'
+import React, { Fragment, useContext } from 'react'
+import { Container, Menu, Button, Image, Dropdown, Icon, Label } from 'semantic-ui-react'
 import { NavLink } from 'react-router-dom'
 import { RootStoreContext } from '../../app/stores/rootStore'
 import { observer } from 'mobx-react-lite'
 import LoginForm from '../user/LoginForm'
 
-const NavBar = () => {
 
+const notificationBadgeStyle = {
+    backgroundColor: 'green',
+    height: '15px',
+    width: '15px',
+    position: 'absolute' as 'absolute',
+    right: 15, top: 15,
+    borderRadius: '7px',
+    color: 'white',
+    fontSize: '8px',
+    textAlign: 'center' as 'center',
+    lineHeight: '15px'
+};
+
+const NavBar = () => {
     const rootStore = useContext(RootStoreContext);
     const { openModal } = rootStore.modalStore;
     const { isLoggedIn, user, userLoading, logout } = rootStore.userStore;
@@ -45,15 +58,27 @@ const NavBar = () => {
                     {!userLoading &&
                         (
                             isLoggedIn ? (
-                                <Menu.Item >
-                                    <Image style={{ backgroundColor: '#afafaf' }} bordered spaced avatar
-                                        src='/assets/user_default.png' />
-                                    <Dropdown text={user!.displayName}>
-                                        <Dropdown.Menu>
-                                            <Dropdown.Item icon='power' text='Logout' onClick={logout} />
-                                        </Dropdown.Menu>
-                                    </Dropdown>
-                                </Menu.Item>
+                                <Fragment>
+                                    <Menu.Item>
+                                        <Dropdown icon='bell outline' pointing={false}>
+                                            <Dropdown.Menu>
+                                                <Dropdown.Item text='Notifications will be displayed here.' />
+                                            </Dropdown.Menu>
+                                        </Dropdown>
+                                        <div style={notificationBadgeStyle}>
+                                            22
+                                        </div>
+                                    </Menu.Item>
+                                    <Menu.Item >
+                                        <Image style={{ backgroundColor: '#afafaf' }} bordered spaced avatar
+                                            src='/assets/user_default.png' />
+                                        <Dropdown text={user!.displayName}>
+                                            <Dropdown.Menu>
+                                                <Dropdown.Item icon='power' text='Logout' onClick={logout} />
+                                            </Dropdown.Menu>
+                                        </Dropdown>
+                                    </Menu.Item>
+                                </Fragment>
                             ) : (
                                     <Menu.Item>
                                         <Button.Group>
@@ -66,7 +91,7 @@ const NavBar = () => {
                         )
                     }
                 </Menu.Menu>
-            </Container>
+            </Container >
         </Menu >
     )
 }

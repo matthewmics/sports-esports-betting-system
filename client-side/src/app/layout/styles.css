@@ -6,3 +6,8 @@
 body {
     background-color: rgb(245, 245, 245) !important;
 }
+
+.ui.dropdown > i {
+    color: teal;
+    font-size: 21px;
+}
