@@ -75,7 +75,15 @@ namespace API.Data
                     Match = matches[0],
                     StartDate = matches[0].StartDate,
                     Title = "Series Winner",
-                    Description = "Who will win the series?",
+                    Description = "Which team will win the series?",
+                    PredictionStatusId = PredictionStatus.Open
+                },
+                new Prediction
+                {
+                    Match = matches[0],
+                    StartDate = matches[0].StartDate,
+                    Title = "Game 1 Winner",
+                    Description = "Which team will win Game 1?",
                     PredictionStatusId = PredictionStatus.Open
                 },
                 new Prediction
@@ -83,7 +91,7 @@ namespace API.Data
                     Match = matches[1],
                     StartDate = matches[1].StartDate,
                     Title = "Series Winner",
-                    Description = "Who will win the series?",
+                    Description = "Which team will win the series?",
                     PredictionStatusId = PredictionStatus.Open
                 },
                 new Prediction
@@ -91,7 +99,7 @@ namespace API.Data
                     Match = matches[2],
                     StartDate = matches[2].StartDate,
                     Title = "Series Winner",
-                    Description = "Who will win the series?",
+                    Description = "Which team will win the series?",
                     PredictionStatusId = PredictionStatus.Open
                 },
             };

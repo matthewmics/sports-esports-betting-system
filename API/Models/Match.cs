@@ -20,5 +20,7 @@ namespace API.Models
 
         public DateTime StartDate { get; set; }
 
+        public ICollection<Prediction> Predictions { get; set; }
+
     }
 }

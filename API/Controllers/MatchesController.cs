@@ -23,6 +23,7 @@ namespace API.Controllers
             var matches = await Context.Matches
                 .Include(x => x.TeamA)
                 .Include(x => x.TeamB)
+                .Include(x => x.Predictions)
                 .ToListAsync();
 
             var matchesToReturn = _mapper.Map<ICollection<MatchDto>>(matches);
