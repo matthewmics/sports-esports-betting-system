@@ -4,6 +4,20 @@ import { IMatch } from "../models/match";
 import { IUser, IUserFormValues } from "../models/user";
 
 axios.defaults.baseURL = "http://localhost:5000/api";
+
+axios.interceptors.request.use(
+  (config) => {
+    const token = window.localStorage.getItem("jwt");
+    if(token){
+      config.headers.Authorization = "Bearer " + token;
+    }
+
+    return config;
+  },
+  (error) =>
+    Promise.reject(error)
+)
+
 axios.interceptors.response.use(undefined, error => {
 
   if (error.message === "Network Error" && !error.response) {
@@ -42,7 +56,8 @@ export const Matches = {
 
 export const User = {
   login: (formValues: IUserFormValues): Promise<IUser> =>
-    requests.post('/user/login', formValues)
+    requests.post('/user/login', formValues),
+  current: (): Promise<IUser> => requests.get('/user')
 };
 
 const agent = {

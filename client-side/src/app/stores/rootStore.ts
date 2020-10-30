@@ -15,7 +15,7 @@ export class RootStore {
   constructor() {
     this.matchStore = new MatchStore();
     this.modalStore = new ModalStore();
-    this.userStore = new UserStore();
+    this.userStore = new UserStore(this);
   }
 }
 
