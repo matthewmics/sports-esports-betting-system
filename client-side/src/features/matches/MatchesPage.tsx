@@ -3,6 +3,7 @@ import React, { useContext, useEffect } from 'react'
 import { Button, Grid, GridColumn, Image, Label, Segment } from 'semantic-ui-react';
 import { IMatch } from '../../app/models/match';
 import { RootStoreContext } from '../../app/stores/rootStore';
+import MatchDetail from './MatchDetail';
 
 const MatchesPage = () => {
 
@@ -16,46 +17,7 @@ const MatchesPage = () => {
     return (
         <Grid centered>
             {matchList.map((match: IMatch) => {
-                return (
-                    <GridColumn width={12} key={match.id}>
-                        <Segment.Group>
-                            <Segment clearing>
-                                <Label basic image>
-                                    <img src='/assets/dota2.png' alt='Team' />
-                                    DOTA 2
-                                </Label>
-                                {" "}
-                                Beyond The Summit 13
-                                <span style={{ float: 'right', color: 'teal', lineHeight: '27px' }}>
-                                    12m 06s from now
-                                </span>
-                            </Segment>
-                            <Segment>
-                                <Grid columns={3} stackable textAlign='center'>
-                                    <Grid.Row verticalAlign='middle'>
-                                        <Grid.Column>
-                                            <Image src='/assets/noimage.png' centered
-                                                size='tiny' />
-                                            {match.teamA.name}
-                                        </Grid.Column>
-                                        <Grid.Column width={2}>
-                                            VS <br />
-                                            <Label content='BO3' />
-                                        </Grid.Column>
-                                        <Grid.Column>
-                                            <Image src='/assets/noimage.png' centered
-                                                size='tiny' />
-                                            {match.teamB.name}
-                                        </Grid.Column>
-                                    </Grid.Row>
-                                </Grid>
-                            </Segment>
-                            <Segment clearing>
-                                <Button content='View' floated='right' primary />
-                            </Segment>
-                        </Segment.Group>
-                    </GridColumn>
-                )
+                return <MatchDetail key={match.id} match={match}/>
             })}
         </Grid>
     )

@@ -9,6 +9,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css'
 import { observer } from 'mobx-react-lite';
 import { RootStoreContext } from '../stores/rootStore';
+import PredictionPage from '../../features/predictions/PredictionPage';
 
 const App = () => {
 
@@ -27,10 +28,11 @@ const App = () => {
       <ToastContainer position='bottom-right' />
       <NavBar />
       <Container style={{ marginTop: '7em' }}>
-        <Route path='/'>
+        <Route exact path='/'>
           <Redirect to='/matches' />
         </Route>
-        <Route path='/matches' component={MatchesPage} />
+        <Route exact path='/matches' component={MatchesPage} />
+        <Route path='/matches/:id' component={PredictionPage} />
       </Container>
     </Fragment>
   )

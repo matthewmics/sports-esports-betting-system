@@ -60,7 +60,7 @@ const NavBar = () => {
                             isLoggedIn ? (
                                 <Fragment>
                                     <Menu.Item>
-                                        <Dropdown icon='bell outline' pointing={false}>
+                                        <Dropdown icon='bell outline' pointing='top left' >
                                             <Dropdown.Menu>
                                                 <Dropdown.Item text='Notifications will be displayed here.' />
                                             </Dropdown.Menu>
