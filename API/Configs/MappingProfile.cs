@@ -19,7 +19,8 @@ namespace API.Configs
                 .ForMember(x => x.Username, x => x.MapFrom(x => x.UserName))
                 .ForMember(x => x.Token, x => x.MapFrom<TokenResolver>());
 
-            CreateMap<Prediction, PredictionDto>();
+            CreateMap<Prediction, PredictionDto>()
+                .ForMember(x => x.Status, x => x.MapFrom(x => x.PredictionStatus.DisplayText));
         }
     }
 }
