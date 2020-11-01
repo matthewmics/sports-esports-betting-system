@@ -42,9 +42,9 @@ namespace API.Controllers
         public async Task<ActionResult> Register(UserRegisterDto user)
         {
             if (await Context.Users.AnyAsync(u => u.Email == user.Email))
-                return BadRequest("Email already exists");
+                return BadRequest(new { error = "Email already exists" });
             if (await Context.Users.AnyAsync(u => u.UserName == user.Username))
-                return BadRequest("Username already exists");
+                return BadRequest(new { error = "Username already exists" });
 
             var userToCreate = new AppUser
             {

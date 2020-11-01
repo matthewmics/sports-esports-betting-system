@@ -13,15 +13,15 @@ namespace API.Dtos
         public string Email { get; set; }
 
         [Required]
-        [MinLength(6)]
+        [StringLength(30, MinimumLength = 6)]
         public string Username { get; set; }
 
         [Required]
-        [MinLength(6)]
+        [StringLength(100, MinimumLength = 2, ErrorMessage = "Invalid Name")]
         public string DisplayName { get; set; }
 
         [Required]
-        [MinLength(6)]
+        [StringLength(20, MinimumLength = 6)]
         [RegularExpression(@".*[A-Z].*", ErrorMessage = "Password must contain an Uppercase Letter")]
         public string Password { get; set; }
     }
