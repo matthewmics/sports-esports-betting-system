@@ -1,9 +1,10 @@
 import React, { Fragment, useContext } from 'react'
-import { Container, Menu, Button, Image, Dropdown } from 'semantic-ui-react'
+import { Container, Menu, Button, Image, Dropdown, Placeholder } from 'semantic-ui-react'
 import { NavLink } from 'react-router-dom'
 import { RootStoreContext } from '../../app/stores/rootStore'
 import { observer } from 'mobx-react-lite'
 import LoginForm from '../user/LoginForm'
+import RegisterForm from '../user/RegisterForm'
 
 
 const notificationBadgeStyle = {
@@ -26,6 +27,7 @@ const NavBar = () => {
 
     return (
         <Menu fixed='top'>
+
             <Container>
                 <Menu.Item header>
                     <Image style={{ marginRight: '10px' }} height='37' src='/assets/logo.png' />
@@ -55,6 +57,16 @@ const NavBar = () => {
                 </Menu.Item>
 
                 <Menu.Menu position='right'>
+                    {userLoading &&
+                        <Menu.Item>
+                            <Placeholder style={{ height: '25px', width: '200px' }}>
+                                <Placeholder.Header>
+                                    <Placeholder.Line />
+                                    <Placeholder.Line />
+                                </Placeholder.Header>
+                            </Placeholder>
+                        </Menu.Item>
+                    }
                     {!userLoading &&
                         (
                             isLoggedIn ? (
@@ -84,7 +96,10 @@ const NavBar = () => {
                                         <Button.Group>
                                             <Button primary onClick={() => { openModal(<LoginForm />) }}>Login</Button>
                                             <Button.Or />
-                                            <Button positive>Register</Button>
+                                            <Button positive
+                                                onClick={() => { openModal(<RegisterForm />) }}>
+                                                Register
+                                            </Button>
                                         </Button.Group>
                                     </Menu.Item>
                                 )
@@ -92,7 +107,7 @@ const NavBar = () => {
                     }
                 </Menu.Menu>
             </Container >
-        </Menu >
+        </Menu>
     )
 }
 
