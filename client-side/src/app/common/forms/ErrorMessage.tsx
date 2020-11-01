@@ -8,13 +8,16 @@ interface IProps {
 }
 
 export const ErrorMessage: React.FC<IProps> = ({ error, text }) => {
+    console.log(error);
     return (
         <Message error>
-            <Message.Header>
-                {error.statusText}
-            </Message.Header>
             {error.data && error.data.errors && Object.keys(error.data.errors).length > 0 && (
                 <Message.List>
+                    {error.data.error &&
+                        <Message.Item>
+                            error.data.error
+                        </Message.Item>
+                    }
                     {Object.values<string>(error.data.errors).flat().map((err, i) => (
                         <Message.Item key={i}>
                             {err}
