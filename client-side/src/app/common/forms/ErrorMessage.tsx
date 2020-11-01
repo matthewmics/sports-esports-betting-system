@@ -13,7 +13,7 @@ export const ErrorMessage: React.FC<IProps> = ({ error, text }) => {
             <Message.Header>
                 {error.statusText}
             </Message.Header>
-            {/* {error.data && Object.keys(error.data.errors).length > 0 && (
+            {error.data && error.data.errors && Object.keys(error.data.errors).length > 0 && (
                 <Message.List>
                     {Object.values<string>(error.data.errors).flat().map((err, i) => (
                         <Message.Item key={i}>
@@ -21,7 +21,7 @@ export const ErrorMessage: React.FC<IProps> = ({ error, text }) => {
                         </Message.Item>
                     ))}
                 </Message.List>
-            )} */}
+            )}
             {text && <Message.Content content={text} />}
         </Message>
     )
