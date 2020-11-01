@@ -1,16 +1,21 @@
 import { observer } from 'mobx-react-lite'
 import React from 'react'
 import { Segment, Grid, Image, Button } from 'semantic-ui-react'
+import { IPrediction } from '../../app/models/prediction'
 import { btnBetStyle } from './PredictionPage'
 
-const PredictionDetails = () => {
+interface IProps {
+    prediction: IPrediction | null;
+}
+
+const PredictionDetails: React.FC<IProps> = ({ prediction }) => {
     return (
         <Segment.Group>
             <Segment clearing>
-                Which team will win the series?
-                        <span style={{ float: 'right', color: 'teal' }}>
+                {prediction && prediction.description}
+                <span style={{ float: 'right', color: 'teal' }}>
                     12m 06s from now
-                        </span>
+                </span>
             </Segment>
             <Segment>
                 <Grid columns={3} stackable textAlign='center'>
@@ -34,10 +39,10 @@ const PredictionDetails = () => {
                 </Grid>
             </Segment>
             <Segment secondary clearing>
-                <Button style={btnBetStyle} color='green'>
+                <Button style={btnBetStyle} primary>
                     Secret
                         </Button>
-                <Button style={btnBetStyle} color='green'>
+                <Button style={btnBetStyle} primary>
                     Nigma
                         </Button>
             </Segment>

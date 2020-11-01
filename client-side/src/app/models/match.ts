@@ -1,3 +1,4 @@
+import { IPrediction } from "./prediction";
 import { ITeam } from "./team";
 
 export interface IMatch {
@@ -5,6 +6,7 @@ export interface IMatch {
     category: string;
     eventName: string;
     startDate: Date;
-    teamA: ITeam,
-    teamB: ITeam
+    teamA: ITeam;
+    teamB: ITeam;
+    predictions: IPrediction[];
 }

@@ -1,7 +1,8 @@
 import { observer } from 'mobx-react-lite'
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
-import { Divider, Grid, Label, Image, Segment, Button, GridColumn, Reveal, Header } from 'semantic-ui-react'
+import { Grid } from 'semantic-ui-react'
+import { RootStoreContext } from '../../app/stores/rootStore'
 import MatchComments from './MatchComments'
 import PredictionDetails from './PredictionDetails'
 import PredictionHeader from './PredictionHeader'
@@ -23,16 +24,27 @@ interface IProps extends RouteComponentProps<RouteParams> {
 }
 
 const PredictionPage: React.FC<IProps> = ({ match }) => {
+
+    const rootStore = useContext(RootStoreContext);
+    const { selectMatch, selectedMatch, selectedPrediction, selectPrediction } = rootStore.matchStore;
+
+    useEffect(() => {
+        selectMatch(+match.params.id)
+    }, [selectMatch])
+
     return (
         <Grid>
             <Grid.Column width={16}>
                 <PredictionHeader />
             </Grid.Column>
             <Grid.Column width={12} style={{ paddingTop: '0px' }}>
-                <PredictionTabs />
+                <PredictionTabs match={selectedMatch}
+                    selectPrediction={selectPrediction}
+                    selectedPrediction={selectedPrediction}
+                />
             </Grid.Column>
             <Grid.Column width={12} style={{ paddingTop: '0px' }}>
-                <PredictionDetails />
+                <PredictionDetails prediction={selectedPrediction} />
                 <MatchComments />
             </Grid.Column>
             <Grid.Column width={4} style={{ paddingTop: '0px' }}>

@@ -8,7 +8,7 @@ const RecentPredictions = () => {
             <Header as='h3' attached='top'>
                 Recent Predictions
             </Header>
-            <Segment attached style={{ minHeight: '400px', textAlign: 'center' }}>
+            <Segment attached style={{ minHeight: 'initial', height: 'auto', textAlign: 'center' }}>
                 No user has predicted yet on this match.
             </Segment>
         </Fragment>
