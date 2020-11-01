@@ -1,5 +1,5 @@
 import React, { Fragment, useContext } from 'react'
-import { Container, Menu, Button, Image, Dropdown, Icon, Label } from 'semantic-ui-react'
+import { Container, Menu, Button, Image, Dropdown } from 'semantic-ui-react'
 import { NavLink } from 'react-router-dom'
 import { RootStoreContext } from '../../app/stores/rootStore'
 import { observer } from 'mobx-react-lite'
