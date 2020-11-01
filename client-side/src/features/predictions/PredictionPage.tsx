@@ -5,6 +5,7 @@ import { Divider, Grid, Label, Image, Segment, Button, GridColumn, Reveal, Heade
 import MatchComments from './MatchComments'
 import PredictionDetails from './PredictionDetails'
 import PredictionHeader from './PredictionHeader'
+import PredictionTabs from './PredictionTabs'
 import RecentPredictions from './RecentPredictions'
 
 export const btnBetStyle = {
@@ -28,10 +29,13 @@ const PredictionPage: React.FC<IProps> = ({ match }) => {
                 <PredictionHeader />
             </Grid.Column>
             <Grid.Column width={12} style={{ paddingTop: '0px' }}>
+                <PredictionTabs />
+            </Grid.Column>
+            <Grid.Column width={12} style={{ paddingTop: '0px' }}>
                 <PredictionDetails />
                 <MatchComments />
             </Grid.Column>
-            <Grid.Column width={4} style={{ marginTop: '27px' }}>
+            <Grid.Column width={4} style={{ paddingTop: '0px' }}>
                 <RecentPredictions />
             </Grid.Column>
         </Grid>
