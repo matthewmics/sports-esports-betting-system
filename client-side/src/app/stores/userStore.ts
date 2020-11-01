@@ -34,7 +34,20 @@ export default class UserStore {
     }
 
     @action register = async(formValues: IUserFormValues) => {
-        console.log(formValues);
+        this.loading = true;
+        try {
+            const user = await agent.User.register(formValues);
+            this.rootStore.modalStore.closeModal();
+            runInAction(() => {
+                this.user = user;
+            })
+        } catch (error) {
+            throw error;
+        } finally {
+            runInAction(() => {
+                this.loading = false;
+            })
+        }
     }
 
     @action login = async (formValues: IUserFormValues) => {

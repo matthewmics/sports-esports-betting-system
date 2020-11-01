@@ -57,6 +57,8 @@ export const Matches = {
 export const User = {
   login: (formValues: IUserFormValues): Promise<IUser> =>
     requests.post('/user/login', formValues),
+  register: (values: IUserFormValues) : Promise<IUser> => 
+    requests.post('/user/register', values),
   current: (): Promise<IUser> => requests.get('/user')
 };
 

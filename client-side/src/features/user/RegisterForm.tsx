@@ -4,7 +4,7 @@ import { Button, Form, FormGroup, Header } from 'semantic-ui-react'
 import { TextInput } from '../../app/common/forms/TextInput'
 import { RootStoreContext } from '../../app/stores/rootStore'
 import { combineValidators, composeValidators, isRequired, matchesField } from 'revalidate'
-import { IUserFormValues } from '../../app/models/user'
+import { IUserFormValues, IUserRegisterFormValues } from '../../app/models/user'
 import { FORM_ERROR } from 'final-form'
 import { ErrorMessage } from '../../app/common/forms/ErrorMessage'
 import { observer } from 'mobx-react-lite'
@@ -19,7 +19,7 @@ const validate = combineValidators({
         isRequired('email')
     )(),
     password: isRequired('password'),
-    confirmPassword: matchesField('password', 'confirmPassword')({message: 'Passwords do not match'})
+    confirmPassword: matchesField('password', 'confirmPassword')({ message: 'Passwords do not match' })
 })
 
 const RegisterForm = () => {
@@ -27,11 +27,16 @@ const RegisterForm = () => {
     const { closeModal } = rootStore.modalStore;
     const { register, loading } = rootStore.userStore;
 
+    const submitHandle = (values: IUserRegisterFormValues) => {
+        const {confirmPassword, firstname, lastname, ...formValues} = values;
+        formValues.displayName = values.firstname + " " + values.lastname;
+        return register(formValues).catch(error => (
+            { [FORM_ERROR]: error }
+        ))
+    }
 
     return (
-        <FinalForm onSubmit={(values: IUserFormValues) => register(values).catch(error => (
-            { [FORM_ERROR]: error }
-        ))}
+        <FinalForm onSubmit={(values: IUserRegisterFormValues) => submitHandle(values)}
             validate={validate}
             render={({ handleSubmit, pristine, dirtySinceLastSubmit, submitError, valid }) => {
                 return (
@@ -61,7 +66,7 @@ const RegisterForm = () => {
                             placeholder='Confirm Password' />
 
                         {submitError && !dirtySinceLastSubmit &&
-                            <ErrorMessage text='Something went wrong while processing your request' error={submitError} />}
+                            <ErrorMessage  error={submitError} />}
 
                         <Button content='REGISTER' type='submit' primary
                             icon='lock'
