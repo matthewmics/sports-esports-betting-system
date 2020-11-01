@@ -33,6 +33,10 @@ export default class UserStore {
         return !!this.user;
     }
 
+    @action register = async(formValues: IUserFormValues) => {
+        console.log(formValues);
+    }
+
     @action login = async (formValues: IUserFormValues) => {
         this.loading = true;
         try {
