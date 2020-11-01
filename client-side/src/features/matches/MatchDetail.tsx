@@ -45,7 +45,7 @@ const MatchDetail: React.FC<IProps> = ({
                     </Grid>
                 </Segment>
                 <Segment clearing>
-                    <Button icon='code branch' content='Predictions' floated='right' basic 
+                    <Button icon='sitemap' content='Predictions' floated='right' basic 
                         labelPosition='left'    
                         as={Link} to={`/matches/${match.id}`}/>
                 </Segment>
