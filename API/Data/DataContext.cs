@@ -17,8 +17,10 @@ namespace API.Data
 
         public DbSet<Match> Matches { get; set; }
         public DbSet<Team> Teams { get; set; }
-        public DbSet <Prediction> Predictions { get; set; }
-        public DbSet <PredictionStatus> PredictionStatuses { get; set; }
+        public DbSet<Prediction> Predictions { get; set; }
+        public DbSet<PredictionStatus> PredictionStatuses { get; set; }
+        public DbSet<UserTransactionType> UserTransactionTypes { get; set; }
+        public DbSet<Customer> Customers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -36,6 +38,7 @@ namespace API.Data
                 .WithMany(t => t.TeamBMatches)
                 .HasForeignKey(m => m.TeamBId);
             });
+
         }
 
     }

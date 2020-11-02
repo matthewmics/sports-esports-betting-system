@@ -83,6 +83,16 @@ namespace API.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("API.Models.Customer", b =>
+                {
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("AppUserId");
+
+                    b.ToTable("Customers");
+                });
+
             modelBuilder.Entity("API.Models.Match", b =>
                 {
                     b.Property<int>("Id")
@@ -174,6 +184,22 @@ namespace API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Teams");
+                });
+
+            modelBuilder.Entity("API.Models.UserTransactionType", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("DisplayText")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserTransactionTypes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -304,6 +330,15 @@ namespace API.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("API.Models.Customer", b =>
+                {
+                    b.HasOne("API.Models.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("API.Models.Match", b =>
                 {
                     b.HasOne("API.Models.Team", "TeamA")
@@ -322,7 +357,7 @@ namespace API.Migrations
             modelBuilder.Entity("API.Models.Prediction", b =>
                 {
                     b.HasOne("API.Models.Match", "Match")
-                        .WithMany()
+                        .WithMany("Predictions")
                         .HasForeignKey("MatchId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
