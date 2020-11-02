@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
+using API.Models;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,7 +28,8 @@ namespace API
                 {
                     var context = services.GetRequiredService<DataContext>();
                     context.Database.Migrate();
-                    Seed.SeedData(context);
+                    var userManager = services.GetRequiredService<UserManager<AppUser>>();
+                    Seed.SeedData(context, userManager);
                 } catch(Exception err)
                 {
                     var logger = services.GetRequiredService<ILogger<Program>>();
