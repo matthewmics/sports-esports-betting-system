@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Configs
+namespace API.DataHelpers
 {
     public class WalletResolver : IValueResolver<AppUser, UserDto, decimal>
     {
