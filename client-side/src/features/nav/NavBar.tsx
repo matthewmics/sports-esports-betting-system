@@ -1,5 +1,5 @@
 import React, { Fragment, useContext } from 'react'
-import { Container, Menu, Button, Image, Dropdown, Placeholder } from 'semantic-ui-react'
+import { Container, Menu, Button, Image, Dropdown, Placeholder, Label, Popup, Grid } from 'semantic-ui-react'
 import { NavLink } from 'react-router-dom'
 import { RootStoreContext } from '../../app/stores/rootStore'
 import { observer } from 'mobx-react-lite'
@@ -8,7 +8,7 @@ import RegisterForm from '../user/RegisterForm'
 
 
 const notificationBadgeStyle = {
-    backgroundColor: 'green',
+    backgroundColor: 'red',
     height: '15px',
     width: '15px',
     position: 'absolute' as 'absolute',
@@ -81,15 +81,47 @@ const NavBar = () => {
                                             22
                                         </div>
                                     </Menu.Item>
-                                    <Menu.Item >
-                                        <Image style={{ backgroundColor: '#afafaf' }} bordered spaced avatar
-                                            src='/assets/user_default.png' />
-                                        <Dropdown text={user!.displayName}>
-                                            <Dropdown.Menu>
-                                                <Dropdown.Item icon='power' text='Logout' onClick={logout} />
-                                            </Dropdown.Menu>
-                                        </Dropdown>
-                                    </Menu.Item>
+                                    <Popup
+                                        position='bottom right'
+                                        on='click'
+                                        pinned
+                                        trigger={
+                                            <Menu.Item>
+                                                <Image style={{ backgroundColor: '#afafaf' }} bordered spaced avatar
+                                                    size='mini'
+                                                    src='/assets/user_default.png' />
+                                                <div>
+                                                    <span style={{ fontSize: '13px', display: 'block', marginBottom: '2px' }}>{user!.displayName}</span>
+                                                    <Label size='mini' color='green' content={"₱ " + user!.walletBalance.toFixed(2)} />
+                                                </div>
+                                            </Menu.Item>
+                                        }
+                                    >
+
+                                        <div style={{ display: 'flex' }}>
+                                            <Image style={{
+                                                backgroundColor: '#afafaf',
+                                                height: '50px', width: '50px',
+                                                marginRight: '10px'
+                                            }} bordered spaced avatar
+                                                src='/assets/user_default.png' />
+
+                                            <div style={{ display: 'block', minWidth: '150px' }}>
+                                                <span style={{ fontWeight: 'bold', display: 'block', overflow: 'hidden', maxWidth: '150px', textOverflow: 'ellipsis' }}>
+                                                    Matthew Miclt
+                                                </span>
+                                                <span style={{}}>
+                                                    Matthew Miclat
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                        <br />
+                                        <Button fluid labelPosition='left' content='Logout' icon='power' onClick={logout}
+                                            basic />
+
+                                    </Popup>
+
                                 </Fragment>
                             ) : (
                                     <Menu.Item>
