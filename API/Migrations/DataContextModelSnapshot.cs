@@ -186,6 +186,33 @@ namespace API.Migrations
                     b.ToTable("Teams");
                 });
 
+            modelBuilder.Entity("API.Models.UserTransaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(5, 2)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CustomerId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("UserTransactionTypeId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("UserTransactionTypeId");
+
+                    b.ToTable("UserTransactions");
+                });
+
             modelBuilder.Entity("API.Models.UserTransactionType", b =>
                 {
                     b.Property<int>("Id")
@@ -365,6 +392,19 @@ namespace API.Migrations
                     b.HasOne("API.Models.PredictionStatus", "PredictionStatus")
                         .WithMany()
                         .HasForeignKey("PredictionStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("API.Models.UserTransaction", b =>
+                {
+                    b.HasOne("API.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId");
+
+                    b.HasOne("API.Models.UserTransactionType", "UserTransactionType")
+                        .WithMany()
+                        .HasForeignKey("UserTransactionTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

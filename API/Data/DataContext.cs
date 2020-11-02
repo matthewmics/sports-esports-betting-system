@@ -20,6 +20,7 @@ namespace API.Data
         public DbSet<Prediction> Predictions { get; set; }
         public DbSet<PredictionStatus> PredictionStatuses { get; set; }
         public DbSet<UserTransactionType> UserTransactionTypes { get; set; }
+        public DbSet<UserTransaction> UserTransactions { get; set; }
         public DbSet<Customer> Customers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
