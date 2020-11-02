@@ -30,7 +30,7 @@ const PredictionPage: React.FC<IProps> = ({ match }) => {
 
     useEffect(() => {
         selectMatch(+match.params.id)
-    }, [selectMatch])
+    }, [selectMatch, match.params.id])
 
     return (
         <Grid>

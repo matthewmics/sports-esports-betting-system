@@ -1,9 +1,8 @@
 import { observer } from 'mobx-react-lite'
-import React, { Fragment, useContext, useEffect } from 'react'
+import React, { Fragment } from 'react'
 import { Label } from 'semantic-ui-react'
 import { IMatch } from '../../app/models/match'
 import { IPrediction } from '../../app/models/prediction'
-import { RootStoreContext } from '../../app/stores/rootStore'
 
 interface IProps {
     match: IMatch | null;
@@ -17,7 +16,7 @@ const PredictionTabs: React.FC<IProps> = ({ match, selectPrediction, selectedPre
         <Fragment>
             {match && match.predictions.map(prediction => {
                 return (
-                    <Label
+                    <Label key={prediction.id}
                         onClick={()=>{selectPrediction(prediction.id)}}
                         color={selectedPrediction!.id === prediction.id ? 'blue' : undefined}
                         as='a'
