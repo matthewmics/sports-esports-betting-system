@@ -1,4 +1,5 @@
 ﻿using API.Models;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ namespace API.Data
 {
     public class Seed
     {
-        public static void SeedData(DataContext ctx)
+        public static void SeedData(DataContext ctx, UserManager<AppUser> userManager)
         {
 
             if (ctx.Teams.Any())
@@ -33,7 +34,7 @@ namespace API.Data
                 },
             };
 
-            foreach(var team in teams)
+            foreach (var team in teams)
             {
                 ctx.Add(team);
             }
@@ -45,7 +46,7 @@ namespace API.Data
                     Category = "dota2",
                     EventName = "ESL ONE",
                     StartDate = DateTime.Now.AddDays(1),
-                    TeamA = teams[0], TeamB = teams[1],                    
+                    TeamA = teams[0], TeamB = teams[1],
                 },
                 new Match
                 {
@@ -104,9 +105,31 @@ namespace API.Data
                 },
             };
 
-            foreach(var prediction in predictions)
+            foreach (var prediction in predictions)
             {
                 ctx.Add(prediction);
+            }
+
+            var userCustomers = new List<AppUser>
+            {
+                new AppUser
+                {
+                    DisplayName = "Dejounte Mitchell",
+                    Email = "dejounte@test.com",
+                    UserName = "dejounte06"
+                },
+                new AppUser
+                {
+                    DisplayName = "Jayson Hayward",
+                    Email = "jayson@test.com",
+                    UserName = "jayson06"
+                },
+            };
+
+            foreach (var userCustomer in userCustomers)
+            {
+                userManager.CreateAsync(userCustomer, "Password").Wait();
+                ctx.Customers.Add(new Customer { AppUser = userCustomer });
             }
 
             ctx.SaveChanges();
