@@ -11,5 +11,6 @@ namespace API.Dtos
         public string Email { get; set; }
         public string Username { get; set; }
         public string Token { get; set; }
+        public decimal WalletBalance { get; set; }
     }
 }
