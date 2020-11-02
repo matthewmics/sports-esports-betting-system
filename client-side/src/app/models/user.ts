@@ -2,6 +2,7 @@ export interface IUser {
     displayName: string;
     username: string;
     token: string;
+    walletBalance: number;
 }
 
 export interface IUserFormValues {
