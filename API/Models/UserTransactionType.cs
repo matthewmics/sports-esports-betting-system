@@ -16,5 +16,8 @@ namespace API.Models
         public string Name { get; set; }
 
         public string DisplayText { get; set; }
+
+        public const int CashIn = 0;
+        public const int CashOut = 1;
     }
 }
