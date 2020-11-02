@@ -63,11 +63,14 @@ namespace API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult> Login([FromBody]UserLoginDto user)
+        public async Task<ActionResult> Login([FromBody] UserLoginDto user)
         {
             var userInDb = await _userManager.FindByEmailAsync(user.Email);
 
-            if (userInDb == null)
+            if (
+                userInDb == null ||
+                !(await Context.Customers.AnyAsync(x => x.AppUserId == userInDb.Id))
+               )
                 return Unauthorized();
 
             var result = await _signInManager.CheckPasswordSignInAsync(userInDb, user.Password, false);
