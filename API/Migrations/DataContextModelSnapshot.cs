@@ -186,6 +186,24 @@ namespace API.Migrations
                     b.ToTable("Teams");
                 });
 
+            modelBuilder.Entity("API.Models.UserPredictions", b =>
+                {
+                    b.Property<string>("CustomerId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("PredictionId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CustomerId", "PredictionId");
+
+                    b.HasIndex("PredictionId");
+
+                    b.ToTable("UserPredictions");
+                });
+
             modelBuilder.Entity("API.Models.UserTransaction", b =>
                 {
                     b.Property<int>("Id")
@@ -392,6 +410,21 @@ namespace API.Migrations
                     b.HasOne("API.Models.PredictionStatus", "PredictionStatus")
                         .WithMany()
                         .HasForeignKey("PredictionStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("API.Models.UserPredictions", b =>
+                {
+                    b.HasOne("API.Models.Customer", "Customer")
+                        .WithMany("Predictions")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Models.Prediction", "Prediction")
+                        .WithMany("Predictors")
+                        .HasForeignKey("PredictionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

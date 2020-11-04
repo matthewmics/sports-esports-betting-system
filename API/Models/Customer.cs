@@ -14,5 +14,7 @@ namespace API.Models
         [ForeignKey("AppUser")]
         public string AppUserId { get; set; }
         public AppUser AppUser { get; set; }
+
+        public ICollection<UserPrediction> Predictions { get; set; }
     }
 }
