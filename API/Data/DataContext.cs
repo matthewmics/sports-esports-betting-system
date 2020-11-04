@@ -22,6 +22,7 @@ namespace API.Data
         public DbSet<UserTransactionType> UserTransactionTypes { get; set; }
         public DbSet<UserTransaction> UserTransactions { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<UserPrediction> UserPredictions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -39,6 +40,20 @@ namespace API.Data
                 .WithMany(t => t.TeamBMatches)
                 .HasForeignKey(m => m.TeamBId);
             });
+
+            modelBuilder.Entity<UserPrediction>(e =>
+            {
+                e.HasKey(up => new { up.CustomerId, up.PredictionId });
+
+                e.HasOne(up => up.Customer)
+                 .WithMany(c => c.Predictions)
+                 .HasForeignKey(up => up.CustomerId);
+
+                e.HasOne(up => up.Prediction)
+                .WithMany(p => p.Predictors)
+                .HasForeignKey(p => p.PredictionId);
+            });
+
 
         }
 
