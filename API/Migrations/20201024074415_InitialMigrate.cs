@@ -29,9 +29,9 @@ namespace API.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Category = table.Column<string>(nullable: true),
                     EventName = table.Column<string>(nullable: true),
-                    StartDate = table.Column<DateTime>(nullable: false),
                     TeamAId = table.Column<int>(nullable: false),
-                    TeamBId = table.Column<int>(nullable: false)
+                    TeamBId = table.Column<int>(nullable: false),
+                    StartDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
