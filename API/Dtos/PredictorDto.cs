@@ -7,7 +7,7 @@ namespace API.Dtos
 {
     public class PredictorDto
     {
-        public string NameOfPredictedTeam { get; set; }
+        public string TeamName { get; set; }
         public decimal Amount { get; set; }
         public decimal PotentialWinning { get; set; }
     }

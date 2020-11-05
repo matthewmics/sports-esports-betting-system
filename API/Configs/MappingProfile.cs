@@ -25,7 +25,7 @@ namespace API.Configs
                 .ForMember(x => x.Status, x => x.MapFrom(x => x.PredictionStatus.DisplayText));
 
             CreateMap<UserPrediction, PredictorDto>()
-                .ForMember(x => x.NameOfPredictedTeam, x => x.MapFrom(x => x.Team.Name));
+                .ForMember(x => x.TeamName, x => x.MapFrom(x => x.Team.Name));
 
         }
     }
