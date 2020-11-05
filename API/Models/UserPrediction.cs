@@ -11,6 +11,8 @@ namespace API.Models
         public string CustomerId { get; set; }
         public Prediction Prediction { get; set; }
         public int PredictionId { get; set; }
+        public Team Team { get; set; }
+        public int TeamId { get; set; }
         public decimal Amount { get; set; }
     }
 }

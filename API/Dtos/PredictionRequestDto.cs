@@ -8,5 +8,6 @@ namespace API.Dtos
     public class PredictionRequestDto
     {
         public decimal Amount { get; set; }
+        public int TeamId { get; set; }
     }
 }

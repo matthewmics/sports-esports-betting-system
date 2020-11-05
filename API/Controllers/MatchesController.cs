@@ -62,6 +62,9 @@ namespace API.Controllers
             if (match == null)
                 return NotFound(new { error = "Match not found" });
 
+            var predictedTeamId = match.TeamAId == request.TeamId ? match.TeamAId : match.TeamBId;
+            var team = await Context.Teams.FindAsync(predictedTeamId);
+
             var prediction = match.Predictions.SingleOrDefault(x => x.Id == predictionId);
             if (prediction == null)
                 return NotFound(new { error = "Prediction not found" });
@@ -81,6 +84,7 @@ namespace API.Controllers
                     Customer = customer,
                     Prediction = prediction,
                     Amount = request.Amount,
+                    Team = team
                 };
                 Context.UserPredictions.Add(userPrediction);
             }
@@ -91,8 +95,10 @@ namespace API.Controllers
 
             var success = await Context.SaveChangesAsync() > 0;
 
+            var predictor = _mapper.Map<PredictorDto>(userPrediction);
+
             if (success)
-                return Ok(new { message = "Success" }); // show message only for now
+                return Ok(predictor);
 
             throw new Exception("Problem saving changes");
         }

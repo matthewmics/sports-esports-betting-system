@@ -7,11 +7,8 @@ namespace API.Dtos
 {
     public class PredictorDto
     {
-        public int CustomerId { get; set; }
-        public string DisplayName { get; set; }
-        public bool IsCurrentUser { get; set; }
+        public string NameOfPredictedTeam { get; set; }
         public decimal Amount { get; set; }
-        public string TeamName { get; set; }
-        public DateTime PredictedAt { get; set; }
+        public decimal PotentialWinning { get; set; }
     }
 }

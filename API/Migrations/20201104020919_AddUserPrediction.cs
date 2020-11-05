@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using API.Models;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace API.Migrations
 {
@@ -12,7 +13,8 @@ namespace API.Migrations
                 {
                     CustomerId = table.Column<string>(nullable: false),
                     PredictionId = table.Column<int>(nullable: false),
-                    Amount = table.Column<decimal>(nullable: false)
+                    Amount = table.Column<decimal>(nullable: false),
+                    TeamId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -29,12 +31,24 @@ namespace API.Migrations
                         principalTable: "Predictions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserPredictions_Teams_TeamId",
+                        column: x => x.TeamId,
+                        principalTable: "Teams",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade
+                    );
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserPredictions_PredictionId",
                 table: "UserPredictions",
                 column: "PredictionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserPredictions_TeamId",
+                table: "UserPredictions",
+                column: "TeamId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
