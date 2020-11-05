@@ -23,7 +23,7 @@ const PredictionDetails: React.FC<IProps> = ({ prediction }) => {
                         <Grid.Column>
                             <Image src='/assets/noimage.png' centered
                                 size='tiny' />
-                                    Secret<br />
+                            Secret<br />
                             <b>(x3.12)</b>
                         </Grid.Column>
                         <Grid.Column width={2}>
@@ -44,7 +44,7 @@ const PredictionDetails: React.FC<IProps> = ({ prediction }) => {
                         </Button>
                 <Button style={btnBetStyle} primary>
                     Nigma
-                        </Button>
+                </Button>
             </Segment>
         </Segment.Group>
     )
