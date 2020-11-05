@@ -62,6 +62,9 @@ namespace API.Controllers
             if (match == null)
                 return NotFound(new { error = "Match not found" });
 
+            if (request.TeamId == match.TeamAId || request.TeamId == match.TeamBId)
+                return NotFound(new { error = "Team not found for this match" });
+
             var predictedTeamId = match.TeamAId == request.TeamId ? match.TeamAId : match.TeamBId;
             var team = await Context.Teams.FindAsync(predictedTeamId);
 
