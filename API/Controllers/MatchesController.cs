@@ -29,17 +29,32 @@ namespace API.Controllers
                 .Include(x => x.TeamA)
                 .Include(x => x.TeamB)
                 .Include(x => x.Predictions)
-                .ThenInclude(x => x.PredictionStatus)
+                    .ThenInclude(x => x.PredictionStatus)
                 .ToListAsync();
 
             var matchesToReturn = _mapper.Map<ICollection<MatchDto>>(matches);
-            
+
             return Ok(matchesToReturn);
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult> Get(int id)
+        {
+            var match = await Context.Matches
+                .Include(x => x.TeamA)
+                .Include(x => x.TeamB)
+                .Include(x => x.Predictions)
+                    .ThenInclude(x => x.PredictionStatus)
+                .SingleOrDefaultAsync(x => x.Id == id);
+
+            var matchToReturn = _mapper.Map<MatchDto>(match);
+
+            return Ok(matchToReturn);
+        }
+
         [Authorize]
-        [HttpPost("/{id}/predictions/{predictionId}/predict")]
-        public async Task<ActionResult> Predict(int id, int predictionId, decimal amount)
+        [HttpPost("{id}/predictions/{predictionId}/predict")]
+        public async Task<ActionResult> Predict(int id, int predictionId, [FromBody] PredictionRequestDto request)
         {
             var match = await Context.Matches.Include(x => x.Predictions)
                               .SingleOrDefaultAsync(m => m.Id == id);
@@ -48,7 +63,7 @@ namespace API.Controllers
                 return NotFound(new { error = "Match not found" });
 
             var prediction = match.Predictions.SingleOrDefault(x => x.Id == predictionId);
-            if(prediction == null)
+            if (prediction == null)
                 return NotFound(new { error = "Prediction not found" });
 
             var customer = await Context.Customers.Include(x => x.AppUser)
@@ -59,11 +74,14 @@ namespace API.Controllers
                 .SingleOrDefaultAsync(x => x.CustomerId == customer.AppUserId &&
                                            x.PredictionId == prediction.Id);
 
-            if(userPrediction == null)
+            if (userPrediction == null)
             {
-                userPrediction.Customer = customer;
-                userPrediction.Prediction = prediction;
-                userPrediction.Amount = amount;
+                userPrediction = new UserPrediction
+                {
+                    Customer = customer,
+                    Prediction = prediction,
+                    Amount = request.Amount,
+                };
                 Context.UserPredictions.Add(userPrediction);
             }
             else
@@ -74,7 +92,7 @@ namespace API.Controllers
             var success = await Context.SaveChangesAsync() > 0;
 
             if (success)
-                return Ok(new { message = "Success"}); // show message only for now
+                return Ok(new { message = "Success" }); // show message only for now
 
             throw new Exception("Problem saving changes");
         }
