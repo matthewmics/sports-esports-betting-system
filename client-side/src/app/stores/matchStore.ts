@@ -30,9 +30,22 @@ export default class MatchStore {
     }
   };
 
-  @action selectMatch = (id: number) => {
+  @action selectMatch = async (id: number) => {
     this.selectedMatch = this.matchRegistry.get(id);
-    this.selectedPrediction = this.selectedMatch!.predictions[0];
+    if (!this.selectedMatch) {
+      try {
+        const match = await agent.Matches.get(id);
+        runInAction(() => {
+          this.selectedMatch = match;
+        })
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    runInAction(() => {
+      this.selectedPrediction = this.selectedMatch!.predictions[0];
+    })
   }
 
   @action selectPrediction = (id: number) => {

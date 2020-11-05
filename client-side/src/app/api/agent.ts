@@ -51,7 +51,8 @@ const requests = {
 // };
 
 export const Matches = {
-  list: (): Promise<IMatch[]> => requests.get(`/matches`)
+  list: (): Promise<IMatch[]> => requests.get(`/matches`),
+  get: (id: number): Promise<IMatch> => requests.get(`/matches/${id}`),
 };
 
 export const User = {

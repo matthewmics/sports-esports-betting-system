@@ -18,7 +18,7 @@ const PredictionTabs: React.FC<IProps> = ({ match, selectPrediction, selectedPre
                 return (
                     <Label key={prediction.id}
                         onClick={()=>{selectPrediction(prediction.id)}}
-                        color={selectedPrediction!.id === prediction.id ? 'blue' : undefined}
+                        color={selectedPrediction && (selectedPrediction.id === prediction.id) ? 'blue' : undefined}
                         as='a'
                         style={{ marginBottom: '5px' }}>
                         {prediction.title}
