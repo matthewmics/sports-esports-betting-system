@@ -4,7 +4,7 @@ import { RouteComponentProps } from 'react-router-dom'
 import { Grid } from 'semantic-ui-react'
 import { RootStoreContext } from '../../app/stores/rootStore'
 import MatchComments from './MatchComments'
-import PredictionDetails from './PredictionDetails'
+import PredictionDetails from './PredictionDetails/PredictionDetails'
 import PredictionHeader from './PredictionHeader'
 import PredictionTabs from './PredictionTabs'
 import RecentPredictions from './RecentPredictions'
@@ -26,7 +26,7 @@ interface IProps extends RouteComponentProps<RouteParams> {
 const PredictionPage: React.FC<IProps> = ({ match }) => {
 
     const rootStore = useContext(RootStoreContext);
-    const { selectMatch, selectedMatch, selectedPrediction, selectPrediction,
+    const { selectMatch, selectedMatch, selectedPrediction, selectPrediction, loading
     } = rootStore.matchStore;
     const { openModal, closeModal } = rootStore.modalStore;
     const { isLoggedIn } = rootStore.userStore;
@@ -41,7 +41,7 @@ const PredictionPage: React.FC<IProps> = ({ match }) => {
                 <PredictionHeader />
             </Grid.Column>
             <Grid.Column width={12} style={{ paddingTop: '0px' }}>
-                <PredictionTabs match={selectedMatch}
+                <PredictionTabs match={selectedMatch} loading={loading}
                     selectPrediction={selectPrediction}
                     selectedPrediction={selectedPrediction}
                 />

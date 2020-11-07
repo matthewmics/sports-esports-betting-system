@@ -4,6 +4,7 @@ export interface IPrediction {
     title: string;
     description: string;
     startDate: Date;
+    predictionDetails: IPredictionDetails;
 }
 
 export interface IPredictionForm {
@@ -12,7 +13,12 @@ export interface IPredictionForm {
 }
 
 export interface IActivePrediction {
-    teamName: string,
-    amount: number,
-    potentialWinning: number
+    teamName: string;
+    amount: number;
+    potentialReward: number;
+}
+
+export interface IPredictionDetails {
+    activePrediction: IActivePrediction;
+
 }

@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { IMatch } from "../models/match";
+import { IPredictionDetails } from "../models/prediction";
 import { IUser, IUserFormValues } from "../models/user";
 
 axios.defaults.baseURL = "http://localhost:5000/api";
@@ -8,7 +9,7 @@ axios.defaults.baseURL = "http://localhost:5000/api";
 axios.interceptors.request.use(
   (config) => {
     const token = window.localStorage.getItem("jwt");
-    if(token){
+    if (token) {
       config.headers.Authorization = "Bearer " + token;
     }
 
@@ -26,7 +27,7 @@ axios.interceptors.response.use(undefined, error => {
   }
 
   throw error.response;
-  
+
 })
 
 const responseBody = (response: AxiosResponse) => response.data;
@@ -49,17 +50,21 @@ const requests = {
 export const Matches = {
   list: (): Promise<IMatch[]> => requests.get(`/matches`),
   get: (id: number): Promise<IMatch> => requests.get(`/matches/${id}`),
-  predict: (matchId: number, predictionId: number, teamId: number, amount: number) => 
+  predict: (matchId: number, predictionId: number, teamId: number, amount: number) =>
     requests.post(`/matches/${matchId}/predictions/${predictionId}/predict`, {
       amount: amount,
       teamId: teamId
     }),
+  predictionDetails:
+    (matchId: number, predictionId: number)
+      : Promise<IPredictionDetails> =>
+      requests.get(`/matches/${matchId}/predictions/${predictionId}/details`),
 };
 
 export const User = {
   login: (formValues: IUserFormValues): Promise<IUser> =>
     requests.post('/user/login', formValues),
-  register: (values: IUserFormValues) : Promise<IUser> => 
+  register: (values: IUserFormValues): Promise<IUser> =>
     requests.post('/user/register', values),
   current: (): Promise<IUser> => requests.get('/user')
 };

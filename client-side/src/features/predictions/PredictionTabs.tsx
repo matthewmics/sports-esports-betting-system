@@ -8,22 +8,35 @@ interface IProps {
     match: IMatch | null;
     selectedPrediction: IPrediction | null;
     selectPrediction: (id: number) => void;
+    loading: boolean;
 }
 
-const PredictionTabs: React.FC<IProps> = ({ match, selectPrediction, selectedPrediction }) => {
+const PredictionTabs: React.FC<IProps> = ({ match, selectPrediction, selectedPrediction, loading }) => {
 
+    const inactiveStyle = {
+        opacity: '50%',
+        marginBottom: '9px'
+    }
+    const activeStyle = {
+        marginBottom: '9px'
+    }
+    
     return (
         <Fragment>
             {match && match.predictions.map(prediction => {
                 return (
                     <Label key={prediction.id}
-                        onClick={()=>{selectPrediction(prediction.id)}}
+                        onClick={() => {
+                            if (!loading) {
+                                selectPrediction(prediction.id)
+                            }
+                        }}
                         color={selectedPrediction && (selectedPrediction.id === prediction.id) ? 'blue' : undefined}
                         as='a'
-                        style={{ marginBottom: '5px' }}>
+                        style={loading ? inactiveStyle : activeStyle}>
                         {prediction.title}
-                        <Label style={{marginLeft: '9px'}}
-                            content={prediction.status} color='green'/>
+                        <Label style={{ marginLeft: '9px' }}
+                            content={prediction.status} color='green' />
                     </Label>
                 )
             })}

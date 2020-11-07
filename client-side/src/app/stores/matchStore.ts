@@ -1,3 +1,4 @@
+import { timeStamp } from "console";
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
 import agent from "../api/agent";
 import { IMatch } from "../models/match";
@@ -8,6 +9,7 @@ export default class MatchStore {
   @observable matchRegistry = new Map();
   @observable selectedMatch: IMatch | null = null;
   @observable selectedPrediction: IPrediction | null = null;
+  @observable loading = false;
 
   constructor() {
     makeObservable(this);
@@ -50,5 +52,23 @@ export default class MatchStore {
 
   @action selectPrediction = (id: number) => {
     this.selectedPrediction = this.selectedMatch!.predictions.filter(p => p.id === id)[0];
+
+    this.loadPredictionDetails();
+  }
+
+  @action loadPredictionDetails = async () => {
+    this.loading = true;
+    try {
+      const predictionDetails = await agent.Matches.predictionDetails(this.selectedMatch!.id, this.selectedPrediction!.id);
+      runInAction(() => {
+        this.selectedPrediction!.predictionDetails = predictionDetails;
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      runInAction(() => {
+        this.loading = false;
+      })
+    }
   }
 }
