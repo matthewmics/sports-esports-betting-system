@@ -52,59 +52,6 @@ namespace API.Controllers
             return Ok(matchToReturn);
         }
 
-        [Authorize]
-        [HttpPost("{id}/predictions/{predictionId}/predict")]
-        public async Task<ActionResult> Predict(int id, int predictionId, [FromBody] PredictionRequestDto request)
-        {
-            var match = await Context.Matches.Include(x => x.Predictions)
-                              .SingleOrDefaultAsync(m => m.Id == id);
-
-            if (match == null)
-                return NotFound(new { error = "Match not found" });
-
-            if (request.TeamId != match.TeamAId || request.TeamId != match.TeamBId)
-                return NotFound(new { error = "Team not found for this match" });
-
-            var predictedTeamId = match.TeamAId == request.TeamId ? match.TeamAId : match.TeamBId;
-            var team = await Context.Teams.FindAsync(predictedTeamId);
-
-            var prediction = match.Predictions.SingleOrDefault(x => x.Id == predictionId);
-            if (prediction == null)
-                return NotFound(new { error = "Prediction not found" });
-
-            var customer = await Context.Customers.Include(x => x.AppUser)
-                          .Where(a => a.AppUser.UserName == _userAccessor.GetCurrentUsername())
-                          .SingleAsync();
-
-            var userPrediction = await Context.UserPredictions
-                .SingleOrDefaultAsync(x => x.CustomerId == customer.AppUserId &&
-                                           x.PredictionId == prediction.Id);
-
-            if (userPrediction == null)
-            {
-                userPrediction = new UserPrediction
-                {
-                    Customer = customer,
-                    Prediction = prediction,
-                    Amount = request.Amount,
-                    Team = team
-                };
-                Context.UserPredictions.Add(userPrediction);
-            }
-            else
-            {
-                // logic for updating prediction
-            }
-
-            var success = await Context.SaveChangesAsync() > 0;
-
-            var predictor = _mapper.Map<PredictorDto>(userPrediction);
-
-            if (success)
-                return Ok(predictor);
-
-            throw new Exception("Problem saving changes");
-        }
 
     }
 }
