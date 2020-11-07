@@ -2,17 +2,22 @@ import React from 'react'
 import { FieldRenderProps } from 'react-final-form'
 import { Form, FormFieldProps, Label } from 'semantic-ui-react'
 
-interface IProps extends FormFieldProps, FieldRenderProps<string, any> { }
+interface IProps extends FormFieldProps, FieldRenderProps<string, HTMLElement> { }
 
-export const TextInput: React.FC<IProps> = ({
+const TextInput: React.FC<IProps> = ({
     input,
+    label,
+    inline,
     width,
     type,
     placeholder,
     meta: { touched, error }
 }) => {
     return (
-        <Form.Field error={touched && !!error} type={type} width={width}>
+        <Form.Field error={touched && !!error} type={type} width={width} inline={inline}>
+            {label && 
+                <label>{label}</label>
+            }
             <input {...input} placeholder={placeholder} />
             {touched && !!error &&
                 (
@@ -24,3 +29,5 @@ export const TextInput: React.FC<IProps> = ({
         </Form.Field>
     )
 }
+
+export default TextInput;
