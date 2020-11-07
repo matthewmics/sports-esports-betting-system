@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { Field, Form as FinalForm } from 'react-final-form'
 import { Button, Form, Header } from 'semantic-ui-react'
-import { TextInput } from '../../app/common/forms/TextInput'
+import TextInput from '../../app/common/forms/TextInput'
 import { RootStoreContext } from '../../app/stores/rootStore'
 import { combineValidators, isRequired } from 'revalidate'
 import { IUserFormValues } from '../../app/models/user'
@@ -42,8 +42,8 @@ const LoginForm = () => {
                         <Button content='LOGIN' type='submit' primary
                             icon='lock'
                             floated='right'
-                            disabled={!valid && (!dirtySinceLastSubmit || pristine)} 
-                            loading={loading}/>
+                            disabled={!valid && (!dirtySinceLastSubmit || pristine)}
+                            loading={loading} />
                         <Button content='CANCEL'
                             floated='right'
                             onClick={closeModal} />
