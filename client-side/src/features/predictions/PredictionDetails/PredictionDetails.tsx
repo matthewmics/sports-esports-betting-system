@@ -1,10 +1,10 @@
 import { observer } from 'mobx-react-lite'
 import React, { Fragment } from 'react'
-import { Segment, Grid, Image, Button, Label } from 'semantic-ui-react'
-import { IMatch } from '../../app/models/match'
-import { IPrediction } from '../../app/models/prediction'
-import PredictionForm from './PredictionForm'
-import { btnBetStyle } from './PredictionPage'
+import { Segment, Grid, Image, Button, Label, Header, Divider } from 'semantic-ui-react'
+import { IMatch } from '../../../app/models/match'
+import { IPrediction } from '../../../app/models/prediction'
+import { PredictionDetailsActions } from './PredictionDetailsActions'
+import { PredictionDetailsActivePrediction } from './PredictionDetailsActivePrediction'
 
 interface IProps {
     prediction: IPrediction | null;
@@ -15,25 +15,6 @@ interface IProps {
 }
 
 const PredictionDetails: React.FC<IProps> = ({ prediction, match, closeModal, openModal, isLoggedIn }) => {
-
-
-    const getOptions = () => {
-        if (match) {
-            return [
-                {
-                    key: match.teamA.id,
-                    text: match.teamA.name,
-                    value: match.teamA.id,
-                }, {
-                    key: match.teamB.id,
-                    text: match.teamB.name,
-                    value: match.teamB.id,
-                }
-            ];
-        }
-
-        return null;
-    }
 
     return (
         <Segment.Group>
@@ -66,26 +47,13 @@ const PredictionDetails: React.FC<IProps> = ({ prediction, match, closeModal, op
             </Segment>
             <Segment secondary clearing>
                 {isLoggedIn ? (
-                    <Fragment>
-                        <Button style={btnBetStyle} primary
-                            onClick={() => openModal(<PredictionForm
-                                initialTeamIndex={1}
-                                options={getOptions()}
-                                closeModal={closeModal} />)}>
-                            {match?.teamB.name}
-                        </Button>
-                        <Button style={btnBetStyle} primary
-                            onClick={() => openModal(<PredictionForm
-                                initialTeamIndex={0}
-                                options={getOptions()}
-                                closeModal={closeModal} />)}>
-                            {match?.teamA.name}
-                        </Button>
-                    </Fragment>
+                    prediction && prediction.predictionDetails && prediction.predictionDetails.activePrediction ?
+                        <PredictionDetailsActivePrediction />
+                        :
+                        <PredictionDetailsActions match={match!} openModal={openModal} closeModal={closeModal} />
                 ) : (
-                    <Label basic style={{float: 'right'}} content='You must be logged in to make a prediction.' />
-                )}
-
+                        <Label basic style={{ float: 'right' }} content='You must be logged in to make a prediction.' />
+                    )}
             </Segment>
         </Segment.Group>
     )

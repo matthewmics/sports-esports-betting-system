@@ -54,7 +54,6 @@ namespace API.Controllers
 
             var predictionDetails = new PredictionDetailsDto
             {
-                PotentialReward = 0,
                 ActivePrediction = activePrediction
             };
 

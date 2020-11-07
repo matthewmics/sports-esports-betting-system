@@ -9,6 +9,6 @@ namespace API.Dtos
     {
         public string TeamName { get; set; }
         public decimal Amount { get; set; }
-        public decimal PotentialWinning { get; set; }
+        public decimal PotentialReward { get; set; }
     }
 }
