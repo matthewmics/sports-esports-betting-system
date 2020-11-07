@@ -46,13 +46,14 @@ const requests = {
     axios.delete(url).then(sleep(1000)).then(responseBody),
 };
 
-// const Teams = {
-//     list: (): Promise<ITeam[]> => requests.get(`/teams`)
-// };
-
 export const Matches = {
   list: (): Promise<IMatch[]> => requests.get(`/matches`),
   get: (id: number): Promise<IMatch> => requests.get(`/matches/${id}`),
+  predict: (matchId: number, predictionId: number, teamId: number, amount: number) => 
+    requests.post(`/matches/${matchId}/predictions/${predictionId}/predict`, {
+      amount: amount,
+      teamId: teamId
+    }),
 };
 
 export const User = {

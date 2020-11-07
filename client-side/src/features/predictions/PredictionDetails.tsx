@@ -1,14 +1,40 @@
 import { observer } from 'mobx-react-lite'
-import React from 'react'
-import { Segment, Grid, Image, Button } from 'semantic-ui-react'
+import React, { Fragment } from 'react'
+import { Segment, Grid, Image, Button, Label } from 'semantic-ui-react'
+import { IMatch } from '../../app/models/match'
 import { IPrediction } from '../../app/models/prediction'
+import PredictionForm from './PredictionForm'
 import { btnBetStyle } from './PredictionPage'
 
 interface IProps {
     prediction: IPrediction | null;
+    match: IMatch | null;
+    openModal: (body: any) => void;
+    closeModal: () => void;
+    isLoggedIn: boolean;
 }
 
-const PredictionDetails: React.FC<IProps> = ({ prediction }) => {
+const PredictionDetails: React.FC<IProps> = ({ prediction, match, closeModal, openModal, isLoggedIn }) => {
+
+
+    const getOptions = () => {
+        if (match) {
+            return [
+                {
+                    key: match.teamA.id,
+                    text: match.teamA.name,
+                    value: match.teamA.id,
+                }, {
+                    key: match.teamB.id,
+                    text: match.teamB.name,
+                    value: match.teamB.id,
+                }
+            ];
+        }
+
+        return null;
+    }
+
     return (
         <Segment.Group>
             <Segment clearing>
@@ -23,8 +49,8 @@ const PredictionDetails: React.FC<IProps> = ({ prediction }) => {
                         <Grid.Column>
                             <Image src='/assets/noimage.png' centered
                                 size='tiny' />
-                            Secret<br />
-                            <b>(x3.12)</b>
+                            {match?.teamA.name}<br />
+                            <b>(x1.00)</b>
                         </Grid.Column>
                         <Grid.Column width={2}>
                             VS
@@ -32,19 +58,34 @@ const PredictionDetails: React.FC<IProps> = ({ prediction }) => {
                         <Grid.Column>
                             <Image src='/assets/noimage.png' centered
                                 size='tiny' />
-                                    Nigma <br />
-                            <b>(x1.12)</b>
+                            {match?.teamB.name} <br />
+                            <b>(x1.00)</b>
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
             </Segment>
             <Segment secondary clearing>
-                <Button style={btnBetStyle} primary>
-                    Secret
+                {isLoggedIn ? (
+                    <Fragment>
+                        <Button style={btnBetStyle} primary
+                            onClick={() => openModal(<PredictionForm
+                                initialTeamIndex={1}
+                                options={getOptions()}
+                                closeModal={closeModal} />)}>
+                            {match?.teamB.name}
                         </Button>
-                <Button style={btnBetStyle} primary>
-                    Nigma
-                </Button>
+                        <Button style={btnBetStyle} primary
+                            onClick={() => openModal(<PredictionForm
+                                initialTeamIndex={0}
+                                options={getOptions()}
+                                closeModal={closeModal} />)}>
+                            {match?.teamA.name}
+                        </Button>
+                    </Fragment>
+                ) : (
+                    <Label basic style={{float: 'right'}} content='You must be logged in to make a prediction.' />
+                )}
+
             </Segment>
         </Segment.Group>
     )

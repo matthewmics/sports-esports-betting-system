@@ -5,3 +5,14 @@ export interface IPrediction {
     description: string;
     startDate: Date;
 }
+
+export interface IPredictionForm {
+    amount: string;
+    team: string;
+}
+
+export interface IActivePrediction {
+    teamName: string,
+    amount: number,
+    potentialWinning: number
+}

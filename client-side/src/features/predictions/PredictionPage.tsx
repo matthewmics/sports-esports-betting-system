@@ -26,7 +26,10 @@ interface IProps extends RouteComponentProps<RouteParams> {
 const PredictionPage: React.FC<IProps> = ({ match }) => {
 
     const rootStore = useContext(RootStoreContext);
-    const { selectMatch, selectedMatch, selectedPrediction, selectPrediction } = rootStore.matchStore;
+    const { selectMatch, selectedMatch, selectedPrediction, selectPrediction,
+    } = rootStore.matchStore;
+    const { openModal, closeModal } = rootStore.modalStore;
+    const { isLoggedIn } = rootStore.userStore;
 
     useEffect(() => {
         selectMatch(+match.params.id)
@@ -44,7 +47,9 @@ const PredictionPage: React.FC<IProps> = ({ match }) => {
                 />
             </Grid.Column>
             <Grid.Column width={12} style={{ paddingTop: '0px' }}>
-                <PredictionDetails prediction={selectedPrediction} />
+                <PredictionDetails match={selectedMatch} prediction={selectedPrediction}
+                    closeModal={closeModal} openModal={openModal}
+                    isLoggedIn={isLoggedIn} />
                 <MatchComments />
             </Grid.Column>
             <Grid.Column width={4} style={{ paddingTop: '0px' }}>
