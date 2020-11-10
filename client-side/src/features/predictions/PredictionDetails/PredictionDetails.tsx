@@ -1,20 +1,21 @@
 import { observer } from 'mobx-react-lite'
-import React, { Fragment } from 'react'
-import { Segment, Grid, Image, Button, Label, Header, Divider } from 'semantic-ui-react'
+import React from 'react'
+import { Segment, Grid, Image, Label } from 'semantic-ui-react'
 import { IMatch } from '../../../app/models/match'
 import { IPrediction } from '../../../app/models/prediction'
-import { PredictionDetailsActions } from './PredictionDetailsActions'
+import PredictionDetailsActions from './PredictionDetailsActions'
 import { PredictionDetailsActivePrediction } from './PredictionDetailsActivePrediction'
 
 interface IProps {
     prediction: IPrediction | null;
     match: IMatch | null;
     openModal: (body: any) => void;
-    closeModal: () => void;
+    unpredict: () => Promise<void>;
     isLoggedIn: boolean;
+    loading: boolean;
 }
 
-const PredictionDetails: React.FC<IProps> = ({ prediction, match, closeModal, openModal, isLoggedIn }) => {
+const PredictionDetails: React.FC<IProps> = ({ prediction, match, openModal, isLoggedIn, loading, unpredict }) => {
 
     return (
         <Segment.Group>
@@ -45,15 +46,19 @@ const PredictionDetails: React.FC<IProps> = ({ prediction, match, closeModal, op
                     </Grid.Row>
                 </Grid>
             </Segment>
-            <Segment secondary clearing>
-                {isLoggedIn ? (
+            <Segment secondary clearing loading={loading} style={{ minHeight: '60px' }}>
+                {match && (isLoggedIn ? (
                     prediction && prediction.predictionDetails && prediction.predictionDetails.activePrediction ?
-                        <PredictionDetailsActivePrediction />
+                        <PredictionDetailsActivePrediction activePrediction={prediction.predictionDetails.activePrediction}
+                            unpredict={unpredict}
+                            openModal={openModal} />
                         :
-                        <PredictionDetailsActions match={match!} openModal={openModal} closeModal={closeModal} />
+                        <PredictionDetailsActions
+                            match={match!} openModal={openModal} />
                 ) : (
-                        <Label basic style={{ float: 'right' }} content='You must be logged in to make a prediction.' />
-                    )}
+                        <span style={{ float: 'right' }}>You must be logged in to make a prediction</span>
+                    ))
+                }
             </Segment>
         </Segment.Group>
     )

@@ -1,5 +1,5 @@
-import { timeStamp } from "console";
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
+import { toast } from "react-toastify";
 import agent from "../api/agent";
 import { IMatch } from "../models/match";
 import { IPrediction } from "../models/prediction";
@@ -17,6 +17,23 @@ export default class MatchStore {
 
   @computed get matchList() {
     return Array.from(this.matchRegistry.values());
+  }
+
+  @computed get matchSelections() {
+    if(!this.selectedMatch)
+      return [];
+
+    return [
+      {
+        key: this.selectedMatch.teamA.id.toString(),
+        text: this.selectedMatch.teamA.name,
+        value: this.selectedMatch.teamA.id.toString(),
+      }, {
+        key: this.selectedMatch.teamB.id.toString(),
+        text: this.selectedMatch.teamB.name,
+        value: this.selectedMatch.teamB.id.toString(),
+      }
+    ];
   }
 
   @action loadMatches = async () => {
@@ -47,7 +64,9 @@ export default class MatchStore {
 
     runInAction(() => {
       this.selectedPrediction = this.selectedMatch!.predictions[0];
-    })
+    });
+
+    this.loadPredictionDetails();
   }
 
   @action selectPrediction = (id: number) => {
@@ -71,4 +90,68 @@ export default class MatchStore {
       })
     }
   }
+
+  @action unpredict = async () => {
+    this.loading = true;
+    try {
+      await agent.Matches.unpredict(this.selectedMatch!.id, this.selectedPrediction!.id);
+      runInAction(() => {
+        this.selectedPrediction!.predictionDetails.activePrediction = null;
+      });
+      toast.info("You have successfully cancelled your prediction");
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong while cancelling your prediction");
+    } finally {
+      runInAction(() => {
+        this.loading = false;
+      })
+    }
+  }
+
+  @action predict = async (teamId: number, amount: number) => {
+    this.loading = true;
+    try {
+      const activePrediction = await agent.Matches.predict(
+        this.selectedMatch!.id,
+        this.selectedPrediction!.id,
+        teamId,
+        amount);
+
+      runInAction(() => {
+        this.selectedPrediction!.predictionDetails.activePrediction = activePrediction;
+      })
+
+    } catch (error) {
+      toast.error("Something went wrong, prediction failed");
+    } finally {
+      runInAction(() => {
+        this.loading = false;
+      })
+    }
+  }
+
+  @action updatePrediction = async (teamId: number, amount: number) => {
+    this.loading = true;
+    try {
+      const activePrediction = await agent.Matches.updatePrediction(
+        this.selectedMatch!.id,
+        this.selectedPrediction!.id,
+        teamId,
+        amount);
+
+      runInAction(() => {
+        this.selectedPrediction!.predictionDetails.activePrediction = activePrediction;
+      })
+
+    } catch (error) {
+      toast.error("Something went wrong, prediction failed");
+    } finally {
+      runInAction(() => {
+        this.loading = false;
+      })
+    }
+  }
+
+
 }

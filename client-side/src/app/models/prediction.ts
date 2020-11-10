@@ -1,3 +1,5 @@
+import { ITeam } from "./team";
+
 export interface IPrediction {
     id: number;
     status: string; 
@@ -9,16 +11,16 @@ export interface IPrediction {
 
 export interface IPredictionForm {
     amount: string;
-    team: string;
+    teamId: string;
 }
 
 export interface IActivePrediction {
-    teamName: string;
+    team: ITeam;
     amount: number;
     potentialReward: number;
 }
 
 export interface IPredictionDetails {
-    activePrediction: IActivePrediction;
+    activePrediction: IActivePrediction | null;
 
 }

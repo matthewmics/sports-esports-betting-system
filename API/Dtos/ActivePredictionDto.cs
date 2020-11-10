@@ -7,7 +7,7 @@ namespace API.Dtos
 {
     public class ActivePredictionDto
     {
-        public string TeamName { get; set; }
+        public TeamDto Team { get; set; }
         public decimal Amount { get; set; }
         public decimal PotentialReward { get; set; }
     }

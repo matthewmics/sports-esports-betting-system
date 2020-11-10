@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { IMatch } from "../models/match";
-import { IPredictionDetails } from "../models/prediction";
+import { IActivePrediction, IPredictionDetails } from "../models/prediction";
 import { IUser, IUserFormValues } from "../models/user";
 
 axios.defaults.baseURL = "http://localhost:5000/api";
@@ -50,11 +50,20 @@ const requests = {
 export const Matches = {
   list: (): Promise<IMatch[]> => requests.get(`/matches`),
   get: (id: number): Promise<IMatch> => requests.get(`/matches/${id}`),
-  predict: (matchId: number, predictionId: number, teamId: number, amount: number) =>
+  predict: (matchId: number, predictionId: number, teamId: number, amount: number)
+    : Promise<IActivePrediction> =>
     requests.post(`/matches/${matchId}/predictions/${predictionId}/predict`, {
       amount: amount,
       teamId: teamId
     }),
+  updatePrediction: (matchId: number, predictionId: number, teamId: number, amount: number)
+    : Promise<IActivePrediction> =>
+    requests.put(`/matches/${matchId}/predictions/${predictionId}/predict`, {
+      amount: amount,
+      teamId: teamId
+    }),
+  unpredict: (matchId: number, predictionId: number) =>
+    requests.delete(`/matches/${matchId}/predictions/${predictionId}/predict`),
   predictionDetails:
     (matchId: number, predictionId: number)
       : Promise<IPredictionDetails> =>
