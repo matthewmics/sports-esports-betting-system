@@ -20,6 +20,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using API.Security;
 using API.Interfaces;
+using API.DataHelpers;
 
 namespace API
 {
@@ -84,6 +85,7 @@ namespace API
 
             services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
             services.AddScoped<IUserAccessor, UserAccessor>();
+            services.AddScoped<IWalletReader, WalletReader>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
