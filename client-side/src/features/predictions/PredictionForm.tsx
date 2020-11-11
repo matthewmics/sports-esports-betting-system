@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Field, Form as FinalForm } from 'react-final-form'
 import { combineValidators, composeValidators, isRequired } from 'revalidate'
 import { Button, Form, Header } from 'semantic-ui-react'
@@ -31,42 +31,38 @@ const PredictionForm: React.FC<IProps> = ({ initialTeam, activePrediciton }) => 
     const { predict, matchSelections, updatePrediction } = rootStore.matchStore;
 
     const [loading, setLoading] = useState(false);
-    const [isUpdate, setIsUpdate] = useState(false);
 
-    const [prediction, SetPrediction] = useState<IPredictionForm>({
-        amount: '',
-        teamId: ''
-    });
-
-    useEffect(() => {
-
+    const initialFormValues = () => {
         if (activePrediciton) {
-            setIsUpdate(true);
-            SetPrediction({
+            return {
                 amount: activePrediciton.amount.toString(),
                 teamId: activePrediciton.team.id.toString(),
-            })
+            }
         } else {
-            SetPrediction({
+            return {
                 amount: '',
                 teamId: matchSelections.filter(x => x.value === initialTeam!.id.toString())[0].value
-            })
+            }
         }
-    }, [activePrediciton, matchSelections, initialTeam]);
+    }
+
+    const [prediction] = useState<IPredictionForm>(initialFormValues);
 
     const handlePredictionSubmit = (values: IPredictionForm) => {
         setLoading(true);
-        if (!isUpdate) {
-            return predict(+values.teamId, +values.amount);
-        } else {
+        if (activePrediciton) {
             return updatePrediction(+values.teamId, +values.amount);
+        } else {
+            return predict(+values.teamId, +values.amount);
         }
     }
 
     return (
-        <FinalForm onSubmit={(values: IPredictionForm) => handlePredictionSubmit(values).catch((error) => (
-            { [FORM_ERROR]: error }
-        )).finally(() => setLoading(false))}
+        <FinalForm onSubmit={(values: IPredictionForm) => handlePredictionSubmit(values).catch((error) => {
+            setLoading(false);
+            return ({ [FORM_ERROR]: error })
+        })
+    }
             initialValues={prediction}
             validate={validate}
             render={({ handleSubmit, submitError, pristine }) => {
