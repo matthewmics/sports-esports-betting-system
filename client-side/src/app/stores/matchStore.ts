@@ -3,16 +3,19 @@ import { toast } from "react-toastify";
 import agent from "../api/agent";
 import { IMatch } from "../models/match";
 import { IPrediction } from "../models/prediction";
+import { RootStore } from "./rootStore";
 
 export default class MatchStore {
 
+  rootStore: RootStore;
   @observable matchRegistry = new Map();
   @observable selectedMatch: IMatch | null = null;
   @observable selectedPrediction: IPrediction | null = null;
   @observable loading = false;
 
-  constructor() {
+  constructor(rootStore: RootStore) {
     makeObservable(this);
+    this.rootStore = rootStore;
   }
 
   @computed get matchList() {
@@ -96,6 +99,7 @@ export default class MatchStore {
     try {
       await agent.Matches.unpredict(this.selectedMatch!.id, this.selectedPrediction!.id);
       runInAction(() => {
+        this.rootStore.userStore.user!.walletBalance += this.selectedPrediction!.predictionDetails.activePrediction!.amount;
         this.selectedPrediction!.predictionDetails.activePrediction = null;
       });
       toast.info("You have successfully cancelled your prediction");
@@ -119,11 +123,16 @@ export default class MatchStore {
         amount);
 
       runInAction(() => {
+        this.rootStore.userStore.user!.walletBalance -= activePrediction.amount;
         this.selectedPrediction!.predictionDetails.activePrediction = activePrediction;
       })
 
+      this.rootStore.modalStore.closeModal();      
+      toast.success("Prediction successful");
+
+
     } catch (error) {
-      toast.error("Something went wrong, prediction failed");
+      throw error;
     } finally {
       runInAction(() => {
         this.loading = false;
@@ -141,11 +150,18 @@ export default class MatchStore {
         amount);
 
       runInAction(() => {
+        this.rootStore.userStore.user!.walletBalance +=  
+        this.selectedPrediction!.predictionDetails.activePrediction!.amount - 
+        activePrediction.amount;
+
         this.selectedPrediction!.predictionDetails.activePrediction = activePrediction;
       })
 
+      this.rootStore.modalStore.closeModal();
+      toast.success("Prediction updated successfully");
+
     } catch (error) {
-      toast.error("Something went wrong, prediction failed");
+      throw error;
     } finally {
       runInAction(() => {
         this.loading = false;

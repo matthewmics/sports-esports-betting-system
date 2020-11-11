@@ -7,9 +7,10 @@ import SelectInput from '../../app/common/forms/SelectInput'
 import TextInput from '../../app/common/forms/TextInput'
 import { IActivePrediction, IPredictionForm } from '../../app/models/prediction'
 import { isGreaterThan } from '../../app/common/forms/formValidations'
-import { toast } from 'react-toastify'
 import { ITeam } from '../../app/models/team'
 import { RootStoreContext } from '../../app/stores/rootStore'
+import { ErrorMessage } from '../../app/common/forms/ErrorMessage'
+import { FORM_ERROR } from 'final-form'
 
 interface IProps {
     initialTeam?: ITeam;
@@ -45,7 +46,7 @@ const PredictionForm: React.FC<IProps> = ({ initialTeam, activePrediciton }) => 
                 amount: activePrediciton.amount.toString(),
                 teamId: activePrediciton.team.id.toString(),
             })
-        }else{
+        } else {
             SetPrediction({
                 amount: '',
                 teamId: matchSelections.filter(x => x.value === initialTeam!.id.toString())[0].value
@@ -56,25 +57,21 @@ const PredictionForm: React.FC<IProps> = ({ initialTeam, activePrediciton }) => 
     const handlePredictionSubmit = (values: IPredictionForm) => {
         setLoading(true);
         if (!isUpdate) {
-            predict(+values.teamId, +values.amount).finally(() => {
-                setLoading(false);
-                closeModal();
-            });
+            return predict(+values.teamId, +values.amount);
         } else {
-            updatePrediction(+values.teamId, +values.amount).finally(() => {
-                setLoading(false);
-                closeModal();
-            });
+            return updatePrediction(+values.teamId, +values.amount);
         }
     }
 
     return (
-        <FinalForm onSubmit={(values: IPredictionForm) => { handlePredictionSubmit(values) }}
+        <FinalForm onSubmit={(values: IPredictionForm) => handlePredictionSubmit(values).catch((error) => (
+            { [FORM_ERROR]: error }
+        )).finally(() => setLoading(false))}
             initialValues={prediction}
             validate={validate}
-            render={({ handleSubmit, valid }) => {
+            render={({ handleSubmit, submitError, pristine }) => {
                 return (
-                    <Form onSubmit={handleSubmit} style={{ overflow: 'auto', overflowX: 'hidden' }}>
+                    <Form error onSubmit={handleSubmit} style={{ overflow: 'auto', overflowX: 'hidden' }} >
                         <Header content="Prediction" color='teal' as='h1' />
 
                         <Field component={SelectInput}
@@ -101,9 +98,14 @@ const PredictionForm: React.FC<IProps> = ({ initialTeam, activePrediciton }) => 
                             </Form.Field>
                         </Form.Group>
 
+                        {submitError &&
+                            <ErrorMessage error={submitError}
+                                text='Not enough credits' />
+                        }
+
                         <Button content='CANCEL' onClick={closeModal} />
                         <Button content='CONFIRM PREDICTION' primary
-                            disabled={!valid} loading={loading} />
+                            loading={loading} disabled={pristine} />
                     </Form>
                 )
             }}>

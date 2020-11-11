@@ -1,6 +1,5 @@
 import { observer } from 'mobx-react-lite'
 import React, { Fragment } from 'react'
-import { match } from 'react-router-dom'
 import { Button } from 'semantic-ui-react'
 import { IMatch } from '../../../app/models/match'
 import PredictionForm from '../PredictionForm'

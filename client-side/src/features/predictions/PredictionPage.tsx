@@ -27,9 +27,9 @@ const PredictionPage: React.FC<IProps> = ({ match }) => {
 
     const rootStore = useContext(RootStoreContext);
     const { selectMatch, selectedMatch, selectedPrediction, selectPrediction,
-        loading, predict, unpredict
+        loading, unpredict
     } = rootStore.matchStore;
-    const { openModal, closeModal } = rootStore.modalStore;
+    const { openModal } = rootStore.modalStore;
     const { isLoggedIn } = rootStore.userStore;
 
     useEffect(() => {

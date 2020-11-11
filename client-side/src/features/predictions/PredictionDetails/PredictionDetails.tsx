@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import React from 'react'
-import { Segment, Grid, Image, Label } from 'semantic-ui-react'
+import { Segment, Grid, Image } from 'semantic-ui-react'
 import { IMatch } from '../../../app/models/match'
 import { IPrediction } from '../../../app/models/prediction'
 import PredictionDetailsActions from './PredictionDetailsActions'

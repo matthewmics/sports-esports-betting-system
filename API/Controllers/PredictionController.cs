@@ -17,11 +17,13 @@ namespace API.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IUserAccessor _userAccessor;
+        private readonly IWalletReader _walletReader;
 
-        public PredictionController(IMapper mapper, IUserAccessor userAccessor)
+        public PredictionController(IMapper mapper, IUserAccessor userAccessor, IWalletReader walletReader)
         {
             _mapper = mapper;
             _userAccessor = userAccessor;
+            _walletReader = walletReader;
         }
 
         [HttpGet("{id}/predictions/{predictionId}/details")]
@@ -51,6 +53,7 @@ namespace API.Controllers
                 if (userPrediction != null)
                     activePrediction = _mapper.Map<ActivePredictionDto>(userPrediction);
             }
+
 
             var predictionDetails = new PredictionDetailsDto
             {
@@ -90,6 +93,9 @@ namespace API.Controllers
 
             if (userPrediction != null)
                 return BadRequest(new { error = "Already have a prediction" });
+
+            if(_walletReader.ReadWallet(customer) < request.Amount)
+                return BadRequest(new { error = "You don't have enough credits" });
 
             userPrediction = new UserPrediction
             {
@@ -140,6 +146,9 @@ namespace API.Controllers
 
             if (userPrediction == null)
                 return NotFound(new { error = "Prediction not found" });
+
+            if (_walletReader.ReadWallet(customer) + userPrediction.Amount < request.Amount)
+                return BadRequest(new { error = "You don't have enough credits" });
 
             userPrediction.Amount = request.Amount;
             userPrediction.Team = team;
