@@ -15,8 +15,11 @@ namespace API.Models
         public Team TeamB { get; set; }
         public int TeamBId { get; set; }
 
-        public string Category { get; set; }
         public string EventName { get; set; }
+        public int Series { get; set; }
+
+        public short GameId { get; set; }
+        public Game Game { get; set; }
 
         public DateTime StartDate { get; set; }
 
