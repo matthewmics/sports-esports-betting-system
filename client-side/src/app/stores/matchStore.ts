@@ -114,7 +114,6 @@ export default class MatchStore {
   }
 
   @action predict = async (teamId: number, amount: number) => {
-    this.loading = true;
     try {
       const activePrediction = await agent.Matches.predict(
         this.selectedMatch!.id,
@@ -133,11 +132,7 @@ export default class MatchStore {
 
     } catch (error) {
       throw error;
-    } finally {
-      runInAction(() => {
-        this.loading = false;
-      })
-    }
+    } 
   }
 
   @action updatePrediction = async (teamId: number, amount: number) => {

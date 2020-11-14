@@ -1,6 +1,7 @@
 export interface IUser {
     displayName: string;
     username: string;
+    email: string;
     token: string;
     walletBalance: number;
 }
