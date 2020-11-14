@@ -11,13 +11,13 @@ namespace API.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int Id { get; set; }
+        public short Id { get; set; }
 
         public string Name { get; set; }
 
         public string DisplayText { get; set; }
 
-        public const int CashIn = 0;
-        public const int CashOut = 1;
+        public const short CashIn = 0;
+        public const short CashOut = 1;
     }
 }

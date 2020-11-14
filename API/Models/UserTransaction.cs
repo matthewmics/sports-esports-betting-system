@@ -16,7 +16,7 @@ namespace API.Models
 
         public UserTransactionType UserTransactionType { get; set; }
 
-        public int UserTransactionTypeId { get; set; }
+        public short UserTransactionTypeId { get; set; }
 
         [Column(TypeName = "decimal(5, 2)")]
         public decimal Amount { get; set; }

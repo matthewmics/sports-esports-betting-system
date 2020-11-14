@@ -11,12 +11,12 @@ namespace API.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int Id { get; set; }
+        public short Id { get; set; }
         public string Name { get; set; }
         public string DisplayText { get; set; }
 
-        public const int Open = 0;
-        public const int Settled = 1;
-        public const int Cancelled = 2;
+        public const short Open = 0;
+        public const short Settled = 1;
+        public const short Cancelled = 2;
     }
 }

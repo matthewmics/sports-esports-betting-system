@@ -10,10 +10,12 @@ namespace API.Models
     {
         public int Id { get; set; }
 
+        public int Sequence { get; set; }
+
         public int MatchId { get; set; }
         public Match Match { get; set; }
 
-        public int PredictionStatusId { get; set; }
+        public short PredictionStatusId { get; set; }
         public PredictionStatus PredictionStatus { get; set; }
 
         public string Title { get; set; }
