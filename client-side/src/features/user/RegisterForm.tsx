@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Field, Form as FinalForm } from 'react-final-form'
-import { Button, Form, Header } from 'semantic-ui-react'
+import { Button, Divider, Form, Header } from 'semantic-ui-react'
 import TextInput from '../../app/common/forms/TextInput'
 import { RootStoreContext } from '../../app/stores/rootStore'
 import { combineValidators, composeValidators, isRequired, matchesField } from 'revalidate'
@@ -42,6 +42,7 @@ const RegisterForm = () => {
                 return (
                     <Form onSubmit={handleSubmit} error style={{ overflow: 'auto', overflowX: 'hidden' }}>
                         <Header as='h1' content='REGISTER' color='teal' />
+                        <Divider />
                         <Form.Group widths='equal'>
                             <Field component={TextInput}
                                 name='firstname'

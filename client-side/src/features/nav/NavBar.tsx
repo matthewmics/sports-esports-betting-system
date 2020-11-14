@@ -108,10 +108,10 @@ const NavBar = () => {
 
                                             <div style={{ display: 'block', minWidth: '150px' }}>
                                                 <span style={{ fontWeight: 'bold', display: 'block', overflow: 'hidden', maxWidth: '150px', textOverflow: 'ellipsis' }}>
-                                                    Matthew Miclt
+                                                    {user!.username}
                                                 </span>
-                                                <span style={{}}>
-                                                    Matthew Miclat
+                                                <span>
+                                                    {user!.email}
                                                 </span>
                                             </div>
 
