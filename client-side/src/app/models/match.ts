@@ -9,4 +9,11 @@ export interface IMatch {
     teamA: ITeam;
     teamB: ITeam;
     predictions: IPrediction[];
+    game: IGame;
+}
+
+export interface IGame {
+    id: number;
+    name: string;
+    displayText: string;
 }
