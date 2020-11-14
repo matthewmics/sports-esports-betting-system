@@ -18,12 +18,17 @@ export default class MatchStore {
     this.rootStore = rootStore;
   }
 
+  sortPredictionsBySequence = (predictions: IPrediction[]) => {
+    return predictions.sort((a, b) => a.sequence - b.sequence);
+  }
+
   @computed get matchList() {
-    return Array.from(this.matchRegistry.values());
+    return Array.from(this.matchRegistry.values()).sort((a: IMatch, b: IMatch) =>
+      a.startDate.getTime() - b.startDate.getTime());
   }
 
   @computed get matchSelections() {
-    if(!this.selectedMatch)
+    if (!this.selectedMatch)
       return [];
 
     return [
@@ -44,6 +49,9 @@ export default class MatchStore {
       const matches = await agent.Matches.list();
       runInAction(() => {
         matches.forEach((match) => {
+          match.startDate = new Date(match.startDate);
+          match.predictions.forEach( p => p.startDate = new Date(p.startDate));
+          match.predictions = this.sortPredictionsBySequence(match.predictions);
           this.matchRegistry.set(match.id, match);
         });
       });
@@ -57,6 +65,9 @@ export default class MatchStore {
     if (!this.selectedMatch) {
       try {
         const match = await agent.Matches.get(id);
+        match.startDate = new Date(match.startDate);
+        match.predictions.forEach( p => p.startDate = new Date(p.startDate));
+        match.predictions = this.sortPredictionsBySequence(match.predictions);
         runInAction(() => {
           this.selectedMatch = match;
         })
@@ -126,13 +137,13 @@ export default class MatchStore {
         this.selectedPrediction!.predictionDetails.activePrediction = activePrediction;
       })
 
-      this.rootStore.modalStore.closeModal();      
+      this.rootStore.modalStore.closeModal();
       toast.success("Prediction successful");
 
 
     } catch (error) {
       throw error;
-    } 
+    }
   }
 
   @action updatePrediction = async (teamId: number, amount: number) => {
@@ -145,9 +156,9 @@ export default class MatchStore {
         amount);
 
       runInAction(() => {
-        this.rootStore.userStore.user!.walletBalance +=  
-        this.selectedPrediction!.predictionDetails.activePrediction!.amount - 
-        activePrediction.amount;
+        this.rootStore.userStore.user!.walletBalance +=
+          this.selectedPrediction!.predictionDetails.activePrediction!.amount -
+          activePrediction.amount;
 
         this.selectedPrediction!.predictionDetails.activePrediction = activePrediction;
       })
@@ -163,6 +174,5 @@ export default class MatchStore {
       })
     }
   }
-
 
 }
