@@ -67,6 +67,10 @@ namespace API.Controllers
         [HttpPost("{id}/predictions/{predictionId}/predict")]
         public async Task<ActionResult> Predict(int id, int predictionId, [FromBody] PredictionRequestDto request)
         {
+
+            if (request.Amount < 50)
+                return BadRequest(new { error = "Minimum amount is 50" });
+
             var match = await Context.Matches.Include(x => x.Predictions)
                               .SingleOrDefaultAsync(m => m.Id == id);
 
