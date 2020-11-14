@@ -113,7 +113,7 @@ export default class MatchStore {
         this.rootStore.userStore.user!.walletBalance += this.selectedPrediction!.predictionDetails.activePrediction!.amount;
         this.selectedPrediction!.predictionDetails.activePrediction = null;
       });
-      toast.info("You have successfully cancelled your prediction");
+      toast.info("You have cancelled prediction");
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong while cancelling your prediction");
@@ -164,7 +164,7 @@ export default class MatchStore {
       })
 
       this.rootStore.modalStore.closeModal();
-      toast.success("Prediction updated successfully");
+      toast.success("Prediction updated");
 
     } catch (error) {
       throw error;
