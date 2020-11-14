@@ -36,7 +36,7 @@ const PredictionTabs: React.FC<IProps> = ({ match, selectPrediction, selectedPre
                         style={loading ? inactiveStyle : activeStyle}>
                         {prediction.title}
                         <Label style={{ marginLeft: '9px' }}
-                            content={prediction.status} color='green' />
+                               content={prediction.predictionStatus.displayText} color='green' />
                     </Label>
                 )
             })}

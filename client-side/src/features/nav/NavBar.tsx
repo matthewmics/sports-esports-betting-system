@@ -5,6 +5,7 @@ import { RootStoreContext } from '../../app/stores/rootStore'
 import { observer } from 'mobx-react-lite'
 import LoginForm from '../user/LoginForm'
 import RegisterForm from '../user/RegisterForm'
+import { history } from '../..'
 
 
 const notificationBadgeStyle = {
@@ -29,7 +30,8 @@ const NavBar = () => {
         <Menu fixed='top'>
 
             <Container>
-                <Menu.Item header>
+                <Menu.Item header onClick={() => history.push('/matches')} as='div'
+                        style={{cursor: 'pointer'}}>
                     <Image style={{ marginRight: '10px' }} height='37' src='/assets/logo.png' />
                     WagerzLounge
                 </Menu.Item>

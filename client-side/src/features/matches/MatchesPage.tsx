@@ -3,7 +3,7 @@ import React, { useContext, useEffect } from 'react'
 import { Grid, GridColumn, Image, Menu } from 'semantic-ui-react';
 import { IMatch } from '../../app/models/match';
 import { RootStoreContext } from '../../app/stores/rootStore';
-import MatchDetail from './MatchDetail';
+import MatchDetail from './MatchDetails';
 
 const tabImageStyle = {
     width: '35px', height: '35px', marginRight: '5px'
