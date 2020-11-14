@@ -30,6 +30,7 @@ namespace API.Controllers
                 .Include(x => x.TeamB)
                 .Include(x => x.Predictions)
                     .ThenInclude(x => x.PredictionStatus)
+                .Include(x => x.Game)
                 .ToListAsync();
 
             var matchesToReturn = _mapper.Map<ICollection<MatchDto>>(matches);
