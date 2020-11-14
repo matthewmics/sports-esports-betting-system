@@ -3,136 +3,215 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace API.Data
 {
     public class Seed
     {
+        private class SeedUserModel
+        {
+            [JsonPropertyName("userName")]
+            public string UserName { get; set; }
+            [JsonPropertyName("displayName")]
+            public string DisplayName { get; set; }
+            [JsonPropertyName("email")]
+            public string Email { get; set; }
+        }
+        private class SeedModel
+        {
+            [JsonPropertyName("teams")]
+            public ICollection<Team> Teams { get; set; }
+            [JsonPropertyName("users")]
+            public ICollection<SeedUserModel> Users { get; set; }
+        }
+
         public static void SeedData(DataContext ctx, UserManager<AppUser> userManager)
         {
+            var dataSeedText = System.IO.File.ReadAllText("Data/seed.json");
+            var dataSeed = JsonSerializer.Deserialize<SeedModel>(dataSeedText);
 
             if (ctx.Teams.Any())
                 return;
 
-            var teams = new List<Team>
-            {
-                new Team
-                {
-                    Image = null,
-                    Name = "Team Secret"
-                },
-                new Team
-                {
-                    Image = null,
-                    Name = "Nigma"
-                },
-                new Team
-                {
-                    Image = null,
-                    Name = "Virtus Pro"
-                },
-            };
-
-            foreach (var team in teams)
+            foreach (var team in dataSeed.Teams)
             {
                 ctx.Add(team);
             }
 
-            var matches = new List<Match>
-            {
-                new Match
-                {
-                    Category = "dota2",
-                    EventName = "ESL ONE",
-                    StartDate = DateTime.Now.AddDays(1),
-                    TeamA = teams[0], TeamB = teams[1],
-                },
-                new Match
-                {
-                    Category = "dota2",
-                    EventName = "ESL ONE",
-                    StartDate = DateTime.Now.AddDays(2),
-                    TeamA = teams[0], TeamB = teams[2],
-                },
-                new Match
-                {
-                    Category = "dota2",
-                    EventName = "ESL ONE",
-                    StartDate = DateTime.Now.AddDays(2),
-                    TeamA = teams[1], TeamB = teams[2],
-                },
-            };
+            var matches = GenerateMatches(dataSeed.Teams);
 
             foreach (var match in matches)
             {
                 ctx.Add(match);
             }
 
-            var predictions = new List<Prediction>
+            foreach (var userCustomer in dataSeed.Users)
             {
-                new Prediction
+                var appUser = new AppUser
                 {
-                    Match = matches[0],
-                    StartDate = matches[0].StartDate,
-                    Title = "Series Winner",
-                    Description = "Which team will win the series?",
-                    PredictionStatusId = PredictionStatus.Open
-                },
-                new Prediction
-                {
-                    Match = matches[0],
-                    StartDate = matches[0].StartDate,
-                    Title = "Game 1 Winner",
-                    Description = "Which team will win Game 1?",
-                    PredictionStatusId = PredictionStatus.Open
-                },
-                new Prediction
-                {
-                    Match = matches[1],
-                    StartDate = matches[1].StartDate,
-                    Title = "Series Winner",
-                    Description = "Which team will win the series?",
-                    PredictionStatusId = PredictionStatus.Open
-                },
-                new Prediction
-                {
-                    Match = matches[2],
-                    StartDate = matches[2].StartDate,
-                    Title = "Series Winner",
-                    Description = "Which team will win the series?",
-                    PredictionStatusId = PredictionStatus.Open
-                },
-            };
-
-            foreach (var prediction in predictions)
-            {
-                ctx.Add(prediction);
-            }
-
-            var userCustomers = new List<AppUser>
-            {
-                new AppUser
-                {
-                    DisplayName = "Dejounte Mitchell",
-                    Email = "dejounte@test.com",
-                    UserName = "dejounte06"
-                },
-                new AppUser
-                {
-                    DisplayName = "Jayson Hayward",
-                    Email = "jayson@test.com",
-                    UserName = "jayson06"
-                },
-            };
-
-            foreach (var userCustomer in userCustomers)
-            {
-                userManager.CreateAsync(userCustomer, "Password").Wait();
-                ctx.Customers.Add(new Customer { AppUser = userCustomer });
+                    DisplayName = userCustomer.DisplayName,
+                    Email = userCustomer.Email,
+                    UserName = userCustomer.UserName
+                };
+                userManager.CreateAsync(appUser, "Password").Wait();
+                ctx.Customers.Add(new Customer { AppUser = appUser });
             }
 
             ctx.SaveChanges();
+        }
+
+        private static List<Match> GenerateMatches(ICollection<Team> teams)
+        {
+            var result = new List<Match>();
+
+            var dotaTeams = teams.Take(20).ToList();
+            var csgoTeams = teams.Skip(20).Take(7).ToList();
+
+            Random rand = new Random();
+            for (var i = 0; i < 10; i++)
+            {
+                dotaTeams.Shuffle();
+                var eventName = i < 5 ? "StarLadder ImbaTV Dota 2 Minor" : "ONE Esports Dota 2";
+                var days = rand.Next(1, 6);
+                var match = new Match
+                {
+                    Series = 3,
+                    GameId = Game.Dota2,
+                    EventName = eventName,
+                    TeamA = dotaTeams[0],
+                    TeamB = dotaTeams[1],
+                    StartDate = DateTime.Now.AddDays(days),
+                    Predictions = Dota2Predictions(days)
+                };
+                result.Add(match);
+            }
+
+            for (var i = 0; i < 6; i++)
+            {
+                csgoTeams.Shuffle();
+                var eventName = i < 3 ? "DreamHack Open Winter" : "BLAST Premier";
+                var days = rand.Next(1, 6);
+                var match = new Match
+                {
+                    Series = 3,
+                    GameId = Game.Csgo,
+                    EventName = eventName,
+                    TeamA = csgoTeams[0],
+                    TeamB = csgoTeams[1],
+                    StartDate = DateTime.Now.AddDays(days),
+                    Predictions = CSGOPredictions(days)
+                };
+                result.Add(match);
+            }
+
+            return result;
+        }
+
+        private static List<Prediction> Dota2Predictions(int days)
+        {
+            var result = new List<Prediction>()
+            {
+                new Prediction
+                {
+                    Sequence = 1,
+                    Title = "Series Winner",
+                    Description = "Which team will win the series?",
+                    PredictionStatusId = PredictionStatus.Open,
+                    StartDate = DateTime.Now.AddDays(days),
+                },
+                new Prediction
+                {
+                    Sequence = 2,
+                    Title = "Game 1 Winner",
+                    Description = "Which team will win game 1 of this series?",
+                    PredictionStatusId = PredictionStatus.Open,
+                    StartDate = DateTime.Now.AddDays(days),
+                },
+                new Prediction
+                {
+                    Sequence = 3,
+                    Title = "Game 2 Winner",
+                    Description = "Which team will win game 2 of this series?",
+                    PredictionStatusId = PredictionStatus.Open,
+                    StartDate = DateTime.Now.AddDays(days).AddHours(1),
+                },
+                new Prediction
+                {
+                    Sequence = 4,
+                    Title = "Game 3 Winner",
+                    Description = "Which team will win game 3 of this series?",
+                    PredictionStatusId = PredictionStatus.Open,
+                    StartDate = DateTime.Now.AddDays(days).AddHours(2),
+                },
+                new Prediction
+                {
+                    Sequence = 5,
+                    Title = "Game 1 F10K",
+                    Description = "Which team is the first to get 10 kills in game 1?",
+                    PredictionStatusId = PredictionStatus.Open,
+                    StartDate = DateTime.Now.AddDays(days),
+                },
+                new Prediction
+                {
+                    Sequence = 6,
+                    Title = "Game 2 F10K",
+                    Description = "Which team is the first to get 10 kills in game 2?",
+                    PredictionStatusId = PredictionStatus.Open,
+                    StartDate = DateTime.Now.AddDays(days).AddHours(1),
+                },
+                new Prediction
+                {
+                    Sequence = 7,
+                    Title = "Game 3 F10K",
+                    Description = "Which team is the first to get 10 kills in game 3?",
+                    PredictionStatusId = PredictionStatus.Open,
+                    StartDate = DateTime.Now.AddDays(days).AddHours(2),
+                }
+            };
+            return result;
+        }
+
+        private static List<Prediction> CSGOPredictions(int days)
+        {
+            var result = new List<Prediction>()
+            {
+                new Prediction
+                {
+                    Sequence = 1,
+                    Title = "Series Winner",
+                    Description = "Which team will win the series?",
+                    PredictionStatusId = PredictionStatus.Open,
+                    StartDate = DateTime.Now.AddDays(days),
+                },
+                  new Prediction
+                {
+                    Sequence = 2,
+                    Title = "Game 1 Winner",
+                    Description = "Which team will win game 1 of this series?",
+                    PredictionStatusId = PredictionStatus.Open,
+                    StartDate = DateTime.Now.AddDays(days),
+                },
+                new Prediction
+                {
+                    Sequence = 3,
+                    Title = "Game 2 Winner",
+                    Description = "Which team will win game 2 of this series?",
+                    PredictionStatusId = PredictionStatus.Open,
+                    StartDate = DateTime.Now.AddDays(days).AddHours(1),
+                },
+                new Prediction
+                {
+                    Sequence = 4,
+                    Title = "Game 3 Winner",
+                    Description = "Which team will win game 3 of this series?",
+                    PredictionStatusId = PredictionStatus.Open,
+                    StartDate = DateTime.Now.AddDays(days).AddHours(2),
+                },
+            };
+            return result;
         }
 
     }

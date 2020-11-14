@@ -1,0 +1,225 @@
+{
+  "teams": [
+    {
+      "Id": 1,
+      "Name": "Team Secret"
+    },
+    {
+      "Id": 2,
+      "Name": "Team Nigma"
+    },
+    {
+      "Id": 3,
+      "Name": "Virtus Pro"
+    },
+    {
+      "Id": 4,
+      "Name": "OG"
+    },
+    {
+      "Id": 5,
+      "Name": "Na'Vi"
+    },
+    {
+      "Id": 6,
+      "Name": "Motivade.Trust"
+    },
+    {
+      "Id": 7,
+      "Name": "TNC Pro Team"
+    },
+    {
+      "Id": 8,
+      "Name": "BOOM ID"
+    },
+    {
+      "Id": 9,
+      "Name": "Fnatic"
+    },
+    {
+      "Id": 10,
+      "Name": "Neon Esports"
+    },
+    {
+      "Id": 11,
+      "Name": "Ninjas in Pyjamas"
+    },
+    {
+      "Id": 12,
+      "Name": "Vikin.gg"
+    },
+    {
+      "Id": 13,
+      "Name": "Team Liquid"
+    },
+    {
+      "Id": 14,
+      "Name": "Evil Geniuses"
+    },
+    {
+      "Id": 15,
+      "Name": "Alliance"
+    },
+    {
+      "Id": 16,
+      "Name": "Vici Gaming"
+    },
+    {
+      "Id": 17,
+      "Name": "PSG.LGD"
+    },
+    {
+      "Id": 18,
+      "Name": "EHOME"
+    },
+    {
+      "Id": 19,
+      "Name": "Aster"
+    },
+    {
+      "Id": 20,
+      "Name": "Invictus Gaming"
+    },
+    {
+      "Id": 21,
+      "Name": "ENCE"
+    },
+    {
+      "Id": 22,
+      "Name": "MAD Lions"
+    },
+    {
+      "Id": 23,
+      "Name": "Astralis"
+    },
+    {
+      "Id": 24,
+      "Name": "Tyloo"
+    },
+    {
+      "Id": 25,
+      "Name": "Heroic"
+    },
+    {
+      "Id": 26,
+      "Name": "G2"
+    },
+    {
+      "Id": 27,
+      "Name": "Mousesports"
+    }
+  ],
+
+  "users": [
+    {
+      "displayName": "Dejounte Walker",
+      "email": "dejounte@test.com",
+      "userName": "dejounteTEST"
+    },
+    {
+      "displayName": "Greg David",
+      "email": "greg@test.com",
+      "userName": "gregTEST"
+    },
+    {
+      "displayName": "Tony Mills",
+      "email": "tony@test.com",
+      "userName": "tonyTEST"
+    },
+    {
+      "displayName": "Timmy Robinsons",
+      "email": "timmy@test.com",
+      "userName": "timmyTEST"
+    },
+    {
+      "displayName": "Jakob Aldridge",
+      "email": "jakob@test.com",
+      "userName": "jakobTEST"
+    },
+    {
+      "displayName": "Caiden Markham",
+      "email": "caiden@test.com",
+      "userName": "caidenTEST"
+    },
+    {
+      "displayName": "Agnes Portillo",
+      "email": "agnesn@test.com",
+      "userName": "agnesTEST"
+    },
+    {
+      "displayName": "Demi Rose",
+      "email": "demi@test.com",
+      "userName": "demiTEST"
+    },
+    {
+      "displayName": "Kacie Lee",
+      "email": "kacie@test.com",
+      "userName": "kacieTEST"
+    },
+    {
+      "displayName": "Kanye Fry",
+      "email": "kanye@test.com",
+      "userName": "kanyeTEST"
+    },
+    {
+      "displayName": "Oscar Phillip",
+      "email": "oscar@test.com",
+      "userName": "oscarTEST"
+    },
+    {
+      "displayName": "Jevan Gobert",
+      "email": "jevan@test.com",
+      "userName": "jevanTEST"
+    },
+    {
+      "displayName": "Yasin Patterson",
+      "email": "yasin@test.com",
+      "userName": "yasinTEST"
+    },
+    {
+      "displayName": "Aras Hunter",
+      "email": "aras@test.com",
+      "userName": "arasTEST"
+    },
+    {
+      "displayName": "Carla Darkly",
+      "email": "carla@test.com",
+      "userName": "carlaTEST"
+    },
+    {
+      "displayName": "John Rush",
+      "email": "john@test.com",
+      "userName": "johnTEST"
+    },
+    {
+      "displayName": "Nayan Campbell",
+      "email": "nayan@test.com",
+      "userName": "nayanTEST"
+    },
+    {
+      "displayName": "Derrick Newsome",
+      "email": "derrick@test.com",
+      "userName": "derrickTEST"
+    },
+    {
+      "displayName": "Charles Williams",
+      "email": "charles@test.com",
+      "userName": "charlesTEST"
+    },
+    {
+      "displayName": "Monty Myers",
+      "email": "monty@test.com",
+      "userName": "montyTEST"
+    },
+    {
+      "displayName": "Simmon Waiters",
+      "email": "simmon@test.com",
+      "userName": "simmonTEST"
+    },
+    {
+      "displayName": "Dion Haumea",
+      "email": "dion@test.com",
+      "userName": "dionTEST"
+    }
+  ]
+}
