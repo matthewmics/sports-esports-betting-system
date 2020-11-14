@@ -96,8 +96,8 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Models.Game", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
+                    b.Property<short>("Id")
+                        .HasColumnType("smallint");
 
                     b.Property<string>("DisplayText")
                         .HasColumnType("text");
@@ -119,8 +119,8 @@ namespace API.Migrations
                     b.Property<string>("EventName")
                         .HasColumnType("text");
 
-                    b.Property<int>("GameId")
-                        .HasColumnType("int");
+                    b.Property<short>("GameId")
+                        .HasColumnType("smallint");
 
                     b.Property<int>("Series")
                         .HasColumnType("int");
@@ -157,7 +157,10 @@ namespace API.Migrations
                     b.Property<int>("MatchId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PredictionStatusId")
+                    b.Property<short>("PredictionStatusId")
+                        .HasColumnType("smallint");
+
+                    b.Property<int>("Sequence")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("StartDate")
@@ -177,8 +180,8 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Models.PredictionStatus", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
+                    b.Property<short>("Id")
+                        .HasColumnType("smallint");
 
                     b.Property<string>("DisplayText")
                         .HasColumnType("text");
@@ -246,8 +249,8 @@ namespace API.Migrations
                     b.Property<string>("CustomerId")
                         .HasColumnType("varchar(767)");
 
-                    b.Property<int>("UserTransactionTypeId")
-                        .HasColumnType("int");
+                    b.Property<short>("UserTransactionTypeId")
+                        .HasColumnType("smallint");
 
                     b.HasKey("Id");
 
@@ -260,8 +263,8 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Models.UserTransactionType", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
+                    b.Property<short>("Id")
+                        .HasColumnType("smallint");
 
                     b.Property<string>("DisplayText")
                         .HasColumnType("text");
