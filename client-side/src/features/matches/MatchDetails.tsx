@@ -43,7 +43,9 @@ const MatchDetail: React.FC<IProps> = ({
                 </Grid>
             </Segment>
             <Segment clearing>
-                <span style={{ color: 'teal', display: 'inline-block', marginTop: '9px' }}>7 Predictions</span>
+                <span style={{ color: 'teal', display: 'inline-block', marginTop: '9px' }}>
+                    {match.predictions.length} Prediction(s) available
+                </span>
                 <Button icon='life ring' content='Predictions' floated='right' basic
                     labelPosition='left'
                     as={Link} to={`/matches/${match.id}`} />
