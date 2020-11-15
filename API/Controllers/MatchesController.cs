@@ -71,6 +71,9 @@ namespace API.Controllers
                     .ThenInclude(x => x.PredictionStatus)
                 .SingleOrDefaultAsync(x => x.Id == id);
 
+            if (match == null)
+                return NotFound(new { error = "match not found" });
+
             var matchToReturn = _mapper.Map<MatchDto>(match);
 
             return Ok(matchToReturn);

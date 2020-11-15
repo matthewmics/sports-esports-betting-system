@@ -3,13 +3,14 @@ import 'semantic-ui-css/semantic.min.css'
 import NavBar from '../../features/nav/NavBar';
 import MatchesPage from '../../features/matches/MatchesPage';
 import { Container } from 'semantic-ui-react';
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import ModalContainer from '../common/modals/ModalContainer';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css'
 import { observer } from 'mobx-react-lite';
 import { RootStoreContext } from '../stores/rootStore';
 import PredictionPage from '../../features/predictions/PredictionPage';
+
 
 const App = () => {
 
@@ -31,8 +32,17 @@ const App = () => {
         <Route exact path='/'>
           <Redirect to='/matches' />
         </Route>
-        <Route exact path='/matches' component={MatchesPage} />
-        <Route path='/matches/:id' component={PredictionPage} />
+        <Route path={'/(.+)'} render={() => {
+          return (
+            <Fragment>
+              <Switch>
+                <Route exact path='/matches' component={MatchesPage} />
+                <Route path='/matches/:id' component={PredictionPage} />
+                <Route render={()=><h1>ERROR 404</h1>}/>
+              </Switch>
+            </Fragment>
+          )
+        }} />
       </Container>
     </Fragment>
   )

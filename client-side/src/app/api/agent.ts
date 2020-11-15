@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { toast } from "react-toastify";
+import { history } from "../..";
 import { IMatch, IMatchEnvelope } from "../models/match";
 import { IActivePrediction, IPredictionDetails } from "../models/prediction";
 import { IUser, IUserFormValues } from "../models/user";
@@ -24,6 +25,20 @@ axios.interceptors.response.use(undefined, error => {
   if (error.message === "Network Error" && !error.response) {
     toast.error("Network Error occured");
     return;
+  }
+
+  const { status, config, data } = error.response;
+  if (status === 404) {
+    history.push("/notfound");
+  }
+
+  if (
+    status === 400 &&
+    config.method === "get" &&
+    data.errors.hasOwnProperty("id")
+  ) {
+    history.push("/notfound");
+    toast.error("You have sent an invalid request.");
   }
 
   throw error.response;
