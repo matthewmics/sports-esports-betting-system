@@ -23,19 +23,42 @@ namespace API.Controllers
             _userAccessor = userAccessor;
         }
 
-        public async Task<ActionResult> List()
+        public async Task<ActionResult> List([FromQuery] int? offset, [FromQuery] int? limit, [FromQuery] string game)
         {
-            var matches = await Context.Matches
+            var queryable = Context.Matches
                 .Include(x => x.TeamA)
                 .Include(x => x.TeamB)
                 .Include(x => x.Predictions)
                     .ThenInclude(x => x.PredictionStatus)
                 .Include(x => x.Game)
-                .ToListAsync();
+                .OrderBy(x => x.StartDate)
+                .AsQueryable();
 
-            var matchesToReturn = _mapper.Map<ICollection<MatchDto>>(matches);
+            if(game != null && game != "all")
+            {
+                switch (game)
+                {
+                    case "dota2":
+                        queryable = queryable.Where(x => x.GameId == Game.Dota2);
+                        break;
+                    case "csgo":
+                        queryable = queryable.Where(x => x.GameId == Game.Csgo);
+                        break;
+                    case "sports":
+                        queryable = queryable.Where(x => x.GameId == Game.Sports);
+                        break;
+                }
+            }
 
-            return Ok(matchesToReturn);
+            var matches = await queryable.Skip(offset ?? 0).Take(limit ?? 10).ToListAsync();
+
+            var matchEnvelope = new MatchEnvelopeDto
+            {
+                Matches = _mapper.Map<List<MatchDto>>(matches),
+                MatchCount = queryable.Count()
+            };
+
+            return Ok(matchEnvelope);
         }
 
         [HttpGet("{id}")]

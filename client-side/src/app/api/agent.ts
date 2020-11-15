@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { toast } from "react-toastify";
-import { IMatch } from "../models/match";
+import { IMatch, IMatchEnvelope } from "../models/match";
 import { IActivePrediction, IPredictionDetails } from "../models/prediction";
 import { IUser, IUserFormValues } from "../models/user";
 
@@ -48,7 +48,10 @@ const requests = {
 };
 
 export const Matches = {
-  list: (): Promise<IMatch[]> => requests.get(`/matches`),
+  list: (urlParams: URLSearchParams): Promise<IMatchEnvelope> =>
+    axios.get(`/matches`, { params: urlParams })
+      .then(sleep(1000))
+      .then(responseBody),
   get: (id: number): Promise<IMatch> => requests.get(`/matches/${id}`),
   predict: (matchId: number, predictionId: number, teamId: number, amount: number)
     : Promise<IActivePrediction> =>

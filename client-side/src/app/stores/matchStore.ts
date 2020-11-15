@@ -5,6 +5,8 @@ import { IMatch } from "../models/match";
 import { IPrediction } from "../models/prediction";
 import { RootStore } from "./rootStore";
 
+const LIMIT: number = 5;
+
 export default class MatchStore {
 
   rootStore: RootStore;
@@ -12,6 +14,10 @@ export default class MatchStore {
   @observable selectedMatch: IMatch | null = null;
   @observable selectedPrediction: IPrediction | null = null;
   @observable loading = false;
+  @observable page = 0;
+  @observable matchCount = 0;
+  @observable loadingMatches = false;
+  @observable matchFilters = new Map([["game", "all"]]);
 
   constructor(rootStore: RootStore) {
     makeObservable(this);
@@ -20,6 +26,22 @@ export default class MatchStore {
 
   sortPredictionsBySequence = (predictions: IPrediction[]) => {
     return predictions.sort((a, b) => a.sequence - b.sequence);
+  }
+
+  @computed get totalPages() {
+    return Math.ceil(this.matchCount / LIMIT);
+  }
+
+  @computed get matchParams() {
+    const params = new URLSearchParams();
+    params.append("limit", String(LIMIT));
+    params.append("offset", String(this.page * LIMIT));
+
+    this.matchFilters.forEach((value, key) => {
+      params.append(key, value);
+    })
+
+    return params;
   }
 
   @computed get matchList() {
@@ -44,19 +66,38 @@ export default class MatchStore {
     ];
   }
 
+  @action setPage = (page: number) => {
+    this.page = page;
+  }
+
+  @action setFilter = (predicate: string, value: string) => {
+    if (this.loadingMatches)
+      return;
+    this.page = 0;
+    this.matchRegistry.clear();
+    this.matchFilters.set(predicate, value);
+    this.loadMatches();
+  }
+
   @action loadMatches = async () => {
+    this.loadingMatches = true;
     try {
-      const matches = await agent.Matches.list();
+      const matchEnvelope = await agent.Matches.list(this.matchParams);
       runInAction(() => {
-        matches.forEach((match) => {
+        matchEnvelope.matches.forEach((match) => {
           match.startDate = new Date(match.startDate);
-          match.predictions.forEach( p => p.startDate = new Date(p.startDate));
+          match.predictions.forEach(p => p.startDate = new Date(p.startDate));
           match.predictions = this.sortPredictionsBySequence(match.predictions);
           this.matchRegistry.set(match.id, match);
         });
+        this.matchCount = matchEnvelope.matchCount;
       });
     } catch (error) {
       console.log(error);
+    } finally {
+      runInAction(() => {
+        this.loadingMatches = false;
+      })
     }
   };
 
@@ -66,7 +107,7 @@ export default class MatchStore {
       try {
         const match = await agent.Matches.get(id);
         match.startDate = new Date(match.startDate);
-        match.predictions.forEach( p => p.startDate = new Date(p.startDate));
+        match.predictions.forEach(p => p.startDate = new Date(p.startDate));
         match.predictions = this.sortPredictionsBySequence(match.predictions);
         runInAction(() => {
           this.selectedMatch = match;
