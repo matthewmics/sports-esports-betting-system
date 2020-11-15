@@ -113,7 +113,7 @@ export default class MatchStore {
           this.selectedMatch = match;
         })
       } catch (error) {
-        console.log(error);
+        throw error;
       }
     }
 
