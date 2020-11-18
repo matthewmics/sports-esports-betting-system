@@ -10,20 +10,23 @@ import ModalContainer from '../common/modals/ModalContainer';
 import { RootStoreContext } from '../stores/rootStore';
 import axios from 'axios';
 
-axios.interceptors.request.use(
-    (config) => {
-        const token = window.localStorage.getItem("jwt_admin");
-        if (token) {
-            config.headers.Authorization = "Bearer " + token;
-        }
 
-        return config;
-    },
-    (error) =>
-        Promise.reject(error)
-)
 
 const AdminApp = () => {
+
+
+    axios.interceptors.request.use(
+        (config) => {
+            const token = window.localStorage.getItem("jwt_admin");
+            if (token) {
+                config.headers.Authorization = "Bearer " + token;
+            }
+    
+            return config;
+        },
+        (error) =>
+            Promise.reject(error)
+    )
 
     const rootStore = useContext(RootStoreContext);
     const { loadingUser, getCurrentAdmin } = rootStore.adminUserStore;

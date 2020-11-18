@@ -12,21 +12,24 @@ import { RootStoreContext } from '../stores/rootStore';
 import PredictionPage from '../../features/predictions/PredictionPage';
 import axios from 'axios';
 
-axios.interceptors.request.use(
-  (config) => {
-    const token = window.localStorage.getItem("jwt");
-    if (token) {
-      config.headers.Authorization = "Bearer " + token;
-    }
 
-    return config;
-  },
-  (error) =>
-    Promise.reject(error)
-)
 
 const App = () => {
 
+  axios.interceptors.request.use(
+    (config) => {
+      const token = window.localStorage.getItem("jwt");
+      if (token) {
+        config.headers.Authorization = "Bearer " + token;
+      }
+
+      return config;
+    },
+    (error) =>
+      Promise.reject(error)
+  )
+
+  
   const rootStore = useContext(RootStoreContext);
   const { getUser } = rootStore.userStore;
 
