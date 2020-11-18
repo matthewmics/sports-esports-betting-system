@@ -6,7 +6,7 @@ import { RootStoreContext } from '../../app/stores/rootStore'
 
 const AdminNavBar = () => {
     const rootStore = useContext(RootStoreContext);
-    const { logout } = rootStore.adminUserStore;
+    const { logout, adminUser } = rootStore.adminUserStore;
     return (
         <Menu fixed='top'>
             <Menu.Item header onClick={() => history.push('/admin')} as='div'
@@ -17,7 +17,13 @@ const AdminNavBar = () => {
 
             <Menu.Menu position='right'>
                 <Menu.Item>
-                    <div  onClick={logout} style={{fontWeight: 'bold', color: 'black', cursor: 'pointer'}}>LOGOUT</div>
+                    <Image bordered spaced avatar
+                        size='mini'
+                        src='/assets/user_default.png' />
+                    {adminUser?.displayName}
+                </Menu.Item>
+                <Menu.Item>
+                    <div onClick={logout} style={{ fontWeight: 'bold', color: 'black', cursor: 'pointer' }}>LOGOUT</div>
                 </Menu.Item>
             </Menu.Menu>
         </Menu>

@@ -17,6 +17,8 @@ namespace API.Dtos
         public TeamDto TeamA { get; set; }
         public TeamDto TeamB { get; set; }
 
+        public int Series { get; set; }
+
         public ICollection<PredictionDto> Predictions { get; set; }
 
 

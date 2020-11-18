@@ -89,7 +89,7 @@ const NavBar = () => {
                                         pinned
                                         trigger={
                                             <Menu.Item>
-                                                <Image style={{ backgroundColor: '#afafaf' }} bordered spaced avatar
+                                                <Image bordered spaced avatar
                                                     size='mini'
                                                     src='/assets/user_default.png' />
                                                 <div>
@@ -102,7 +102,6 @@ const NavBar = () => {
 
                                         <div style={{ display: 'flex' }}>
                                             <Image style={{
-                                                backgroundColor: '#afafaf',
                                                 height: '50px', width: '50px',
                                                 marginRight: '10px'
                                             }} bordered spaced avatar

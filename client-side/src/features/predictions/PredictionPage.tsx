@@ -34,12 +34,12 @@ const PredictionPage: React.FC<IProps> = ({ match }) => {
 
     useEffect(() => {
         selectMatch(+match.params.id)
-    }, [selectMatch, match.params.id, isLoggedIn])
+    }, [selectMatch, match.params.id])
 
     return (
         <Grid>
             <Grid.Column width={16}>
-                <PredictionHeader />
+                <PredictionHeader match={selectedMatch} />
             </Grid.Column>
             <Grid.Column width={12} style={{ paddingTop: '0px' }}>
                 <PredictionTabs match={selectedMatch} loading={loading}

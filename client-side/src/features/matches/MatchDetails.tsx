@@ -32,7 +32,7 @@ const MatchDetail: React.FC<IProps> = ({
                         </Grid.Column>
                         <Grid.Column width={2}>
                             VS <br />
-                            <Label content='BO3' />
+                            <Label content={`BO${match.series}`} />
                         </Grid.Column>
                         <Grid.Column>
                             <Image src='/assets/noimage.png' centered

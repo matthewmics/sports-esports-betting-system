@@ -10,29 +10,30 @@ const tabImageStyle = {
 const MatchFilters = () => {
 
     const rootStore = useContext(RootStoreContext);
-    const { matchFilters, setFilter } = rootStore.matchStore;
+    const { matchFilters, setFilter, matchList } = rootStore.matchStore;
 
     const handleGameFilter = (game: string) => {
         setFilter("game", game);
     }
-    
-    useEffect(()=>{
-        handleGameFilter("all");
-    })
+
+    useEffect(() => {
+        if (matchList.length < 1)
+            setFilter("game", "all");
+    }, [matchList.length, setFilter])
 
     return (
         <Menu>
             <Menu.Item
                 name='all'
                 active={matchFilters.get("game") === "all"}
-                onClick={()=>handleGameFilter("all")}
+                onClick={() => handleGameFilter("all")}
             >
                 All
             </Menu.Item>
             <Menu.Item
                 name='dota2'
                 active={matchFilters.get("game") === "dota2"}
-                onClick={()=>handleGameFilter("dota2")}
+                onClick={() => handleGameFilter("dota2")}
             >
                 <Image src='/assets/images/dota2-outlined.png' style={tabImageStyle} /> Dota 2
             </Menu.Item>
@@ -40,7 +41,7 @@ const MatchFilters = () => {
             <Menu.Item
                 name='csgo'
                 active={matchFilters.get("game") === "csgo"}
-                onClick={()=>handleGameFilter("csgo")}
+                onClick={() => handleGameFilter("csgo")}
             >
                 <Image src='/assets/images/csgo-outlined.png' style={tabImageStyle} /> CSGO
                     </Menu.Item>
@@ -48,7 +49,7 @@ const MatchFilters = () => {
             <Menu.Item
                 name='sports'
                 active={matchFilters.get("game") === "sports"}
-                onClick={()=>handleGameFilter("sports")}
+                onClick={() => handleGameFilter("sports")}
             >
                 <Image src='/assets/images/sports-outlined.png' style={tabImageStyle} /> Sports
             </Menu.Item>

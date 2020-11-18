@@ -14,6 +14,7 @@ export interface IMatch {
     teamA: ITeam;
     teamB: ITeam;
     predictions: IPrediction[];
+    series: number;
     game: IGame;
 }
 
