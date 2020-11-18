@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace API.DataHelpers
 {
-    public class TokenResolver : IValueResolver<AppUser, UserDto, string>
+    public class TokenResolver : IValueResolver<AppUser, BaseUser, string>
     {
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
         private readonly IConfiguration _configuration;
@@ -21,7 +21,7 @@ namespace API.DataHelpers
             _configuration = configuration;
         }
 
-        public string Resolve(AppUser source, UserDto destination, string destMember, ResolutionContext context)
+        public string Resolve(AppUser source, BaseUser destination, string destMember, ResolutionContext context)
         {
             return _jwtTokenGenerator.GenerateToken(source.UserName,
                     _configuration.GetSection("AppSettings:TokenKey").Value);

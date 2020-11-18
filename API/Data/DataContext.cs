@@ -23,6 +23,7 @@ namespace API.Data
         public DbSet<UserTransactionType> UserTransactionTypes { get; set; }
         public DbSet<UserTransaction> UserTransactions { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<Admin> Admins { get; set; }
         public DbSet<UserPrediction> UserPredictions { get; set; }
         public DbSet<Game> Games { get; set; }
 

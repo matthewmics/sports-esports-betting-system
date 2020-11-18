@@ -1,15 +1,22 @@
-export interface IUser {
+interface IUserBase {
     displayName: string;
     username: string;
     email: string;
     token: string;
+}
+
+export interface IUser extends IUserBase {   
     walletBalance: number;
 }
 
+export interface IUserAdmin extends IUserBase {
+
+}
+
 export interface IUserFormValues {
-    displayName: string;
+    displayName?: string;
     email: string;
-    username: string;
+    username?: string;
     password: string;
 }
 

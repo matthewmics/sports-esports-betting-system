@@ -60,6 +60,15 @@ namespace API.Data
                 ctx.Customers.Add(new Customer { AppUser = appUser });
             }
 
+            var adminUser = new AppUser
+            {
+                DisplayName = "Zain Tuffin",
+                Email = "tuffin@test.com",
+                UserName = "admin"
+            };
+            userManager.CreateAsync(adminUser, "Pa$$word").Wait();
+            ctx.Admins.Add(new Admin { AppUser = adminUser });
+
             ctx.SaveChanges();
         }
 

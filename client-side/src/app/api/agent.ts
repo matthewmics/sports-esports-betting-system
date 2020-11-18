@@ -3,22 +3,9 @@ import { toast } from "react-toastify";
 import { history } from "../..";
 import { IMatch, IMatchEnvelope } from "../models/match";
 import { IActivePrediction, IPredictionDetails } from "../models/prediction";
-import { IUser, IUserFormValues } from "../models/user";
+import { IUser, IUserAdmin, IUserFormValues } from "../models/user";
 
 axios.defaults.baseURL = "http://localhost:5000/api";
-
-axios.interceptors.request.use(
-  (config) => {
-    const token = window.localStorage.getItem("jwt");
-    if (token) {
-      config.headers.Authorization = "Bearer " + token;
-    }
-
-    return config;
-  },
-  (error) =>
-    Promise.reject(error)
-)
 
 axios.interceptors.response.use(undefined, error => {
 
@@ -91,9 +78,12 @@ export const Matches = {
 export const User = {
   login: (formValues: IUserFormValues): Promise<IUser> =>
     requests.post('/user/login', formValues),
+  adminLogin: (formValues: IUserFormValues): Promise<IUserAdmin> =>
+    requests.post('/user/admin/login', formValues),
   register: (values: IUserFormValues): Promise<IUser> =>
     requests.post('/user/register', values),
-  current: (): Promise<IUser> => requests.get('/user')
+  current: (): Promise<IUser> => requests.get('/user'),
+  currentAdmin: (): Promise<IUser> => requests.get('/user/admin'),
 };
 
 const agent = {

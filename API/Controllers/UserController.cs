@@ -56,6 +56,8 @@ namespace API.Controllers
             var result = await _userManager.CreateAsync(userToCreate, user.Password);
             if (result.Succeeded)
             {
+                Context.Customers.Add(new Customer { AppUser = userToCreate });
+                await Context.SaveChangesAsync();
                 return Ok(_mapper.Map<UserDto>(userToCreate));
             }
 
@@ -81,6 +83,35 @@ namespace API.Controllers
             }
 
             return Unauthorized("Invalid email or password");
+        }
+
+        [HttpPost("admin/login")]
+        public async Task<ActionResult> AdminLogin([FromBody] UserLoginDto user)
+        {
+            var userInDb = await _userManager.FindByEmailAsync(user.Email);
+
+            if (
+                userInDb == null ||
+                !(await Context.Admins.AnyAsync(x => x.AppUserId == userInDb.Id))
+               )
+                return Unauthorized();
+
+            var result = await _signInManager.CheckPasswordSignInAsync(userInDb, user.Password, false);
+
+            if (result.Succeeded)
+            {
+                return Ok(_mapper.Map<AdminDto>(userInDb));
+            }
+
+            return Unauthorized("Invalid email or password");
+        }
+
+        [HttpGet("admin")]
+        [Authorize]
+        public async Task<ActionResult> CurrentAdminUser()
+        {
+            var user = await _userManager.FindByNameAsync(_userAccessor.GetCurrentUsername());
+            return Ok(_mapper.Map<AdminDto>(user));
         }
     }
 }

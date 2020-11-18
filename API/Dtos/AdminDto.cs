@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace API.Dtos
 {
-    public class UserDto : BaseUser
-    {       
-        public decimal WalletBalance { get; set; }
+    public class AdminDto : BaseUser
+    {
+
     }
 }

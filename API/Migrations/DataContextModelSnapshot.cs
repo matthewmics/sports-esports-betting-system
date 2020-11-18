@@ -17,6 +17,16 @@ namespace API.Migrations
                 .HasAnnotation("ProductVersion", "3.1.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("API.Models.Admin", b =>
+                {
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("varchar(767)");
+
+                    b.HasKey("AppUserId");
+
+                    b.ToTable("Admins");
+                });
+
             modelBuilder.Entity("API.Models.AppUser", b =>
                 {
                     b.Property<string>("Id")
@@ -471,6 +481,15 @@ namespace API.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("API.Models.Admin", b =>
+                {
+                    b.HasOne("API.Models.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("API.Models.Customer", b =>
