@@ -69,6 +69,7 @@ namespace API.Controllers
                 .Include(x => x.TeamB)
                 .Include(x => x.Predictions)
                     .ThenInclude(x => x.PredictionStatus)
+                .Include(x => x.Game)
                 .SingleOrDefaultAsync(x => x.Id == id);
 
             if (match == null)
