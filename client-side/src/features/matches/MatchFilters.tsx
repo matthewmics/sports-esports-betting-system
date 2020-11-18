@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Menu, Image } from 'semantic-ui-react'
 import { RootStoreContext } from '../../app/stores/rootStore'
 
@@ -15,6 +15,10 @@ const MatchFilters = () => {
     const handleGameFilter = (game: string) => {
         setFilter("game", game);
     }
+    
+    useEffect(()=>{
+        handleGameFilter("all");
+    })
 
     return (
         <Menu>

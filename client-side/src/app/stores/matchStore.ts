@@ -17,7 +17,7 @@ export default class MatchStore {
   @observable page = 0;
   @observable matchCount = 0;
   @observable loadingMatches = false;
-  @observable matchFilters = new Map([["game", "all"]]);
+  @observable matchFilters = new Map();
 
   constructor(rootStore: RootStore) {
     makeObservable(this);

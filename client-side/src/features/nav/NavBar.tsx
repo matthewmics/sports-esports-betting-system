@@ -52,10 +52,10 @@ const NavBar = () => {
                 </Menu.Item>
                 <Menu.Item
                     as={NavLink}
-                    to='/admin'
-                    name='admin'
+                    to='/profile'
+                    name='profile'
                 >
-                    Admin
+                    Profile
                 </Menu.Item>
 
                 <Menu.Menu position='right'>

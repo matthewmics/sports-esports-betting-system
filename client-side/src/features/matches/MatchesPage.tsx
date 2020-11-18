@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite'
-import React, { useContext, useEffect, useState } from 'react'
-import { Button, Grid, GridColumn } from 'semantic-ui-react';
+import React, { useContext } from 'react'
+import {  Grid, GridColumn } from 'semantic-ui-react';
 import { IMatch } from '../../app/models/match';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import MatchDetail from './MatchDetails';
@@ -13,20 +13,12 @@ const LIMIT = 5;
 const MatchesPage = () => {
 
     const rootStore = useContext(RootStoreContext);
-    const { loadMatches, matchList, page, setPage, totalPages } = rootStore.matchStore;
-    const [loadingNext, setLoadingNext] = useState(false);
+    const { loadMatches, matchList, page, setPage, totalPages, loadingMatches } = rootStore.matchStore;
 
-    useEffect(() => {
-        if (matchList.length < 1) {
-            setLoadingNext(true);
-            loadMatches().then(() => { setLoadingNext(false) });
-        }
-    }, [loadMatches, matchList.length])
 
     const handleLoadNext = () => {
-        setLoadingNext(true);
         setPage(page + 1);
-        loadMatches().then(() => setLoadingNext(false));
+        loadMatches();
     }
 
     return (
@@ -35,7 +27,7 @@ const MatchesPage = () => {
                 <MatchFilters />
 
                 <InfiniteScroll
-                    hasMore={!loadingNext && (page + 1 < totalPages)}
+                    hasMore={!loadingMatches && (page + 1 < totalPages)}
                     initialLoad={false}
                     loadMore={handleLoadNext}
                     pageStart={0}>
@@ -45,7 +37,7 @@ const MatchesPage = () => {
                     })}
                 </InfiniteScroll>
 
-                {loadingNext &&
+                {loadingMatches &&
                     <MatchPlaceholder total={(LIMIT)} />}
 
             </GridColumn>
