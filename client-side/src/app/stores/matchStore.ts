@@ -5,7 +5,7 @@ import { IMatch } from "../models/match";
 import { IPrediction } from "../models/prediction";
 import { RootStore } from "./rootStore";
 
-const LIMIT: number = 5;
+const LIMIT: number = 6;
 
 export default class MatchStore {
 
@@ -70,13 +70,17 @@ export default class MatchStore {
     this.page = page;
   }
 
-  @action setFilter = (predicate: string, value: string) => {
+  @action setFilter = (predicate: string, value: string, reload = true) => {
     if (this.loadingMatches)
       return;
-    this.page = 0;
-    this.matchRegistry.clear();
+
     this.matchFilters.set(predicate, value);
-    this.loadMatches();
+
+    if (reload) {
+      this.page = 0;
+      this.matchRegistry.clear();
+      this.loadMatches();
+    }
   }
 
   @action loadMatches = async () => {

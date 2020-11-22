@@ -23,7 +23,7 @@ const AdminNavBar = () => {
                     {adminUser?.displayName}
                 </Menu.Item>
                 <Menu.Item>
-                    <div onClick={logout} style={{ fontWeight: 'bold', color: 'black', cursor: 'pointer' }}>LOGOUT</div>
+                    <div onClick={logout} style={{ fontWeight: 'bold', color: 'DarkGray', cursor: 'pointer' }}>LOGOUT</div>
                 </Menu.Item>
             </Menu.Menu>
         </Menu>

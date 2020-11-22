@@ -1,19 +1,52 @@
 .ui.top.fixed.menu {
-    background-image: radial-gradient(circle at center center, rgba(217, 217, 217, 0.05) 0%, rgba(217, 217, 217, 0.05) 15%, rgba(197, 197, 197, 0.05) 15%, rgba(197, 197, 197, 0.05) 34%, rgba(178, 178, 178, 0.05) 34%, rgba(178, 178, 178, 0.05) 51%, rgba(237, 237, 237, 0.05) 51%, rgba(237, 237, 237, 0.05) 75%, rgba(138, 138, 138, 0.05) 75%, rgba(138, 138, 138, 0.05) 89%, rgba(158, 158, 158, 0.05) 89%, rgba(158, 158, 158, 0.05) 100%), radial-gradient(circle at center center, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 6%, rgb(255, 255, 255) 6%, rgb(255, 255, 255) 12%, rgb(255, 255, 255) 12%, rgb(255, 255, 255) 31%, rgb(255, 255, 255) 31%, rgb(255, 255, 255) 92%, rgb(255, 255, 255) 92%, rgb(255, 255, 255) 97%, rgb(255, 255, 255) 97%, rgb(255, 255, 255) 100%);
-    background-size: 42px 42px;
+  background-image: radial-gradient(
+      circle at center center,
+      rgba(217, 217, 217, 0.05) 0%,
+      rgba(217, 217, 217, 0.05) 15%,
+      rgba(197, 197, 197, 0.05) 15%,
+      rgba(197, 197, 197, 0.05) 34%,
+      rgba(178, 178, 178, 0.05) 34%,
+      rgba(178, 178, 178, 0.05) 51%,
+      rgba(237, 237, 237, 0.05) 51%,
+      rgba(237, 237, 237, 0.05) 75%,
+      rgba(138, 138, 138, 0.05) 75%,
+      rgba(138, 138, 138, 0.05) 89%,
+      rgba(158, 158, 158, 0.05) 89%,
+      rgba(158, 158, 158, 0.05) 100%
+    ),
+    radial-gradient(
+      circle at center center,
+      rgb(255, 255, 255) 0%,
+      rgb(255, 255, 255) 6%,
+      rgb(255, 255, 255) 6%,
+      rgb(255, 255, 255) 12%,
+      rgb(255, 255, 255) 12%,
+      rgb(255, 255, 255) 31%,
+      rgb(255, 255, 255) 31%,
+      rgb(255, 255, 255) 92%,
+      rgb(255, 255, 255) 92%,
+      rgb(255, 255, 255) 97%,
+      rgb(255, 255, 255) 97%,
+      rgb(255, 255, 255) 100%
+    );
+  background-size: 42px 42px;
 }
 
 body {
-    background-color: rgb(245, 245, 245) !important;
+  background-color: rgb(245, 245, 245) !important;
 }
 
 .ui.dropdown > i {
-    color: teal;
-    font-size: 21px;
+  color: teal;
+  font-size: 21px;
 }
 
 .fixed-center {
-    position: fixed;
-    left: 50%;
-    transform: translate(-50%, 0);
+  position: fixed;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.float.right {
+  float: right;
 }

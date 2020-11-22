@@ -10,15 +10,15 @@ import { history } from '../..'
 
 const notificationBadgeStyle = {
     backgroundColor: 'red',
-    height: '15px',
-    width: '15px',
+    height: '16px',
+    width: '16px',
     position: 'absolute' as 'absolute',
     right: 15, top: 15,
-    borderRadius: '7px',
+    borderRadius: '8px',
     color: 'white',
     fontSize: '8px',
     textAlign: 'center' as 'center',
-    lineHeight: '15px'
+    lineHeight: '16px'
 };
 
 const NavBar = () => {

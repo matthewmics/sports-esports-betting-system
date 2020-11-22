@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import React from 'react'
+import { NavLink } from 'react-router-dom';
 import { Menu, Input } from 'semantic-ui-react';
 
 const AdminSideBar = () => {
@@ -8,16 +9,21 @@ const AdminSideBar = () => {
             <Menu.Item>
                 <Input placeholder='Search...' />
             </Menu.Item>
-            <Menu.Item content='Dashboard' icon='dashboard' active={true} />
+            <Menu.Item content='Dashboard' icon='dashboard' as={NavLink}
+                to='/admin/dashboard' />
             <Menu.Item>
                 <Menu.Header>Matches</Menu.Header>
 
                 <Menu.Menu>
                     <Menu.Item
-                        name='Upcoming' 
+                        as={NavLink}
+                        to='/admin/matches/upcoming'
+                        name='Upcoming'
                     />
                     <Menu.Item
-                        name='Live' 
+                        as={NavLink}
+                        to='/admin/matches/live'
+                        name='Live'
                     />
                 </Menu.Menu>
             </Menu.Item>
@@ -27,10 +33,10 @@ const AdminSideBar = () => {
 
                 <Menu.Menu>
                     <Menu.Item
-                        name='Upcoming' 
+                        name='Upcoming'
                     />
                     <Menu.Item
-                        name='Live' 
+                        name='Live'
                     />
                 </Menu.Menu>
             </Menu.Item>
@@ -41,6 +47,8 @@ const AdminSideBar = () => {
                 <Menu.Menu>
                     <Menu.Item
                         name='Teams'
+                        as={NavLink}
+                        to='/admin/tables/teams'
                     />
                     <Menu.Item
                         name='Users'

@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import React, { Fragment, useContext, useEffect } from 'react'
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import AdminLoginPage from '../../features/admin/AdminLoginPage';
 import AdminNavBar from '../../features/nav/AdminNavBar';
@@ -9,11 +9,14 @@ import { LoadingComponent } from '../common/LoadingComponent';
 import ModalContainer from '../common/modals/ModalContainer';
 import { RootStoreContext } from '../stores/rootStore';
 import axios from 'axios';
-
+import { Container } from 'semantic-ui-react';
+import { AdminDashboard } from '../../features/admin/AdminDashboard';
+import UpcomingMatchesPage from '../../features/admin/matches/UpcomingMatchesPage';
+import { LiveMatchesPage } from '../../features/admin/matches/LiveMatchesPage';
+import { TeamsPage } from '../../features/admin/tables/TeamsPage';
 
 
 const AdminApp = () => {
-
 
     axios.interceptors.request.use(
         (config) => {
@@ -21,7 +24,7 @@ const AdminApp = () => {
             if (token) {
                 config.headers.Authorization = "Bearer " + token;
             }
-    
+
             return config;
         },
         (error) =>
@@ -44,6 +47,9 @@ const AdminApp = () => {
             <ToastContainer position='bottom-right' />
 
             <Switch>
+                <Route exact path='/admin'>
+                    <Redirect to='/admin/dashboard'/>
+                </Route>
                 <Route exact path='/admin/login' component={AdminLoginPage} />
 
                 <Route render={() => {
@@ -51,7 +57,17 @@ const AdminApp = () => {
                         <Fragment>
                             <AdminSideBar />
                             <AdminNavBar />
-                        </Fragment>
+
+                            <Container fluid style={{ paddingTop: '6em', paddingLeft: '17em', paddingRight: '2em    ' }}>
+                                <Switch>
+                                    <Route path='/admin/dashboard' component={AdminDashboard} />
+                                    <Route path='/admin/matches/upcoming' component={UpcomingMatchesPage} />
+                                    <Route path='/admin/matches/live' component={LiveMatchesPage} />
+                                    <Route path='/admin/tables/teams' component={TeamsPage} />
+                                    <Route render={() => <p>ERROR 404</p>} />
+                                </Switch>
+                            </Container>
+                            </Fragment>
                     )
                 }} />
             </Switch>
