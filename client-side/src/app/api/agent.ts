@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { history } from "../..";
 import { IMatch, IMatchEnvelope } from "../models/match";
 import { IActivePrediction, IPredictionDetails } from "../models/prediction";
+import { ITeamEnvelope } from "../models/team";
 import { IUser, IUserAdmin, IUserFormValues } from "../models/user";
 
 axios.defaults.baseURL = "http://localhost:5000/api";
@@ -49,7 +50,7 @@ const requests = {
     axios.delete(url).then(sleep(1000)).then(responseBody),
 };
 
-export const Matches = {
+const Matches = {
   list: (urlParams: URLSearchParams): Promise<IMatchEnvelope> =>
     axios.get(`/matches`, { params: urlParams })
       .then(sleep(1000))
@@ -75,7 +76,7 @@ export const Matches = {
       requests.get(`/matches/${matchId}/predictions/${predictionId}/details`),
 };
 
-export const User = {
+const User = {
   login: (formValues: IUserFormValues): Promise<IUser> =>
     requests.post('/user/login', formValues),
   adminLogin: (formValues: IUserFormValues): Promise<IUserAdmin> =>
@@ -86,8 +87,13 @@ export const User = {
   currentAdmin: (): Promise<IUser> => requests.get('/user/admin'),
 };
 
+const Teams = {
+  get: (urlParams: URLSearchParams): Promise<ITeamEnvelope> =>
+    axios.get(`/teams`, { params: urlParams }).then(sleep(500)).then(responseBody)
+}
+
 const agent = {
-  Matches, User
+  Matches, User, Teams
 }
 
 export default agent;
