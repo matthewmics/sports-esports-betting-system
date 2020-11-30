@@ -9,6 +9,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.Extensions.Logging;
+using Domain;
+using Application.Team;
 
 namespace API.Controllers
 {
@@ -26,7 +28,7 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult> List(int? limit, int? offset, string q, string sortBy, string orderBy)
         {
-            System.Linq.Expressions.Expression<Func<Models.Team, object>> 
+            System.Linq.Expressions.Expression<Func<Team, object>> 
                 sortAs = sortBy switch
             {
                 "createdAt" => x => x.CreatedAt,

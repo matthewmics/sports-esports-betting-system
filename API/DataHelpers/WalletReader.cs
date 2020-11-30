@@ -1,7 +1,7 @@
-﻿using API.Data;
-using API.Interfaces;
-using API.Models;
+﻿using API.Interfaces;
+using Domain;
 using Microsoft.EntityFrameworkCore;
+using Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;

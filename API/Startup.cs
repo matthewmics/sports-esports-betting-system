@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using API.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -13,7 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using AutoMapper;
-using API.Models;
+using Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -23,6 +22,8 @@ using API.Interfaces;
 using API.DataHelpers;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
+using MediatR;
+using Persistence;
 
 namespace API
 {
@@ -83,7 +84,8 @@ namespace API
                     //};
                 });
 
-            services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(typeof(Application.Match.List));
+            services.AddMediatR(typeof(Application.Match.List).Assembly);
 
             services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
             services.AddScoped<IUserAccessor, UserAccessor>();

@@ -1,5 +1,5 @@
 ﻿using API.Dtos;
-using API.Models;
+using Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;

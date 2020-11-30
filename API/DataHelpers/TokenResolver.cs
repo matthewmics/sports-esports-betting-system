@@ -1,6 +1,6 @@
 ﻿using API.Dtos;
 using API.Interfaces;
-using API.Models;
+using Domain;
 using AutoMapper;
 using Microsoft.Extensions.Configuration;
 using System;
