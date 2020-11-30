@@ -11,6 +11,9 @@ namespace API.Data
 {
     public class Seed
     {
+
+        private static readonly Random _rand = new Random();
+
         private class SeedUserModel
         {
             [JsonPropertyName("userName")]
@@ -38,6 +41,7 @@ namespace API.Data
 
             foreach (var team in dataSeed.Teams)
             {
+                team.CreatedAt = DateTime.Now.AddDays(-_rand.Next(10, 50));
                 ctx.Add(team);
             }
 
@@ -79,12 +83,11 @@ namespace API.Data
             var dotaTeams = teams.Take(20).ToList();
             var csgoTeams = teams.Skip(20).Take(7).ToList();
 
-            Random rand = new Random();
             for (var i = 0; i < 10; i++)
             {
                 dotaTeams.Shuffle();
                 var eventName = i < 5 ? "StarLadder ImbaTV Dota 2 Minor" : "ONE Esports Dota 2";
-                var days = rand.Next(1, 6);
+                var days = _rand.Next(1, 6);
                 var match = new Match
                 {
                     Series = 3,
@@ -102,7 +105,7 @@ namespace API.Data
             {
                 csgoTeams.Shuffle();
                 var eventName = i < 3 ? "DreamHack Open Winter" : "BLAST Premier";
-                var days = rand.Next(1, 6);
+                var days = _rand.Next(1, 6);
                 var match = new Match
                 {
                     Series = 3,
