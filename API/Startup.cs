@@ -21,6 +21,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using API.Security;
 using API.Interfaces;
 using API.DataHelpers;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 namespace API
 {
@@ -97,6 +99,12 @@ namespace API
             }
 
             //app.UseHttpsRedirection();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                Path.Combine(env.ContentRootPath, "Uploads")),
+                RequestPath = "/files"
+            });
 
             app.UseRouting();
 
