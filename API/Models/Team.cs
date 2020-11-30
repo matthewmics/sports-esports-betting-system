@@ -12,6 +12,7 @@ namespace API.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Image { get; set; }
+        public DateTime CreatedAt { get; set; }
         public ICollection<Match> TeamAMatches { get; set; }
         public ICollection<Match> TeamBMatches { get; set; }
     }
