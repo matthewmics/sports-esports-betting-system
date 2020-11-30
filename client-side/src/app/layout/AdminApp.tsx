@@ -13,7 +13,8 @@ import { Container } from 'semantic-ui-react';
 import { AdminDashboard } from '../../features/admin/AdminDashboard';
 import UpcomingMatchesPage from '../../features/admin/matches/UpcomingMatchesPage';
 import { LiveMatchesPage } from '../../features/admin/matches/LiveMatchesPage';
-import { TeamsPage } from '../../features/admin/tables/TeamsPage';
+import TeamsPage from '../../features/admin/tables/Team/TeamsPage';
+import TeamForm from '../../features/admin/tables/Team/TeamForm';
 
 
 const AdminApp = () => {
@@ -48,7 +49,7 @@ const AdminApp = () => {
 
             <Switch>
                 <Route exact path='/admin'>
-                    <Redirect to='/admin/dashboard'/>
+                    <Redirect to='/admin/dashboard' />
                 </Route>
                 <Route exact path='/admin/login' component={AdminLoginPage} />
 
@@ -63,11 +64,14 @@ const AdminApp = () => {
                                     <Route path='/admin/dashboard' component={AdminDashboard} />
                                     <Route path='/admin/matches/upcoming' component={UpcomingMatchesPage} />
                                     <Route path='/admin/matches/live' component={LiveMatchesPage} />
+
+                                    <Route path='/admin/tables/teams/create' component={TeamForm} />
                                     <Route path='/admin/tables/teams' component={TeamsPage} />
+
                                     <Route render={() => <p>ERROR 404</p>} />
                                 </Switch>
                             </Container>
-                            </Fragment>
+                        </Fragment>
                     )
                 }} />
             </Switch>
