@@ -1,4 +1,4 @@
-﻿using API.Interfaces;
+﻿using Application.Interfaces;
 using Domain;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace API.DataHelpers
+namespace Application.DataHelpers
 {
     public class WalletReader : IWalletReader
     {

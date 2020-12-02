@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <Folder Include="Configs\" />
+    <Folder Include="Middleware\" />
     <Folder Include="Uploads\" />
   </ItemGroup>
 

@@ -1,5 +1,4 @@
-﻿using API.Dtos;
-using API.Interfaces;
+﻿using Application.Interfaces;
 using Domain;
 using AutoMapper;
 using Microsoft.Extensions.Configuration;
@@ -8,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace API.DataHelpers
+namespace Application.DataHelpers
 {
     public class TokenResolver : IValueResolver<AppUser, BaseUser, string>
     {

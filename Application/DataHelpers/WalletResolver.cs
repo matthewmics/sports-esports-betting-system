@@ -1,15 +1,14 @@
-﻿using API.Dtos;
-using Domain;
+﻿using Domain;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using API.Interfaces;
+using Application.Interfaces;
 using Persistence;
 
-namespace API.DataHelpers
+namespace Application.DataHelpers
 {
     public class WalletResolver : IValueResolver<AppUser, UserDto, decimal>
     {

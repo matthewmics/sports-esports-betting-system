@@ -5,7 +5,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace API.Interfaces
+
+namespace Application.Interfaces
 {
     public interface IWalletReader
     {
