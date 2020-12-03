@@ -8,15 +8,15 @@ namespace API.Controllers
     {
 
         [HttpGet]
-        public async Task<Application.Match.MatchEnvelope> List(int? offset, int? limit, string game)
+        public async Task<Application.Match.MatchEnvelope> List([FromQuery] Application.Match.List.Query query)
         {
-            return await Mediator.Send(new Application.Match.List.Query(limit, offset, game));
+            return await Mediator.Send(query);
         }
 
         [HttpGet("{id}")]
-        public async Task<MatchDto> Get(int id)
+        public async Task<MatchDto> Get([FromRoute] Application.Match.Get.Query query)
         {
-            return await Mediator.Send(new Application.Match.Get.Query(id));
+            return await Mediator.Send(query);
         }
 
 

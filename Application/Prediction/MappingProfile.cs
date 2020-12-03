@@ -12,6 +12,7 @@ namespace Application.Prediction
         public MappingProfile()
         {
             CreateMap<Domain.Prediction, PredictionDto>();
+            CreateMap<UserPrediction, ActivePredictionDto>();
         }
     }
 }

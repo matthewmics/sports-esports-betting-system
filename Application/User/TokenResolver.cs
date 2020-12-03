@@ -2,12 +2,9 @@
 using Domain;
 using AutoMapper;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Application.User;
 
-namespace Application.DataHelpers
+namespace Application.User
 {
     public class TokenResolver : IValueResolver<AppUser, BaseUser, string>
     {

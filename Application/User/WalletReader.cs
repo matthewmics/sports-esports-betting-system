@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Application.DataHelpers
+namespace Application.User
 {
     public class WalletReader : IWalletReader
     {

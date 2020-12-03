@@ -21,12 +21,6 @@ namespace Application.Prediction
             public int MatchId { get; set; }
             public int PredictionId { get; set; }
 
-            public Query(int matchId, int predictionId)
-            {
-                MatchId = MatchId;
-                PredictionId = predictionId;
-            }
-
         }
 
         public class Handler : IRequestHandler<Query, PredictionDetailsDto>

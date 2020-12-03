@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Application.Interfaces;
 using Persistence;
+using Application.User;
 
-namespace Application.DataHelpers
+namespace Application.User
 {
     public class WalletResolver : IValueResolver<AppUser, UserDto, decimal>
     {

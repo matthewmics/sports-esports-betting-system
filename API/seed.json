@@ -2,15 +2,18 @@
   "teams": [
     {
       "Id": 1,
-      "Name": "Team Secret"
+      "Name": "Team Secret",
+      "Image":  "teamsecret.png"
     },
     {
       "Id": 2,
-      "Name": "Team Nigma"
+      "Name": "Team Nigma",
+      "Image": "nigma.png"
     },
     {
       "Id": 3,
-      "Name": "Virtus Pro"
+      "Name": "Virtus Pro",
+      "Image": "virtuspro.png"
     },
     {
       "Id": 4,

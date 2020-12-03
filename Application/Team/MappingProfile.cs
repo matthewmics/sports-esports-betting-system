@@ -11,7 +11,8 @@ namespace Application.Team
     {
         public MappingProfile()
         {
-            CreateMap<Domain.Team, TeamDto>();
+            CreateMap<Domain.Team, TeamDto>()
+                .ForMember(x => x.Image, x => x.MapFrom<ImageResolver>());
         }
     }
 }

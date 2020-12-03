@@ -18,14 +18,6 @@ namespace Application.Match
             public int? Limit { get; set; }
             public int? Offset { get; set; }
             public string Game { get; set; }
-
-            public Query(int? limit, int? offset, string game)
-            {
-                Limit = limit;
-                Offset = offset;
-                Game = game;
-            }
-
         }
 
         public class Handler : IRequestHandler<Query, MatchEnvelope>

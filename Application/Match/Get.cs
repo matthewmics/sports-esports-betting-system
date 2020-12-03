@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Application.Errors;
+using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -16,10 +17,6 @@ namespace Application.Match
         public class Query : IRequest<MatchDto>
         {
             public int Id { get; set; }
-            public Query(int id)
-            {
-                Id = id;
-            }
 
         }
 
@@ -44,8 +41,8 @@ namespace Application.Match
                 .Include(x => x.Game)
                 .SingleOrDefaultAsync(x => x.Id == request.Id);
 
-                //if (match == null)
-                //    return NotFound(new { error = "match not found" });
+                if (match == null)
+                    throw new RestException(System.Net.HttpStatusCode.NotFound, new { Match = "Match not found" });
 
                 var matchToReturn = _mapper.Map<MatchDto>(match);
 

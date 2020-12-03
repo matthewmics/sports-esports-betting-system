@@ -1,16 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using AutoMapper;
 using Domain;
 using Microsoft.AspNetCore.Identity;
@@ -23,6 +16,11 @@ using Microsoft.Extensions.FileProviders;
 using System.IO;
 using MediatR;
 using Persistence;
+using Infrastrucure.Security;
+using Application.User;
+using API.Middleware;
+using Infrastructure.Photos;
+using FluentValidation.AspNetCore;
 
 namespace API
 {
@@ -43,7 +41,11 @@ namespace API
             {
                 opt.UseMySQL(Configuration.GetConnectionString("DefaultConnection"));
             });
-            services.AddControllers();
+            services.AddControllers()
+                .AddFluentValidation(cfg =>
+                {
+                    cfg.RegisterValidatorsFromAssemblyContaining<Application.Team.Create>();
+                });
 
             var builder = services.AddIdentityCore<AppUser>(opt =>
             {
@@ -67,20 +69,6 @@ namespace API
                         ValidateAudience = false,
                         ValidateIssuer = false
                     };
-
-                    //opt.Events = new JwtBearerEvents
-                    //{
-                    //    OnMessageReceived = context =>
-                    //    {
-                    //        var accesstoken = context.Request.Query["access_token"];
-                    //        var path = context.HttpContext.Request.Path;
-                    //        if (!string.IsNullOrEmpty(accesstoken) && (path.StartsWithSegments("/chat")))
-                    //        {
-                    //            context.Token = accesstoken;
-                    //        }
-                    //        return Task.CompletedTask;
-                    //    }
-                    //};
                 });
 
             services.AddAutoMapper(typeof(Application.Match.List));
@@ -89,22 +77,25 @@ namespace API
             services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
             services.AddScoped<IUserAccessor, UserAccessor>();
             services.AddScoped<IWalletReader, WalletReader>();
+            services.AddScoped<IPhotoAccessor, PhotoAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
 
+            app.UseMiddleware<ErrorHandlingMiddleware>();
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseDeveloperExceptionPage();
+            //}
             //app.UseHttpsRedirection();
+
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(
                 Path.Combine(env.ContentRootPath, "Uploads")),
-                RequestPath = "/files"
+                RequestPath = "/commons"
             });
 
             app.UseRouting();

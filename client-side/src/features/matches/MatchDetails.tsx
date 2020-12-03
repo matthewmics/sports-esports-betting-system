@@ -26,8 +26,8 @@ const MatchDetail: React.FC<IProps> = ({
                 <Grid columns={3} stackable textAlign='center'>
                     <Grid.Row verticalAlign='middle'>
                         <Grid.Column>
-                            <Image src='/assets/noimage.png' centered
-                                size='tiny' />
+                            <Image src={match.teamA.image || '/assets/noimage.png'} centered
+                                size='tiny' style={{marginBottom: '7px'}}/>
                             {match.teamA.name}
                         </Grid.Column>
                         <Grid.Column width={2}>
@@ -35,8 +35,8 @@ const MatchDetail: React.FC<IProps> = ({
                             <Label content={`BO${match.series}`} />
                         </Grid.Column>
                         <Grid.Column>
-                            <Image src='/assets/noimage.png' centered
-                                size='tiny' />
+                            <Image src={match.teamB.image || '/assets/noimage.png'} centered
+                                size='tiny' style={{marginBottom: '7px'}}/>
                             {match.teamB.name}
                         </Grid.Column>
                     </Grid.Row>

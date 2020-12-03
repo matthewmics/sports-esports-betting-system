@@ -1,117 +1,42 @@
-﻿using API.Dtos;
-using Domain;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using API.Interfaces;
-using Microsoft.Extensions.Configuration;
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Application.User;
 
 namespace API.Controllers
 {
     public class UserController : BaseController
     {
-        private readonly SignInManager<AppUser> _signInManager;
-        private readonly UserManager<AppUser> _userManager;
-        private readonly IUserAccessor _userAccessor;
-        private readonly IMapper _mapper;
-
-        public UserController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, IUserAccessor userAccessor,
-            IMapper mapper)
-        {
-            _signInManager = signInManager;
-            _userManager = userManager;
-            _userAccessor = userAccessor;
-            _mapper = mapper;
-        }
-
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult> CurrentUser()
+        public async Task<UserDto> CurrentUser()
         {
-            var user = await _userManager.FindByNameAsync(_userAccessor.GetCurrentUsername());
-            return Ok(_mapper.Map<UserDto>(user));
+            return await Mediator.Send(new GetCurrent.Query());
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult> Register(UserRegisterDto user)
+        public async Task<UserDto> Register(Register.Command command)
         {
-            if (await Context.Users.AnyAsync(u => u.Email == user.Email))
-                return BadRequest(new { error = "Email already exists" });
-            if (await Context.Users.AnyAsync(u => u.UserName == user.Username))
-                return BadRequest(new { error = "Username already exists" });
-
-            var userToCreate = new AppUser
-            {
-                UserName = user.Username,
-                Email = user.Email,
-                DisplayName = user.DisplayName
-            };
-
-            var result = await _userManager.CreateAsync(userToCreate, user.Password);
-            if (result.Succeeded)
-            {
-                Context.Customers.Add(new Customer { AppUser = userToCreate });
-                await Context.SaveChangesAsync();
-                return Ok(_mapper.Map<UserDto>(userToCreate));
-            }
-
-            throw new Exception("Problem creating user");
+            return await Mediator.Send(command);
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult> Login([FromBody] UserLoginDto user)
+        public async Task<UserDto> Login(Login.Query query)
         {
-            var userInDb = await _userManager.FindByEmailAsync(user.Email);
-
-            if (
-                userInDb == null ||
-                !(await Context.Customers.AnyAsync(x => x.AppUserId == userInDb.Id))
-               )
-                return Unauthorized();
-
-            var result = await _signInManager.CheckPasswordSignInAsync(userInDb, user.Password, false);
-
-            if (result.Succeeded)
-            {
-                return Ok(_mapper.Map<UserDto>(userInDb));
-            }
-
-            return Unauthorized("Invalid email or password");
+            return await Mediator.Send(query);
         }
 
         [HttpPost("admin/login")]
-        public async Task<ActionResult> AdminLogin([FromBody] UserLoginDto user)
+        public async Task<AdminDto> AdminLogin(AdminLogin.Query query)
         {
-            var userInDb = await _userManager.FindByEmailAsync(user.Email);
-
-            if (
-                userInDb == null ||
-                !(await Context.Admins.AnyAsync(x => x.AppUserId == userInDb.Id))
-               )
-                return Unauthorized();
-
-            var result = await _signInManager.CheckPasswordSignInAsync(userInDb, user.Password, false);
-
-            if (result.Succeeded)
-            {
-                return Ok(_mapper.Map<AdminDto>(userInDb));
-            }
-
-            return Unauthorized("Invalid email or password");
+            return await Mediator.Send(query);
         }
 
         [HttpGet("admin")]
         [Authorize]
-        public async Task<ActionResult> CurrentAdminUser()
+        public async Task<AdminDto> CurrentAdminUser()
         {
-            var user = await _userManager.FindByNameAsync(_userAccessor.GetCurrentUsername());
-            return Ok(_mapper.Map<AdminDto>(user));
+            return await Mediator.Send(new GetCurrentAdmin.Query());
         }
     }
 }

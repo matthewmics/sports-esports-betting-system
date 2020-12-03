@@ -13,13 +13,13 @@ namespace API.Controllers
         [HttpGet("{matchId}/predictions/{predictionId}/details")]
         public async Task<PredictionDetailsDto> PredictionDetails(int matchId, int predictionId)
         {
-            return await Mediator.Send(new Application.Prediction.Details.Query(matchId, predictionId));
+            return await Mediator.Send(new Application.Prediction.Details.Query { MatchId = matchId, PredictionId = predictionId});
         }
 
         [Authorize]
         [HttpPost("{matchId}/predictions/{predictionId}/predict")]
-        public async Task<ActionResult<ActivePredictionDto>> Predict(int matchId, int predictionId, 
-            Application.Prediction.Predict.Command command)
+        public async Task<ActionResult<ActivePredictionDto>> Predict(int matchId, int predictionId,
+            [FromBody] Application.Prediction.Predict.Command command)
         {
             command.MatchId = matchId;
             command.PredictionId = predictionId;
@@ -29,7 +29,7 @@ namespace API.Controllers
         [Authorize]
         [HttpPut("{matchId}/predictions/{predictionId}/predict")]
         public async Task<ActionResult<ActivePredictionDto>> UpdatePrediction(int matchId, int predictionId, 
-            Application.Prediction.Predict.Command command)
+            [FromBody] Application.Prediction.Predict.Command command)
         {
             command.MatchId = matchId;
             command.PredictionId = predictionId;
