@@ -45,7 +45,8 @@ namespace Application.Team
             {
                 var photoUpload = _photoAccessor.UploadPhoto(request.File);
                 if (!photoUpload.IsSuccess)
-                    throw new Exception("Something went wrong while uploading photo");
+                    throw new RestException(System.Net.HttpStatusCode.BadRequest, 
+                        new { Photo = "Photo should be less than 4 MB and saved as JPG or PNG" });
 
                 var team = await _context.Teams.FirstOrDefaultAsync(x => x.Name == request.Name);
                 if (team != null)
