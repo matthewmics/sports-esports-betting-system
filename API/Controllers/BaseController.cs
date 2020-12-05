@@ -14,10 +14,6 @@ namespace API.Controllers
     [ApiController]
     public class BaseController : ControllerBase
     {
-        private DataContext _context;
-        protected DataContext Context => _context ??= HttpContext.RequestServices.GetService<DataContext>();
-
-
         private IMediator _mediator;
         protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
 

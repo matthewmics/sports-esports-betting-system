@@ -76,6 +76,7 @@ const RegisterForm = () => {
                             loading={loading} />
                         <Button content='CANCEL'
                             floated='right'
+                            type='button'
                             onClick={closeModal} />
                     </Form>
                 )

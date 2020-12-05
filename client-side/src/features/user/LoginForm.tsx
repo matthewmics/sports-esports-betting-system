@@ -46,6 +46,7 @@ const LoginForm = () => {
                             disabled={!valid && (!dirtySinceLastSubmit || pristine)}
                             loading={loading} />
                         <Button content='CANCEL'
+                            type='button'
                             floated='right'
                             onClick={closeModal} />
                     </Form>
