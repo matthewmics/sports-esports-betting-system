@@ -9,3 +9,8 @@ export interface ITeamEnvelope {
     teams: ITeam[];
     teamCount: number;
 }
+
+export interface ITeamFormValues {
+    name: string;
+    file?: Blob;
+}

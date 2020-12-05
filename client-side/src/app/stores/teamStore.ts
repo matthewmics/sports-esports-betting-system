@@ -1,6 +1,8 @@
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
+import { toast } from "react-toastify";
+import { history } from "../..";
 import agent from "../api/agent";
-import { ITeam } from "../models/team";
+import { ITeam, ITeamFormValues } from "../models/team";
 
 export default class TeamStore {
 
@@ -61,6 +63,21 @@ export default class TeamStore {
             console.log(error);
         } finally {
             runInAction(() => {
+                this.loading = false;
+            })
+        }
+    }
+
+    @action createTeam = async (formValues: ITeamFormValues) => {
+        this.loading = true;
+        try {
+            await agent.Teams.create(formValues);
+            toast.success("Team successfully created");
+            history.push('/admin/tables/teams')
+        } catch (error) {
+            throw error;
+        } finally {
+            runInAction(()=>{
                 this.loading = false;
             })
         }
