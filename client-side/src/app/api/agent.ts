@@ -1,9 +1,10 @@
 import axios, { AxiosResponse } from "axios";
+import { values } from "mobx";
 import { toast } from "react-toastify";
 import { history } from "../..";
 import { IMatch, IMatchEnvelope } from "../models/match";
 import { IActivePrediction, IPredictionDetails } from "../models/prediction";
-import { ITeamEnvelope } from "../models/team";
+import { ITeamEnvelope, ITeamFormValues } from "../models/team";
 import { IUser, IUserAdmin, IUserFormValues } from "../models/user";
 
 axios.defaults.baseURL = "http://localhost:5000/api";
@@ -28,7 +29,10 @@ axios.interceptors.response.use(undefined, error => {
     history.push("/notfound");
     toast.error("You have sent an invalid request.");
   }
-
+  if (status === 500) {
+    toast.error("We could not process your request at the moment.");
+    return;
+  }
   throw error.response;
 
 })
@@ -41,19 +45,19 @@ const sleep = (ms: number) => (response: AxiosResponse) =>
   );
 
 const requests = {
-  get: (url: string) => axios.get(url).then(sleep(1000)).then(responseBody),
+  get: (url: string) => axios.get(url).then(sleep(500)).then(responseBody),
   post: (url: string, body: {}) =>
-    axios.post(url, body).then(sleep(1000)).then(responseBody),
+    axios.post(url, body).then(sleep(500)).then(responseBody),
   put: (url: string, body: {}) =>
-    axios.put(url, body).then(sleep(1000)).then(responseBody),
+    axios.put(url, body).then(sleep(500)).then(responseBody),
   delete: (url: string) =>
-    axios.delete(url).then(sleep(1000)).then(responseBody),
+    axios.delete(url).then(sleep(500)).then(responseBody),
 };
 
 const Matches = {
   list: (urlParams: URLSearchParams): Promise<IMatchEnvelope> =>
     axios.get(`/matches`, { params: urlParams })
-      .then(sleep(1000))
+      .then(sleep(500))
       .then(responseBody),
   get: (id: number): Promise<IMatch> => requests.get(`/matches/${id}`),
   predict: (matchId: number, predictionId: number, teamId: number, amount: number)
@@ -89,7 +93,15 @@ const User = {
 
 const Teams = {
   get: (urlParams: URLSearchParams): Promise<ITeamEnvelope> =>
-    axios.get(`/teams`, { params: urlParams }).then(sleep(500)).then(responseBody)
+    axios.get(`/teams`, { params: urlParams }).then(sleep(500)).then(responseBody),
+  create: (formValues: ITeamFormValues): Promise<void> => {
+    const formData = new FormData();
+    if (formValues.file)
+      formData.append("file", formValues.file)
+    formData.append("name", formValues.name)
+    return axios.post(`/teams`, formData, { headers: { "Content-type": "multipart/form-data" } })
+      .then(sleep(500)).then(responseBody)
+  }
 }
 
 const agent = {
