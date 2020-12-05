@@ -16,7 +16,13 @@ namespace Infrastructure.Photos
             string fileName;
             try
             {
-                var extension = "." + file.FileName.Split('.')[file.FileName.Split('.').Length - 1].ToLower();
+
+                string extension = file.ContentType switch
+                {
+                    "image/png" => ".png",
+                    "image/jpeg" => ".jpg",
+                    _ => null
+                };
 
                 if (file.Length > 4_000_000 || (extension != ".png" && extension != ".jpg"))
                 {
