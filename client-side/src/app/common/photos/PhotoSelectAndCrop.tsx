@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import React, { Fragment, useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { useDropzone } from 'react-dropzone';
-import { Button, Grid, Header, Icon, Segment } from 'semantic-ui-react';
+import { Button, Header, Icon, Segment } from 'semantic-ui-react';
 import { RootStoreContext } from '../../stores/rootStore';
 import Cropper from 'react-cropper'
 import 'cropperjs/dist/cropper.css'
@@ -28,14 +28,14 @@ const PhotoSelectAndCrop: React.FC<IProps> = ({ onImageSet }) => {
     const { closeModal } = rootStore.modalStore;
 
     let resultFile: Blob | null = null;
+    const [files, setFiles] = useState<any[]>([]);
 
     useEffect(() => {
         return (() => {
             files.forEach((file: any) => URL.revokeObjectURL(file.preview));
         });
-    }, []);
+    }, [files]);
 
-    const [files, setFiles] = useState<any[]>([]);
 
     const onDrop = useCallback(acceptedFiles => {
         setFiles(acceptedFiles.map((file: object) => Object.assign(file, {
