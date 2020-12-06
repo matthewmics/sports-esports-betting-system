@@ -12,6 +12,7 @@ export default class TeamStore {
     @observable teamCount = 0;
     @observable limit = 10;
     @observable filters = new Map();
+    @observable selectedTeam: ITeam | null = null;
 
     constructor() {
         makeObservable(this);
@@ -54,7 +55,7 @@ export default class TeamStore {
     @action loadTeams = async () => {
         this.loading = true;
         try {
-            const teamsEnvelope = await agent.Teams.get(this.urlParams);
+            const teamsEnvelope = await agent.Teams.list(this.urlParams);
             runInAction(() => {
                 this.teams = teamsEnvelope.teams;
                 this.teamCount = teamsEnvelope.teamCount;
@@ -77,9 +78,24 @@ export default class TeamStore {
         } catch (error) {
             throw error;
         } finally {
-            runInAction(()=>{
+            runInAction(() => {
                 this.loading = false;
             })
+        }
+    }
+
+    @action selectTeam = async (id: number) => {
+        if (this.teams)
+            this.selectedTeam = this.teams.filter(x => x.id === id)[0];
+        else {
+            try {
+                const team = await agent.Teams.get(id);
+                runInAction(() => {
+                    this.selectedTeam = team;
+                })
+            } catch (error) {
+                throw error;
+            }
         }
     }
 

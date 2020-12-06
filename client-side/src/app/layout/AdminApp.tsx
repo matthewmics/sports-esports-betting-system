@@ -14,7 +14,9 @@ import { AdminDashboard } from '../../features/admin/AdminDashboard';
 import UpcomingMatchesPage from '../../features/admin/matches/UpcomingMatchesPage';
 import { LiveMatchesPage } from '../../features/admin/matches/LiveMatchesPage';
 import TeamsPage from '../../features/admin/tables/Team/TeamsPage';
-import TeamForm from '../../features/admin/tables/Team/TeamForm';
+import TeamCreate from '../../features/admin/tables/Team/TeamCreate';
+import TeamDetails from '../../features/admin/tables/Team/TeamDetails';
+import TeamEdit from '../../features/admin/tables/Team/TeamEdit';
 
 
 const AdminApp = () => {
@@ -65,7 +67,9 @@ const AdminApp = () => {
                                     <Route path='/admin/matches/upcoming' component={UpcomingMatchesPage} />
                                     <Route path='/admin/matches/live' component={LiveMatchesPage} />
 
-                                    <Route path='/admin/tables/teams/create' component={TeamForm} />
+                                    <Route path='/admin/tables/teams/create' component={TeamCreate} />
+                                    <Route path='/admin/tables/teams/:id/edit' component={TeamEdit} />
+                                    <Route path='/admin/tables/teams/:id' component={TeamDetails} />
                                     <Route path='/admin/tables/teams' component={TeamsPage} />
 
                                     <Route render={() => <p>ERROR 404</p>} />
