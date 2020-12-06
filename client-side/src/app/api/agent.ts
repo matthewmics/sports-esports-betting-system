@@ -1,5 +1,4 @@
 import axios, { AxiosResponse } from "axios";
-import { values } from "mobx";
 import { toast } from "react-toastify";
 import { history } from "../..";
 import { IMatch, IMatchEnvelope } from "../models/match";
@@ -92,8 +91,10 @@ const User = {
 };
 
 const Teams = {
-  get: (urlParams: URLSearchParams): Promise<ITeamEnvelope> =>
+  list: (urlParams: URLSearchParams): Promise<ITeamEnvelope> =>
     axios.get(`/teams`, { params: urlParams }).then(sleep(500)).then(responseBody),
+  get: (id: number) =>
+    requests.get(`/teams/${id}`),
   create: (formValues: ITeamFormValues): Promise<void> => {
     const formData = new FormData();
     if (formValues.file)
