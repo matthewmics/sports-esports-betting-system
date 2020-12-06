@@ -5,7 +5,7 @@ import { Menu, Input } from 'semantic-ui-react';
 
 const AdminSideBar = () => {
     return (
-        <Menu fixed='left' vertical style={{ height: '100vh', paddingTop: '5rem', overflowY: 'auto' }}>
+        <Menu fixed='left' id='sideBar' vertical style={{ overflowY: 'auto' }}>
             <Menu.Item>
                 <Input placeholder='Search...' />
             </Menu.Item>

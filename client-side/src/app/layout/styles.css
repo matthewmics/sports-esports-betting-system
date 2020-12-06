@@ -50,3 +50,8 @@ body {
 .float.right {
   float: right;
 }
+
+#sideBar {
+  height: calc(100vh - 4.6rem);
+  margin-top: 4.6rem;
+}
