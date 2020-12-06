@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite'
 import React, { useState } from 'react'
-import { Table, Popup, Button, Icon, Menu, Pagination } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
+import { Table, Popup, Button, Icon, Pagination } from 'semantic-ui-react'
 import { IColumnHeader } from '../../../../app/models/tableColumn'
 import { ITeam } from '../../../../app/models/team'
 
@@ -57,11 +58,11 @@ const TeamsTable: React.FC<IProps> = ({ teams, totalPage, page, setPage, handleS
                 {teams &&
                     teams.map(team =>
                         <Table.Row key={team.id}>
-                            <Table.Cell>{team.name}</Table.Cell>
+                            <Table.Cell><Link to={`teams/${team.id}`} >{team.name}</Link></Table.Cell>
                             <Table.Cell>{team.createdAt}</Table.Cell>
                             <Table.Cell>
-                                <Popup content='Modify' trigger={<Button icon size='tiny' primary>
-                                    <Icon name='edit' />
+                                <Popup content='Delete' trigger={<Button icon size='tiny' color='red'>
+                                    <Icon name='trash' />
                                 </Button>} />
                             </Table.Cell>
                         </Table.Row>
