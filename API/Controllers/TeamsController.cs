@@ -6,6 +6,7 @@ using System.IO;
 using Microsoft.Extensions.Logging;
 using Application.Team;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
@@ -24,9 +25,18 @@ namespace API.Controllers
             return await Mediator.Send(query);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<Unit> Create([FromForm] Application.Team.Create.Command command)
         {
+            return await Mediator.Send(command);
+        }
+
+        [Authorize]
+        [HttpPost("{id}/changeimage")]
+        public async Task<Unit> ChangeImage(int id, [FromForm] Application.Team.ChangeImage.Command command)
+        {
+            command.Id = id;
             return await Mediator.Send(command);
         }
 
