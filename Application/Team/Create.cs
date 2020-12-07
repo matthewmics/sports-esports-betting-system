@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using Application.Photo;
 
 namespace Application.Team
 {
@@ -18,7 +19,7 @@ namespace Application.Team
         {
             public IFormFile File { get; set; }
 
-            public string Name { get; set; }    
+            public string Name { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -26,7 +27,6 @@ namespace Application.Team
             public CommandValidator()
             {
                 RuleFor(x => x.Name).NotEmpty();
-                RuleFor(x => x.File).NotEmpty();
             }
         }
 
@@ -43,20 +43,28 @@ namespace Application.Team
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var photoUpload = _photoAccessor.UploadPhoto(request.File);
-                if (!photoUpload.IsSuccess)
-                    throw new RestException(System.Net.HttpStatusCode.BadRequest, 
-                        new { Photo = "Photo should be less than 4 MB and saved as JPG or PNG" });
+                PhotoUploadResult photoUpload;
+                if (request.File != null)
+                {
+                    photoUpload = _photoAccessor.UploadPhoto(request.File);
+                    if (!photoUpload.IsSuccess)
+                        throw new RestException(System.Net.HttpStatusCode.BadRequest,
+                            new { Photo = "Photo should be less than 4 MB and saved as JPG or PNG" });
+                }
+                else
+                {
+                    photoUpload = null;
+                }
 
                 var team = await _context.Teams.FirstOrDefaultAsync(x => x.Name == request.Name);
                 if (team != null)
-                    throw new RestException(System.Net.HttpStatusCode.BadRequest, new { Team = "Team already exists"});
+                    throw new RestException(System.Net.HttpStatusCode.BadRequest, new { Team = "Team already exists" });
 
                 team = new Domain.Team
                 {
-                   Name= request.Name,
-                   Image = photoUpload.FileName,
-                   CreatedAt = DateTime.Now                   
+                    Name = request.Name,
+                    Image = photoUpload?.FileName,
+                    CreatedAt = DateTime.Now
                 };
 
                 _context.Teams.Add(team);
