@@ -20,6 +20,8 @@ using Application.User;
 using API.Middleware;
 using Infrastructure.Photos;
 using FluentValidation.AspNetCore;
+using Infrastructure.Security;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API
 {
@@ -69,6 +71,15 @@ namespace API
                         ValidateIssuer = false
                     };
                 });
+
+            services.AddAuthorization(o =>
+            {
+                o.AddPolicy("IsAdmin", policy =>
+                {
+                    policy.Requirements.Add(new IsAdminRequirement());
+                });
+            });
+            services.AddTransient<IAuthorizationHandler, IsAdminRequirementHandler>();
 
             services.AddAutoMapper(typeof(Application.Match.List));
             services.AddMediatR(typeof(Application.Match.List).Assembly);
