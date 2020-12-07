@@ -102,6 +102,12 @@ const Teams = {
     formData.append("name", formValues.name)
     return axios.post(`/teams`, formData, { headers: { "Content-type": "multipart/form-data" } })
       .then(sleep(500)).then(responseBody)
+  },
+  changeImage: (file: Blob, id: number) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    return axios.post(`/teams/${id}/changeimage`, formData, { headers: { "Content-type": "multipart/form-data" } })
+      .then(sleep(500)).then(responseBody)
   }
 }
 
