@@ -93,7 +93,7 @@ const PhotoSelectAndCrop: React.FC<IProps> = ({ onImageSet }) => {
                 <Button loading={loading} primary content='PROCEED' onClick={() => {
                     setLoading(true); setTimeout(() => {
                         onImageSet(resultFile); closeModal();
-                    }, 1000)
+                    }, 2000)
                 }} />
                 <Button disabled={loading} content='CANCEL' onClick={() => { closeModal(); }} />
             </Fragment>
