@@ -29,10 +29,11 @@ const PhotoSelectAndCrop: React.FC<IProps> = ({ onImageSet }) => {
 
     let resultFile: Blob | null = null;
     const [files, setFiles] = useState<any[]>([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         return (() => {
-            files.forEach((file: any) => URL.revokeObjectURL(file.preview));
+            files.forEach((file: any) => {URL.revokeObjectURL(file.preview)});
         });
     }, [files]);
 
@@ -50,7 +51,7 @@ const PhotoSelectAndCrop: React.FC<IProps> = ({ onImageSet }) => {
         const imageElement: any = cropperRef?.current;
         const cropper: any = imageElement?.cropper;
 
-        cropper &&  cropper.getCroppedCanvas().toBlob((blob: any) => {
+        cropper && cropper.getCroppedCanvas().toBlob((blob: any) => {
             resultFile = blob;
         }, 'image');
     };
@@ -78,7 +79,7 @@ const PhotoSelectAndCrop: React.FC<IProps> = ({ onImageSet }) => {
                         // Cropper.js options
                         aspectRatio={4 / 3}
                         guides={false}
-                        viewMode={2}
+                        viewMode={1}
                         dragMode='move'
                         scalable={true}
                         cropBoxMovable={true}
@@ -86,8 +87,12 @@ const PhotoSelectAndCrop: React.FC<IProps> = ({ onImageSet }) => {
                         crop={cropImage}
                     />
                 </Segment>
-                <Button primary content='PROCEED' onClick={() => { onImageSet(resultFile); closeModal(); }} />
-                <Button content='CANCEL' onClick={() => { closeModal(); }} />
+                <Button loading={loading} primary content='PROCEED' onClick={() => {
+                    setLoading(true); setTimeout(() => {
+                        onImageSet(resultFile); closeModal();
+                    }, 500)
+                }} />
+                <Button disabled={loading} content='CANCEL' onClick={() => { closeModal(); }} />
             </Fragment>
     )
 }
