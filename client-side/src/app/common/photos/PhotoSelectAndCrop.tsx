@@ -33,7 +33,7 @@ const PhotoSelectAndCrop: React.FC<IProps> = ({ onImageSet }) => {
 
     useEffect(() => {
         return (() => {
-            files.forEach((file: any) => {URL.revokeObjectURL(file.preview)});
+            files.forEach((file: any) => { URL.revokeObjectURL(file.preview) });
         });
     }, [files]);
 
@@ -44,7 +44,10 @@ const PhotoSelectAndCrop: React.FC<IProps> = ({ onImageSet }) => {
         })));
     }, []);
 
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+        onDrop, maxSize: 1000000, maxFiles: 1,
+        onDropRejected: () => alert("File should be less than 4MB")
+    })
 
     const cropperRef = useRef<HTMLImageElement>(null);
     const cropImage = () => {
@@ -90,7 +93,7 @@ const PhotoSelectAndCrop: React.FC<IProps> = ({ onImageSet }) => {
                 <Button loading={loading} primary content='PROCEED' onClick={() => {
                     setLoading(true); setTimeout(() => {
                         onImageSet(resultFile); closeModal();
-                    }, 500)
+                    }, 1000)
                 }} />
                 <Button disabled={loading} content='CANCEL' onClick={() => { closeModal(); }} />
             </Fragment>
