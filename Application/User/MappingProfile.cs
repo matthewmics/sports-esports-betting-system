@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Domain;
 using AutoMapper;
+using Application.User.Dtos;
 
 namespace Application.User
 {

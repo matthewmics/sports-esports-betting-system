@@ -1,4 +1,5 @@
 ﻿using Application.Errors;
+using Application.User.Dtos;
 using AutoMapper;
 using Domain;
 using FluentValidation;

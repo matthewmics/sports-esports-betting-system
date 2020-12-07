@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Domain;
 using AutoMapper;
+using Application.Match.Dtos;
 
 namespace Application.Match
 {

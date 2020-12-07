@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Application.Match;
+using Application.Match.Dtos;
 
 namespace API.Controllers
 {
@@ -8,7 +8,7 @@ namespace API.Controllers
     {
 
         [HttpGet]
-        public async Task<Application.Match.MatchEnvelope> List([FromQuery] Application.Match.List.Query query)
+        public async Task<MatchEnvelope> List([FromQuery] Application.Match.List.Query query)
         {
             return await Mediator.Send(query);
         }

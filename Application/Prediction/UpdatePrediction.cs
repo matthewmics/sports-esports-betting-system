@@ -1,5 +1,6 @@
 ﻿using Application.Errors;
 using Application.Interfaces;
+using Application.Prediction.Dtos;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

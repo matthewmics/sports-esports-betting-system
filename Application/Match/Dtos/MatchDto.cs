@@ -1,12 +1,12 @@
-﻿using Application.Prediction;
-using Application.Team;
+﻿using Application.Prediction.Dtos;
+using Application.Team.Dtos;
 using Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Application.Match
+namespace Application.Match.Dtos
 {
     public class MatchDto
     {

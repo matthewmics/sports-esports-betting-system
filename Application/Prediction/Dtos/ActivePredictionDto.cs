@@ -1,10 +1,10 @@
-﻿using Application.Team;
+﻿using Application.Team.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Application.Prediction
+namespace Application.Prediction.Dtos
 {
     public class ActivePredictionDto
     {

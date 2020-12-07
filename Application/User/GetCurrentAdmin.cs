@@ -1,5 +1,6 @@
 ﻿using Application.Errors;
 using Application.Interfaces;
+using Application.User.Dtos;
 using AutoMapper;
 using Domain;
 using MediatR;

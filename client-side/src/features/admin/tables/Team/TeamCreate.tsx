@@ -10,6 +10,7 @@ import { combineValidators, isRequired } from 'revalidate'
 import { ITeamFormValues } from '../../../../app/models/team'
 import { ErrorMessage } from '../../../../app/common/forms/ErrorMessage'
 import { FORM_ERROR } from 'final-form'
+import { history } from '../../../..'
 
 const validate = combineValidators({
     name: isRequired('name')
@@ -62,8 +63,8 @@ const TeamForm = () => {
             const { file, ...rest } = values;
             teamValues = rest;
         }
-        return createTeam(teamValues).then(() => {
-            resetState();
+        return createTeam(teamValues).then(() => {            
+            history.push('/admin/tables/teams')
         }).catch(error => ({
             [FORM_ERROR]: error
         }));

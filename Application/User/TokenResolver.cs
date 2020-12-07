@@ -2,7 +2,7 @@
 using Domain;
 using AutoMapper;
 using Microsoft.Extensions.Configuration;
-using Application.User;
+using Application.User.Dtos;
 
 namespace Application.User
 {

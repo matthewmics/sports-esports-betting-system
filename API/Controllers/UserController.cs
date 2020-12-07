@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Application.User;
+using Application.User.Dtos;
 
 namespace API.Controllers
 {

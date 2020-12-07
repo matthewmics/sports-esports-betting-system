@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Application.Interfaces;
 using Persistence;
-using Application.User;
+using Application.User.Dtos;
 
 namespace Application.User
 {

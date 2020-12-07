@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Application.Match
+namespace Application.Match.Dtos
 {
     public class MatchEnvelope
     {

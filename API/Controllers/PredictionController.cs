@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Application.Prediction;
 using MediatR;
+using Application.Prediction.Dtos;
 
 namespace API.Controllers
 {

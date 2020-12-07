@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Application.Prediction
+namespace Application.Prediction.Dtos
 {
     public class PredictionRequestDto
     {

@@ -33,7 +33,7 @@ export default class UserStore {
         return !!this.user;
     }
 
-    @action register = async(formValues: IUserFormValues) => {
+    @action register = async (formValues: IUserFormValues) => {
         this.loading = true;
         try {
             const user = await agent.User.register(formValues);
