@@ -45,13 +45,12 @@ const PhotoSelectAndCrop: React.FC<IProps> = ({ onImageSet }) => {
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
 
-    const cropper = useRef<Cropper>(null);
+    const cropperRef = useRef<HTMLImageElement>(null);
     const cropImage = () => {
-        if (cropper.current && typeof cropper.current.getCroppedCanvas() === 'undefined') {
-            return;
-        }
+        const imageElement: any = cropperRef?.current;
+        const cropper: any = imageElement?.cropper;
 
-        cropper && cropper.current && cropper.current.getCroppedCanvas().toBlob((blob: any) => {
+        cropper &&  cropper.getCroppedCanvas().toBlob((blob: any) => {
             resultFile = blob;
         }, 'image');
     };
@@ -73,14 +72,13 @@ const PhotoSelectAndCrop: React.FC<IProps> = ({ onImageSet }) => {
             <Fragment>
                 <Segment basic>
                     <Cropper
-                        ref={cropper}
+                        ref={cropperRef}
                         src={files[0].preview}
                         style={{ height: 200, width: '100%' }}
                         // Cropper.js options
-                        aspectRatio={4/3}
+                        aspectRatio={4 / 3}
                         guides={false}
-                        viewMode={1}
-                        preview='.img-preview'
+                        viewMode={2}
                         dragMode='move'
                         scalable={true}
                         cropBoxMovable={true}
