@@ -1,7 +1,8 @@
 import { observer } from 'mobx-react-lite'
-import React, { Fragment, useContext, useEffect } from 'react'
+import React, { Fragment, useContext, useEffect, useState } from 'react'
 import { Link, RouteComponentProps } from 'react-router-dom'
-import { Segment, Image, Loader, Header, Button, Breadcrumb, Divider, Reveal } from 'semantic-ui-react'
+import { Segment, Image, Loader, Header, Button, Breadcrumb, Divider, Reveal, Placeholder } from 'semantic-ui-react'
+import PhotoSelectAndCrop from '../../../../app/common/photos/PhotoSelectAndCrop'
 import { RootStoreContext } from '../../../../app/stores/rootStore'
 
 interface RouteParams {
@@ -13,11 +14,31 @@ interface IProps extends RouteComponentProps<RouteParams> {
 
 const TeamDetails: React.FC<IProps> = ({ match }) => {
     const rootStore = useContext(RootStoreContext);
-    const { selectedTeam: team, selectTeam } = rootStore.teamStore;
+    const { selectedTeam: team, selectTeam, changeImage, loading } = rootStore.teamStore;
+    const { openModal } = rootStore.modalStore;
+
+    const [previewImage, setPreviewImage] = useState('');
 
     useEffect(() => {
         selectTeam(+match.params.id);
-    }, [selectTeam, match.params.id])
+
+        return (() => {
+            if (previewImage)
+                URL.revokeObjectURL(previewImage);
+        })
+
+    }, [selectTeam, match.params.id, previewImage])
+
+    const handleChangeImage = () => {
+        openModal(<PhotoSelectAndCrop onImageSet={(file) => {
+            if (file)
+                changeImage(file).then(() => {
+                    if (previewImage)
+                        URL.revokeObjectURL(previewImage);
+                    setPreviewImage(URL.createObjectURL(file));
+                });
+        }} />);
+    }
 
     if (!team)
         return <Loader active content='Loading...' />
@@ -31,15 +52,22 @@ const TeamDetails: React.FC<IProps> = ({ match }) => {
             </Breadcrumb>
             <Divider />
             <Segment basic>
-                <Reveal animated='move' instant style={{display: 'inline-block'}}>
-                    <Reveal.Content visible>
-                        <Image src={team.image || '/assets/noimage.png'} 
-                        style={{ backgroundColor: '#eee', height: '188px', width: '250px' }} />
-                    </Reveal.Content>
-                    <Reveal.Content hidden>
-                        <Button content='UPDATE PHOTO' style={{ height: '188px', width: '250px' }} icon='upload cloud' />
-                    </Reveal.Content>
-                </Reveal>
+                {loading ?
+                    <Placeholder style={{ height: 150, width: 150 }}>
+                        <Placeholder.Image />
+                    </Placeholder>
+                    :
+                    <Reveal animated='move' instant style={{ display: 'inline-block' }}>
+                        <Reveal.Content visible>
+                            <Image src={previewImage || team.image || '/assets/noimage.png'}
+                                style={{ backgroundColor: '#eee', height: '188px', width: '250px' }} />
+                        </Reveal.Content>
+                        <Reveal.Content hidden>
+                            <Button content='UPDATE PHOTO' style={{ height: '188px', width: '250px' }} icon='upload cloud'
+                                onClick={handleChangeImage} />
+                        </Reveal.Content>
+                    </Reveal>
+                }
                 <Header content={team.name} size='huge' />
                 <Button color='green' content='Edit' as={Link}
                     to={`${team.id}/edit`} />

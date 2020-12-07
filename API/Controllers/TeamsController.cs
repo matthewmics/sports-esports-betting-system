@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.Extensions.Logging;
-using Application.Team;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Application.Team.Dtos;
 
 namespace API.Controllers
 {
@@ -25,20 +25,31 @@ namespace API.Controllers
             return await Mediator.Send(query);
         }
 
-        [Authorize]
+        [Authorize(policy: "IsAdmin")]
         [HttpPost]
         public async Task<Unit> Create([FromForm] Application.Team.Create.Command command)
         {
             return await Mediator.Send(command);
         }
 
-        [Authorize]
+
+        [Authorize(policy: "IsAdmin")]
+        [HttpPut("{id}")]
+        public async Task<Unit> Edit(int id, [FromBody] Application.Team.Edit.Command command)
+        {
+            command.Id = id;
+            return await Mediator.Send(command);
+        }
+
+        [Authorize(policy: "IsAdmin")]
         [HttpPost("{id}/changeimage")]
         public async Task<Unit> ChangeImage(int id, [FromForm] Application.Team.ChangeImage.Command command)
         {
             command.Id = id;
             return await Mediator.Send(command);
         }
+
+
 
     }
 }

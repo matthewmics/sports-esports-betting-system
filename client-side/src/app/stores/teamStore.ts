@@ -1,6 +1,5 @@
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
-import { toast } from "react-toastify";
-import { history } from "../..";
+import { toast } from "react-toastify"; 
 import agent from "../api/agent";
 import { ITeam, ITeamFormValues } from "../models/team";
 
@@ -74,7 +73,6 @@ export default class TeamStore {
         try {
             await agent.Teams.create(formValues);
             toast.success("Team successfully created");
-            history.push('/admin/tables/teams')
         } catch (error) {
             throw error;
         } finally {
@@ -96,6 +94,35 @@ export default class TeamStore {
             } catch (error) {
                 throw error;
             }
+        }
+    }
+
+    @action changeImage = async (file: Blob) => {
+        this.loading = true;
+        try {
+            await agent.Teams.changeImage(file, this.selectedTeam!.id);
+            toast.success("Image updated successfully");
+        } catch (error) {
+            console.log(error);
+            toast.error("Problem changing image")
+        } finally {
+            runInAction(() => {
+                this.loading = false;
+            })
+        }
+    }
+
+    @action updateTeam = async (values: ITeamFormValues) => {
+        this.loading = true;
+        try {
+            await agent.Teams.update(this.selectedTeam!.id, values);
+            toast.success("Team updated successfully");
+        } catch (error) {
+            throw error;
+        } finally {
+            runInAction(() => {
+                this.loading = false;
+            })
         }
     }
 

@@ -1,11 +1,15 @@
 import { observer } from 'mobx-react-lite'
-import React, { Fragment, useContext, useEffect } from 'react'
+import React, { Fragment, useContext, useEffect, useState } from 'react'
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Breadcrumb, Button, Divider, Form, Grid, Loader } from 'semantic-ui-react';
 import { RootStoreContext } from '../../../../app/stores/rootStore';
 import { Field, Form as FinalForm } from 'react-final-form'
 import TextInput from '../../../../app/common/forms/TextInput';
 import { ErrorMessage } from '../../../../app/common/forms/ErrorMessage';
+import { combineValidators, isRequired } from 'revalidate';
+import { ITeamFormValues } from '../../../../app/models/team';
+import { history } from '../../../..';
+import { FORM_ERROR } from 'final-form';
 
 interface RouteParams {
     id: string
@@ -14,14 +18,28 @@ interface IProps extends RouteComponentProps<RouteParams> {
 
 }
 
+const validate = combineValidators({
+    name: isRequired('name')
+})
+
 const TeamEdit: React.FC<IProps> = ({ match }) => {
 
     const rootStore = useContext(RootStoreContext);
-    const { selectedTeam: team, selectTeam } = rootStore.teamStore;
+    const { selectedTeam: team, selectTeam, updateTeam, loading } = rootStore.teamStore;
 
     useEffect(() => {
         selectTeam(+match.params.id);
-    }, [selectTeam, match.params.id])
+    }, [selectTeam, match.params.id]);
+
+    const handleFormSubmit = (values: any) => {
+        const { id, createdAt, image, file, ...formValues } = values;
+        return updateTeam(formValues).then(() => {
+            team!.name = values.name;
+            history.push(`/admin/tables/teams/${team!.id}`);
+        }).catch(error => ({
+            [FORM_ERROR]: error
+        }));
+    }
 
     if (!team)
         return <Loader active content='Loading...' />
@@ -40,19 +58,21 @@ const TeamEdit: React.FC<IProps> = ({ match }) => {
                 <Grid.Column computer={6} mobile={16} tablet={8}>
                     <FinalForm
                         initialValues={team}
-                        onSubmit={(values) => console.log(values)}
-                        render={({ handleSubmit, submitError, dirtySinceLastSubmit }) =>
-                            <Form onSubmit={handleSubmit}>
+                        validate={validate}
+                        onSubmit={(values) => handleFormSubmit(values)}
+                        render={({ handleSubmit, submitError, dirtySinceLastSubmit, pristine }) =>
+                            <Form onSubmit={handleSubmit} error>
                                 <Field component={TextInput}
                                     value={team.name}
                                     label='Name'
                                     name='name' />
-                                <Button primary content='SAVE' />
+                                {submitError && !dirtySinceLastSubmit &&
+                                    <ErrorMessage error={submitError} />}
+                                <Button primary content='SAVE' disabled={pristine}
+                                    loading={loading} />
                                 <Button content='CANCEL' as={Link}
                                     to={`/admin/tables/teams/${team.id}`} />
 
-                                {submitError && !dirtySinceLastSubmit &&
-                                    <ErrorMessage error={submitError} />}
                             </Form>
                         } />
                 </Grid.Column>

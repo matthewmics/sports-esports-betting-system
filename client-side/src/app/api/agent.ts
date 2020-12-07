@@ -95,6 +95,8 @@ const Teams = {
     axios.get(`/teams`, { params: urlParams }).then(sleep(500)).then(responseBody),
   get: (id: number) =>
     requests.get(`/teams/${id}`),
+  update: (id: number, values: ITeamFormValues) =>
+    requests.put(`/teams/${id}`, values),
   create: (formValues: ITeamFormValues): Promise<void> => {
     const formData = new FormData();
     if (formValues.file)
