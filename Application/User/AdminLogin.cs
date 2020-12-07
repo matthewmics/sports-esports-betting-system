@@ -1,6 +1,8 @@
 ﻿using Application.Errors;
+using Application.User.Dtos;
 using AutoMapper;
 using Domain;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +21,15 @@ namespace Application.User
         {
             public string Email { get; set; }
             public string Password { get; set; }
+        }
+
+        public class CommandValidator : AbstractValidator<Query>
+        {
+            public CommandValidator()
+            {
+                RuleFor(x => x.Email).NotEmpty();
+                RuleFor(x => x.Password).NotEmpty();
+            }
         }
 
         public class Handler : IRequestHandler<Query, AdminDto>
