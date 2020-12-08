@@ -17,51 +17,63 @@
     },
     {
       "Id": 4,
-      "Name": "OG"
+      "Name": "OG",
+      "Image": "og.png"
     },
     {
       "Id": 5,
-      "Name": "Na'Vi"
+      "Name": "Na'Vi",
+      "Image": "virtuspro.png"
     },
     {
       "Id": 6,
-      "Name": "Motivade.Trust"
+      "Name": "Motivade.Trust",
+      "Image": "motivade.png"
     },
     {
       "Id": 7,
-      "Name": "TNC Pro Team"
+      "Name": "TNC Pro Team",
+      "Image": "tnc.png"
     },
     {
       "Id": 8,
-      "Name": "BOOM ID"
+      "Name": "BOOM Esports",
+      "Image": "boom.png"
     },
     {
       "Id": 9,
-      "Name": "Fnatic"
+      "Name": "Fnatic",
+      "Image": "fnatic.png"
     },
     {
       "Id": 10,
-      "Name": "Neon Esports"
+      "Name": "Neon Esports",
+      "Image": "neon.png"
     },
     {
       "Id": 11,
-      "Name": "Ninjas in Pyjamas"
+      "Name": "Ninjas in Pyjamas",
+      "Image": "nip.png"
     },
     {
       "Id": 12,
-      "Name": "Vikin.gg"
+      "Name": "Vikin.gg",
+      "Image": "vikin.png"
     },
     {
       "Id": 13,
-      "Name": "Team Liquid"
+      "Name": "Team Liquid",
+      "Image": "liquid.png"
     },
     {
       "Id": 14,
-      "Name": "Evil Geniuses"
+      "Name": "Evil Geniuses",
+      "Image": "eg.png"
     },
     {
       "Id": 15,
-      "Name": "Alliance"
+      "Name": "Alliance",
+      "Image": "alliance.png"
     },
     {
       "Id": 16,
