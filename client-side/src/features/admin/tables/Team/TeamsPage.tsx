@@ -40,7 +40,7 @@ const TeamsPage = () => {
             <Divider />
             <Grid>
                 <Grid.Column computer={10} tablet={16} mobile={16}>
-                    <Button icon='add' content='Create Team' primary style={{ marginBottom: '10px' }}
+                    <Button icon='add' content='Create team' primary style={{ marginBottom: '10px' }}
                         as={Link} to='/admin/tables/teams/create' />
                     <Segment basic style={{ padding: 0 }} loading={loading}>
 

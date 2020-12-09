@@ -27,12 +27,14 @@ const LoginForm = () => {
             render={({ handleSubmit, pristine, dirtySinceLastSubmit, submitError, valid }) => {
                 return (
                     <Form onSubmit={handleSubmit} error style={{ overflow: 'auto' }}>
-                        <Header as='h1' content='LOGIN' color='teal' />
+                        <Header textAlign='center' content='Login' />
                         <Divider />
                         <Field component={TextInput}
                             name='email'
+                            label='Email'
                             placeholder='Email' />
                         <Field component={TextInput}
+                            label='Password'
                             name='password'
                             type='password'
                             placeholder='Password' />

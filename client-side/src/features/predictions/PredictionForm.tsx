@@ -95,8 +95,7 @@ const PredictionForm: React.FC<IProps> = ({ initialTeam, activePrediciton }) => 
                         </Form.Group>
 
                         {submitError &&
-                            <ErrorMessage error={submitError}
-                                text='Not enough credits' />
+                            <ErrorMessage error={submitError}  />
                         }
 
                         <Button content='CANCEL' onClick={closeModal} />

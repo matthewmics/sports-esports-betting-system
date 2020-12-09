@@ -127,9 +127,9 @@ const NavBar = () => {
                             ) : (
                                     <Menu.Item>
                                         <Button.Group>
-                                            <Button primary onClick={() => { openModal(<LoginForm />) }}>Login</Button>
+                                            <Button onClick={() => { openModal(<LoginForm />) }}>Login</Button>
                                             <Button.Or />
-                                            <Button positive
+                                            <Button primary
                                                 onClick={() => { openModal(<RegisterForm />) }}>
                                                 Register
                                             </Button>

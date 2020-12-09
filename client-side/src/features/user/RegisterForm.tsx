@@ -28,7 +28,7 @@ const RegisterForm = () => {
     const { register, loading } = rootStore.userStore;
 
     const submitHandle = (values: IUserRegisterFormValues) => {
-        const {confirmPassword, firstname, lastname, ...formValues} = values;
+        const { confirmPassword, firstname, lastname, ...formValues } = values;
         formValues.displayName = values.firstname + " " + values.lastname;
         return register(formValues).catch(error => (
             { [FORM_ERROR]: error }
@@ -41,33 +41,39 @@ const RegisterForm = () => {
             render={({ handleSubmit, pristine, dirtySinceLastSubmit, submitError, valid }) => {
                 return (
                     <Form onSubmit={handleSubmit} error style={{ overflow: 'auto', overflowX: 'hidden' }}>
-                        <Header as='h1' content='REGISTER' color='teal' />
+                        <Header content='Register' textAlign='center' />
                         <Divider />
                         <Form.Group widths='equal'>
                             <Field component={TextInput}
+                                label='Firstname'
                                 name='firstname'
                                 placeholder='Firstname' />
                             <Field component={TextInput}
+                                label='Lastname'
                                 name='lastname'
                                 placeholder='Lastname' />
                         </Form.Group>
                         <Field component={TextInput}
+                            label='Username'
                             name='username'
                             placeholder='Username' />
                         <Field component={TextInput}
+                            label='Email'
                             name='email'
                             placeholder='Email' />
                         <Field component={TextInput}
+                            label='Password'
                             name='password'
                             type='password'
                             placeholder='Password' />
                         <Field component={TextInput}
+                            label='Confirm password'
                             name='confirmPassword'
                             type='password'
                             placeholder='Confirm Password' />
 
                         {submitError && !dirtySinceLastSubmit &&
-                            <ErrorMessage  error={submitError} />}
+                            <ErrorMessage error={submitError} />}
 
                         <Button content='REGISTER' type='submit' primary
                             icon='lock'
