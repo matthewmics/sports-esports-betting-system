@@ -1,12 +1,14 @@
 import { observer } from 'mobx-react-lite'
 import React, { useContext } from 'react'
-import { Menu, Image } from 'semantic-ui-react'
+import { Menu, Image, Button } from 'semantic-ui-react'
 import { history } from '../..'
 import { RootStoreContext } from '../../app/stores/rootStore'
+import CreateMatchForm from '../admin/matches/CreateMatchForm'
 
 const AdminNavBar = () => {
     const rootStore = useContext(RootStoreContext);
     const { logout, adminUser } = rootStore.adminUserStore;
+    const { openModal } = rootStore.modalStore;
     return (
         <Menu fixed='top'>
             <Menu.Item header onClick={() => history.push('/admin')} as='div'
@@ -15,6 +17,11 @@ const AdminNavBar = () => {
                     WagerzLounge
             </Menu.Item>
 
+            <Menu.Item>
+                <Button content='Create match' positive icon='plus'
+                    onClick={() => openModal(<CreateMatchForm />)}
+                />
+            </Menu.Item>
             <Menu.Menu position='right'>
                 <Menu.Item>
                     <Image bordered spaced avatar
