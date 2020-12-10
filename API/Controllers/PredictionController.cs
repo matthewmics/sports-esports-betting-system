@@ -46,9 +46,20 @@ namespace API.Controllers
         public async Task<ActionResult<ActivePredictionDto>> UpdatePrediction(int matchId, int predictionId,
             [FromBody] Application.Prediction.Predict.Command command)
         {
+            await _sempaphorePredict.WaitAsync();
             command.MatchId = matchId;
             command.PredictionId = predictionId;
-            return await Mediator.Send(command);
+            try
+            {
+                var result = await Mediator.Send(command);
+                _sempaphorePredict.Release();
+                return result;
+            }
+            catch (Exception err)
+            {
+                _sempaphorePredict.Release();
+                throw err;
+            }
         }
 
         [Authorize]
