@@ -15,6 +15,7 @@
     "@types/react-router-dom": "^5.1.6",
     "@types/revalidate": "^1.1.2",
     "axios": "^0.21.0",
+    "date-fns": "^2.16.1",
     "final-form": "^4.20.1",
     "mobx": "^6.0.1",
     "mobx-react-lite": "^3.0.1",

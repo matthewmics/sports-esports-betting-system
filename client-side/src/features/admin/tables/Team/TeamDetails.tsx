@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite'
 import React, { Fragment, useContext, useEffect, useState } from 'react'
 import { Link, RouteComponentProps } from 'react-router-dom'
-import { Segment, Image, Loader, Header, Button, Breadcrumb, Divider, Reveal, Placeholder, Card } from 'semantic-ui-react'
+import { Image, Loader, Button, Breadcrumb, Divider, Reveal, Placeholder, Card } from 'semantic-ui-react'
 import PhotoSelectAndCrop from '../../../../app/common/photos/PhotoSelectAndCrop'
 import { RootStoreContext } from '../../../../app/stores/rootStore'
 
@@ -60,7 +60,7 @@ const TeamDetails: React.FC<IProps> = ({ match }) => {
                     <Reveal animated='move' instant style={{ display: 'inline-block' }}>
                         <Reveal.Content visible>
                             <Image src={previewImage || team.image || '/assets/noimage.png'}
-                                style={{ backgroundColor: '#f9fbe7', height: '200px', width: '100%' }} />
+                                style={{ backgroundColor: 'White', height: '200px', width: '100%' }} />
                         </Reveal.Content>
                         <Reveal.Content hidden>
                             <Button content='UPDATE PHOTO' style={{ height: '200px', width: '100%' }} icon='upload cloud'

@@ -25,8 +25,8 @@ export const MatchDetails: React.FC<IProps> = ({ match }) => {
                 <Grid columns={3} stackable textAlign='center'>
                     <Grid.Row verticalAlign='middle'>
                         <Grid.Column>
-                            <Image src='/assets/noimage.png' centered
-                                size='tiny' />
+                            <Image src={match.teamA.image || '/assets/noimage.png'} centered
+                                size='tiny' style={{ marginBottom: '7px' }} />
                             {match.teamA.name}
                         </Grid.Column>
                         <Grid.Column width={2}>
@@ -34,8 +34,8 @@ export const MatchDetails: React.FC<IProps> = ({ match }) => {
                             <Label content={`BO3`} />
                         </Grid.Column>
                         <Grid.Column>
-                            <Image src='/assets/noimage.png' centered
-                                size='tiny' />
+                            <Image src={match.teamB.image || '/assets/noimage.png'} centered
+                                size='tiny' style={{ marginBottom: '7px' }} />
                             {match.teamB.name}
                         </Grid.Column>
                     </Grid.Row>

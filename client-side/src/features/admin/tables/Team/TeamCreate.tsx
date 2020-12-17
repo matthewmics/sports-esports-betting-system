@@ -94,7 +94,7 @@ const TeamForm = () => {
                                         <Image src={preview} size='small' />
                                     </Form.Field>}
                                 <Form.Field>
-                                    <Button color='violet' content={!preview ? 'Upload Photo' : 'Change Photo'}
+                                    <Button basic content={!preview ? 'Upload Photo' : 'Change Photo'}
                                         icon='cloud upload'
                                         type='button'
                                         onClick={() => openModal(<PhotoSelectAndCrop

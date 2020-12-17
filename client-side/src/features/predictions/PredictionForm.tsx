@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite'
 import React, { useContext, useState } from 'react'
 import { Field, Form as FinalForm } from 'react-final-form'
 import { combineValidators, composeValidators, isRequired } from 'revalidate'
-import { Button, Form, Header } from 'semantic-ui-react'
+import { Button, Divider, Form, Header } from 'semantic-ui-react'
 import SelectInput from '../../app/common/forms/SelectInput'
 import TextInput from '../../app/common/forms/TextInput'
 import { IActivePrediction, IPredictionForm } from '../../app/models/prediction'
@@ -62,13 +62,14 @@ const PredictionForm: React.FC<IProps> = ({ initialTeam, activePrediciton }) => 
             setLoading(false);
             return ({ [FORM_ERROR]: error })
         })
-    }
+        }
             initialValues={prediction}
             validate={validate}
             render={({ handleSubmit, submitError, pristine }) => {
                 return (
                     <Form error onSubmit={handleSubmit} style={{ overflow: 'auto', overflowX: 'hidden' }} >
-                        <Header content="Prediction" color='teal' as='h1' />
+                        <Header content="Prediction" textAlign='center' />
+                        <Divider />
 
                         <Field component={SelectInput}
                             name='teamId'
@@ -95,12 +96,12 @@ const PredictionForm: React.FC<IProps> = ({ initialTeam, activePrediciton }) => 
                         </Form.Group>
 
                         {submitError &&
-                            <ErrorMessage error={submitError}  />
+                            <ErrorMessage error={submitError} />
                         }
 
-                        <Button content='CANCEL' onClick={closeModal} />
                         <Button content='CONFIRM PREDICTION' primary
                             loading={loading} disabled={pristine} />
+                        <Button content='CANCEL' onClick={closeModal} />
                     </Form>
                 )
             }}>

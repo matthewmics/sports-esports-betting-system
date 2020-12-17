@@ -20,7 +20,7 @@ import TeamEdit from '../../features/admin/tables/Team/TeamEdit';
 
 
 const AdminApp = () => {
-
+    document.title = 'Wagerzlounge - Admin';
     axios.interceptors.request.use(
         (config) => {
             const token = window.localStorage.getItem("jwt_admin");

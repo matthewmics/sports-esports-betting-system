@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import React, { Fragment, useContext, useEffect, useState } from 'react'
+import React, { Fragment, useContext, useEffect } from 'react'
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Breadcrumb, Button, Divider, Form, Grid, Loader } from 'semantic-ui-react';
 import { RootStoreContext } from '../../../../app/stores/rootStore';
@@ -7,7 +7,6 @@ import { Field, Form as FinalForm } from 'react-final-form'
 import TextInput from '../../../../app/common/forms/TextInput';
 import { ErrorMessage } from '../../../../app/common/forms/ErrorMessage';
 import { combineValidators, isRequired } from 'revalidate';
-import { ITeamFormValues } from '../../../../app/models/team';
 import { history } from '../../../..';
 import { FORM_ERROR } from 'final-form';
 

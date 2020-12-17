@@ -1,3 +1,4 @@
+import { format, formatDistance, formatDistanceToNow } from 'date-fns'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Segment, Label, Grid, Button, Image } from 'semantic-ui-react'
@@ -19,7 +20,7 @@ const MatchDetail: React.FC<IProps> = ({
                 {" "}
                 {match.eventName}
                 <span style={{ float: 'right', color: 'teal', lineHeight: '27px' }}>
-                    12m 06s from now
+                    {formatDistanceToNow(match.startDate)} from now
                 </span>
             </Segment>
             <Segment>
@@ -27,7 +28,7 @@ const MatchDetail: React.FC<IProps> = ({
                     <Grid.Row verticalAlign='middle'>
                         <Grid.Column>
                             <Image src={match.teamA.image || '/assets/noimage.png'} centered
-                                size='tiny' style={{marginBottom: '7px'}}/>
+                                size='tiny' style={{ marginBottom: '7px' }} />
                             {match.teamA.name}
                         </Grid.Column>
                         <Grid.Column width={2}>
@@ -36,7 +37,7 @@ const MatchDetail: React.FC<IProps> = ({
                         </Grid.Column>
                         <Grid.Column>
                             <Image src={match.teamB.image || '/assets/noimage.png'} centered
-                                size='tiny' style={{marginBottom: '7px'}}/>
+                                size='tiny' style={{ marginBottom: '7px' }} />
                             {match.teamB.name}
                         </Grid.Column>
                     </Grid.Row>

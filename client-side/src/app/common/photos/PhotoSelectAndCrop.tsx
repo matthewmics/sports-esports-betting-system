@@ -70,7 +70,7 @@ const PhotoSelectAndCrop: React.FC<IProps> = ({ onImageSet }) => {
                         <Header content='Drop image here' />
                     </div>
                 </Segment>
-                <Button content='CANCEL' onClick={closeModal} icon='cancel' />
+                <Button basic content='CANCEL' onClick={closeModal} icon='cancel' />
             </Fragment>
             :
             <Fragment>
