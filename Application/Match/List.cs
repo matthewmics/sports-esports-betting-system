@@ -40,7 +40,7 @@ namespace Application.Match
                 .Include(x => x.Predictions)
                     .ThenInclude(x => x.PredictionStatus)
                 .Include(x => x.Game)
-                .OrderBy(x => x.StartDate)
+                .OrderBy(x => x.Predictions.Where(p => p.IsMain).Single().StartDate)
                 .AsQueryable();
 
                 if (request.Game != null && request.Game != "all")

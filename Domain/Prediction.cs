@@ -10,6 +10,8 @@ namespace Domain
     {
         public int Id { get; set; }
 
+        public bool IsMain { get; set; }
+
         public int Sequence { get; set; }
 
         public int MatchId { get; set; }
@@ -20,6 +22,7 @@ namespace Domain
 
         public string Title { get; set; }
         public string Description { get; set; }
+
 
         public DateTime StartDate { get; set; }
         public ICollection<UserPrediction> Predictors { get; set; }

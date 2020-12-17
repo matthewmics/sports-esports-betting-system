@@ -21,7 +21,6 @@ namespace Domain
         public short GameId { get; set; }
         public Game Game { get; set; }
 
-        public DateTime StartDate { get; set; }
 
         public ICollection<Prediction> Predictions { get; set; }
 

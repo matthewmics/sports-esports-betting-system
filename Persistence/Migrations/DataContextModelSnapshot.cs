@@ -135,9 +135,6 @@ namespace Persistence.Migrations
                     b.Property<int>("Series")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime");
-
                     b.Property<int>("TeamAId")
                         .HasColumnType("int");
 
@@ -163,6 +160,9 @@ namespace Persistence.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
+
+                    b.Property<bool>("IsMain")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<int>("MatchId")
                         .HasColumnType("int");

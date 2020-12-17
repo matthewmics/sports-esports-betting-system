@@ -12,7 +12,9 @@ namespace Application.Match
     {
         public MappingProfile()
         {
-            CreateMap<Domain.Match, MatchDto>();
+            CreateMap<Domain.Match, MatchDto>()
+                .ForMember(x => x.StartDate, x =>
+                x.MapFrom(y => y.Predictions.Single(x => x.IsMain).StartDate));
         }
     }
 }
