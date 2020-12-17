@@ -1,5 +1,5 @@
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
-import { toast } from "react-toastify"; 
+import { toast } from "react-toastify";
 import agent from "../api/agent";
 import { ITeam, ITeamFormValues } from "../models/team";
 
@@ -65,6 +65,20 @@ export default class TeamStore {
             runInAction(() => {
                 this.loading = false;
             })
+        }
+    }
+
+
+    @action searchTeams = async (query: string) => {
+        try {
+            const params = new URLSearchParams();
+            params.append('q', query);
+            params.append('limit', '10');
+            const teamsEnvelope = await agent.Teams.list(params);
+            const { teams } = teamsEnvelope;
+            return teams;
+        } catch (error) {
+            throw error;
         }
     }
 

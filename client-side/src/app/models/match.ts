@@ -23,3 +23,14 @@ export interface IGame {
     name: string;
     displayText: string;
 }
+
+export interface IMatchForm {
+    eventName: string;
+    teamAId: number;
+    teamBId: number;
+    gameId: number;
+    series: number;
+    title: string;
+    description: string;
+    startsAt: Date;
+}

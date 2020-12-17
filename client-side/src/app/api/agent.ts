@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { history } from "../..";
-import { IMatch, IMatchEnvelope } from "../models/match";
+import { IMatch, IMatchEnvelope, IMatchForm } from "../models/match";
 import { IActivePrediction, IPredictionDetails } from "../models/prediction";
 import { ITeamEnvelope, ITeamFormValues } from "../models/team";
 import { IUser, IUserAdmin, IUserFormValues } from "../models/user";
@@ -77,6 +77,8 @@ const Matches = {
     (matchId: number, predictionId: number)
       : Promise<IPredictionDetails> =>
       requests.get(`/matches/${matchId}/predictions/${predictionId}/details`),
+  create: (match: IMatchForm): Promise<IMatch> =>
+    requests.post(`/matches`, match),
 };
 
 const User = {

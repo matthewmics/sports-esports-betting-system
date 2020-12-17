@@ -1,7 +1,7 @@
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
 import { toast } from "react-toastify";
 import agent from "../api/agent";
-import { IMatch } from "../models/match";
+import { IMatch, IMatchForm } from "../models/match";
 import { IPrediction } from "../models/prediction";
 import { RootStore } from "./rootStore";
 
@@ -83,15 +83,20 @@ export default class MatchStore {
     }
   }
 
+  initializeMatch = (match: IMatch): IMatch => {
+    match.startDate = new Date(match.startDate);
+    match.predictions.forEach(p => p.startDate = new Date(p.startDate));
+    match.predictions = this.sortPredictionsBySequence(match.predictions);
+    return match;
+  }
+
   @action loadMatches = async () => {
     this.loadingMatches = true;
     try {
       const matchEnvelope = await agent.Matches.list(this.matchParams);
       runInAction(() => {
         matchEnvelope.matches.forEach((match) => {
-          match.startDate = new Date(match.startDate);
-          match.predictions.forEach(p => p.startDate = new Date(p.startDate));
-          match.predictions = this.sortPredictionsBySequence(match.predictions);
+          match = this.initializeMatch(match);
           this.matchRegistry.set(match.id, match);
         });
         this.matchCount = matchEnvelope.matchCount;
@@ -109,10 +114,8 @@ export default class MatchStore {
     this.selectedMatch = this.matchRegistry.get(id);
     if (!this.selectedMatch) {
       try {
-        const match = await agent.Matches.get(id);
-        match.startDate = new Date(match.startDate);
-        match.predictions.forEach(p => p.startDate = new Date(p.startDate));
-        match.predictions = this.sortPredictionsBySequence(match.predictions);
+        let match = await agent.Matches.get(id);
+        match = this.initializeMatch(match);
         runInAction(() => {
           this.selectedMatch = match;
         })
@@ -211,6 +214,25 @@ export default class MatchStore {
       this.rootStore.modalStore.closeModal();
       toast.success("Prediction updated");
 
+    } catch (error) {
+      throw error;
+    } finally {
+      runInAction(() => {
+        this.loading = false;
+      })
+    }
+  }
+
+  @action create = async (matchForm: IMatchForm) => {
+    this.loading = true;
+    try {
+      let createdMatch = await agent.Matches.create(matchForm);
+      let match = await agent.Matches.get(createdMatch.id);
+      match = this.initializeMatch(match);
+      runInAction(() => {
+        this.matchRegistry.set(match.id, match);
+      });
+      toast.success("Match created");
     } catch (error) {
       throw error;
     } finally {
