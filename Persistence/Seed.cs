@@ -81,7 +81,7 @@ namespace Persistence
             var result = new List<Match>();
 
             var dotaTeams = teams.Take(20).ToList();
-            var csgoTeams = teams.Skip(20).Take(7).ToList();
+            var csgoTeams = teams.Skip(20).Take(20).ToList();
 
             for (var i = 0; i < 10; i++)
             {
@@ -95,7 +95,6 @@ namespace Persistence
                     EventName = eventName,
                     TeamA = dotaTeams[0],
                     TeamB = dotaTeams[1],
-                    StartDate = DateTime.Now.AddDays(days),
                     Predictions = Dota2Predictions(days)
                 };
                 result.Add(match);
@@ -113,7 +112,6 @@ namespace Persistence
                     EventName = eventName,
                     TeamA = csgoTeams[0],
                     TeamB = csgoTeams[1],
-                    StartDate = DateTime.Now.AddDays(days),
                     Predictions = CSGOPredictions(days)
                 };
                 result.Add(match);
@@ -130,6 +128,7 @@ namespace Persistence
                 {
                     Sequence = 1,
                     Title = "Series Winner",
+                    IsMain = true,
                     Description = "Which team will win the series?",
                     PredictionStatusId = PredictionStatus.Open,
                     StartDate = DateTime.Now.AddDays(days),
@@ -194,6 +193,7 @@ namespace Persistence
                 {
                     Sequence = 1,
                     Title = "Series Winner",
+                    IsMain = true,
                     Description = "Which team will win the series?",
                     PredictionStatusId = PredictionStatus.Open,
                     StartDate = DateTime.Now.AddDays(days),

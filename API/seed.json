@@ -3,7 +3,7 @@
     {
       "Id": 1,
       "Name": "Team Secret",
-      "Image":  "teamsecret.png"
+      "Image": "teamsecret.png"
     },
     {
       "Id": 2,
@@ -23,7 +23,7 @@
     {
       "Id": 5,
       "Name": "Na'Vi",
-      "Image": "virtuspro.png"
+      "Image": "navi.png"
     },
     {
       "Id": 6,
@@ -77,51 +77,198 @@
     },
     {
       "Id": 16,
-      "Name": "Vici Gaming"
+      "Name": "Vici Gaming",
+      "Image": "vicigaming.png"
     },
     {
       "Id": 17,
-      "Name": "PSG.LGD"
+      "Name": "PSG.LGD",
+      "Image": "lgd.png"
     },
     {
       "Id": 18,
-      "Name": "EHOME"
+      "Name": "EHOME",
+      "Image": "ehome.png"
     },
     {
       "Id": 19,
-      "Name": "Aster"
+      "Name": "Team Aster",
+      "Image": "aster.png"
     },
     {
       "Id": 20,
-      "Name": "Invictus Gaming"
+      "Name": "Invictus Gaming",
+      "Image": "ig.png"
     },
     {
       "Id": 21,
-      "Name": "ENCE"
+      "Name": "ENCE",
+      "Image": "ence.png"
     },
     {
       "Id": 22,
-      "Name": "MAD Lions"
+      "Name": "MAD Lions",
+      "Image": "madlions.png"
     },
     {
       "Id": 23,
-      "Name": "Astralis"
+      "Name": "Astralis",
+      "Image": "astralis.png"
     },
     {
       "Id": 24,
-      "Name": "Tyloo"
+      "Name": "TYLOO",
+      "Image": "tyloo.png"
     },
     {
       "Id": 25,
-      "Name": "Heroic"
+      "Name": "Heroic",
+      "Image": "heroic.png"
     },
     {
       "Id": 26,
-      "Name": "G2"
+      "Name": "G2 Esports"
     },
     {
       "Id": 27,
-      "Name": "Mousesports"
+      "Name": "OG CSGO",
+      "Image": "ogcsgo.png"
+    },
+    {
+      "Id": 28,
+      "Name": "Na`Vi CSGO",
+      "Image": "navcsgo.png"
+    },
+    {
+      "Id": 29,
+      "Name": "Team Liquid CSGO",
+      "Image": "liquidcsgo.png"
+    },
+    {
+      "Id": 30,
+      "Name": "Team Vitality"
+    },
+    {
+      "Id": 31,
+      "Name": "Renegades"
+    },
+    {
+      "Id": 32,
+      "Name": "Heroic"
+    },
+    {
+      "Id": 33,
+      "Name": "FURIA"
+    },
+    {
+      "Id": 34,
+      "Name": "Virtus Pro CSGO",
+      "Image": "virtusprocsgo.png"
+    },
+    {
+      "Id": 35,
+      "Name": "compLexity Gaming"
+    },
+    {
+      "Id": 36,
+      "Name": "Evil Geniuses CSGO",
+      "Image": "egcsgo.png"
+    },
+    {
+      "Id": 37,
+      "Name": "ORDER"
+    },
+    {
+      "Id": 38,
+      "Name": "Team Spirit"
+    },
+    {
+      "Id": 39,
+      "Name": "Sprout"
+    },
+    {
+      "Id": 40,
+      "Name": "FaZe Clan"
+    },
+    {
+      "Id": 41,
+      "Name": "Spurs"
+    },
+    {
+      "Id": 42,
+      "Name": "Lakers"
+    },
+    {
+      "Id": 43,
+      "Name": "Nets"
+    },
+    {
+      "Id": 44,
+      "Name": "Pelicans"
+    },
+    {
+      "Id": 45,
+      "Name": "Suns"
+    },
+    {
+      "Id": 46,
+      "Name": "Heat"
+    },
+    {
+      "Id": 47,
+      "Name": "Celtics"
+    },
+    {
+      "Id": 48,
+      "Name": "Bucks"
+    },
+    {
+      "Id": 49,
+      "Name": "Knicks"
+    },
+    {
+      "Id": 50,
+      "Name": "Kings"
+    },
+    {
+      "Id": 51,
+      "Name": "Mavericks"
+    },
+    {
+      "Id": 52,
+      "Name": "Trail Blazers"
+    },
+    {
+      "Id": 53,
+      "Name": "Clippers"
+    },
+    {
+      "Id": 54,
+      "Name": "Bulls"
+    },
+    {
+      "Id": 55,
+      "Name": "Jazz"
+    },
+    {
+      "Id": 56,
+      "Name": "Nuggets"
+    },
+    {
+      "Id": 57,
+      "Name": "Timberwolves"
+    },
+    {
+      "Id": 58,
+      "Name": "Magic"
+    },
+    {
+      "Id": 59,
+      "Name": "Raptors"
+    },
+    {
+      "Id": 60,
+      "Name": "Thunder"
     }
   ],
 
