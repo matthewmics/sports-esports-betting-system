@@ -1,5 +1,6 @@
 import React from 'react'
 import { Segment, Label, Grid, Button, Image } from 'semantic-ui-react'
+import { history } from '../../..'
 import { IMatch } from '../../../app/models/match'
 
 
@@ -43,7 +44,8 @@ export const MatchDetails: React.FC<IProps> = ({ match }) => {
             </Segment>
             <Segment>
                 <Button.Group widths={2}>
-                    <Button content='Manage Predictions' primary />
+                    <Button content='Predictions' primary
+                        onClick={() => history.push(`/admin/matches/${match.id}/predictions`)} />
                     <Button content='Cancel Match' />
                 </Button.Group>
             </Segment>

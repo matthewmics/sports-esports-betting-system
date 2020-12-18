@@ -17,6 +17,7 @@ import TeamsPage from '../../features/admin/tables/Team/TeamsPage';
 import TeamCreate from '../../features/admin/tables/Team/TeamCreate';
 import TeamDetails from '../../features/admin/tables/Team/TeamDetails';
 import TeamEdit from '../../features/admin/tables/Team/TeamEdit';
+import ManagePredictionsPage from '../../features/admin/predictions/ManagePredictionsPage';
 
 
 const AdminApp = () => {
@@ -67,10 +68,12 @@ const AdminApp = () => {
                                     <Route path='/admin/matches/upcoming' component={UpcomingMatchesPage} />
                                     <Route path='/admin/matches/live' component={LiveMatchesPage} />
 
-                                    <Route path='/admin/tables/teams/create' component={TeamCreate} />
+                                    <Route key={new Date().getTime()} path='/admin/tables/teams/create' component={TeamCreate} />
                                     <Route path='/admin/tables/teams/:id/edit' component={TeamEdit} />
                                     <Route path='/admin/tables/teams/:id' component={TeamDetails} />
                                     <Route path='/admin/tables/teams' component={TeamsPage} />
+
+                                    <Route path='/admin/matches/:id/predictions' component={ManagePredictionsPage} />
 
                                     <Route render={() => <p>ERROR 404</p>} />
                                 </Switch>
