@@ -29,8 +29,8 @@ const PredictionDetails: React.FC<IProps> = ({ prediction, match, openModal, isL
                 <Grid columns={3} stackable textAlign='center'>
                     <Grid.Row verticalAlign='middle'>
                         <Grid.Column>
-                            <Image src='/assets/noimage.png' centered
-                                size='tiny' />
+                            <Image src={match?.teamA.image || '/assets/noimage.png'} centered
+                                size='tiny' style={{ marginBottom: '7px' }} />
                             {match?.teamA.name}<br />
                             <b>(x1.00)</b>
                         </Grid.Column>
@@ -38,8 +38,8 @@ const PredictionDetails: React.FC<IProps> = ({ prediction, match, openModal, isL
                             VS
                                 </Grid.Column>
                         <Grid.Column>
-                            <Image src='/assets/noimage.png' centered
-                                size='tiny' />
+                            <Image src={match?.teamB.image || '/assets/noimage.png'} centered
+                                size='tiny' style={{ marginBottom: '7px' }} />
                             {match?.teamB.name} <br />
                             <b>(x1.00)</b>
                         </Grid.Column>

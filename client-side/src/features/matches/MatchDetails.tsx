@@ -1,4 +1,4 @@
-import { format, formatDistance, formatDistanceToNow } from 'date-fns'
+import { formatDistanceToNowStrict } from 'date-fns'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Segment, Label, Grid, Button, Image } from 'semantic-ui-react'
@@ -20,7 +20,7 @@ const MatchDetail: React.FC<IProps> = ({
                 {" "}
                 {match.eventName}
                 <span style={{ float: 'right', color: 'teal', lineHeight: '27px' }}>
-                    {formatDistanceToNow(match.startDate)} from now
+                    {formatDistanceToNowStrict(match.startDate, {addSuffix: true})}
                 </span>
             </Segment>
             <Segment>

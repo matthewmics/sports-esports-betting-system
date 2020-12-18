@@ -18,7 +18,7 @@ const AdminNavBar = () => {
             </Menu.Item>
 
             <Menu.Item>
-                <Button content='Create match' positive icon='plus' labelPosition='left'
+                <Button content='Create match' basic icon='plus' labelPosition='left'
                     onClick={() => openModal(<CreateMatchForm />)}
                 />
             </Menu.Item>

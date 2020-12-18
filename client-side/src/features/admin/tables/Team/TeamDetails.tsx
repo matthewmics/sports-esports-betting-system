@@ -71,7 +71,7 @@ const TeamDetails: React.FC<IProps> = ({ match }) => {
                 <Card.Content>
                     <Card.Header>{team.name}</Card.Header>
                     <Card.Meta>
-                        <span className='date'>Created at {team.createdAt}</span>
+                        <span className='date'><b>Created at</b> {team.createdAt}</span>
                     </Card.Meta>
                 </Card.Content>
                 <Card.Content extra>
