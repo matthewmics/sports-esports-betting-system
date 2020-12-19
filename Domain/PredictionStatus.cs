@@ -18,5 +18,6 @@ namespace Domain
         public const short Open = 0;
         public const short Settled = 1;
         public const short Cancelled = 2;
+        public const short Live = 3;
     }
 }

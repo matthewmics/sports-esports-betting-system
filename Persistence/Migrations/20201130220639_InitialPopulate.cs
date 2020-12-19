@@ -10,7 +10,8 @@ namespace Persistence.Migrations
                "VALUES " +
                "(0, 'open', 'Open')," +
                "(1, 'settled', 'Settled')," +
-               "(2, 'cancelled', 'Cancelled')");
+               "(2, 'cancelled', 'Cancelled')," +
+               "(3, 'live', 'Live')");
 
             migrationBuilder.Sql("INSERT INTO UserTransactionTypes(Id, Name, DisplayText)" +
                "VALUES " +
