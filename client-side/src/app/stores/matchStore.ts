@@ -10,7 +10,7 @@ const LIMIT: number = 6;
 export default class MatchStore {
 
   rootStore: RootStore;
-  
+
   @observable matchRegistry = new Map();
   @observable selectedMatch: IMatch | null = null;
   @observable loading = false;
@@ -112,7 +112,7 @@ export default class MatchStore {
     }
   };
 
-  @action selectMatch = async (id: number) => {
+  @action selectMatch = async (id: number, loadUserPredictionDetails = true) => {
     this.selectedMatch = this.matchRegistry.get(id);
     if (!this.selectedMatch) {
       try {
@@ -130,8 +130,9 @@ export default class MatchStore {
       this.rootStore.predictionStore.selectedPrediction = this.selectedMatch!.predictions[0];
     });
 
-    this.rootStore.predictionStore.loadPredictionDetails();
-  } 
+    if (loadUserPredictionDetails)
+      this.rootStore.predictionStore.loadPredictionDetails();
+  }
 
   @action create = async (matchForm: IMatchForm) => {
     this.loading = true;

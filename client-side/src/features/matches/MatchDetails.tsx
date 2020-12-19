@@ -1,4 +1,5 @@
 import { formatDistanceToNowStrict } from 'date-fns'
+import { observer } from 'mobx-react-lite'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Segment, Label, Grid, Button, Image } from 'semantic-ui-react'
@@ -11,6 +12,10 @@ interface IProps {
 const MatchDetail: React.FC<IProps> = ({
     match
 }) => {
+
+    const mainPrediction = match.predictions.filter(x => x.isMain)[0];
+    const { predictionStatus } = mainPrediction;
+
     return (
         <Segment.Group>
             <Segment clearing>
@@ -20,7 +25,12 @@ const MatchDetail: React.FC<IProps> = ({
                 {" "}
                 {match.eventName}
                 <span style={{ float: 'right', color: 'teal', lineHeight: '27px' }}>
-                    {formatDistanceToNowStrict(match.startDate, {addSuffix: true})}
+                    {predictionStatus.name === 'live' &&
+                        <Label color='red' content='Live' />
+                    }
+                    {predictionStatus.name === 'open' &&
+                        formatDistanceToNowStrict(match.startDate, { addSuffix: true })
+                    }
                 </span>
             </Segment>
             <Segment>
@@ -55,4 +65,4 @@ const MatchDetail: React.FC<IProps> = ({
     )
 }
 
-export default MatchDetail
+export default observer(MatchDetail)
