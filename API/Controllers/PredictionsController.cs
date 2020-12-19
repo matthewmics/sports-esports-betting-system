@@ -8,8 +8,7 @@ using System;
 
 namespace API.Controllers
 {
-    [Route("api/predictions")]
-    public class PredictionController : BaseController
+    public class PredictionsController : BaseController
     {
         private readonly static SemaphoreSlim _sempaphorePredict
             = new SemaphoreSlim(1);
@@ -62,12 +61,17 @@ namespace API.Controllers
 
         [Authorize]
         [HttpDelete("{predictionId}/predict")]
-        public async Task<Unit> Unpredict(Application.Prediction.Unpredict.Command command)
+        public async Task<Unit> Unpredict(int predictionId)
         {
-            return await Mediator.Send(command);
+            return await Mediator.Send(new Application.Prediction.Unpredict.Command() { PredictionId = predictionId });
         }
 
-
+        [Authorize(policy: "IsAdmin")]
+        [HttpPost("{predictionId}/setLive")]
+        public async Task<Unit> SetLive(int predictionId)
+        {
+            return await Mediator.Send(new Application.Prediction.SetLive.Command() { PredictionId = predictionId});
+        }
 
 
     }
