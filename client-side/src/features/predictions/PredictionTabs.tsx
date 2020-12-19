@@ -24,6 +24,11 @@ const PredictionTabs: React.FC<IProps> = ({ match, selectPrediction, selectedPre
     return (
         <Fragment>
             {match && match.predictions.map(prediction => {
+
+                var statusColor = 'green' as any;
+                if(prediction.predictionStatus.name === 'live')
+                    statusColor = 'red';
+
                 return (
                     <Label key={prediction.id}
                         onClick={() => {
@@ -36,7 +41,7 @@ const PredictionTabs: React.FC<IProps> = ({ match, selectPrediction, selectedPre
                         style={loading ? inactiveStyle : activeStyle}>
                         {prediction.title}
                         <Label style={{ marginLeft: '9px' }}
-                               content={prediction.predictionStatus.displayText} color='green' />
+                               content={prediction.predictionStatus.displayText} color={statusColor} />
                     </Label>
                 )
             })}

@@ -1,4 +1,4 @@
-import { IPrediction } from "./prediction";
+import { IPrediction, IPredictionStatus } from "./prediction";
 import { ITeam } from "./team";
 
 export interface IMatchEnvelope {
@@ -15,6 +15,7 @@ export interface IMatch {
     teamB: ITeam;
     predictions: IPrediction[];
     series: number;
+    matchStatus: IPredictionStatus;
     game: IGame;
 }
 

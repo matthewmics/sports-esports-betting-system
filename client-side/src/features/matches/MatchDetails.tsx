@@ -2,7 +2,7 @@ import { formatDistanceToNowStrict } from 'date-fns'
 import { observer } from 'mobx-react-lite'
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Segment, Label, Grid, Button, Image } from 'semantic-ui-react'
+import { Segment, Label, Grid, Button, Image, Icon } from 'semantic-ui-react'
 import { IMatch } from '../../app/models/match'
 
 interface IProps {
@@ -13,9 +13,6 @@ const MatchDetail: React.FC<IProps> = ({
     match
 }) => {
 
-    const mainPrediction = match.predictions.filter(x => x.isMain)[0];
-    const { predictionStatus } = mainPrediction;
-
     return (
         <Segment.Group>
             <Segment clearing>
@@ -25,11 +22,14 @@ const MatchDetail: React.FC<IProps> = ({
                 {" "}
                 {match.eventName}
                 <span style={{ float: 'right', color: 'teal', lineHeight: '27px' }}>
-                    {predictionStatus.name === 'live' &&
-                        <Label color='red' content='Live' />
+                    {match.matchStatus.name === 'live' &&
+                        <Label color='red' content='Live'  icon='rocket'/>
                     }
-                    {predictionStatus.name === 'open' &&
-                        formatDistanceToNowStrict(match.startDate, { addSuffix: true })
+                    {match.matchStatus.name === 'open' &&
+                    <span>
+                        <Icon name='clock outline'/>
+                        {formatDistanceToNowStrict(match.startDate, { addSuffix: true })}
+                    </span>
                     }
                 </span>
             </Segment>

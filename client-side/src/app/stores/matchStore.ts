@@ -46,9 +46,13 @@ export default class MatchStore {
   }
 
   @computed get matchList() {
-    return Array.from(this.matchRegistry.values()).sort((a: IMatch, b: IMatch) =>
-      a.startDate.getTime() - b.startDate.getTime());
+    const matches = Array.from(this.matchRegistry.values()) as IMatch[];
+    const liveMatches = matches.filter(x => x.matchStatus.name === 'live');
+    const restOfMatches = matches.filter(x => x.matchStatus.name !== 'live').sort((a: IMatch, b: IMatch) =>
+      a.startDate.getTime() - b.startDate.getTime());;
+    return [...liveMatches, ...restOfMatches];
   }
+
 
   @computed get matchSelections() {
     if (!this.selectedMatch)
