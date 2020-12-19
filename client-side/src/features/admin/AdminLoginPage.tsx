@@ -1,9 +1,10 @@
 import { FORM_ERROR } from 'final-form'
 import { observer } from 'mobx-react-lite'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Field, Form as FinalForm } from 'react-final-form'
 import { combineValidators, isRequired } from 'revalidate'
 import { Button, Divider, Form, Header, Segment } from 'semantic-ui-react'
+import { history } from '../..'
 import { ErrorMessage } from '../../app/common/forms/ErrorMessage'
 import TextInput from '../../app/common/forms/TextInput'
 import { IUserFormValues } from '../../app/models/user'
@@ -17,7 +18,13 @@ const validate = combineValidators({
 const AdminLoginPage = () => {
 
     const rootStore = useContext(RootStoreContext);
-    const { login, loading } = rootStore.adminUserStore;
+    const { login, loading, isLoggedIn } = rootStore.adminUserStore;
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            history.push("/admin");
+        }
+    }, [isLoggedIn]);
 
     return (
         <Segment className='fixed-center' style={{ maxWidth: '380px', top: '7em' }}>
@@ -44,7 +51,7 @@ const AdminLoginPage = () => {
                             {submitError && !dirtySinceLastSubmit &&
                                 <ErrorMessage text='Invalid email or password' error={submitError} />}
 
-                            <Button content='LOGIN' icon='lock' primary fluid loading={loading}/>
+                            <Button content='LOGIN' icon='lock' primary fluid loading={loading} />
                         </Form>
                     )
                 }} />

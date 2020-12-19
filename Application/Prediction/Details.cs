@@ -19,9 +19,7 @@ namespace Application.Prediction
 
         public class Query : IRequest<PredictionDetailsDto>
         {
-            public int MatchId { get; set; }
             public int PredictionId { get; set; }
-
         }
 
         public class Handler : IRequestHandler<Query, PredictionDetailsDto>
@@ -39,13 +37,7 @@ namespace Application.Prediction
 
             public async System.Threading.Tasks.Task<PredictionDetailsDto> Handle(Query request, CancellationToken cancellationToken)
             {
-                var match = await _ctx.Matches.Include(x => x.Predictions)
-                              .SingleOrDefaultAsync(m => m.Id == request.MatchId);
-
-                if (match == null)
-                    throw new RestException(System.Net.HttpStatusCode.NotFound, new { Match = "Match not found" });
-
-                var prediction = match.Predictions.SingleOrDefault(x => x.Id == request.PredictionId);
+                var prediction = _ctx.Predictions.SingleOrDefault(x => x.Id == request.PredictionId);
                 if (prediction == null)
                     throw new RestException(System.Net.HttpStatusCode.NotFound, new { Prediction = "Prediction not found" });
 
@@ -63,7 +55,6 @@ namespace Application.Prediction
                     if (userPrediction != null)
                         activePrediction = _mapper.Map<ActivePredictionDto>(userPrediction);
                 }
-
 
                 var predictionDetails = new PredictionDetailsDto
                 {

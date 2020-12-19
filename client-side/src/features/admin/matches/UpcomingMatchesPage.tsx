@@ -9,12 +9,14 @@ import { MatchDetails } from './MatchDetails'
 const UpcomingMatchesPage = () => {
 
     const rootStore = useContext(RootStoreContext);
-    const { loadingMatches, matchList, setFilter, setPage, page, loadMatches, totalPages } = rootStore.matchStore;
+    const { loadingMatches, matchList, setFilter, setPage, page, loadMatches, totalPages, hasLoaded } = rootStore.matchStore;
 
     useEffect(() => {
-        setFilter("game", "all", false);
-        setFilter("status", "upcoming");
-    }, [setFilter])
+        if (!hasLoaded) {
+            setFilter("game", "all", false);
+            setFilter("status", "upcoming");
+        }
+    }, [setFilter, hasLoaded])
 
     const handleLoadNext = () => {
         if (!loadingMatches) {

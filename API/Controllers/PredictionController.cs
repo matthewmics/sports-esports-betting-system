@@ -8,25 +8,24 @@ using System;
 
 namespace API.Controllers
 {
-    [Route("api/matches")]
+    [Route("api/predictions")]
     public class PredictionController : BaseController
     {
         private readonly static SemaphoreSlim _sempaphorePredict
             = new SemaphoreSlim(1);
 
-        [HttpGet("{matchId}/predictions/{predictionId}/details")]
-        public async Task<PredictionDetailsDto> PredictionDetails(int matchId, int predictionId)
+        [HttpGet("{predictionId}/details")]
+        public async Task<PredictionDetailsDto> PredictionDetails(int predictionId)
         {
-            return await Mediator.Send(new Application.Prediction.Details.Query { MatchId = matchId, PredictionId = predictionId });
+            return await Mediator.Send(new Application.Prediction.Details.Query { PredictionId = predictionId });
         }
 
         [Authorize]
-        [HttpPost("{matchId}/predictions/{predictionId}/predict")]
-        public async Task<ActionResult<ActivePredictionDto>> Predict(int matchId, int predictionId,
+        [HttpPost("{predictionId}/predict")]
+        public async Task<ActionResult<ActivePredictionDto>> Predict(int predictionId,
             [FromBody] Application.Prediction.Predict.Command command)
         {
             await _sempaphorePredict.WaitAsync();
-            command.MatchId = matchId;
             command.PredictionId = predictionId;
             try
             {
@@ -42,12 +41,11 @@ namespace API.Controllers
         }
 
         [Authorize]
-        [HttpPut("{matchId}/predictions/{predictionId}/predict")]
-        public async Task<ActionResult<ActivePredictionDto>> UpdatePrediction(int matchId, int predictionId,
-            [FromBody] Application.Prediction.Predict.Command command)
+        [HttpPut("{predictionId}/predict")]
+        public async Task<ActionResult<ActivePredictionDto>> UpdatePrediction(int predictionId,
+            [FromBody] Application.Prediction.UpdatePrediction.Command command)
         {
             await _sempaphorePredict.WaitAsync();
-            command.MatchId = matchId;
             command.PredictionId = predictionId;
             try
             {
@@ -63,15 +61,14 @@ namespace API.Controllers
         }
 
         [Authorize]
-        [HttpDelete("{matchId}/predictions/{predictionId}/predict")]
-        public async Task<Unit> Unpredict(int matchId, int predictionId)
+        [HttpDelete("{predictionId}/predict")]
+        public async Task<Unit> Unpredict(Application.Prediction.Unpredict.Command command)
         {
-            var command = new Application.Prediction.Unpredict.Command
-            {
-                MatchId = matchId,
-                PredictionId = predictionId
-            };
             return await Mediator.Send(command);
         }
+
+
+
+
     }
 }

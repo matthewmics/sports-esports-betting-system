@@ -41,7 +41,6 @@ export default class AdminUserStore {
                 this.adminUser = user;
             })
             toast.success("Login Successful!");
-            history.push("/admin");
         } catch (error) {
             throw error;
         } finally {
@@ -50,7 +49,7 @@ export default class AdminUserStore {
             })
         }
     }
-
+    
     @action logout = () => {
         this.adminUser = null;
         toast.info("You have logged out!");

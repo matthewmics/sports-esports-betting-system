@@ -19,7 +19,6 @@ namespace Application.Prediction
 
         public class Command : IRequest<ActivePredictionDto>
         {
-            public int MatchId { get; set; }
             public int PredictionId { get; set; }
             public int Amount { get; set; }
             public int TeamId { get; set; }
@@ -42,21 +41,18 @@ namespace Application.Prediction
 
             public async Task<ActivePredictionDto> Handle(Command request, CancellationToken cancellationToken)
             {
-                var match = await _context.Matches.Include(x => x.Predictions)
-                              .SingleOrDefaultAsync(m => m.Id == request.MatchId);
+                if (request.Amount < 50)
+                    throw new RestException(System.Net.HttpStatusCode.BadRequest, new { Amount = "Minimum amount is 50" });
 
-                if (match == null)
-                    throw new RestException(System.Net.HttpStatusCode.NotFound, new { Match = "Match not found" });
-
-                if (request.TeamId != match.TeamAId && request.TeamId != match.TeamBId)
-                    throw new RestException(System.Net.HttpStatusCode.NotFound, new { Team = "Team not found for this match" });
-
-                var predictedTeamId = match.TeamAId == request.TeamId ? match.TeamAId : match.TeamBId;
-                var team = await _context.Teams.FindAsync(predictedTeamId);
-
-                var prediction = match.Predictions.SingleOrDefault(x => x.Id == request.PredictionId);
+                var prediction = _context.Predictions.Include(x => x.Match).SingleOrDefault(x => x.Id == request.PredictionId);
                 if (prediction == null)
                     throw new RestException(System.Net.HttpStatusCode.NotFound, new { Prediction = "Prediction not found" });
+
+                if (request.TeamId != prediction.Match.TeamAId && request.TeamId != prediction.Match.TeamBId)
+                    throw new RestException(System.Net.HttpStatusCode.NotFound, new { Team = "Team not found for this match" });
+
+                var predictedTeamId = prediction.Match.TeamAId == request.TeamId ? prediction.Match.TeamAId : prediction.Match.TeamBId;
+                var team = await _context.Teams.FindAsync(predictedTeamId);
 
                 var customer = await _context.Customers.Include(x => x.AppUser)
                               .Where(a => a.AppUser.UserName == _userAccessor.GetCurrentUsername())

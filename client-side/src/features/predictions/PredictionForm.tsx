@@ -28,7 +28,8 @@ const PredictionForm: React.FC<IProps> = ({ initialTeam, activePrediciton }) => 
 
     const rootStore = useContext(RootStoreContext);
     const { closeModal } = rootStore.modalStore;
-    const { predict, matchSelections, updatePrediction } = rootStore.matchStore;
+    const { matchSelections } = rootStore.matchStore;
+    const {predict, updatePrediction} = rootStore.predictionStore;
 
     const [loading, setLoading] = useState(false);
 

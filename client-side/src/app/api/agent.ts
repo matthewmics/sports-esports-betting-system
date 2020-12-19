@@ -59,27 +59,30 @@ const Matches = {
       .then(sleep(500))
       .then(responseBody),
   get: (id: number): Promise<IMatch> => requests.get(`/matches/${id}`),
-  predict: (matchId: number, predictionId: number, teamId: number, amount: number)
-    : Promise<IActivePrediction> =>
-    requests.post(`/matches/${matchId}/predictions/${predictionId}/predict`, {
-      amount: amount,
-      teamId: teamId
-    }),
-  updatePrediction: (matchId: number, predictionId: number, teamId: number, amount: number)
-    : Promise<IActivePrediction> =>
-    requests.put(`/matches/${matchId}/predictions/${predictionId}/predict`, {
-      amount: amount,
-      teamId: teamId
-    }),
-  unpredict: (matchId: number, predictionId: number) =>
-    requests.delete(`/matches/${matchId}/predictions/${predictionId}/predict`),
-  predictionDetails:
-    (matchId: number, predictionId: number)
-      : Promise<IPredictionDetails> =>
-      requests.get(`/matches/${matchId}/predictions/${predictionId}/details`),
   create: (match: IMatchForm): Promise<IMatch> =>
     requests.post(`/matches`, match),
 };
+
+const Predictions = {
+  predict: (predictionId: number, teamId: number, amount: number)
+    : Promise<IActivePrediction> =>
+    requests.post(`/predictions/${predictionId}/predict`, {
+      amount: amount,
+      teamId: teamId
+    }),
+  updatePrediction: (predictionId: number, teamId: number, amount: number)
+    : Promise<IActivePrediction> =>
+    requests.put(`/predictions/${predictionId}/predict`, {
+      amount: amount,
+      teamId: teamId
+    }),
+  unpredict: (predictionId: number) =>
+    requests.delete(`/predictions/${predictionId}/predict`),
+  predictionDetails:
+    (predictionId: number)
+      : Promise<IPredictionDetails> =>
+      requests.get(`/predictions/${predictionId}/details`),
+}
 
 const User = {
   login: (formValues: IUserFormValues): Promise<IUser> =>
@@ -116,7 +119,7 @@ const Teams = {
 }
 
 const agent = {
-  Matches, User, Teams
+  Matches, User, Teams, Predictions
 }
 
 export default agent;

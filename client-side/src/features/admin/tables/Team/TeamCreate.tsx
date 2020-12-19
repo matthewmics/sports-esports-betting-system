@@ -64,7 +64,7 @@ const TeamForm = () => {
             teamValues = rest;
         }
         return createTeam(teamValues).then(() => {            
-            history.push('/admin/tables/teams')
+            history.push('/admin/tables/teams/create')
         }).catch(error => ({
             [FORM_ERROR]: error
         }));

@@ -17,7 +17,6 @@ namespace Application.Prediction
 
         public class Command : IRequest
         {
-            public int MatchId { get; set; }
             public int PredictionId { get; set; }
         }
 
@@ -34,14 +33,7 @@ namespace Application.Prediction
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-
-                var match = await _context.Matches.Include(x => x.Predictions)
-                                  .SingleOrDefaultAsync(m => m.Id == request.MatchId);
-
-                if (match == null)
-                    throw new RestException(System.Net.HttpStatusCode.NotFound, new { Match = "Match not found" });
-
-                var prediction = match.Predictions.SingleOrDefault(x => x.Id == request.PredictionId);
+                var prediction = _context.Predictions.SingleOrDefault(x => x.Id == request.PredictionId);
                 if (prediction == null)
                     throw new RestException(System.Net.HttpStatusCode.NotFound, new { Prediction = "Prediction not found" });
 
@@ -54,7 +46,8 @@ namespace Application.Prediction
                                                x.PredictionId == prediction.Id);
 
                 if (userPrediction == null)
-                    throw new RestException(System.Net.HttpStatusCode.NotFound, new { Prediction = "You did not participate in this prediction" });
+                    throw new RestException(System.Net.HttpStatusCode.NotFound, 
+                        new { Prediction = "You did not participate in this prediction" });
 
                 _context.UserPredictions.Remove(userPrediction);
 
