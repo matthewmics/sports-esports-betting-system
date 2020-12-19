@@ -55,3 +55,7 @@ body {
   height: calc(100vh - 4.6rem);
   margin-top: 4.6rem;
 }
+
+.clearFix {
+  overflow: auto;
+}
