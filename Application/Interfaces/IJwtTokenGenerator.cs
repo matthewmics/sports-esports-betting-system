@@ -7,6 +7,6 @@ namespace Application.Interfaces
 {
     public interface IJwtTokenGenerator
     {
-        string GenerateToken(string nameId, string tokenKey);
+        string GenerateToken(string email, string tokenKey);
     }
 }

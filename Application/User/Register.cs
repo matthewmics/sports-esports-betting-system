@@ -21,7 +21,6 @@ namespace Application.User
         public class Command : IRequest<UserDto>
         {
             public string Email { get; set; }
-            public string Username { get; set; }
             public string DisplayName { get; set; }
             public string Password { get; set; }
         }
@@ -31,7 +30,6 @@ namespace Application.User
             public CommandValidator()
             {
                 RuleFor(x => x.Email).NotEmpty();
-                RuleFor(x => x.Username).NotEmpty();
                 RuleFor(x => x.DisplayName).NotEmpty();
                 RuleFor(x => x.Password).NotEmpty();
             }
@@ -54,12 +52,9 @@ namespace Application.User
             {
                 if (await _context.Users.AnyAsync(u => u.Email == request.Email))
                     throw new RestException(System.Net.HttpStatusCode.BadRequest, new { Email = "Email Already exists"});
-                if (await _context.Users.AnyAsync(u => u.UserName == request.Username))
-                    throw new RestException(System.Net.HttpStatusCode.BadRequest, new { Username = "Username Already exists" });
 
                 var userToCreate = new AppUser
                 {
-                    UserName = request.Username,
                     Email = request.Email,
                     DisplayName = request.DisplayName
                 };

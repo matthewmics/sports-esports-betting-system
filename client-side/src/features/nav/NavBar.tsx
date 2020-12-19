@@ -110,7 +110,7 @@ const NavBar = () => {
 
                                             <div style={{ display: 'block', minWidth: '150px' }}>
                                                 <span style={{ fontWeight: 'bold', display: 'block', overflow: 'hidden', maxWidth: '150px', textOverflow: 'ellipsis' }}>
-                                                    {user!.username}
+                                                    {user!.displayName}
                                                 </span>
                                                 <span>
                                                     {user!.email}

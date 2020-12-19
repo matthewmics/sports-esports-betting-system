@@ -1,6 +1,5 @@
 interface IUserBase {
     displayName: string;
-    username: string;
     email: string;
     token: string;
 }
@@ -16,7 +15,6 @@ export interface IUserAdmin extends IUserBase {
 export interface IUserFormValues {
     displayName?: string;
     email: string;
-    username?: string;
     password: string;
 }
 
@@ -25,7 +23,6 @@ export interface IUserRegisterFormValues {
     firstname: string;
     lastname: string;
     email: string;
-    username: string;
     password: string;
     confirmPassword: string;
 }

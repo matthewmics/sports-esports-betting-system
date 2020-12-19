@@ -42,7 +42,7 @@ namespace Application.Prediction
                     throw new RestException(System.Net.HttpStatusCode.NotFound, new { Prediction = "Prediction not found" });
 
                 var customer = await _ctx.Customers.Include(x => x.AppUser)
-                              .Where(a => a.AppUser.UserName == _userAccessor.GetCurrentUsername())
+                              .Where(a => a.AppUser.Email == _userAccessor.GetCurrentEmail())
                               .SingleOrDefaultAsync();
 
                 ActivePredictionDto activePrediction = null;

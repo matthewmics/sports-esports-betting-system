@@ -57,7 +57,7 @@ namespace Application.Prediction
                 var team = await _context.Teams.FindAsync(predictedTeamId);
 
                 var customer = await _context.Customers.Include(x => x.AppUser)
-                              .Where(a => a.AppUser.UserName == _userAccessor.GetCurrentUsername())
+                              .Where(a => a.AppUser.Email == _userAccessor.GetCurrentEmail())
                               .SingleAsync();
 
                 var userPrediction = await _context.UserPredictions

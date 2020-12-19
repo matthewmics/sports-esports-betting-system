@@ -10,11 +10,11 @@ namespace Infrastrucure.Security
 {
     public class JwtTokenGenerator : IJwtTokenGenerator
     {
-        public string GenerateToken(string nameId, string tokenKey)
+        public string GenerateToken(string email, string tokenKey)
         {
             var claims = new List<Claim>()
             {
-                new Claim(JwtRegisteredClaimNames.NameId, nameId)
+                new Claim(JwtRegisteredClaimNames.Email, email)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenKey));

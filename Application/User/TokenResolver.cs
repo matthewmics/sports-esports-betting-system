@@ -19,7 +19,7 @@ namespace Application.User
 
         public string Resolve(AppUser source, BaseUser destination, string destMember, ResolutionContext context)
         {
-            return _jwtTokenGenerator.GenerateToken(source.UserName,
+            return _jwtTokenGenerator.GenerateToken(source.Email,
                     _configuration.GetSection("AppSettings:TokenKey").Value);
         }
     }

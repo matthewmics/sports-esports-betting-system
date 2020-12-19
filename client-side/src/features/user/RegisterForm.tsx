@@ -54,10 +54,6 @@ const RegisterForm = () => {
                                 placeholder='Lastname' />
                         </Form.Group>
                         <Field component={TextInput}
-                            label='Username'
-                            name='username'
-                            placeholder='Username' />
-                        <Field component={TextInput}
                             label='Email'
                             name='email'
                             placeholder='Email' />

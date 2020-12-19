@@ -42,7 +42,7 @@ namespace Application.User
 
             public async System.Threading.Tasks.Task<UserDto> Handle(Query request, CancellationToken cancellationToken)
             {
-                var user = await _userManager.FindByNameAsync(_userAccessor.GetCurrentUsername());
+                var user = await _userManager.FindByEmailAsync(_userAccessor.GetCurrentEmail());
                 if (user == null)
                     throw new RestException(System.Net.HttpStatusCode.NotFound);
                 return _mapper.Map<UserDto>(user);

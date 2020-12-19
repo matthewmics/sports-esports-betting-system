@@ -17,9 +17,9 @@ namespace API.Security
             _httpContext = httpContext;
         }
 
-        public string GetCurrentUsername()
+        public string GetCurrentEmail()
         {
-            return _httpContext.HttpContext.User?.Claims?.SingleOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?
+            return _httpContext.HttpContext.User?.Claims?.SingleOrDefault(x => x.Type == ClaimTypes.Email)?
                    .Value;
         }
     }

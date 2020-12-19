@@ -41,7 +41,7 @@ namespace Infrastructure.Security
             var currentUser = _httpContext.HttpContext.User?.Claims?
                 .SingleOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
 
-            var user = _userManager.FindByNameAsync(_userAccessor.GetCurrentUsername()).Result;
+            var user = _userManager.FindByEmailAsync(_userAccessor.GetCurrentEmail()).Result;
 
             if (_context.Admins.Any(x => x.AppUserId == user.Id))
                 context.Succeed(requirement);
