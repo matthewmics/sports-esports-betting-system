@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite'
 import React, { useContext, useEffect } from 'react'
-import { Menu, Image } from 'semantic-ui-react'
+import { Menu, Image, Dropdown, Icon } from 'semantic-ui-react'
+import { predictionStatusSelection } from '../../app/common/options'
 import { RootStoreContext } from '../../app/stores/rootStore'
 
 const tabImageStyle = {
@@ -53,6 +54,13 @@ const MatchFilters = () => {
             >
                 <Image src='/assets/images/sports-outlined.png' style={tabImageStyle} /> Sports
             </Menu.Item>
+
+            <Menu.Menu position='right'>
+                <Menu.Item>
+                    <Icon name='filter' />
+                    <Dropdown options={predictionStatusSelection} defaultValue='0'/>
+                </Menu.Item>
+            </Menu.Menu>
         </Menu>
     )
 }

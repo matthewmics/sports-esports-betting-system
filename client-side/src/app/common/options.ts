@@ -33,3 +33,15 @@ export const gameSelection = [
         key: '2', text: 'Sports', value: '2',
     }
 ]
+
+export const predictionStatusSelection = [
+    {
+        key: '4', text: 'All', value: '3', icon: 'cubes'
+    }, {
+        key: '0', text: 'Upcoming', value: '0', icon: 'clock'
+    }, {
+        key: '3', text: 'Live', value: '3', icon: 'rocket'
+    }, {
+        key: '1', text: 'Finished', value: '1', icon: 'hourglass end'
+    }
+]
