@@ -36,12 +36,12 @@ export const gameSelection = [
 
 export const predictionStatusSelection = [
     {
-        key: '4', text: 'All', value: '3', icon: 'cubes'
+        key: '4', text: 'All', value: 'all', icon: 'cubes'
     }, {
-        key: '0', text: 'Upcoming', value: '0', icon: 'clock'
+        key: '0', text: 'Upcoming', value: 'upcoming', icon: 'clock'
     }, {
-        key: '3', text: 'Live', value: '3', icon: 'rocket'
+        key: '3', text: 'Live', value: 'live', icon: 'rocket'
     }, {
-        key: '1', text: 'Finished', value: '1', icon: 'hourglass end'
+        key: '1', text: 'Finished', value: 'finished', icon: 'hourglass end'
     }
 ]

@@ -5,7 +5,7 @@ import { predictionStatusSelection } from '../../app/common/options'
 import { RootStoreContext } from '../../app/stores/rootStore'
 
 const tabImageStyle = {
-    width: '35px', height: '35px', marginRight: '5px'
+    width: '35px', height: '35px', marginRight: '12px'
 }
 
 const MatchFilters = () => {
@@ -15,6 +15,9 @@ const MatchFilters = () => {
 
     const handleGameFilter = (game: string) => {
         setFilter("game", game);
+    }
+    const handleStatusFilter = (status: string) => {
+        setFilter("status", status);
     }
 
     useEffect(() => {
@@ -29,7 +32,7 @@ const MatchFilters = () => {
                 active={matchFilters.get("game") === "all"}
                 onClick={() => handleGameFilter("all")}
             >
-                All
+                <Image src='/assets/images/cubes.png' style={tabImageStyle} /> All
             </Menu.Item>
             <Menu.Item
                 name='dota2'
@@ -58,7 +61,8 @@ const MatchFilters = () => {
             <Menu.Menu position='right'>
                 <Menu.Item>
                     <Icon name='filter' />
-                    <Dropdown options={predictionStatusSelection} defaultValue='0'/>
+                    <Dropdown options={predictionStatusSelection} defaultValue='all'
+                        onChange={(e, data) => handleStatusFilter(String(data.value))} />
                 </Menu.Item>
             </Menu.Menu>
         </Menu>

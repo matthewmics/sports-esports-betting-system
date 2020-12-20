@@ -19,6 +19,7 @@ namespace Application.Match
             public int? Limit { get; set; }
             public int? Offset { get; set; }
             public string Game { get; set; }
+            public string Status { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, MatchEnvelope>
@@ -43,7 +44,7 @@ namespace Application.Match
                 .OrderBy(x => x.Predictions.Where(p => p.IsMain).Single().StartDate)
                 .AsQueryable();
 
-                if (request.Game != null && request.Game != "all")
+                if (!string.IsNullOrEmpty(request.Game) && request.Game != "all")
                 {
                     switch (request.Game)
                     {
@@ -55,6 +56,27 @@ namespace Application.Match
                             break;
                         case "sports":
                             queryable = queryable.Where(x => x.GameId == Game.Sports);
+                            break;
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(request.Status) && request.Status != "all")
+                {
+                    switch (request.Status)
+                    {
+                        case "upcoming":
+                            queryable = queryable.Where(x => 
+                            x.Predictions.Single(x => x.IsMain)
+                            .PredictionStatusId == PredictionStatus.Open);
+                            break;
+                        case "live":
+                            queryable = queryable.Where(x => x.Predictions.Single(x => x.IsMain)
+                            .PredictionStatusId == PredictionStatus.Live);
+                            break;
+                        case "finished":
+                            queryable = queryable.Where(x =>
+                            (x.Predictions.Single(x => x.IsMain).PredictionStatusId == PredictionStatus.Cancelled) ||
+                            (x.Predictions.Single(x => x.IsMain).PredictionStatusId == PredictionStatus.Settled));
                             break;
                     }
                 }
