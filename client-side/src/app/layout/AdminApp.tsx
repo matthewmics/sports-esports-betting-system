@@ -48,7 +48,7 @@ const AdminApp = () => {
     return (
         <Fragment>
             <ModalContainer />
-            <ToastContainer position='bottom-right' />
+            <ToastContainer position='bottom-right' pauseOnFocusLoss={false} />
 
             <Switch>
                 <Route exact path='/admin'>

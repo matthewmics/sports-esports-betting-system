@@ -2,9 +2,10 @@ import { FORM_ERROR } from 'final-form'
 import { observer } from 'mobx-react-lite'
 import React, { useContext } from 'react'
 import { Field, Form as FinalForm } from 'react-final-form'
-import { combineValidators, isRequired } from 'revalidate'
+import { combineValidators, composeValidators, isRequired } from 'revalidate'
 import { Button, Divider, Form, Header } from 'semantic-ui-react'
 import { ErrorMessage } from '../../../app/common/forms/ErrorMessage'
+import { isFutureDate } from '../../../app/common/forms/formValidations'
 import { RemoteSelectInput } from '../../../app/common/forms/RemoteSelectInput'
 import SelectInput from '../../../app/common/forms/SelectInput'
 import TextInput from '../../../app/common/forms/TextInput'
@@ -20,7 +21,10 @@ const validate = combineValidators({
     gameId: isRequired('Game'),
     title: isRequired('Title'),
     description: isRequired('Description'),
-    startsAt: isRequired('Schedule'),
+    startsAt: composeValidators(
+        isRequired('Schedule'),
+        isFutureDate('Schedule')
+    )(),
 })
 
 const CreateMatchForm = () => {
@@ -39,7 +43,7 @@ const CreateMatchForm = () => {
                     [FORM_ERROR]: error
                 }))}
             render={({ handleSubmit, submitError, dirtySinceLastSubmit }) =>
-                <Form error onSubmit={handleSubmit}>
+                <Form error onSubmit={handleSubmit} className='clearFix x-hidden'>
                     <Header textAlign='center' content='Create match' />
                     <Divider />
                     <Field name='eventName'
@@ -99,9 +103,9 @@ const CreateMatchForm = () => {
                     {submitError && !dirtySinceLastSubmit &&
                         <ErrorMessage error={submitError} />}
 
-                    <Button primary content='Create' type='submit' loading={loading} />
+                    <Button primary content='Create' type='submit' loading={loading} floated='right' />
                     <Button content='Cancel' onClick={closeModal}
-                        type='button' disabled={loading} />
+                        type='button' disabled={loading} floated='right' />
                 </Form>
             }
         />

@@ -42,7 +42,7 @@ const App = () => {
   return (
     <Fragment>
       <ModalContainer />
-      <ToastContainer position='bottom-right' />
+      <ToastContainer position='bottom-right' pauseOnFocusLoss={false} />
       <NavBar />
       <Container style={{ marginTop: '7em' }}>
         <Route exact path='/'>
