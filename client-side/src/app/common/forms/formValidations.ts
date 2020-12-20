@@ -9,8 +9,17 @@ export const isValidEmail = createValidator(
   'Invalid email address'
 )
 
+export const isFutureDate = createValidator(
+  message => value => {
+    const date = new Date(value);
+    if (date.getTime() < new Date().getTime())
+      return message;
+  },
+  field => `${field} must be a future date`
+)
+
 export const isGreaterThan = (n: number) => createValidator(
-  message => value => {    
+  message => value => {
     if (value && (!!!Number(value) || Number(value) <= n)) {
       return message
     }

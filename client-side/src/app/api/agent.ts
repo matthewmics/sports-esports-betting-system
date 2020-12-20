@@ -83,7 +83,9 @@ const Predictions = {
       : Promise<IPredictionDetails> =>
       requests.get(`/predictions/${predictionId}/details`),
   setLive: (predictionId: number): Promise<void> =>
-    requests.post(`/predictions/${predictionId}/setLive`, {})
+    requests.post(`/predictions/${predictionId}/setLive`, {}),
+  reschedule: (predictionId: number, schedule: string): Promise<void> =>
+    requests.post(`/predictions/${predictionId}/reschedule`, { schedule: schedule }),
 }
 
 const User = {

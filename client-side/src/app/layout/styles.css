@@ -59,3 +59,6 @@ body {
 .clearFix {
   overflow: auto;
 }
+.clearFix.x-hidden {
+  overflow-x: hidden;
+}

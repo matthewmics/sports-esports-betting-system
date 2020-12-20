@@ -113,13 +113,31 @@ export default class PredictionStore {
     try {
       await agent.Predictions.setLive(predictionId);
       const prediction = this.rootStore.matchStore.selectedMatch!.predictions.filter(x => x.id === predictionId)[0];
-      runInAction(()=>{
+      runInAction(() => {
         prediction.predictionStatus = predictionStatus.live;
       });
       toast.success("Prediction is now live");
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong while processing your request")
+    } finally {
+      runInAction(() => {
+        this.loading = false;
+      })
+    }
+  }
+
+  @action reschedule = async (predictionId: number, schedule: string) => {
+    this.loading = true;
+    try {
+      await agent.Predictions.reschedule(predictionId, schedule);
+      const prediction = this.rootStore.matchStore.selectedMatch!.predictions.filter(x => x.id === predictionId)[0];
+      runInAction(() => {
+        prediction.startDate = new Date(schedule);
+      });      
+      toast.success("Prediction rescheduled");
+    } catch (error) {
+      throw error;
     } finally {
       runInAction(() => {
         this.loading = false;

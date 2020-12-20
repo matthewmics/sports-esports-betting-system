@@ -2,8 +2,10 @@ import { format, formatDistanceToNowStrict } from 'date-fns';
 import { observer } from 'mobx-react-lite'
 import React, { Fragment, useContext, useEffect } from 'react'
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Breadcrumb, Button, Divider, Header, Icon, Label, Loader, Table } from 'semantic-ui-react';
+import { Breadcrumb, Button, Divider, Icon, Label, Loader, Table } from 'semantic-ui-react';
+import { IPrediction } from '../../../app/models/prediction';
 import { RootStoreContext } from '../../../app/stores/rootStore';
+import ReschedulePrediction from './ReschedulePrediction';
 
 interface RouteParams {
     id: string;
@@ -17,7 +19,7 @@ const ManagePredictionsPage: React.FC<IProps> = ({ match }) => {
 
     const rootStore = useContext(RootStoreContext);
     const { selectMatch, selectedMatch } = rootStore.matchStore;
-    const { openConfirmation } = rootStore.modalStore;
+    const { openConfirmation, openModal } = rootStore.modalStore;
     const { setLive, loading, targetLoading } = rootStore.predictionStore;
 
     useEffect(() => {
@@ -29,6 +31,10 @@ const ManagePredictionsPage: React.FC<IProps> = ({ match }) => {
             () => {
                 setLive(predictionId);
             });
+    }
+
+    const handleReschedule = (prediction: IPrediction) => {
+        openModal(<ReschedulePrediction prediction={prediction} />);
     }
 
     return (
@@ -67,10 +73,10 @@ const ManagePredictionsPage: React.FC<IProps> = ({ match }) => {
                             </Table.Row>
                             <Table.Row>
                                 <Table.HeaderCell>Title</Table.HeaderCell>
-                                <Table.HeaderCell width={3}>Description</Table.HeaderCell>
+                                <Table.HeaderCell>Description</Table.HeaderCell>
                                 <Table.HeaderCell width={2}>Status</Table.HeaderCell>
                                 <Table.HeaderCell width={3}>Starts At</Table.HeaderCell>
-                                <Table.HeaderCell width={4}>Action</Table.HeaderCell>
+                                <Table.HeaderCell width={3}>Action</Table.HeaderCell>
                             </Table.Row>
                         </Table.Header>
 
@@ -88,7 +94,8 @@ const ManagePredictionsPage: React.FC<IProps> = ({ match }) => {
                                             <Icon name='warning circle' />
                                         }
                                         {x.predictionStatus.displayText}</Table.Cell>
-                                    <Table.Cell>{format(x.startDate, 'PPpp')}
+                                    <Table.Cell>
+                                        {format(x.startDate, 'E, MMM dd, yyyy, p',)}
                                         <span style={{ color: 'teal', display: 'block' }}>
                                             {formatDistanceToNowStrict(x.startDate, { addSuffix: true })}
                                         </span>
@@ -96,11 +103,16 @@ const ManagePredictionsPage: React.FC<IProps> = ({ match }) => {
                                     <Table.Cell>
                                         {(loading && targetLoading === x.id) ? <Loader inline active /> :
                                             <Fragment>
-                                                <Button primary content='Start'
-                                                    onClick={() =>
-                                                        handleSetLive(x.id)}
-                                                />
-                                                <Button content='Cancel' />
+                                                <Button.Group vertical fluid>
+                                                    <Button content='Go live'
+                                                        icon='rocket'
+                                                        onClick={() =>
+                                                            handleSetLive(x.id)}
+                                                    />
+                                                    <Button content='Reschedule' icon='clock'
+                                                        onClick={() => handleReschedule(x)} />
+                                                    <Button content='Cancel' icon='close' />
+                                                </Button.Group>
                                             </Fragment>}
                                     </Table.Cell>
                                 </Table.Row>)}
@@ -110,6 +122,7 @@ const ManagePredictionsPage: React.FC<IProps> = ({ match }) => {
                 :
                 <Loader active={true} />
             }
+            <div style={{ height: '20px' }} />
         </Fragment>
     )
 }

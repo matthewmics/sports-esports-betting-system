@@ -73,6 +73,13 @@ namespace API.Controllers
             return await Mediator.Send(new Application.Prediction.SetLive.Command() { PredictionId = predictionId});
         }
 
+        [Authorize(policy: "IsAdmin")]
+        [HttpPost("{predictionId}/reschedule")]
+        public async Task<Unit> Reschedule(int predictionId, [FromBody] Application.Prediction.Reschedule.Command command)
+        {
+            command.PredictionId = predictionId;
+            return await Mediator.Send(command);
+        }
 
     }
 }
