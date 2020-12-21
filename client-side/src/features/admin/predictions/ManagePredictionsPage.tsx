@@ -18,7 +18,7 @@ interface IProps extends RouteComponentProps<RouteParams> {
 const ManagePredictionsPage: React.FC<IProps> = ({ match }) => {
 
     const rootStore = useContext(RootStoreContext);
-    const { selectMatch, selectedMatch } = rootStore.matchStore;
+    const { selectMatch, selectedMatch, matchFilters } = rootStore.matchStore;
     const { openConfirmation, openModal } = rootStore.modalStore;
     const { setLive, loading, targetLoading } = rootStore.predictionStore;
 
@@ -40,7 +40,16 @@ const ManagePredictionsPage: React.FC<IProps> = ({ match }) => {
     return (
         <Fragment>
             <Breadcrumb size='huge'>
-                <Breadcrumb.Section as={Link} to='/admin/matches/upcoming' >Upcoming matches</Breadcrumb.Section>
+
+                {matchFilters.get('status') === 'upcoming' &&
+                    <Breadcrumb.Section as={Link} to='/admin/matches/upcoming' >Upcoming matches</Breadcrumb.Section>}
+
+                {matchFilters.get('status') === 'live' &&
+                    <Breadcrumb.Section as={Link} to='/admin/matches/live' >Live matches</Breadcrumb.Section>}
+
+                {matchFilters.get('status') === 'finished' &&
+                    <Breadcrumb.Section as={Link} to='/admin/matches/finished' >Finished matches</Breadcrumb.Section>}
+
                 <Breadcrumb.Divider icon='right chevron' />
                 <Breadcrumb.Section>Predictions</Breadcrumb.Section>
                 {
@@ -95,7 +104,7 @@ const ManagePredictionsPage: React.FC<IProps> = ({ match }) => {
                                         }
                                         {x.predictionStatus.displayText}</Table.Cell>
                                     <Table.Cell>
-                                        {format(x.startDate, 'E, MMM dd, yyyy, p',)}
+                                        {format(x.startDate, 'EEEE, MMM dd, yyyy, p',)}
                                         <span style={{ color: 'teal', display: 'block' }}>
                                             {formatDistanceToNowStrict(x.startDate, { addSuffix: true })}
                                         </span>

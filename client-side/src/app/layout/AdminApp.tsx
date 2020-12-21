@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import React, { Fragment, useContext, useEffect } from 'react'
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import AdminLoginPage from '../../features/admin/AdminLoginPage';
 import AdminNavBar from '../../features/nav/AdminNavBar';
@@ -11,8 +11,7 @@ import { RootStoreContext } from '../stores/rootStore';
 import axios from 'axios';
 import { Container } from 'semantic-ui-react';
 import { AdminDashboard } from '../../features/admin/AdminDashboard';
-import UpcomingMatchesPage from '../../features/admin/matches/UpcomingMatchesPage';
-import { LiveMatchesPage } from '../../features/admin/matches/LiveMatchesPage';
+import UpcomingMatchesPage from '../../features/admin/matches/MatchesPage';
 import TeamsPage from '../../features/admin/tables/Team/TeamsPage';
 import TeamCreate from '../../features/admin/tables/Team/TeamCreate';
 import TeamDetails from '../../features/admin/tables/Team/TeamDetails';
@@ -20,7 +19,7 @@ import TeamEdit from '../../features/admin/tables/Team/TeamEdit';
 import ManagePredictionsPage from '../../features/admin/predictions/ManagePredictionsPage';
 
 
-const AdminApp = () => {
+const AdminApp: React.FC<RouteComponentProps> = ({ location }) => {
     document.title = 'Wagerzlounge - Admin';
     axios.interceptors.request.use(
         (config) => {
@@ -65,15 +64,15 @@ const AdminApp = () => {
                             <Container fluid style={{ paddingTop: '6em', paddingLeft: '17em', paddingRight: '2em    ' }}>
                                 <Switch>
                                     <Route path='/admin/dashboard' component={AdminDashboard} />
-                                    <Route path='/admin/matches/upcoming' component={UpcomingMatchesPage} />
-                                    <Route path='/admin/matches/live' component={LiveMatchesPage} />
+                                    <Route path='/admin/matches/:id/predictions' component={ManagePredictionsPage} />
+                                    <Route key={location.pathname} path='/admin/matches/:status' component={UpcomingMatchesPage} />
+                                    {/* <Route path='/admin/matches/live' component={LiveMatchesPage} /> */}
 
                                     <Route key={new Date().getTime()} path='/admin/tables/teams/create' component={TeamCreate} />
                                     <Route path='/admin/tables/teams/:id/edit' component={TeamEdit} />
                                     <Route path='/admin/tables/teams/:id' component={TeamDetails} />
                                     <Route path='/admin/tables/teams' component={TeamsPage} />
 
-                                    <Route path='/admin/matches/:id/predictions' component={ManagePredictionsPage} />
 
                                     <Route render={() => <p>ERROR 404</p>} />
                                 </Switch>

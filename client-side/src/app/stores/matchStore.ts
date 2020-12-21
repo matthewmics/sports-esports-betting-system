@@ -88,6 +88,10 @@ export default class MatchStore {
     }
   }
 
+  @action clearMatchRegistry = () => {
+    this.matchRegistry.clear();
+  }
+
   initializeMatch = (match: IMatch): IMatch => {
     match.startDate = new Date(match.startDate);
     match.predictions.forEach(p => p.startDate = new Date(p.startDate));
