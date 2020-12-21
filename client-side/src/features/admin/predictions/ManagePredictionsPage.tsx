@@ -113,14 +113,25 @@ const ManagePredictionsPage: React.FC<IProps> = ({ match }) => {
                                         {(loading && targetLoading === x.id) ? <Loader inline active /> :
                                             <Fragment>
                                                 <Button.Group vertical fluid>
-                                                    <Button content='Go live'
-                                                        icon='rocket'
-                                                        onClick={() =>
-                                                            handleSetLive(x.id)}
-                                                    />
+                                                    {x.predictionStatus.name === 'open' &&
+                                                        <Button content='Go live'
+                                                            icon='rocket'
+                                                            onClick={() =>
+                                                                handleSetLive(x.id)}
+                                                        />
+                                                    }
+
+                                                    {x.predictionStatus.name === 'live' &&
+                                                        <Button content='Settle'
+                                                            icon='check'
+                                                        />
+                                                    }
+
                                                     <Button content='Reschedule' icon='clock'
                                                         onClick={() => handleReschedule(x)} />
+
                                                     <Button content='Cancel' icon='close' />
+
                                                 </Button.Group>
                                             </Fragment>}
                                     </Table.Cell>

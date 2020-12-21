@@ -36,7 +36,7 @@ const ReschedulePrediction: React.FC<IProps> = ({ prediction }) => {
         <div>
             <Header content='Reschedule prediction' />
             <p>
-                Select a time and date for the new schedule of the prediction
+                Rescheduling a prediction will set its status to Open again
             </p>
             <FinalForm onSubmit={(values) =>
                 reschedule(prediction.id, values.schedule)
@@ -46,7 +46,7 @@ const ReschedulePrediction: React.FC<IProps> = ({ prediction }) => {
                     }))}
                 validate={validate}
                 initialValues={initialValues}
-                render={({ handleSubmit, pristine, submitError, dirtySinceLastSubmit }) =>
+                render={({ handleSubmit, submitError, dirtySinceLastSubmit }) =>
                     <Form error className='clearFix' onSubmit={handleSubmit}>
                         <Field component={TextInput}
                             name='schedule'
@@ -55,7 +55,7 @@ const ReschedulePrediction: React.FC<IProps> = ({ prediction }) => {
                         {submitError && !dirtySinceLastSubmit &&
                             <ErrorMessage error={submitError} />}
 
-                        <Button primary content='Save' floated='right' disabled={pristine} type='submit'
+                        <Button primary content='Save' floated='right' type='submit'
                             loading={loading} />
                         <Button content='Cancel' floated='right' onClick={closeModal} type='button'
                             disabled={loading} />

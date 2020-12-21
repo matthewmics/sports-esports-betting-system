@@ -34,20 +34,15 @@ namespace Application.Prediction
                 if (prediction == null)
                     throw new RestException(System.Net.HttpStatusCode.NotFound, new { Prediction = "Prediction not found" });
 
-                if(prediction.PredictionStatus.Id != Domain.PredictionStatus.Open)
-                    throw new RestException(System.Net.HttpStatusCode.BadRequest, new { Prediction = "Prediction must be open to reschedule" });
-
                 if (request.Schedule < DateTime.Now)
                     throw new RestException(System.Net.HttpStatusCode.BadRequest, new { Schedule = "Schedule must be a future date" });
 
+                prediction.PredictionStatusId = Domain.PredictionStatus.Open;
                 prediction.StartDate = request.Schedule;
 
-                var success = await _context.SaveChangesAsync() > 0;
+                await _context.SaveChangesAsync();
 
-                if (success)
-                    return Unit.Value;
-
-                throw new Exception("Problem saving changes");
+                return Unit.Value;
             }
         }
 

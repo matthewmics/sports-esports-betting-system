@@ -133,6 +133,7 @@ export default class PredictionStore {
       await agent.Predictions.reschedule(predictionId, schedule);
       const prediction = this.rootStore.matchStore.selectedMatch!.predictions.filter(x => x.id === predictionId)[0];
       runInAction(() => {
+        prediction.predictionStatus = predictionStatus.open;
         prediction.startDate = new Date(schedule);
       });      
       toast.success("Prediction rescheduled");
