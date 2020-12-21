@@ -1,14 +1,14 @@
 import { observer } from 'mobx-react-lite'
 import React from 'react'
 import { NavLink } from 'react-router-dom';
-import { Menu, Input } from 'semantic-ui-react';
+import { Menu } from 'semantic-ui-react';
 
 const AdminSideBar = () => {
     return (
         <Menu fixed='left' id='sideBar' vertical style={{ overflowY: 'auto' }}>
-            <Menu.Item>
+            {/* <Menu.Item>
                 <Input placeholder='Search...' />
-            </Menu.Item>
+            </Menu.Item> */}
             <Menu.Item content='Dashboard' icon='dashboard' as={NavLink}
                 to='/admin/dashboard' />
             <Menu.Item>
@@ -24,6 +24,11 @@ const AdminSideBar = () => {
                         as={NavLink}
                         to='/admin/matches/live'
                         name='Live'
+                    />
+                    <Menu.Item
+                        as={NavLink}
+                        to='/admin/matches/finished'
+                        name='Finished'
                     />
                 </Menu.Menu>
             </Menu.Item>

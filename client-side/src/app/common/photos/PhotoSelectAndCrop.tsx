@@ -63,14 +63,15 @@ const PhotoSelectAndCrop: React.FC<IProps> = ({ onImageSet }) => {
     return (
         !(files.length > 0) ?
             <Fragment>
-                <Segment basic>
+                <Segment basic className='clearFix'>
                     <div {...getRootProps()} style={isDragActive ? { ...dropzoneStyles, ...dropzoneActive } : dropzoneStyles}>
                         <input {...getInputProps()} />
                         <Icon name='upload' size='huge' />
                         <Header content='Drop image here' />
                     </div>
+                    <Button basic content='CANCEL' onClick={closeModal} icon='cancel' 
+                        style={{marginTop:'20px', float: 'right'}}/>
                 </Segment>
-                <Button basic content='CANCEL' onClick={closeModal} icon='cancel' />
             </Fragment>
             :
             <Fragment>

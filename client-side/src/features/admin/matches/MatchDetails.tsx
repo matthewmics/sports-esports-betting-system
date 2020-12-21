@@ -46,7 +46,7 @@ export const MatchDetails: React.FC<IProps> = ({ match }) => {
                 <Button.Group widths={2}>
                     <Button content='Predictions' primary
                         onClick={() => history.push(`/admin/matches/${match.id}/predictions`)} />
-                    <Button content='Cancel Match' />
+                    <Button content='Cancel match' />
                 </Button.Group>
             </Segment>
         </Segment.Group>
