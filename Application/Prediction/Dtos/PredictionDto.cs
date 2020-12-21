@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using Application.Team.Dtos;
+using Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,6 @@ namespace Application.Prediction.Dtos
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime StartDate { get; set; }
+        public TeamDto Winner { get; set; }
     }
 }

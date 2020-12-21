@@ -86,6 +86,8 @@ const Predictions = {
     requests.post(`/predictions/${predictionId}/setLive`, {}),
   reschedule: (predictionId: number, schedule: string): Promise<void> =>
     requests.post(`/predictions/${predictionId}/reschedule`, { schedule: schedule }),
+  settle: (predictionId: number, teamId: number): Promise<void> =>
+    requests.post(`/predictions/${predictionId}/settle`, { teamId: teamId }),
 }
 
 const User = {

@@ -9,6 +9,7 @@ export interface IPrediction {
     startDate: Date;
     predictionDetails: IPredictionDetails;
     isMain: boolean;
+    winner: ITeam;
 }
 
 export interface IPredictionStatus {

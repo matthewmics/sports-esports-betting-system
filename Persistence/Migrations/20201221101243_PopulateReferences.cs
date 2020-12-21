@@ -2,7 +2,7 @@
 
 namespace Persistence.Migrations
 {
-    public partial class InitialPopulate : Migration
+    public partial class PopulateReferences : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

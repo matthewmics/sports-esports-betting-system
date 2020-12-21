@@ -179,11 +179,16 @@ namespace Persistence.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("text");
 
+                    b.Property<int?>("WinnerId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("MatchId");
 
                     b.HasIndex("PredictionStatusId");
+
+                    b.HasIndex("WinnerId");
 
                     b.ToTable("Predictions");
                 });
@@ -538,6 +543,10 @@ namespace Persistence.Migrations
                         .HasForeignKey("PredictionStatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Domain.Team", "Winner")
+                        .WithMany("WinningPredictions")
+                        .HasForeignKey("WinnerId");
                 });
 
             modelBuilder.Entity("Domain.UserPrediction", b =>

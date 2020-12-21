@@ -277,8 +277,7 @@ namespace Persistence.Migrations
                     TeamBId = table.Column<int>(nullable: false),
                     EventName = table.Column<string>(nullable: true),
                     Series = table.Column<int>(nullable: false),
-                    GameId = table.Column<short>(nullable: false),
-                    StartDate = table.Column<DateTime>(nullable: false)
+                    GameId = table.Column<short>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -337,8 +336,10 @@ namespace Persistence.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    IsMain = table.Column<bool>(nullable: false),
                     Sequence = table.Column<int>(nullable: false),
                     MatchId = table.Column<int>(nullable: false),
+                    WinnerId = table.Column<int>(nullable: true),
                     PredictionStatusId = table.Column<short>(nullable: false),
                     Title = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
@@ -359,6 +360,12 @@ namespace Persistence.Migrations
                         principalTable: "PredictionStatuses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Predictions_Teams_WinnerId",
+                        column: x => x.WinnerId,
+                        principalTable: "Teams",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -454,6 +461,11 @@ namespace Persistence.Migrations
                 name: "IX_Predictions_PredictionStatusId",
                 table: "Predictions",
                 column: "PredictionStatusId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Predictions_WinnerId",
+                table: "Predictions",
+                column: "WinnerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserPredictions_PredictionId",

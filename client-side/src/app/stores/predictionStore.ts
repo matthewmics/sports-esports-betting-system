@@ -115,6 +115,7 @@ export default class PredictionStore {
       const prediction = this.rootStore.matchStore.selectedMatch!.predictions.filter(x => x.id === predictionId)[0];
       runInAction(() => {
         prediction.predictionStatus = predictionStatus.live;
+        prediction.startDate = new Date();
       });
       toast.success("Prediction is now live");
     } catch (error) {
@@ -135,8 +136,27 @@ export default class PredictionStore {
       runInAction(() => {
         prediction.predictionStatus = predictionStatus.open;
         prediction.startDate = new Date(schedule);
-      });      
+      });
       toast.success("Prediction rescheduled");
+    } catch (error) {
+      throw error;
+    } finally {
+      runInAction(() => {
+        this.loading = false;
+      })
+    }
+  }
+
+  @action settle = async (predictionId: number, teamId: number) => {
+    this.loading = true;
+    try {
+      await agent.Predictions.settle(predictionId, teamId);
+      const match = this.rootStore.matchStore.selectedMatch!;
+      const prediction = match.predictions.filter(x => x.id === predictionId)[0];
+      runInAction(() => {
+        prediction.predictionStatus = predictionStatus.settled;
+        prediction.winner = match.teamA.id === teamId ? match.teamA : match.teamB;
+      });
     } catch (error) {
       throw error;
     } finally {

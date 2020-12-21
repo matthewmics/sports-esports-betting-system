@@ -17,6 +17,9 @@ namespace Domain
         public int MatchId { get; set; }
         public Match Match { get; set; }
 
+        public Team Winner { get; set; }
+        public int? WinnerId { get; set; }
+
         public short PredictionStatusId { get; set; }
         public PredictionStatus PredictionStatus { get; set; }
 

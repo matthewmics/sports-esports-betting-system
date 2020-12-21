@@ -81,5 +81,13 @@ namespace API.Controllers
             return await Mediator.Send(command);
         }
 
+        [Authorize(policy: "IsAdmin")]
+        [HttpPost("{predictionId}/settle")]
+        public async Task<Unit> Settle(int predictionId, [FromBody] Application.Prediction.Settle.Command command)
+        {
+            command.PredictionId = predictionId;
+            return await Mediator.Send(command);
+        }
+
     }
 }

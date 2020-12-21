@@ -6,6 +6,7 @@ import { Breadcrumb, Button, Divider, Icon, Label, Loader, Table } from 'semanti
 import { IPrediction } from '../../../app/models/prediction';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import ReschedulePrediction from './ReschedulePrediction';
+import SettlePrediction from './SettlePrediction';
 
 interface RouteParams {
     id: string;
@@ -41,7 +42,7 @@ const ManagePredictionsPage: React.FC<IProps> = ({ match }) => {
         <Fragment>
             <Breadcrumb size='huge'>
 
-                {matchFilters.get('status') === 'upcoming' &&
+                {(matchFilters.get('status') !== 'live' && matchFilters.get('status') !== 'finished') &&
                     <Breadcrumb.Section as={Link} to='/admin/matches/upcoming' >Upcoming matches</Breadcrumb.Section>}
 
                 {matchFilters.get('status') === 'live' &&
@@ -98,9 +99,15 @@ const ManagePredictionsPage: React.FC<IProps> = ({ match }) => {
                                         {x.title}
                                     </Table.Cell>
                                     <Table.Cell>{x.description}</Table.Cell>
-                                    <Table.Cell positive>
+                                    <Table.Cell
+                                        positive={x.predictionStatus.name === 'open' ||
+                                            x.predictionStatus.name === 'settled'}
+                                        warning={x.predictionStatus.name === 'live'}
+                                        negative={x.predictionStatus.name === 'cancelled'}>
                                         {x.predictionStatus.name === 'live' &&
                                             <Icon name='warning circle' />
+                                        }{x.predictionStatus.name === 'settled' &&
+                                            <Icon name='check' />
                                         }
                                         {x.predictionStatus.displayText}</Table.Cell>
                                     <Table.Cell>
@@ -124,13 +131,18 @@ const ManagePredictionsPage: React.FC<IProps> = ({ match }) => {
                                                     {x.predictionStatus.name === 'live' &&
                                                         <Button content='Settle'
                                                             icon='check'
+                                                            onClick={() => openModal(<SettlePrediction prediction={x} />)}
                                                         />
                                                     }
+                                                    {x.predictionStatus.name !== 'settled' ?
+                                                        <Fragment>
+                                                            <Button content='Reschedule' icon='clock'
+                                                                onClick={() => handleReschedule(x)} />
 
-                                                    <Button content='Reschedule' icon='clock'
-                                                        onClick={() => handleReschedule(x)} />
-
-                                                    <Button content='Cancel' icon='close' />
+                                                            <Button content='Cancel' icon='close' />
+                                                        </Fragment> :
+                                                        <Label color='green' icon='trophy' content={x.winner.name} />
+                                                    }
 
                                                 </Button.Group>
                                             </Fragment>}

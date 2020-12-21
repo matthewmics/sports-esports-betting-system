@@ -15,5 +15,6 @@ namespace Domain
         public DateTime CreatedAt { get; set; }
         public ICollection<Match> TeamAMatches { get; set; }
         public ICollection<Match> TeamBMatches { get; set; }
+        public ICollection<Prediction> WinningPredictions { get; set; }
     }
 }

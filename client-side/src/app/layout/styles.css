@@ -62,3 +62,7 @@ body {
 .clearFix.x-hidden {
   overflow-x: hidden;
 }
+
+.selection:hover {
+  opacity: 0.5;
+}
