@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -14,6 +15,8 @@ namespace Domain
         public short Id { get; set; }
         public string Name { get; set; }
         public string DisplayText { get; set; }
+        [DefaultValue(0)]
+        public short Order { get; set; }
 
         public const short Open = 0;
         public const short Settled = 1;

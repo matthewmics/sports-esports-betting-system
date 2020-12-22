@@ -48,9 +48,12 @@ export default class MatchStore {
   @computed get matchList() {
     const matches = Array.from(this.matchRegistry.values()) as IMatch[];
     const liveMatches = matches.filter(x => x.matchStatus.name === 'live');
-    const restOfMatches = matches.filter(x => x.matchStatus.name !== 'live').sort((a: IMatch, b: IMatch) =>
-      a.startDate.getTime() - b.startDate.getTime());;
-    return [...liveMatches, ...restOfMatches];
+    const finishedMatches = matches.filter(x => x.matchStatus.name === 'cancelled' || x.matchStatus.name === 'settled')
+    .sort((a: IMatch, b: IMatch) =>
+      a.startDate.getTime() - b.startDate.getTime());
+    const openMatches = matches.filter(x => x.matchStatus.name === 'open').sort((a: IMatch, b: IMatch) =>
+      a.startDate.getTime() - b.startDate.getTime());
+    return [...liveMatches, ...openMatches, ...finishedMatches];
   }
 
 

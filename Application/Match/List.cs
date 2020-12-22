@@ -43,7 +43,8 @@ namespace Application.Match
                 .Include(x => x.Predictions)
                     .ThenInclude(x => x.Winner)
                 .Include(x => x.Game)
-                .OrderBy(x => x.Predictions.Where(p => p.IsMain).Single().StartDate)
+                .OrderBy(x => x.Predictions.Where(p => p.IsMain).Single().PredictionStatus.Order)
+                .ThenBy(x => x.Predictions.Where(p => p.IsMain).Single().StartDate)
                 .AsQueryable();
 
                 if (!string.IsNullOrEmpty(request.Game) && request.Game != "all")

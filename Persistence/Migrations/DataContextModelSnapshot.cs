@@ -204,6 +204,9 @@ namespace Persistence.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
+                    b.Property<short>("Order")
+                        .HasColumnType("smallint");
+
                     b.HasKey("Id");
 
                     b.ToTable("PredictionStatuses");
