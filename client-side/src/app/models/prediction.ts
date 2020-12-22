@@ -46,6 +46,13 @@ export interface IPredictionForm {
     teamId: string;
 }
 
+export interface IPredictionCreateForm {
+    matchId?: number;
+    title?: string;
+    description?: string;
+    startsAt: Date;
+}
+
 export interface IActivePrediction {
     team: ITeam;
     amount: number;

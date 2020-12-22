@@ -1,7 +1,7 @@
 import { action, makeObservable, observable, runInAction } from "mobx";
 import { toast } from "react-toastify";
 import agent from "../api/agent";
-import { IPrediction, predictionStatus } from "../models/prediction";
+import { IPrediction, IPredictionCreateForm, predictionStatus } from "../models/prediction";
 import { RootStore } from "./rootStore";
 
 export default class PredictionStore {
@@ -107,9 +107,13 @@ export default class PredictionStore {
     }
   }
 
-  getPrediction = (predictionId: number) => {
-    return this.rootStore.matchStore.selectedMatch!.predictions.filter(x => x.id === predictionId)[0];
+  getMatch = () => {
+    return this.rootStore.matchStore.selectedMatch!;
   }
+  getPrediction = (predictionId: number) => {
+    return this.getMatch().predictions.filter(x => x.id === predictionId)[0];
+  }
+
 
   @action setLive = async (predictionId: number) => {
     this.loading = true;
@@ -183,6 +187,25 @@ export default class PredictionStore {
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong while processing your request")
+    } finally {
+      runInAction(() => {
+        this.loading = false;
+      })
+    }
+  }
+
+  @action create = async (formValues: IPredictionCreateForm) => {
+    this.loading = true;
+    try {
+      const prediction = await agent.Predictions.create(formValues);
+      prediction.startDate = new Date(prediction.startDate);
+      const match = this.getMatch();
+      runInAction(() => {
+        match.predictions.push(prediction);
+      });
+      toast.success("Prediction created");
+    } catch (error) {
+      throw error;
     } finally {
       runInAction(() => {
         this.loading = false;

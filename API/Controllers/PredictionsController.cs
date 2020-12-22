@@ -96,5 +96,12 @@ namespace API.Controllers
             return await Mediator.Send(new Application.Prediction.Cancel.Command { PredictionId = predictionId});
         }
 
+        [Authorize(policy: "IsAdmin")]
+        [HttpPost]
+        public async Task<PredictionDto> Create([FromBody] Application.Prediction.Create.Command command)
+        {
+            return await Mediator.Send(command);
+        }
+
     }
 }

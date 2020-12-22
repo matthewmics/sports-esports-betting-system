@@ -5,6 +5,7 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { Breadcrumb, Button, Divider, Icon, Label, Loader, Table } from 'semantic-ui-react';
 import { IPrediction } from '../../../app/models/prediction';
 import { RootStoreContext } from '../../../app/stores/rootStore';
+import PredictionForm from './PredictionForm';
 import ReschedulePrediction from './ReschedulePrediction';
 import SettlePrediction from './SettlePrediction';
 
@@ -77,7 +78,8 @@ const ManagePredictionsPage: React.FC<IProps> = ({ match }) => {
 
             {selectedMatch ?
                 <Fragment>
-                    <Button primary content='Add prediction' />
+                    <Button primary content='Add prediction'
+                        onClick={() => openModal(<PredictionForm />)} />
                     <Table celled>
                         <Table.Header>
                             <Table.Row>

@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { history } from "../..";
 import { IMatch, IMatchEnvelope, IMatchForm } from "../models/match";
-import { IActivePrediction, IPredictionDetails } from "../models/prediction";
+import { IActivePrediction, IPrediction, IPredictionCreateForm, IPredictionDetails } from "../models/prediction";
 import { ITeamEnvelope, ITeamFormValues } from "../models/team";
 import { IUser, IUserAdmin, IUserFormValues } from "../models/user";
 
@@ -90,6 +90,8 @@ const Predictions = {
     requests.post(`/predictions/${predictionId}/settle`, { teamId: teamId }),
   cancel: (predictionId: number): Promise<void> =>
     requests.post(`/predictions/${predictionId}/cancel`, {}),
+  create: (values: IPredictionCreateForm): Promise<IPrediction> =>
+    requests.post(`/predictions`, values),
 }
 
 const User = {
