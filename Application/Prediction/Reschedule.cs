@@ -30,12 +30,17 @@ namespace Application.Prediction
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var prediction = await _context.Predictions.Include(x => x.PredictionStatus).SingleOrDefaultAsync(x => x.Id == request.PredictionId);
+                var prediction = await _context.Predictions.FindAsync(request.PredictionId);
                 if (prediction == null)
                     throw new RestException(System.Net.HttpStatusCode.NotFound, new { Prediction = "Prediction not found" });
 
                 if (request.Schedule < DateTime.Now)
                     throw new RestException(System.Net.HttpStatusCode.BadRequest, new { Schedule = "Schedule must be a future date" });
+
+                if (prediction.PredictionStatusId == Domain.PredictionStatus.Cancelled ||
+                    prediction.PredictionStatusId == Domain.PredictionStatus.Settled)
+                    throw new RestException(System.Net.HttpStatusCode.BadRequest, 
+                        new { Prediction = "Cannot reschedule a settled or cancelled prediction" });
 
                 prediction.PredictionStatusId = Domain.PredictionStatus.Open;
                 prediction.StartDate = request.Schedule;
