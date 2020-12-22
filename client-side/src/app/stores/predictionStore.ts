@@ -174,6 +174,10 @@ export default class PredictionStore {
         prediction.predictionStatus = predictionStatus.settled;
         prediction.winner = match.teamA.id === teamId ? match.teamA : match.teamB;
         if (prediction.isMain) {
+          match.predictions.forEach(p => {
+            if (p.predictionStatus.name !== 'settled')
+              p.predictionStatus = predictionStatus.cancelled;
+          });
           match.matchStatus = predictionStatus.settled;
         }
       });

@@ -31,7 +31,7 @@ namespace Application.Prediction
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 var prediction = await _context.Predictions
-                    .Include(x => x.Match)
+                    .Include(x => x.Match).ThenInclude(x => x.Predictions)
                     .Include(x => x.PredictionStatus)
                     .SingleOrDefaultAsync(x => x.Id == request.PredictionId);
 
@@ -51,6 +51,17 @@ namespace Application.Prediction
                 if (winningTeamId == -1)
                     throw new RestException(System.Net.HttpStatusCode.BadRequest, 
                         new { Team = "Selected team is not participating the prediction" });
+
+                if (prediction.IsMain)
+                {
+                    foreach (var p in prediction.Match.Predictions)
+                    {
+                        if (p.PredictionStatusId != Domain.PredictionStatus.Settled)
+                        {
+                            p.PredictionStatusId = Domain.PredictionStatus.Cancelled;
+                        }
+                    }
+                }
 
                 prediction.PredictionStatusId = Domain.PredictionStatus.Settled;
                 prediction.WinnerId = winningTeamId;
