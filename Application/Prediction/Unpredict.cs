@@ -33,9 +33,21 @@ namespace Application.Prediction
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var prediction = await _context.Predictions.SingleOrDefaultAsync(x => x.Id == request.PredictionId);
+                var prediction = await _context
+                    .Predictions
+                    .SingleOrDefaultAsync(x => x.Id == request.PredictionId);
+
                 if (prediction == null)
                     throw new RestException(System.Net.HttpStatusCode.NotFound, new { Prediction = "Prediction not found" });
+
+                if (prediction.PredictionStatusId == Domain.PredictionStatus.Live)
+                    throw new RestException(System.Net.HttpStatusCode.BadRequest, 
+                        new { Prediction = "Prediction is already live" });
+
+                if (prediction.PredictionStatusId == Domain.PredictionStatus.Settled ||
+                    prediction.PredictionStatusId == Domain.PredictionStatus.Cancelled)
+                    throw new RestException(System.Net.HttpStatusCode.BadRequest,
+                        new { Prediction = "Prediction is already finished" });
 
                 var customer = await _context.Customers.Include(x => x.AppUser)
                               .Where(a => a.AppUser.Email == _userAccessor.GetCurrentEmail())

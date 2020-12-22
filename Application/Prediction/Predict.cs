@@ -45,12 +45,24 @@ namespace Application.Prediction
                 if (request.Amount < 50)
                     throw new RestException(System.Net.HttpStatusCode.BadRequest, new { Amount = "Minimum amount is 50" });
 
-                var prediction = await _context.Predictions.Include(x => x.Match).SingleOrDefaultAsync(x => x.Id == request.PredictionId);
+                var prediction = await _context.Predictions
+                    .Include(x => x.Match)
+                    .SingleOrDefaultAsync(x => x.Id == request.PredictionId);
+
                 if (prediction == null)
                     throw new RestException(System.Net.HttpStatusCode.NotFound, new { Prediction = "Prediction not found" });
 
+                if (prediction.PredictionStatusId == Domain.PredictionStatus.Live)
+                    throw new RestException(System.Net.HttpStatusCode.BadRequest,
+                        new { Prediction = "Prediction is already live" });
+
+                if (prediction.PredictionStatusId == Domain.PredictionStatus.Settled ||
+                    prediction.PredictionStatusId == Domain.PredictionStatus.Cancelled)
+                    throw new RestException(System.Net.HttpStatusCode.BadRequest,
+                        new { Prediction = "Prediction is already finished" });
+
                 if (request.TeamId != prediction.Match.TeamAId && request.TeamId != prediction.Match.TeamBId)
-                    throw new RestException(System.Net.HttpStatusCode.NotFound,
+                    throw new RestException(System.Net.HttpStatusCode.BadRequest,
                         new { Team = "Team chosen is not available for this prediction" });
 
                 var predictedTeamId = prediction.Match.TeamAId == request.TeamId ? prediction.Match.TeamAId : prediction.Match.TeamBId;

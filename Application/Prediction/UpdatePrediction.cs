@@ -49,6 +49,15 @@ namespace Application.Prediction
                 if (prediction == null)
                     throw new RestException(System.Net.HttpStatusCode.NotFound, new { Prediction = "Prediction not found" });
 
+                if (prediction.PredictionStatusId == Domain.PredictionStatus.Live)
+                    throw new RestException(System.Net.HttpStatusCode.BadRequest,
+                        new { Prediction = "Prediction is already live" });
+
+                if (prediction.PredictionStatusId == Domain.PredictionStatus.Settled ||
+                    prediction.PredictionStatusId == Domain.PredictionStatus.Cancelled)
+                    throw new RestException(System.Net.HttpStatusCode.BadRequest,
+                        new { Prediction = "Prediction is already finished" });
+
                 if (request.TeamId != prediction.Match.TeamAId && request.TeamId != prediction.Match.TeamBId)
                     throw new RestException(System.Net.HttpStatusCode.NotFound, new { Team = "Team not found for this match" });
 
