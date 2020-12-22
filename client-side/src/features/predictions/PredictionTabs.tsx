@@ -24,11 +24,12 @@ const PredictionTabs: React.FC<IProps> = ({ match, selectPrediction, selectedPre
     return (
         <Fragment>
             {match && match.predictions.map(prediction => {
-
+                const predictionStatusName = prediction.predictionStatus.name;
                 var statusColor = 'green' as any;
-                if(prediction.predictionStatus.name === 'live')
+                if(predictionStatusName === 'live')
                     statusColor = 'red';
-
+                else if(predictionStatusName === 'cancelled' || predictionStatusName === 'settled')
+                    statusColor = 'teal';
                 return (
                     <Label key={prediction.id}
                         onClick={() => {
