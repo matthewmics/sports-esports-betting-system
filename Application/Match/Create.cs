@@ -65,9 +65,9 @@ namespace Application.Match
                 var match = new Domain.Match
                 {
                     EventName = request.EventName,
-                    TeamAId = request.TeamAId,
-                    TeamBId = request.TeamBId,
-                    GameId = (short)request.GameId,
+                    TeamA = await _context.Teams.FindAsync(request.TeamAId),
+                    TeamB = await _context.Teams.FindAsync(request.TeamBId),
+                    Game = await _context.Games.FindAsync((short)request.GameId),
                     Series = request.Series,
                 };
 
@@ -78,6 +78,7 @@ namespace Application.Match
                     StartDate = request.StartsAt,
                     IsMain = true,
                     Sequence = 0,
+                    PredictionStatus = await _context.PredictionStatuses.FindAsync(Domain.PredictionStatus.Open)
                 };
 
                 match.Predictions = new List<Domain.Prediction>

@@ -145,8 +145,7 @@ export default class MatchStore {
   @action create = async (matchForm: IMatchForm) => {
     this.loading = true;
     try {
-      let createdMatch = await agent.Matches.create(matchForm);
-      let match = await agent.Matches.get(createdMatch.id);
+      let match = await agent.Matches.create(matchForm);
       match = this.initializeMatch(match);
       runInAction(() => {
         this.matchRegistry.set(match.id, match);

@@ -56,7 +56,7 @@ const SettlePrediction: React.FC<IProps> = ({ prediction }) => {
             <Grid centered>
                 <Grid.Column width={6} textAlign='center'>
                     <div style={selectedTeam?.id === teamA?.id ? activeSelectionStyle : selectionStyle}
-                        className='selection'
+                        className='selection-team'
                         onClick={() => handleSelectTeam(selectedMatch!.teamA)}>
                         <Image src={teamA.image || '/assets/noimage.png'} size='tiny' centered />
                         {selectedMatch?.teamA.name}
@@ -64,7 +64,7 @@ const SettlePrediction: React.FC<IProps> = ({ prediction }) => {
                 </Grid.Column>
                 <Grid.Column width={6} textAlign='center'>
                     <div style={selectedTeam?.id === teamB?.id ? activeSelectionStyle : selectionStyle}
-                        className='selection'
+                        className='selection-team'
                         onClick={() => handleSelectTeam(selectedMatch!.teamB)}>
                         <Image src={teamB.image || '/assets/noimage.png'} size='tiny' centered />
                         {selectedMatch?.teamB.name}
