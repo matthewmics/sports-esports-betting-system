@@ -10,6 +10,7 @@ import { isFutureDate } from '../../../app/common/forms/formValidations';
 import { ErrorMessage } from '../../../app/common/forms/ErrorMessage';
 import { FORM_ERROR } from 'final-form';
 import { format } from 'date-fns';
+import { formatDateInput } from '../../../app/common/util/util';
 
 interface IProps {
     prediction: IPrediction;
@@ -29,9 +30,9 @@ const ReschedulePrediction: React.FC<IProps> = ({ prediction }) => {
     const { reschedule, loading } = rootStore.predictionStore;
 
     const initialValues = {
-        schedule: format(prediction.startDate, "yyyy-MM-dd'T'HH:mm")
+        schedule: formatDateInput(prediction.startDate)
     }
-    
+
     return (
         <div>
             <Header content='Reschedule prediction' />
