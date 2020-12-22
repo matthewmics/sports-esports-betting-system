@@ -121,9 +121,14 @@ export default class PredictionStore {
     try {
       await agent.Predictions.setLive(predictionId);
       const prediction = this.getPrediction(predictionId);
+      const match = this.getMatch();
       runInAction(() => {
         prediction.predictionStatus = predictionStatus.live;
         prediction.startDate = new Date();
+        if (prediction.isMain) {
+          match.matchStatus = predictionStatus.live;
+          match.startDate = new Date();
+        }
       });
       toast.success("Prediction is now live");
     } catch (error) {
@@ -141,9 +146,14 @@ export default class PredictionStore {
     try {
       await agent.Predictions.reschedule(predictionId, schedule);
       const prediction = this.getPrediction(predictionId);
+      const match = this.getMatch();
       runInAction(() => {
         prediction.predictionStatus = predictionStatus.open;
         prediction.startDate = new Date(schedule);
+        if (prediction.isMain) {
+          match.matchStatus = predictionStatus.open;
+          match.startDate = new Date(schedule);
+        }
       });
       toast.success("Prediction rescheduled");
     } catch (error) {
@@ -164,6 +174,9 @@ export default class PredictionStore {
       runInAction(() => {
         prediction.predictionStatus = predictionStatus.settled;
         prediction.winner = match.teamA.id === teamId ? match.teamA : match.teamB;
+        if (prediction.isMain) {
+          match.matchStatus = predictionStatus.settled;
+        }
       });
     } catch (error) {
       throw error;
@@ -180,8 +193,12 @@ export default class PredictionStore {
     try {
       await agent.Predictions.cancel(predictionId);
       const prediction = this.getPrediction(predictionId);
+      const match = this.getMatch();
       runInAction(() => {
         prediction.predictionStatus = predictionStatus.cancelled;
+        if (prediction.isMain) {
+          match.matchStatus = predictionStatus.cancelled;
+        }
       })
       toast.success("Prediction cancelled");
     } catch (error) {
