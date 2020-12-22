@@ -68,8 +68,7 @@ const AdminApp: React.FC<RouteComponentProps> = ({ location }) => {
                                     <Route path='/admin/dashboard' component={AdminDashboard} />
                                     <Route path='/admin/matches/:id/predictions' component={ManagePredictionsPage} />
                                     <Route key={location.pathname} path='/admin/matches/:status' component={UpcomingMatchesPage} />
-                                    {/* <Route path='/admin/matches/live' component={LiveMatchesPage} /> */}
-
+                                   
                                     <Route key={new Date().getTime()} path='/admin/tables/teams/create' component={TeamCreate} />
                                     <Route path='/admin/tables/teams/:id/edit' component={TeamEdit} />
                                     <Route path='/admin/tables/teams/:id' component={TeamDetails} />
