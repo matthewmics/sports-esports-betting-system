@@ -45,7 +45,7 @@ namespace Application.Prediction
                 if (request.Amount < 50)
                     throw new RestException(System.Net.HttpStatusCode.BadRequest, new { Amount = "Minimum amount is 50" });
 
-                var prediction = _context.Predictions.Include(x => x.Match).SingleOrDefault(x => x.Id == request.PredictionId);
+                var prediction = await _context.Predictions.Include(x => x.Match).SingleOrDefaultAsync(x => x.Id == request.PredictionId);
                 if (prediction == null)
                     throw new RestException(System.Net.HttpStatusCode.NotFound, new { Prediction = "Prediction not found" });
 

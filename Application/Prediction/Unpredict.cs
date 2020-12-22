@@ -33,7 +33,7 @@ namespace Application.Prediction
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var prediction = _context.Predictions.SingleOrDefault(x => x.Id == request.PredictionId);
+                var prediction = await _context.Predictions.SingleOrDefaultAsync(x => x.Id == request.PredictionId);
                 if (prediction == null)
                     throw new RestException(System.Net.HttpStatusCode.NotFound, new { Prediction = "Prediction not found" });
 
