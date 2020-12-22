@@ -49,8 +49,8 @@ export default class MatchStore {
     const matches = Array.from(this.matchRegistry.values()) as IMatch[];
     const liveMatches = matches.filter(x => x.matchStatus.name === 'live');
     const finishedMatches = matches.filter(x => x.matchStatus.name === 'cancelled' || x.matchStatus.name === 'settled')
-    .sort((a: IMatch, b: IMatch) =>
-      a.startDate.getTime() - b.startDate.getTime());
+      .sort((a: IMatch, b: IMatch) =>
+        a.startDate.getTime() - b.startDate.getTime());
     const openMatches = matches.filter(x => x.matchStatus.name === 'open').sort((a: IMatch, b: IMatch) =>
       a.startDate.getTime() - b.startDate.getTime());
     return [...liveMatches, ...openMatches, ...finishedMatches];
@@ -151,7 +151,8 @@ export default class MatchStore {
       let match = await agent.Matches.create(matchForm);
       match = this.initializeMatch(match);
       runInAction(() => {
-        this.matchRegistry.set(match.id, match);
+        if (this.matchFilters.get("status") === 'upcoming')
+          this.matchRegistry.set(match.id, match);
       });
       toast.success("Match created");
     } catch (error) {
