@@ -107,12 +107,16 @@ export default class PredictionStore {
     }
   }
 
+  getPrediction = (predictionId: number) => {
+    return this.rootStore.matchStore.selectedMatch!.predictions.filter(x => x.id === predictionId)[0];
+  }
+
   @action setLive = async (predictionId: number) => {
     this.loading = true;
     this.targetLoading = predictionId;
     try {
       await agent.Predictions.setLive(predictionId);
-      const prediction = this.rootStore.matchStore.selectedMatch!.predictions.filter(x => x.id === predictionId)[0];
+      const prediction = this.getPrediction(predictionId);
       runInAction(() => {
         prediction.predictionStatus = predictionStatus.live;
         prediction.startDate = new Date();
@@ -132,7 +136,7 @@ export default class PredictionStore {
     this.loading = true;
     try {
       await agent.Predictions.reschedule(predictionId, schedule);
-      const prediction = this.rootStore.matchStore.selectedMatch!.predictions.filter(x => x.id === predictionId)[0];
+      const prediction = this.getPrediction(predictionId);
       runInAction(() => {
         prediction.predictionStatus = predictionStatus.open;
         prediction.startDate = new Date(schedule);
@@ -159,6 +163,26 @@ export default class PredictionStore {
       });
     } catch (error) {
       throw error;
+    } finally {
+      runInAction(() => {
+        this.loading = false;
+      })
+    }
+  }
+
+  @action cancel = async (predictionId: number) => {
+    this.targetLoading = predictionId;
+    this.loading = true;
+    try {
+      await agent.Predictions.cancel(predictionId);
+      const prediction = this.getPrediction(predictionId);
+      runInAction(() => {
+        prediction.predictionStatus = predictionStatus.cancelled;
+      })
+      toast.success("Prediction cancelled");
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong while processing your request")
     } finally {
       runInAction(() => {
         this.loading = false;

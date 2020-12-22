@@ -21,16 +21,23 @@ const ManagePredictionsPage: React.FC<IProps> = ({ match }) => {
     const rootStore = useContext(RootStoreContext);
     const { selectMatch, selectedMatch, matchFilters } = rootStore.matchStore;
     const { openConfirmation, openModal } = rootStore.modalStore;
-    const { setLive, loading, targetLoading } = rootStore.predictionStore;
+    const { setLive, loading, targetLoading, cancel } = rootStore.predictionStore;
 
     useEffect(() => {
         selectMatch(+match.params.id, false);
     }, [selectMatch, match.params.id]);
 
     const handleSetLive = (predictionId: number) => {
-        openConfirmation("Are you sure you want this prediction to go live?", "Confirm prediction to go live",
+        openConfirmation("Are you sure you want the prediction to go live?", "Confirm prediction to go live",
             () => {
                 setLive(predictionId);
+            });
+    }
+
+    const handleCancel = (predictionId: number) => {
+        openConfirmation("Are you sure you want to cancel the prediction?", "Confirm cancel prediction",
+            () => {
+                cancel(predictionId);
             });
     }
 
@@ -108,6 +115,8 @@ const ManagePredictionsPage: React.FC<IProps> = ({ match }) => {
                                             <Icon name='warning circle' />
                                         }{x.predictionStatus.name === 'settled' &&
                                             <Icon name='check' />
+                                        }{x.predictionStatus.name === 'cancelled' &&
+                                            <Icon name='close' />
                                         }
                                         {x.predictionStatus.displayText}</Table.Cell>
                                     <Table.Cell>
@@ -134,14 +143,25 @@ const ManagePredictionsPage: React.FC<IProps> = ({ match }) => {
                                                             onClick={() => openModal(<SettlePrediction prediction={x} />)}
                                                         />
                                                     }
-                                                    {x.predictionStatus.name !== 'settled' ?
+
+                                                    {x.predictionStatus.name === 'settled' &&
+                                                        <Label color='green' icon='trophy' content={x.winner.name} />
+                                                    }
+
+                                                    {x.predictionStatus.name === 'cancelled' &&
+                                                        <Label color='red' icon='cancel' content='Cancelled' />
+                                                    }
+
+                                                    {(x.predictionStatus.name !== 'settled' &&
+                                                        x.predictionStatus.name !== 'cancelled') &&
+
                                                         <Fragment>
                                                             <Button content='Reschedule' icon='clock'
                                                                 onClick={() => handleReschedule(x)} />
 
-                                                            <Button content='Cancel' icon='close' />
-                                                        </Fragment> :
-                                                        <Label color='green' icon='trophy' content={x.winner.name} />
+                                                            <Button content='Cancel' icon='close'
+                                                                onClick={() => handleCancel(x.id)} />
+                                                        </Fragment>
                                                     }
 
                                                 </Button.Group>

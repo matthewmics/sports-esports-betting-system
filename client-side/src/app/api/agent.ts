@@ -88,6 +88,8 @@ const Predictions = {
     requests.post(`/predictions/${predictionId}/reschedule`, { schedule: schedule }),
   settle: (predictionId: number, teamId: number): Promise<void> =>
     requests.post(`/predictions/${predictionId}/settle`, { teamId: teamId }),
+  cancel: (predictionId: number): Promise<void> =>
+    requests.post(`/predictions/${predictionId}/cancel`, {}),
 }
 
 const User = {
