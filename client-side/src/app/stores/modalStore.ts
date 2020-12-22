@@ -8,8 +8,24 @@ export default class ModalStore {
         body: null as any
     };
 
+    @observable.shallow errorModal = {
+        open: false,
+        title: '',
+        error: null as any
+    }
+
     constructor() {
         makeObservable(this);
+    }
+
+    @action openErrorModal = (error: any, title: string) => {
+        this.errorModal.error = error;
+        this.errorModal.title = title;
+        this.errorModal.open = true;
+    }
+
+    @action closeErrorModal = () => {
+        this.errorModal = { open: false, error: null, title: '' }
     }
 
     @action openModal = (body: any) => {

@@ -17,6 +17,7 @@ import TeamCreate from '../../features/admin/tables/Team/TeamCreate';
 import TeamDetails from '../../features/admin/tables/Team/TeamDetails';
 import TeamEdit from '../../features/admin/tables/Team/TeamEdit';
 import ManagePredictionsPage from '../../features/admin/predictions/ManagePredictionsPage';
+import ErrorModalContainer from '../common/modals/ErrorModalContainer';
 
 
 const AdminApp: React.FC<RouteComponentProps> = ({ location }) => {
@@ -46,6 +47,7 @@ const AdminApp: React.FC<RouteComponentProps> = ({ location }) => {
 
     return (
         <Fragment>
+            <ErrorModalContainer />
             <ModalContainer />
             <ToastContainer position='bottom-right' pauseOnFocusLoss={false} />
 

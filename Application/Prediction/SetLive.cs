@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Application.Prediction
 {
@@ -27,11 +29,23 @@ namespace Application.Prediction
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var prediction = await _context.Predictions.FindAsync(request.PredictionId);
+                var prediction = await _context.Predictions.Include(x => x.Match).ThenInclude(x => x.Predictions)
+                    .SingleOrDefaultAsync(x => x.Id == request.PredictionId);
+
                 if (prediction == null)
                     throw new RestException(System.Net.HttpStatusCode.NotFound, new { Prediction = "Prediction not found" });
                 if (prediction.PredictionStatusId == Domain.PredictionStatus.Live)
                     throw new RestException(System.Net.HttpStatusCode.BadRequest, new { Prediction = "Prediction is already live" });
+
+                if (!prediction.IsMain)
+                {
+                    var mainPrediction = prediction.Match.Predictions.Single(x => x.IsMain);
+                    if(!(mainPrediction.PredictionStatusId == Domain.PredictionStatus.Live))
+                    {
+                        throw new RestException(System.Net.HttpStatusCode.BadRequest, 
+                            new { Prediction = "Main prediction must be live before other predictions can go live" });
+                    }
+                }                
 
                 prediction.PredictionStatusId = Domain.PredictionStatus.Live;
                 prediction.StartDate = DateTime.Now;

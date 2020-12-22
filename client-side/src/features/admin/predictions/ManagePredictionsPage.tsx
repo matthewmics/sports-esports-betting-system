@@ -21,7 +21,7 @@ const ManagePredictionsPage: React.FC<IProps> = ({ match }) => {
 
     const rootStore = useContext(RootStoreContext);
     const { selectMatch, selectedMatch, matchFilters } = rootStore.matchStore;
-    const { openConfirmation, openModal } = rootStore.modalStore;
+    const { openConfirmation, openModal, openErrorModal } = rootStore.modalStore;
     const { setLive, loading, targetLoading, cancel } = rootStore.predictionStore;
 
     useEffect(() => {
@@ -31,7 +31,9 @@ const ManagePredictionsPage: React.FC<IProps> = ({ match }) => {
     const handleSetLive = (predictionId: number) => {
         openConfirmation("Are you sure you want the prediction to go live?", "Confirm prediction to go live",
             () => {
-                setLive(predictionId);
+                setLive(predictionId).catch(error => {
+                    openErrorModal(error, "Prediction can't go live");
+                });
             });
     }
 

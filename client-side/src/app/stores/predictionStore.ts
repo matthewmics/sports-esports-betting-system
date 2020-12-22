@@ -132,8 +132,7 @@ export default class PredictionStore {
       });
       toast.success("Prediction is now live");
     } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong while processing your request")
+      throw error;
     } finally {
       runInAction(() => {
         this.loading = false;
