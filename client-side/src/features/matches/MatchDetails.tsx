@@ -14,7 +14,7 @@ const MatchDetail: React.FC<IProps> = ({
 }) => {
 
     return (
-        <Segment.Group>
+        <Segment.Group className={(match.matchStatus.name === 'cancelled' || match.matchStatus.name === 'settled') ? 'match-finished' : undefined}>
             <Segment clearing>
                 <Label basic image>
                     <img src={`/assets/${match.game.name}.png`} alt='Team' /> {match.game.displayText}
@@ -23,13 +23,19 @@ const MatchDetail: React.FC<IProps> = ({
                 {match.eventName}
                 <span style={{ float: 'right', color: 'teal', lineHeight: '27px' }}>
                     {match.matchStatus.name === 'live' &&
-                        <Label color='red' content='Live'  icon='rocket'/>
+                        <Label color='red' content='Live' icon='rocket' />
+                    }
+                    {match.matchStatus.name === 'cancelled' &&
+                        <Label content='Cancelled' />
+                    }
+                    {match.matchStatus.name === 'settled' &&
+                        <Label content='Settled' />
                     }
                     {match.matchStatus.name === 'open' &&
-                    <span>
-                        <Icon name='clock outline'/>
-                        {formatDistanceToNowStrict(match.startDate, { addSuffix: true })}
-                    </span>
+                        <span>
+                            <Icon name='clock outline' />
+                            {formatDistanceToNowStrict(match.startDate, { addSuffix: true })}
+                        </span>
                     }
                 </span>
             </Segment>

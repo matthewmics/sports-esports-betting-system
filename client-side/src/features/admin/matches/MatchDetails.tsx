@@ -1,5 +1,6 @@
+import { formatDistanceToNowStrict } from 'date-fns'
 import React from 'react'
-import { Segment, Label, Grid, Button, Image } from 'semantic-ui-react'
+import { Segment, Label, Grid, Button, Image, Icon } from 'semantic-ui-react'
 import { history } from '../../..'
 import { IMatch } from '../../../app/models/match'
 
@@ -19,8 +20,22 @@ export const MatchDetails: React.FC<IProps> = ({ match }) => {
                 {" "}
                 {match.eventName}
                 <span style={{ float: 'right', color: 'teal', lineHeight: '27px' }}>
-                    12m 06s from now
-                            </span>
+                    {match.matchStatus.name === 'live' &&
+                        <Label color='red' content='Live' icon='rocket' />
+                    }
+                    {match.matchStatus.name === 'cancelled' &&
+                        <Label content='Cancelled' />
+                    }
+                    {match.matchStatus.name === 'settled' &&
+                        <Label content='Settled' />
+                    }
+                    {match.matchStatus.name === 'open' &&
+                        <span>
+                            <Icon name='clock outline' />
+                            {formatDistanceToNowStrict(match.startDate, { addSuffix: true })}
+                        </span>
+                    }
+                </span>
             </Segment>
             <Segment>
                 <Grid columns={3} stackable textAlign='center'>
