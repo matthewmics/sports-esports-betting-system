@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Prediction
@@ -29,13 +30,29 @@ namespace Application.Prediction
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var prediction = await _context.Predictions.FindAsync(request.PredictionId);
-                if (prediction == null)
-                    throw new RestException(System.Net.HttpStatusCode.NotFound, new { Prediction = "Prediction not found" });
-                if (prediction.PredictionStatusId == Domain.PredictionStatus.Settled)
-                    throw new RestException(System.Net.HttpStatusCode.NotFound, new { Prediction = "Cannot cancel a settled prediction" });
+                var prediction = await _context.Predictions.Include(x => x.Match).ThenInclude(x => x.Predictions)
+                    .SingleOrDefaultAsync(x => x.Id == request.PredictionId);
 
-                prediction.PredictionStatusId = Domain.PredictionStatus.Cancelled;
+                if (prediction == null)
+                    throw new RestException(System.Net.HttpStatusCode.NotFound, 
+                        new { Prediction = "Prediction not found" });
+                if (prediction.PredictionStatusId == Domain.PredictionStatus.Settled)
+                    throw new RestException(System.Net.HttpStatusCode.BadRequest, 
+                        new { Prediction = "Cannot cancel a settled prediction" });
+
+
+                if (prediction.IsMain)
+                {
+                    foreach(var p in prediction.Match.Predictions)
+                    {
+                        if(p.PredictionStatusId != Domain.PredictionStatus.Settled)
+                        {
+                            p.PredictionStatusId = Domain.PredictionStatus.Cancelled;
+                        }
+                    }
+                }
+                else
+                    prediction.PredictionStatusId = Domain.PredictionStatus.Cancelled;
 
                 var success = await _context.SaveChangesAsync() > 0;
 

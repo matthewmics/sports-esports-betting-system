@@ -196,6 +196,10 @@ export default class PredictionStore {
       runInAction(() => {
         prediction.predictionStatus = predictionStatus.cancelled;
         if (prediction.isMain) {
+          match.predictions.forEach(p => {
+            if (p.predictionStatus.name !== 'settled')
+              p.predictionStatus = predictionStatus.cancelled;
+          });
           match.matchStatus = predictionStatus.cancelled;
         }
       })

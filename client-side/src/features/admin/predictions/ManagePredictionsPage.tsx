@@ -37,8 +37,11 @@ const ManagePredictionsPage: React.FC<IProps> = ({ match }) => {
             });
     }
 
-    const handleCancel = (predictionId: number) => {
-        openConfirmation("Are you sure you want to cancel the prediction?", "Confirm cancel prediction",
+    const handleCancel = (predictionId: number, isMain: boolean) => {
+        const message = isMain ? 
+        "Cancelling this prediction will also cancel all unsettled predictions associated with the match. Are you sure you want to cancel the prediction?" : 
+        "Are you sure you want to cancel the prediction?";
+        openConfirmation(message, "Confirm cancel prediction",
             () => {
                 cancel(predictionId);
             });
@@ -164,7 +167,7 @@ const ManagePredictionsPage: React.FC<IProps> = ({ match }) => {
                                                                 onClick={() => handleReschedule(x)} />
 
                                                             <Button content='Cancel' icon='close'
-                                                                onClick={() => handleCancel(x.id)} />
+                                                                onClick={() => handleCancel(x.id, x.isMain)} />
                                                         </Fragment>
                                                     }
 
