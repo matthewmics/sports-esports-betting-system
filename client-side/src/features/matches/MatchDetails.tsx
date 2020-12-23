@@ -3,7 +3,9 @@ import { observer } from 'mobx-react-lite'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Segment, Label, Grid, Button, Image, Icon } from 'semantic-ui-react'
+import { StatusDetails } from '../../app/common/StatusDetails'
 import { IMatch } from '../../app/models/match'
+import { predictionStatus } from '../../app/models/prediction'
 
 interface IProps {
     match: IMatch
@@ -22,24 +24,16 @@ const MatchDetail: React.FC<IProps> = ({
                 {" "}
                 {match.eventName}
                 <span style={{ float: 'right', color: 'teal', lineHeight: '27px' }}>
-                    {match.matchStatus.name === 'live' &&
-                        <Label color='red' content='Live' icon='rocket' />
-                    }
-                    {match.matchStatus.name === 'cancelled' &&
-                        <Label content='Cancelled' />
-                    }
-                    {match.matchStatus.name === 'settled' &&
-                        <Label content='Settled' />
-                    }
-                    {match.matchStatus.name === 'open' &&
-                        <span>
-                            <Icon name='clock outline' />
-                            {formatDistanceToNowStrict(match.startDate, { addSuffix: true })}
-                        </span>
-                    }
+                    <StatusDetails status={match.matchStatus}
+                        startDate={match.startDate} />
                 </span>
             </Segment>
             <Segment>
+                {match.matchStatus.name === predictionStatus.settled.name &&
+                    <Label as='a' color='green' ribbon={match.winner.id === match.teamA.id ? true : 'right'}>
+                        Winner
+                    </Label>
+                }
                 <Grid columns={3} stackable textAlign='center'>
                     <Grid.Row verticalAlign='middle'>
                         <Grid.Column>

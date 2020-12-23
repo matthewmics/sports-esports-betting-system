@@ -61,5 +61,5 @@ export interface IActivePrediction {
 
 export interface IPredictionDetails {
     activePrediction: IActivePrediction | null;
-
+    prediction: IPrediction
 }

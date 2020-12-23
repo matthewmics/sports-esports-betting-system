@@ -8,5 +8,6 @@ namespace Application.Prediction.Dtos
     public class PredictionDetailsDto
     {
         public ActivePredictionDto ActivePrediction { get; set; }
+        public PredictionDto Prediction { get; set; }
     }
 }

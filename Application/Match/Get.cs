@@ -39,6 +39,8 @@ namespace Application.Match
                 .Include(x => x.TeamB)
                 .Include(x => x.Predictions)
                     .ThenInclude(x => x.PredictionStatus)
+                .Include(x => x.Predictions)
+                    .ThenInclude(x => x.Winner)
                 .Include(x => x.Game)
                 .SingleOrDefaultAsync(x => x.Id == request.Id);
 

@@ -19,6 +19,7 @@ namespace Application.Match.Dtos
 
         public TeamDto TeamA { get; set; }
         public TeamDto TeamB { get; set; }
+        public TeamDto Winner { get; set; }
 
         public int Series { get; set; }
 

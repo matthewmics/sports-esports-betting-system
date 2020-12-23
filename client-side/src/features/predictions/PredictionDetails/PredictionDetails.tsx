@@ -1,8 +1,10 @@
+import { formatDistanceToNowStrict } from 'date-fns'
 import { observer } from 'mobx-react-lite'
-import React from 'react'
-import { Segment, Grid, Image } from 'semantic-ui-react'
+import React, { Fragment } from 'react'
+import { Segment, Grid, Image, Label, Icon } from 'semantic-ui-react'
+import { StatusDetails } from '../../../app/common/StatusDetails'
 import { IMatch } from '../../../app/models/match'
-import { IPrediction } from '../../../app/models/prediction'
+import { IPrediction, predictionStatus } from '../../../app/models/prediction'
 import PredictionDetailsActions from './PredictionDetailsActions'
 import { PredictionDetailsActivePrediction } from './PredictionDetailsActivePrediction'
 
@@ -20,12 +22,22 @@ const PredictionDetails: React.FC<IProps> = ({ prediction, match, openModal, isL
     return (
         <Segment.Group>
             <Segment clearing>
-                {prediction && prediction.description}
-                <span style={{ float: 'right', color: 'teal' }}>
-                    12m 06s from now
-                </span>
+                {prediction &&
+                    <Fragment>
+                        {prediction.description}
+                        <span style={{ float: 'right', color: 'teal' }}>
+                            <StatusDetails status={prediction.predictionStatus}
+                                startDate={prediction.startDate} />
+                        </span>
+                    </Fragment>
+                }
             </Segment>
             <Segment>
+                {(prediction && match) && prediction.predictionStatus.name === predictionStatus.settled.name &&
+                    <Label as='a' color='green' ribbon={prediction.winner.id === match.teamA.id ? true : 'right'}>
+                        Winner
+                    </Label>
+                }
                 <Grid columns={3} stackable textAlign='center'>
                     <Grid.Row verticalAlign='middle'>
                         <Grid.Column>
@@ -61,7 +73,7 @@ const PredictionDetails: React.FC<IProps> = ({ prediction, match, openModal, isL
                     ))
                 }
             </Segment>
-        </Segment.Group>
+        </Segment.Group >
     )
 }
 

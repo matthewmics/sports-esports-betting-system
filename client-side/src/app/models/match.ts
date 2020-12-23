@@ -13,6 +13,7 @@ export interface IMatch {
     startDate: Date;
     teamA: ITeam;
     teamB: ITeam;
+    winner: ITeam;
     predictions: IPrediction[];
     series: number;
     matchStatus: IPredictionStatus;

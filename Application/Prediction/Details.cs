@@ -37,7 +37,10 @@ namespace Application.Prediction
 
             public async System.Threading.Tasks.Task<PredictionDetailsDto> Handle(Query request, CancellationToken cancellationToken)
             {
-                var prediction = _ctx.Predictions.SingleOrDefault(x => x.Id == request.PredictionId);
+                var prediction = await _ctx.Predictions
+                    .Include(x => x.PredictionStatus)
+                    .Include(x => x.Winner)
+                    .SingleOrDefaultAsync(x => x.Id == request.PredictionId);
                 if (prediction == null)
                     throw new RestException(System.Net.HttpStatusCode.NotFound, new { Prediction = "Prediction not found" });
 
@@ -58,7 +61,8 @@ namespace Application.Prediction
 
                 var predictionDetails = new PredictionDetailsDto
                 {
-                    ActivePrediction = activePrediction
+                    ActivePrediction = activePrediction,
+                    Prediction = _mapper.Map<PredictionDto>(prediction)
                 };
 
                 return predictionDetails;
