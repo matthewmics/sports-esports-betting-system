@@ -42,7 +42,7 @@ export const MatchDetails: React.FC<IProps> = ({ match }) => {
                         </Grid.Column>
                         <Grid.Column width={2}>
                             VS <br />
-                            <Label content={`BO3`} />
+                            <Label content={`BO${match.series}`} />
                         </Grid.Column>
                         <Grid.Column>
                             <Image src={match.teamB.image || '/assets/noimage.png'} centered
@@ -54,7 +54,8 @@ export const MatchDetails: React.FC<IProps> = ({ match }) => {
             </Segment>
             <Segment>
                 <Button.Group widths={2}>
-                    <Button content='Predictions' primary
+                    <Button content='Predictions'
+                        className='button-prediction'
                         onClick={() => history.push(`/admin/matches/${match.id}/predictions`)} />
                     <Button content='Cancel match' />
                 </Button.Group>

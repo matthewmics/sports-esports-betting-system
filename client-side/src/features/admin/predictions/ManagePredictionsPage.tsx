@@ -156,7 +156,7 @@ const ManagePredictionsPage: React.FC<IProps> = ({ match }) => {
                                                     }
 
                                                     {x.predictionStatus.name === 'cancelled' &&
-                                                        <Label color='red' icon='cancel' content='Cancelled' />
+                                                        <Label icon='cancel' content='Cancelled' />
                                                     }
 
                                                     {(x.predictionStatus.name !== 'settled' &&

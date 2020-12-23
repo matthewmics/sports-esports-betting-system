@@ -69,7 +69,7 @@ const PredictionDetails: React.FC<IProps> = ({ prediction, match, openModal, isL
                             prediction={prediction}
                             match={match!} openModal={openModal} />
                 ) : (
-                        <span style={{ float: 'right' }}>You have to be logged in to make a prediction</span>
+                        <Label style={{ float: 'right' }}>You have to be logged in to make a prediction</Label>
                     ))
                 }
             </Segment>

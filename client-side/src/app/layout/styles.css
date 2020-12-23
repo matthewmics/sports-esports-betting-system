@@ -36,6 +36,17 @@ body {
   background-color: rgb(245, 245, 245) !important;
 }
 
+.button-prediction {
+  background-image: repeating-linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.03) 0px,
+      rgba(0, 0, 0, 0.03) 2px,
+      transparent 2px,
+      transparent 4px
+    ),
+    linear-gradient(45deg, rgb(18, 105, 233), rgb(166, 255, 155)) !important;
+}
+
 .ui.dropdown > i {
   color: teal;
   font-size: 21px;

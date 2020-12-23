@@ -18,13 +18,15 @@ const PredictionDetailsActions: React.FC<IProps> = ({ match, openModal, predicti
 
     return (
         <Fragment>
-            <Button style={btnBetStyle} primary
+            <Button style={btnBetStyle} 
+                className='button-prediction'
                 disabled={cannotPredict}
                 onClick={() => openModal(<PredictionForm
                     initialTeam={match.teamB} />)}>
                 {match.teamB.name}
             </Button>
-            <Button style={btnBetStyle} primary
+            <Button style={btnBetStyle} 
+                className='button-prediction'
                 disabled={cannotPredict}
                 onClick={() => openModal(<PredictionForm
                     initialTeam={match.teamA} />)}>
