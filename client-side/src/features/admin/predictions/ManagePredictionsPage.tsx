@@ -74,7 +74,7 @@ const ManagePredictionsPage: React.FC<IProps> = ({ match }) => {
                             <b>{selectedMatch.teamA.name}</b> vs
                             <b>{" " + selectedMatch.teamB.name}</b>
                             <span style={{ color: 'teal' }}> {" "}
-                                | BO{selectedMatch.series}
+                            ∙ BO{selectedMatch.series}
                             </span></Breadcrumb.Section>
                     </Fragment>
                 }
