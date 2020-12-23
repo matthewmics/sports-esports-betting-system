@@ -19,6 +19,7 @@ export default class MatchStore {
   @observable loadingMatches = false;
   @observable matchFilters = new Map();
   @observable hasLoaded = false;
+  @observable selectedStatusFilter = 'all';
 
   constructor(rootStore: RootStore) {
     makeObservable(this);
@@ -72,6 +73,10 @@ export default class MatchStore {
         value: this.selectedMatch.teamB.id.toString(),
       }
     ];
+  }
+
+  @action setSelectedStatusFilter = (value: string) => {
+    this.selectedStatusFilter = value;
   }
 
   @action setPage = (page: number) => {
