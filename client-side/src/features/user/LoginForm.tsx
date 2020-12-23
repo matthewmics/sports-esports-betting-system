@@ -43,7 +43,6 @@ const LoginForm = () => {
                             <ErrorMessage text='Invalid email or password' error={submitError} />}
 
                         <Button content='LOGIN' type='submit' primary
-                            icon='lock'
                             floated='right'
                             disabled={!valid && (!dirtySinceLastSubmit || pristine)}
                             loading={loading} />

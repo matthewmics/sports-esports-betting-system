@@ -72,7 +72,6 @@ const RegisterForm = () => {
                             <ErrorMessage error={submitError} />}
 
                         <Button content='REGISTER' type='submit' primary
-                            icon='lock'
                             floated='right'
                             disabled={(!valid) && (!dirtySinceLastSubmit || pristine)}
                             loading={loading} />
