@@ -17,7 +17,7 @@ const PredictionHeader: React.FC<IProps> = ({ match }) => {
                     <img src={`/assets/${match.game.name}.png`} alt='Team' />{match.game.displayText}
                 </Label> { " "} {match.eventName}
                 <span style={{ float: 'right', color: 'teal', lineHeight: '27px' }}>
-                    <b>{match.teamA.name}</b>{" "} vs {" "}<b>{match.teamB.name}</b> • B0{match.series}
+                    {match.teamA.name}{" "} <span style={{color:'green', fontWeight: 'bold'}}>vs</span> {" "}{match.teamB.name} ∙ B0{match.series}
                 </span >
                 <Divider />
             </Fragment>
