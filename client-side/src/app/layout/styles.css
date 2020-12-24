@@ -46,6 +46,9 @@ body {
     ),
     linear-gradient(45deg, rgb(18, 105, 233), rgb(166, 255, 155)) !important;
 }
+.button-prediction:hover {
+  opacity: 0.75;
+}
 
 .ui.dropdown > i {
   color: teal;
