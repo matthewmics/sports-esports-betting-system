@@ -1,7 +1,6 @@
-import { formatDistanceToNowStrict } from 'date-fns'
 import { observer } from 'mobx-react-lite'
 import React, { Fragment } from 'react'
-import { Segment, Grid, Image, Label, Icon } from 'semantic-ui-react'
+import { Segment, Grid, Image, Label } from 'semantic-ui-react'
 import { StatusDetails } from '../../../app/common/StatusDetails'
 import { IMatch } from '../../../app/models/match'
 import { IPrediction, predictionStatus } from '../../../app/models/prediction'

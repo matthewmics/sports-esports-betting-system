@@ -9,7 +9,6 @@ import { combineValidators, composeValidators, isRequired } from 'revalidate';
 import { isFutureDate } from '../../../app/common/forms/formValidations';
 import { ErrorMessage } from '../../../app/common/forms/ErrorMessage';
 import { FORM_ERROR } from 'final-form';
-import { format } from 'date-fns';
 import { formatDateInput } from '../../../app/common/util/util';
 
 interface IProps {

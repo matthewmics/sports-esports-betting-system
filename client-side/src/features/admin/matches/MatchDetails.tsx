@@ -1,6 +1,5 @@
-import { formatDistanceToNowStrict } from 'date-fns'
 import React from 'react'
-import { Segment, Label, Grid, Button, Image, Icon } from 'semantic-ui-react'
+import { Segment, Label, Grid, Button, Image } from 'semantic-ui-react'
 import { history } from '../../..'
 import { StatusDetails } from '../../../app/common/StatusDetails'
 import { IMatch } from '../../../app/models/match'
