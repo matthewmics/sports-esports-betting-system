@@ -1,7 +1,7 @@
-import { formatDistanceToNowStrict } from 'date-fns'
 import React, { Fragment } from 'react'
-import { Icon, Label } from 'semantic-ui-react'
+import { Label } from 'semantic-ui-react'
 import { IPredictionStatus } from '../models/prediction'
+import { ScheduleTimer } from './dates/ScheduleTimer'
 
 export const StatusDetails: React.FC<{ status: IPredictionStatus, startDate: Date }> = ({ status, startDate }) => {
     return (
@@ -16,10 +16,7 @@ export const StatusDetails: React.FC<{ status: IPredictionStatus, startDate: Dat
                 <Label content='Settled' />
             }
             {status.name === 'open' &&
-                <span>
-                    <Icon name='clock outline' />
-                    {formatDistanceToNowStrict(startDate, { addSuffix: true })}
-                </span>
+                <ScheduleTimer date={startDate} />
             }
         </Fragment>
     )

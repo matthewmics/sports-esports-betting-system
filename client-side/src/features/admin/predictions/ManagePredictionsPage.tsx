@@ -3,7 +3,8 @@ import { observer } from 'mobx-react-lite'
 import React, { Fragment, useContext, useEffect } from 'react'
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Breadcrumb, Button, Divider, Icon, Label, Loader, Table } from 'semantic-ui-react';
-import { IPrediction } from '../../../app/models/prediction';
+import { ScheduleTimer } from '../../../app/common/dates/ScheduleTimer';
+import { IPrediction, predictionStatus } from '../../../app/models/prediction';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import PredictionForm from './PredictionForm';
 import ReschedulePrediction from './ReschedulePrediction';
@@ -38,9 +39,9 @@ const ManagePredictionsPage: React.FC<IProps> = ({ match }) => {
     }
 
     const handleCancel = (predictionId: number, isMain: boolean) => {
-        const message = isMain ? 
-        "Cancelling this prediction will also cancel all unsettled predictions associated with the match. Are you sure you want to cancel the prediction?" : 
-        "Are you sure you want to cancel the prediction?";
+        const message = isMain ?
+            "Cancelling this prediction will also cancel all unsettled predictions associated with the match. Are you sure you want to cancel the prediction?" :
+            "Are you sure you want to cancel the prediction?";
         openConfirmation(message, "Confirm cancel prediction",
             () => {
                 cancel(predictionId);
@@ -128,9 +129,9 @@ const ManagePredictionsPage: React.FC<IProps> = ({ match }) => {
                                         {x.predictionStatus.displayText}</Table.Cell>
                                     <Table.Cell>
                                         {format(x.startDate, 'EEEE, MMM dd, yyyy, p',)}
-                                        <span style={{ color: 'teal', display: 'block' }}>
-                                            {formatDistanceToNowStrict(x.startDate, { addSuffix: true })}
-                                        </span>
+                                        {x.predictionStatus.name === predictionStatus.open.name &&
+                                            <ScheduleTimer date={x.startDate} />
+                                        }
                                     </Table.Cell>
                                     <Table.Cell>
                                         {(loading && targetLoading === x.id) ? <Loader inline active /> :
