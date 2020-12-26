@@ -58,7 +58,7 @@ namespace Persistence
                 {
                     DisplayName = userCustomer.DisplayName,
                     Email = userCustomer.Email,
-                    UserName = userCustomer.UserName
+                    UserName=  userCustomer.Email
                 };
                 userManager.CreateAsync(appUser, "Password").Wait();
                 ctx.Customers.Add(new Customer { AppUser = appUser });
