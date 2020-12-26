@@ -19,7 +19,6 @@ export interface IUserFormValues {
 }
 
 export interface IUserRegisterFormValues {
-    displayName: string;
     firstname: string;
     lastname: string;
     email: string;
