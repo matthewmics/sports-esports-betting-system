@@ -11,6 +11,7 @@ import { observer } from 'mobx-react-lite';
 import { RootStoreContext } from '../stores/rootStore';
 import PredictionPage from '../../features/predictions/PredictionPage';
 import axios from 'axios';
+import { ProfilePage } from '../../features/profiles/ProfilePage';
 
 
 
@@ -29,7 +30,7 @@ const App = () => {
       Promise.reject(error)
   )
 
-  
+
   const rootStore = useContext(RootStoreContext);
   const { getUser } = rootStore.userStore;
 
@@ -44,7 +45,7 @@ const App = () => {
       <ModalContainer />
       <ToastContainer position='bottom-right' pauseOnFocusLoss={false} />
       <NavBar />
-      <Container style={{ marginTop: '7em' }}>
+      <Container style={{ paddingTop: '7em' }}>
         <Route exact path='/'>
           <Redirect to='/matches' />
         </Route>
@@ -54,6 +55,7 @@ const App = () => {
               <Switch>
                 <Route exact path='/matches' component={MatchesPage} />
                 <Route path='/matches/:id' component={PredictionPage} />
+                <Route path='/profile' component={ProfilePage} />
                 <Route render={() => <h1>ERROR 404</h1>} />
               </Switch>
             </Fragment>

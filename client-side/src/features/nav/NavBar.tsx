@@ -32,7 +32,7 @@ const NavBar = () => {
 
             <Container>
                 <Menu.Item header onClick={() => history.push('/matches')} as='div'
-                        style={{cursor: 'pointer'}}>
+                    style={{ cursor: 'pointer' }}>
                     <Image style={{ marginRight: '10px' }} height='37' src='/assets/logo.png' />
                     WagerzLounge
                 </Menu.Item>
@@ -94,8 +94,13 @@ const NavBar = () => {
                                                     size='mini'
                                                     src='/assets/user_default.png' />
                                                 <div>
-                                                    <span style={{ fontSize: '13px', display: 'block', marginBottom: '2px' }}>{user!.displayName}</span>
-                                                    <Label size='mini' color='green' content={"₱ " + user!.walletBalance.toFixed(2)} />
+                                                    <span style={{
+                                                        fontSize: '14px', display: 'block', marginBottom: '4px',
+                                                        overflow: 'hidden', maxWidth: '150px',
+                                                        textOverflow: 'ellipsis', whiteSpace: 'nowrap'
+                                                    }}>
+                                                        {user!.displayName}</span>
+                                                    <Label size='tiny' color='green' content={"₱ " + user!.walletBalance.toFixed(2)} />
                                                 </div>
                                             </Menu.Item>
                                         }
@@ -109,7 +114,11 @@ const NavBar = () => {
                                                 src='/assets/user_default.png' />
 
                                             <div style={{ display: 'block', minWidth: '150px' }}>
-                                                <span style={{ fontWeight: 'bold', display: 'block', overflow: 'hidden', maxWidth: '150px', textOverflow: 'ellipsis' }}>
+                                                <span style={{
+                                                    fontWeight: 'bold', display: 'block',
+                                                    overflow: 'hidden', maxWidth: '150px',
+                                                    textOverflow: 'ellipsis'
+                                                }}>
                                                     {user!.displayName}
                                                 </span>
                                                 <span>
