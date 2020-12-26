@@ -36,7 +36,7 @@ export const gameSelection = [
 
 export const predictionStatusSelection = [
     {
-        key: '4', text: 'All', value: 'all', icon: 'cubes'
+        key: '4', text: 'All', value: 'all', icon: 'puzzle'
     }, {
         key: '0', text: 'Upcoming', value: 'upcoming', icon: 'clock'
     }, {

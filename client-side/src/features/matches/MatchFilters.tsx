@@ -32,7 +32,7 @@ const MatchFilters = () => {
                 active={matchFilters.get("game") === "all"}
                 onClick={() => handleGameFilter("all")}
             >
-                <Image src='/assets/images/cubes.png' style={tabImageStyle} /> All
+                <Image src='/assets/images/puzzle.png' style={tabImageStyle} /> All
             </Menu.Item>
             <Menu.Item
                 name='dota2'
