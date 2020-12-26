@@ -10,7 +10,7 @@ import TeamsTable from './TeamsTable'
 const TeamsPage = () => {
 
     const rootStore = useContext(RootStoreContext);
-    const { teams, loadTeams, loading, totalPage, page, setPage, setFilter, limit, setLimit } = rootStore.teamStore;
+    const { teams, loadTeams, loading, totalPage, page, setPage, setFilter, limit, setLimit, filters } = rootStore.teamStore;
 
     const handleSetPage = (page: number) => {
         setPage(page);
@@ -53,7 +53,8 @@ const TeamsPage = () => {
 
                         <div className="float right">
                             Search:
-                            <SearchAsYouType handleSearch={handleSearch} />
+                            <SearchAsYouType handleSearch={handleSearch} 
+                                initialValue={filters.get('q')}/>
                         </div>
 
                         <TeamsTable totalPage={totalPage}
