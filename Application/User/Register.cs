@@ -1,5 +1,6 @@
 ﻿using Application.Errors;
 using Application.User.Dtos;
+using Application.Validators;
 using AutoMapper;
 using Domain;
 using FluentValidation;
@@ -21,7 +22,8 @@ namespace Application.User
         public class Command : IRequest<UserDto>
         {
             public string Email { get; set; }
-            public string DisplayName { get; set; }
+            public string Firstname { get; set; }
+            public string Lastname { get; set; }
             public string Password { get; set; }
         }
 
@@ -29,9 +31,10 @@ namespace Application.User
         {
             public CommandValidator()
             {
-                RuleFor(x => x.Email).NotEmpty();
-                RuleFor(x => x.DisplayName).NotEmpty();
-                RuleFor(x => x.Password).NotEmpty();
+                RuleFor(x => x.Email).NotEmpty().EmailAddress();
+                RuleFor(x => x.Firstname).NotEmpty().MaximumLength(50).OnlyLetters();
+                RuleFor(x => x.Lastname).NotEmpty().MaximumLength(50).OnlyLetters();
+                RuleFor(x => x.Password).Password();
             }
         }
 
@@ -53,10 +56,13 @@ namespace Application.User
                 if (await _context.Users.AnyAsync(u => u.Email == request.Email))
                     throw new RestException(System.Net.HttpStatusCode.BadRequest, new { Email = "Email Already exists"});
 
+                var displayName = request.Firstname + " " + request.Lastname;
+
                 var userToCreate = new AppUser
                 {
                     Email = request.Email,
-                    DisplayName = request.DisplayName
+                    DisplayName = displayName,
+                    UserName = request.Email
                 };
 
                 var result = await _userManager.CreateAsync(userToCreate, request.Password);

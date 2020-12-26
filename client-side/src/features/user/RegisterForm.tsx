@@ -3,22 +3,25 @@ import { Field, Form as FinalForm } from 'react-final-form'
 import { Button, Divider, Form, Header } from 'semantic-ui-react'
 import TextInput from '../../app/common/forms/TextInput'
 import { RootStoreContext } from '../../app/stores/rootStore'
-import { combineValidators, composeValidators, isRequired, matchesField } from 'revalidate'
+import { combineValidators, composeValidators, hasLengthGreaterThan, isRequired, matchesField } from 'revalidate'
 import { IUserRegisterFormValues } from '../../app/models/user'
 import { FORM_ERROR } from 'final-form'
 import { ErrorMessage } from '../../app/common/forms/ErrorMessage'
 import { observer } from 'mobx-react-lite'
-import { isValidEmail } from '../../app/common/forms/formValidations'
+import { hasUppercase, isValidEmail } from '../../app/common/forms/formValidations'
 
 const validate = combineValidators({
     firstname: isRequired('firstname'),
     lastname: isRequired('lastname'),
-    username: isRequired('username'),
     email: composeValidators(
         isValidEmail(),
         isRequired('email')
     )(),
-    password: isRequired('password'),
+    password: composeValidators(
+        isRequired('password'),
+        hasLengthGreaterThan(5)({message: 'must be 6 characters or more'}),
+        hasUppercase('password')
+    )(),
     confirmPassword: matchesField('password', 'confirmPassword')({ message: 'Passwords do not match' })
 })
 
@@ -28,8 +31,7 @@ const RegisterForm = () => {
     const { register, loading } = rootStore.userStore;
 
     const submitHandle = (values: IUserRegisterFormValues) => {
-        const { confirmPassword, firstname, lastname, ...formValues } = values;
-        formValues.displayName = values.firstname + " " + values.lastname;
+        const { confirmPassword, ...formValues } = values;
         return register(formValues).catch(error => (
             { [FORM_ERROR]: error }
         ))

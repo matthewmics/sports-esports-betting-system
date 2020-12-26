@@ -20,9 +20,28 @@ export const isFutureDate = createValidator(
 
 export const isGreaterThan = (n: number) => createValidator(
   message => value => {
-    if (value && (!!!Number(value) || Number(value) <= n)) {
+    if (value && Number(value) <= n) {
       return message
     }
   },
   field => `${field} must be greater than ${n}`
 )
+
+export const isLessThan = (n: number) => createValidator(
+  message => value => {
+    if (value && Number(value) >= n) {
+      return message
+    }
+  },
+  field => `${field} must be greater than ${n}`
+)
+
+export const hasUppercase = createValidator(
+  message => value => {
+    if (value && !/[A-Z]/.test(value)) {
+      return message
+    }
+  },
+  field => `${field} must have an uppercase letter`
+)
+
