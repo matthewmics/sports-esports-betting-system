@@ -17,9 +17,9 @@ namespace Application.Validators
 
         public static IRuleBuilder<T, string> OnlyLetters<T>(this IRuleBuilder<T, string> ruleBuilder)
         {
-            var options = ruleBuilder.Matches("^[a-zA-Z]+$").WithMessage("Only letters are allowed");
+            var options = ruleBuilder.Matches("^[a-zA-Z ]+$").WithMessage("Only letters are allowed");
 
             return options;
         }
-    }
+    }   
 }
