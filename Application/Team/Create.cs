@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Application.Photo;
+using Application.Validators;
 
 namespace Application.Team
 {
@@ -26,7 +27,7 @@ namespace Application.Team
         {
             public CommandValidator()
             {
-                RuleFor(x => x.Name).NotEmpty();
+                RuleFor(x => x.Name).NotEmpty().Matches("^[a-zA-Z0-9 ]+$").WithMessage("Only letters and number are allowed");
             }
         }
 

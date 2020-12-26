@@ -6,14 +6,19 @@ import { Field, Form as FinalForm } from 'react-final-form'
 import TextInput from '../../../../app/common/forms/TextInput'
 import { RootStoreContext } from '../../../../app/stores/rootStore'
 import PhotoSelectAndCrop from '../../../../app/common/photos/PhotoSelectAndCrop'
-import { combineValidators, isRequired } from 'revalidate'
+import { combineValidators, composeValidators, hasLengthLessThan, isRequired } from 'revalidate'
 import { ITeamFormValues } from '../../../../app/models/team'
 import { ErrorMessage } from '../../../../app/common/forms/ErrorMessage'
 import { FORM_ERROR } from 'final-form'
 import { history } from '../../../..'
+import { teamName } from '../../../../app/common/forms/formValidations'
 
 const validate = combineValidators({
-    name: isRequired('name')
+    name: composeValidators(
+        isRequired('team name'),
+        teamName('team name'),
+        hasLengthLessThan(51)({message: 'team name must be 50 characters or less'})
+    )()
 })
 
 const TeamForm = () => {

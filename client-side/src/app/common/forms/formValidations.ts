@@ -45,3 +45,13 @@ export const hasUppercase = createValidator(
   field => `${field} must have an uppercase letter`
 )
 
+export const teamName = createValidator(
+  message => value => {
+    if (value && !/^[a-zA-Z0-9 ]+$/.test(value)) {
+      return message
+    }
+  },
+  'team name must only contain letters and numbers'
+)
+
+
