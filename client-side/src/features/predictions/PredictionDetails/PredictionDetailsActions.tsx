@@ -3,7 +3,7 @@ import React, { Fragment } from 'react'
 import { Button } from 'semantic-ui-react'
 import { IMatch } from '../../../app/models/match'
 import { IPrediction, predictionStatus } from '../../../app/models/prediction'
-import PredictionForm from '../PredictionForm'
+import PredictionForm from '../PredictionForm/PredictionForm'
 import { btnBetStyle } from '../PredictionPage'
 
 interface IProps {
@@ -22,6 +22,7 @@ const PredictionDetailsActions: React.FC<IProps> = ({ match, openModal, predicti
                 className='button-prediction'
                 disabled={cannotPredict}
                 onClick={() => openModal(<PredictionForm
+                    prediction={prediction!}
                     initialTeam={match.teamB} />)}>
                 {match.teamB.name}
             </Button>
@@ -29,6 +30,7 @@ const PredictionDetailsActions: React.FC<IProps> = ({ match, openModal, predicti
                 className='button-prediction'
                 disabled={cannotPredict}
                 onClick={() => openModal(<PredictionForm
+                    prediction={prediction!}
                     initialTeam={match.teamA} />)}>
                 {match.teamA.name}
             </Button>

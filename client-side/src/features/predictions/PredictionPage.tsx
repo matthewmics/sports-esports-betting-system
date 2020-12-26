@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite'
 import React, { useContext, useEffect } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
-import { Grid } from 'semantic-ui-react'
+import { Grid, Loader } from 'semantic-ui-react'
 import { RootStoreContext } from '../../app/stores/rootStore'
 import MatchComments from './MatchComments'
 import PredictionDetails from './PredictionDetails/PredictionDetails'
@@ -36,6 +36,8 @@ const PredictionPage: React.FC<IProps> = ({ match }) => {
     useEffect(() => {
         selectMatch(+match.params.id)
     }, [selectMatch, match.params.id])
+
+    if (!selectedMatch) return <Loader active={true} content='Loading match...'  />
 
     return (
         <Grid>

@@ -57,10 +57,11 @@ const PredictionDetails: React.FC<IProps> = ({ prediction, match, openModal, isL
                     </Grid.Row>
                 </Grid>
             </Segment>
-            <Segment secondary clearing loading={loading} style={{ minHeight: '60px' }}>
+            <Segment clearing loading={loading} style={{ minHeight: '60px' }}>
                 {match && (isLoggedIn ? (
                     prediction && prediction.predictionDetails && prediction.predictionDetails.activePrediction ?
                         <PredictionDetailsActivePrediction activePrediction={prediction.predictionDetails.activePrediction}
+                            prediction={prediction}
                             unpredict={unpredict}
                             openModal={openModal} />
                         :
