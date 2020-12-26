@@ -3,6 +3,7 @@ using Application.Interfaces;
 using Application.Prediction.Dtos;
 using AutoMapper;
 using Domain;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -24,6 +25,18 @@ namespace Application.Prediction
             public int TeamId { get; set; }
         }
 
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(x => x.Amount)
+                    .NotEmpty()
+                    .GreaterThan(49).WithMessage("Minimum amount is 50")
+                    .LessThan(100001).WithMessage("Maximum amount is 100,000");
+                RuleFor(x => x.TeamId).NotEmpty();
+            }
+        }
+
         public class Handler : IRequestHandler<Command, ActivePredictionDto>
         {
             private readonly DataContext _context;
@@ -42,9 +55,6 @@ namespace Application.Prediction
 
             public async Task<ActivePredictionDto> Handle(Command request, CancellationToken cancellationToken)
             {
-                if (request.Amount < 50)
-                    throw new RestException(System.Net.HttpStatusCode.BadRequest, new { Amount = "Minimum amount is 50" });
-
                 var prediction = await _context.Predictions
                     .Include(x => x.Match)
                     .SingleOrDefaultAsync(x => x.Id == request.PredictionId);
