@@ -34,7 +34,8 @@ export const ScheduleTimer: React.FC<{ date: Date, expirationMessage?: string }>
                 result = expirationMessage as string
             }
 
-            ref.current!.innerHTML = result;
+            if (ref.current)
+                ref.current.innerHTML = result;
 
         }, 1000);
 
