@@ -1,12 +1,12 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import { Icon } from 'semantic-ui-react';
 
 export const ScheduleTimer: React.FC<{ date: Date, expirationMessage?: string }> =
     ({ date, expirationMessage }) => {
 
-        expirationMessage = expirationMessage ? expirationMessage : 'About to start soon';
+        const ref = React.createRef<HTMLSpanElement>();
 
-        const [displayText, setDisplayText] = useState('');
+        expirationMessage = expirationMessage ? expirationMessage : 'About to start soon';
 
         var timer = setInterval(function () {
 
@@ -20,11 +20,11 @@ export const ScheduleTimer: React.FC<{ date: Date, expirationMessage?: string }>
             var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
             let result = '';
-            if (days != 0)
+            if (days !== 0)
                 result += days + "d ";
-            if (hours != 0)
+            if (hours !== 0)
                 result += hours + "h ";
-            if (minutes != 0)
+            if (minutes !== 0)
                 result += minutes + "m ";
 
             result += seconds + "s from now";
@@ -34,24 +34,26 @@ export const ScheduleTimer: React.FC<{ date: Date, expirationMessage?: string }>
                 result = expirationMessage as string
             }
 
-            setDisplayText(result);
+            ref.current!.innerHTML = result;
 
         }, 1000);
 
         useEffect(() => {
+
+            if (ref.current) {
+                ref.current.innerHTML = "Calculating time...";
+            }
+
             return (() => {
                 clearInterval(timer);
             })
-        }, [timer]);
+        }, [timer, ref]);
 
         return (
             <span>
-
-                {displayText &&
-                    <Fragment>
-                        <Icon name='clock outline' /> {displayText}
-                    </Fragment>
-                }
+                <Fragment>
+                    <Icon name='clock outline' /> <span ref={ref}></span>
+                </Fragment>
             </span>
         )
     }
