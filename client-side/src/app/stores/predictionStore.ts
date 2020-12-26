@@ -60,6 +60,7 @@ export default class PredictionStore {
   }
 
   @action predict = async (teamId: number, amount: number) => {
+    this.loading = true;
     try {
       const activePrediction = await agent.Predictions.predict(
         this.selectedPrediction!.id,
@@ -76,6 +77,10 @@ export default class PredictionStore {
 
     } catch (error) {
       throw error;
+    } finally {
+      runInAction(() => {
+        this.loading = false;
+      })
     }
   }
 
@@ -172,12 +177,14 @@ export default class PredictionStore {
       const prediction = match.predictions.filter(x => x.id === predictionId)[0];
       runInAction(() => {
         prediction.predictionStatus = predictionStatus.settled;
-        prediction.winner = match.teamA.id === teamId ? match.teamA : match.teamB;
+        const teamWinner = match.teamA.id === teamId ? match.teamA : match.teamB;
+        prediction.winner = teamWinner;
         if (prediction.isMain) {
           match.predictions.forEach(p => {
             if (p.predictionStatus.name !== 'settled')
               p.predictionStatus = predictionStatus.cancelled;
           });
+          match.winner = teamWinner;
           match.matchStatus = predictionStatus.settled;
         }
       });
