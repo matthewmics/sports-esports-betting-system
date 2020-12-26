@@ -3,7 +3,7 @@ import { Field, Form as FinalForm } from 'react-final-form'
 import { Button, Divider, Form, Header } from 'semantic-ui-react'
 import TextInput from '../../app/common/forms/TextInput'
 import { RootStoreContext } from '../../app/stores/rootStore'
-import { combineValidators, composeValidators, hasLengthGreaterThan, isRequired, matchesField } from 'revalidate'
+import { combineValidators, composeValidators, hasLengthGreaterThan, hasLengthLessThan, isRequired, matchesField } from 'revalidate'
 import { IUserRegisterFormValues } from '../../app/models/user'
 import { FORM_ERROR } from 'final-form'
 import { ErrorMessage } from '../../app/common/forms/ErrorMessage'
@@ -11,15 +11,21 @@ import { observer } from 'mobx-react-lite'
 import { hasUppercase, isValidEmail } from '../../app/common/forms/formValidations'
 
 const validate = combineValidators({
-    firstname: isRequired('firstname'),
-    lastname: isRequired('lastname'),
+    firstname: composeValidators(
+        isRequired('firstname'),
+        hasLengthLessThan(51)({ message: 'firstname must be 50 characters or less' })
+    )(),
+    lastname: composeValidators(
+        isRequired('lastname'),
+        hasLengthLessThan(51)({ message: 'lastname must be 50 characters or less' })
+    )(),
     email: composeValidators(
+        isRequired('email'),
         isValidEmail(),
-        isRequired('email')
     )(),
     password: composeValidators(
         isRequired('password'),
-        hasLengthGreaterThan(5)({message: 'must be 6 characters or more'}),
+        hasLengthGreaterThan(5)({ message: 'must be 6 characters or more' }),
         hasUppercase('password')
     )(),
     confirmPassword: matchesField('password', 'confirmPassword')({ message: 'Passwords do not match' })
