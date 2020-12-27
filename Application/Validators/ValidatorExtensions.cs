@@ -15,9 +15,17 @@ namespace Application.Validators
             return options;
         }
 
-        public static IRuleBuilder<T, string> OnlyLetters<T>(this IRuleBuilder<T, string> ruleBuilder)
+        public static IRuleBuilderOptions<T, string> OnlyLetters<T>(this IRuleBuilder<T, string> ruleBuilder)
         {
-            var options = ruleBuilder.Matches("^[a-zA-Z ]+$").WithMessage("Only letters are allowed");
+            var options = ruleBuilder.Matches("^[a-zA-Z ]+$");
+
+            return options;
+        }
+
+
+        public static IRuleBuilderOptions<T, DateTime> FutureDate<T>(this IRuleBuilder<T, DateTime> ruleBuilder)
+        {
+            var options = ruleBuilder.Must(x => x > DateTime.Now);
 
             return options;
         }

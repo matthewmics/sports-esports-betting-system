@@ -32,8 +32,10 @@ namespace Application.User
             public CommandValidator()
             {
                 RuleFor(x => x.Email).NotEmpty().EmailAddress();
-                RuleFor(x => x.Firstname).NotEmpty().MaximumLength(50).OnlyLetters();
-                RuleFor(x => x.Lastname).NotEmpty().MaximumLength(50).OnlyLetters();
+                RuleFor(x => x.Firstname).NotEmpty().MaximumLength(50).OnlyLetters()
+                    .WithMessage("'Firstname' is only allowed to have letters");
+                RuleFor(x => x.Lastname).NotEmpty().MaximumLength(50).OnlyLetters()
+                    .WithMessage("'Lastname' is only allowed to have letters");
                 RuleFor(x => x.Password).Password();
             }
         }

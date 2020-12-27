@@ -1,5 +1,6 @@
 ﻿using Application.Errors;
 using Application.Match.Dtos;
+using Application.Validators;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
@@ -34,13 +35,20 @@ namespace Application.Match
         {
             public CommandValidator()
             {
-                RuleFor(x => x.EventName).NotEmpty();
+                RuleFor(x => x.EventName)
+                    .NotEmpty()
+                    .MaximumLength(100);
                 RuleFor(x => x.TeamAId).NotEmpty();
                 RuleFor(x => x.TeamBId).NotEmpty();
                 RuleFor(x => x.Series).NotEmpty();
-                RuleFor(x => x.Title).NotEmpty();
-                RuleFor(x => x.Description).NotEmpty();
-                RuleFor(x => x.StartsAt).NotEmpty();
+
+                RuleFor(x => x.Title).NotEmpty()
+                    .MaximumLength(50);
+                RuleFor(x => x.Description)
+                    .MaximumLength(75)
+                    .NotEmpty();
+                RuleFor(x => x.StartsAt).NotEmpty()
+                    .FutureDate().WithMessage("'StartsAt' must be a future date");
             }
         }
 
@@ -57,8 +65,6 @@ namespace Application.Match
 
             public async Task<MatchDto> Handle(Command request, CancellationToken cancellationToken)
             {
-                if(request.StartsAt < DateTime.Now)
-                    throw new RestException(System.Net.HttpStatusCode.BadRequest, new { Schedule = "Schedule must be a future date" });
                 if (request.TeamAId == request.TeamBId)
                     throw new RestException(System.Net.HttpStatusCode.BadRequest, new { Teams = "Teams must not be the same" });
 

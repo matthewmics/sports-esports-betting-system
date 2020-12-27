@@ -11,6 +11,7 @@ using FluentValidation;
 using AutoMapper;
 using Application.Prediction.Dtos;
 using System.Linq;
+using Application.Validators;
 
 namespace Application.Prediction
 {
@@ -29,9 +30,13 @@ namespace Application.Prediction
         {
             public CommandValidator()
             {
-                RuleFor(x => x.Title).NotEmpty();
-                RuleFor(x => x.Description).NotEmpty();
-                RuleFor(x => x.StartsAt).NotEmpty();
+                RuleFor(x => x.Title).NotEmpty()
+                    .MaximumLength(50);
+                RuleFor(x => x.Description)
+                    .MaximumLength(75)
+                    .NotEmpty();
+                RuleFor(x => x.StartsAt).NotEmpty()
+                    .FutureDate().WithMessage("'StartsAt' must be a future date");
             }
         }
 
@@ -48,9 +53,6 @@ namespace Application.Prediction
 
             public async Task<PredictionDto> Handle(Command request, CancellationToken cancellationToken)
             {
-                if (request.StartsAt < DateTime.Now)
-                    throw new RestException(System.Net.HttpStatusCode.BadRequest, new { Schedule = "Schedule must be a future date" });
-
                 var match = await _context.Matches.Include(x => x.Predictions).SingleOrDefaultAsync(x => x.Id == request.MatchId);
                 if (match == null)
                     throw new RestException(System.Net.HttpStatusCode.NotFound, new { Match = "Match not found" });

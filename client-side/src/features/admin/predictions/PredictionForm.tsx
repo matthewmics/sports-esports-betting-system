@@ -2,7 +2,7 @@ import { FORM_ERROR } from 'final-form'
 import { observer } from 'mobx-react-lite'
 import React, { useContext } from 'react'
 import { Field, Form as FinalForm } from 'react-final-form'
-import { combineValidators, composeValidators, isRequired } from 'revalidate'
+import { combineValidators, composeValidators, hasLengthLessThan, isRequired } from 'revalidate'
 import { Button, Divider, Form, Header } from 'semantic-ui-react'
 import { ErrorMessage } from '../../../app/common/forms/ErrorMessage'
 import { isFutureDate } from '../../../app/common/forms/formValidations'
@@ -12,8 +12,14 @@ import { IPredictionCreateForm } from '../../../app/models/prediction'
 import { RootStoreContext } from '../../../app/stores/rootStore'
 
 const validate = combineValidators({
-    title: isRequired('Title'),
-    description: isRequired('Description'),
+    title: composeValidators(
+        isRequired('Title'),
+        hasLengthLessThan(51)({ message: 'Title must be 50 characters or less' })
+    )(),
+    description: composeValidators(
+        isRequired('Description'),
+        hasLengthLessThan(76)({ message: 'Description must be 75 characters or less' })
+    )(),
     startsAt: composeValidators(
         isRequired('Schedule'),
         isFutureDate('Schedule')

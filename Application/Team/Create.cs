@@ -27,7 +27,9 @@ namespace Application.Team
         {
             public CommandValidator()
             {
-                RuleFor(x => x.Name).NotEmpty().Matches("^[a-zA-Z0-9 ]+$").WithMessage("Only letters and number are allowed");
+                RuleFor(x => x.Name).NotEmpty().MaximumLength(50)
+                    .Matches("^[a-zA-Z0-9 ]+$")
+                    .WithMessage("Only letters and number are allowed");
             }
         }
 

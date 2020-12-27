@@ -7,6 +7,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Application.Validators;
 
 namespace Application.Prediction
 {
@@ -17,6 +19,17 @@ namespace Application.Prediction
         {
             public int PredictionId { get; set; }
             public DateTime Schedule { get; set; }
+        }
+
+
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+
+                RuleFor(x => x.Schedule).NotEmpty()
+                    .FutureDate().WithMessage("'Schedule' must be a future date");
+            }
         }
 
         public class Handler : IRequestHandler<Command>
@@ -33,9 +46,6 @@ namespace Application.Prediction
                 var prediction = await _context.Predictions.FindAsync(request.PredictionId);
                 if (prediction == null)
                     throw new RestException(System.Net.HttpStatusCode.NotFound, new { Prediction = "Prediction not found" });
-
-                if (request.Schedule < DateTime.Now)
-                    throw new RestException(System.Net.HttpStatusCode.BadRequest, new { Schedule = "Schedule must be a future date" });
 
                 if (prediction.PredictionStatusId == Domain.PredictionStatus.Cancelled ||
                     prediction.PredictionStatusId == Domain.PredictionStatus.Settled)

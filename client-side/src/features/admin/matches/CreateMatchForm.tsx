@@ -2,7 +2,7 @@ import { FORM_ERROR } from 'final-form'
 import { observer } from 'mobx-react-lite'
 import React, { useContext } from 'react'
 import { Field, Form as FinalForm } from 'react-final-form'
-import { combineValidators, composeValidators, isRequired } from 'revalidate'
+import { combineValidators, composeValidators, hasLengthLessThan, isRequired } from 'revalidate'
 import { Button, Divider, Form, Header } from 'semantic-ui-react'
 import { ErrorMessage } from '../../../app/common/forms/ErrorMessage'
 import { isFutureDate } from '../../../app/common/forms/formValidations'
@@ -14,13 +14,22 @@ import { IMatchForm } from '../../../app/models/match'
 import { RootStoreContext } from '../../../app/stores/rootStore'
 
 const validate = combineValidators({
-    eventName: isRequired('Event'),
+    eventName: composeValidators(
+        isRequired('Event'),
+        hasLengthLessThan(101)({ message: 'Event must be 100 characters or less' })
+    )(),
     teamAId: isRequired('Team A'),
     teamBId: isRequired('Team B'),
     series: isRequired('Series'),
     gameId: isRequired('Game'),
-    title: isRequired('Title'),
-    description: isRequired('Description'),
+    title: composeValidators(
+        isRequired('Title'),
+        hasLengthLessThan(51)({ message: 'Title must be 50 characters or less' })
+    )(),
+    description: composeValidators(
+        isRequired('Description'),
+        hasLengthLessThan(76)({ message: 'Description must be 75 characters or less' })
+    )(),
     startsAt: composeValidators(
         isRequired('Schedule'),
         isFutureDate('Schedule')
