@@ -41,6 +41,7 @@ export default class UserStore {
             runInAction(() => {
                 this.user = user;
             })
+            toast.success("Registration Successful!")
         } catch (error) {
             throw error;
         } finally {
@@ -59,7 +60,6 @@ export default class UserStore {
             runInAction(() => {
                 this.user = user;
             })
-            toast.success("Registration Successful!")
         } catch (error) {
             throw error;
         } finally {
