@@ -6,6 +6,7 @@ import { observer } from 'mobx-react-lite'
 import LoginForm from '../user/LoginForm'
 import RegisterForm from '../user/RegisterForm'
 import { history } from '../..'
+import { formatToLocalPH } from '../../app/common/util/util'
 
 
 const notificationBadgeStyle = {
@@ -100,7 +101,7 @@ const NavBar = () => {
                                                         textOverflow: 'ellipsis', whiteSpace: 'nowrap'
                                                     }}>
                                                         {user!.displayName}</span>
-                                                    <Label size='tiny' color='green' content={"₱ " + user!.walletBalance.toFixed(2)} />
+                                                    <Label size='tiny' color='green' content={formatToLocalPH(user!.walletBalance)} />
                                                 </div>
                                             </Menu.Item>
                                         }
