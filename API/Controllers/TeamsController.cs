@@ -32,6 +32,12 @@ namespace API.Controllers
             return await Mediator.Send(command);
         }
 
+        [Authorize(policy: "IsAdmin")]
+        [HttpDelete("{id}")]
+        public async Task<Unit> Delete(int id)
+        {
+            return await Mediator.Send(new Application.Team.Delete.Command { TeamId = id });
+        }
 
         [Authorize(policy: "IsAdmin")]
         [HttpPut("{id}")]

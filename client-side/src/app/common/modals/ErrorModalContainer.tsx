@@ -13,14 +13,14 @@ const ErrorModalContainer = () => {
             size='tiny'>
             {title &&
                 <Modal.Header >
-                    <Icon name='warning sign' color='red'/>
+                    <Icon name='warning sign' color='red' />
                     {` ${title}`}
                 </Modal.Header>}
             <Modal.Content>
                 {error && error.data && error.data.errors && Object.keys(error.data.errors).length > 0 &&
                     <List as='ul'>
-                        {Object.values<string>(error.data.errors).map((err) =>
-                            <List.Item as='li'>{err}</List.Item>
+                        {Object.values<string>(error.data.errors).map((err, index) =>
+                            <List.Item as='li' key={index}>{err}</List.Item>
                         )}
                     </List>
                 }

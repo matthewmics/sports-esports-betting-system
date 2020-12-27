@@ -12,6 +12,7 @@ import { RootStoreContext } from '../stores/rootStore';
 import PredictionPage from '../../features/predictions/PredictionPage';
 import axios from 'axios';
 import { ProfilePage } from '../../features/profiles/ProfilePage';
+import ErrorModalContainer from '../common/modals/ErrorModalContainer';
 
 
 
@@ -42,6 +43,7 @@ const App = () => {
 
   return (
     <Fragment>
+      <ErrorModalContainer />
       <ModalContainer />
       <ToastContainer position='bottom-right' pauseOnFocusLoss={false} />
       <NavBar />

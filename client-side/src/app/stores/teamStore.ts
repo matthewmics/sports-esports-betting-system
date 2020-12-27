@@ -140,4 +140,21 @@ export default class TeamStore {
         }
     }
 
+    @action delete = async (id: number) => {
+        this.loading = true;
+        try {
+            await agent.Teams.delete(id);
+            runInAction(() => {
+                this.teams = this.teams!.filter(x => x.id !== id);
+            })
+            toast.success("Team deleted");
+        } catch (error) {
+            throw error;
+        } finally {
+            runInAction(() => {
+                this.loading = false;
+            })
+        }
+    }
+
 }

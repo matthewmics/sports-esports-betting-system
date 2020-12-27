@@ -120,6 +120,8 @@ const Teams = {
     return axios.post(`/teams`, formData, { headers: { "Content-type": "multipart/form-data" } })
       .then(sleep(500)).then(responseBody)
   },
+  delete: (id: number): Promise<void> =>
+    requests.delete(`/teams/${id}`),
   changeImage: (file: Blob, id: number) => {
     const formData = new FormData();
     formData.append("file", file);

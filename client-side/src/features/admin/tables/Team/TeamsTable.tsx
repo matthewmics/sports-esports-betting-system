@@ -1,9 +1,10 @@
 import { observer } from 'mobx-react-lite'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Table, Popup, Button, Icon, Pagination } from 'semantic-ui-react'
 import { IColumnHeader } from '../../../../app/models/tableColumn'
 import { ITeam } from '../../../../app/models/team'
+import { RootStoreContext } from '../../../../app/stores/rootStore'
 
 interface IProps {
     teams: ITeam[] | null;
@@ -15,6 +16,10 @@ interface IProps {
 
 
 const TeamsTable: React.FC<IProps> = ({ teams, totalPage, page, setPage, handleSort }) => {
+
+    const rootStore = useContext(RootStoreContext);
+    const { openConfirmation, openErrorModal, closeModal } = rootStore.modalStore;
+    const { delete: deleteTeam } = rootStore.teamStore;
 
     const [state, setState] = useState<IColumnHeader>({
         column: null,
@@ -40,6 +45,12 @@ const TeamsTable: React.FC<IProps> = ({ teams, totalPage, page, setPage, handleS
         handleSort(column, nextDirection === 'ascending' ? 'asc' : 'desc')
     }
 
+    const handleDelete = (team: ITeam) => {
+        deleteTeam(team.id)
+            .then(closeModal)
+            .catch(error => openErrorModal(error, 'Could not delete team'));
+    }
+
     return (
         <Table sortable celled>
             <Table.Header>
@@ -61,9 +72,14 @@ const TeamsTable: React.FC<IProps> = ({ teams, totalPage, page, setPage, handleS
                             <Table.Cell><Link to={`teams/${team.id}`} >{team.name}</Link></Table.Cell>
                             <Table.Cell>{team.createdAt}</Table.Cell>
                             <Table.Cell>
-                                <Popup content='Delete' trigger={<Button icon size='tiny' color='red'>
-                                    <Icon name='trash' />
-                                </Button>} />
+                                <Popup content='Delete' trigger={
+                                    <Button icon size='tiny' color='red'
+                                        onClick={() => openConfirmation(
+                                            `Are you sure you want to delete ${team.name} ?`,
+                                            'Confirm delete team',
+                                            (() => handleDelete(team)))}>
+                                        <Icon name='trash' />
+                                    </Button>} />
                             </Table.Cell>
                         </Table.Row>
                     )}
