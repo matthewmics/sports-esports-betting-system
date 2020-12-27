@@ -1,3 +1,4 @@
+import { format } from 'date-fns'
 import { observer } from 'mobx-react-lite'
 import React, { Fragment, useContext, useEffect, useState } from 'react'
 import { Link, RouteComponentProps } from 'react-router-dom'
@@ -71,7 +72,7 @@ const TeamDetails: React.FC<IProps> = ({ match }) => {
                 <Card.Content>
                     <Card.Header>{team.name}</Card.Header>
                     <Card.Meta>
-                        <span className='date'><b>Created at</b> {team.createdAt}</span>
+                        <span className='date'><b>Created at</b> {format(team.createdAt, "PPpp")}</span>
                     </Card.Meta>
                 </Card.Content>
                 <Card.Content extra>

@@ -55,8 +55,10 @@ export default class TeamStore {
         this.loading = true;
         try {
             const teamsEnvelope = await agent.Teams.list(this.urlParams);
+            const teams = teamsEnvelope.teams;
+            teams.forEach(x => { x.createdAt = new Date(x.createdAt) });
             runInAction(() => {
-                this.teams = teamsEnvelope.teams;
+                this.teams = teams;
                 this.teamCount = teamsEnvelope.teamCount;
             })
         } catch (error) {
@@ -102,6 +104,7 @@ export default class TeamStore {
         else {
             try {
                 const team = await agent.Teams.get(id);
+                team.createdAt = new Date(team.createdAt);
                 runInAction(() => {
                     this.selectedTeam = team;
                 })

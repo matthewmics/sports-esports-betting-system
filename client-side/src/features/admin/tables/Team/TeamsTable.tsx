@@ -1,3 +1,4 @@
+import { format } from 'date-fns'
 import { observer } from 'mobx-react-lite'
 import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -70,7 +71,7 @@ const TeamsTable: React.FC<IProps> = ({ teams, totalPage, page, setPage, handleS
                     teams.map(team =>
                         <Table.Row key={team.id}>
                             <Table.Cell><Link to={`teams/${team.id}`} >{team.name}</Link></Table.Cell>
-                            <Table.Cell>{team.createdAt}</Table.Cell>
+                            <Table.Cell>{format(team.createdAt, "PPpp")}</Table.Cell>
                             <Table.Cell>
                                 <Popup content='Delete' trigger={
                                     <Button icon size='tiny' color='red'
