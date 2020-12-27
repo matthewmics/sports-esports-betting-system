@@ -44,7 +44,7 @@ namespace Application.User
             {
                 var user = await _userManager.FindByEmailAsync(_userAccessor.GetCurrentEmail());
                 if (user == null)
-                    throw new RestException(System.Net.HttpStatusCode.NotFound);
+                    throw new RestException(System.Net.HttpStatusCode.Unauthorized);
                 return _mapper.Map<UserDto>(user);
             }
         }
