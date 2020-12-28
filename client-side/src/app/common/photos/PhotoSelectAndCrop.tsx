@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import React, { Fragment, useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { useDropzone } from 'react-dropzone';
-import { Button, Header, Icon, Segment } from 'semantic-ui-react';
+import { Button, Divider, Header, Icon, Segment } from 'semantic-ui-react';
 import { RootStoreContext } from '../../stores/rootStore';
 import Cropper from 'react-cropper'
 import 'cropperjs/dist/cropper.css'
@@ -64,9 +64,11 @@ const PhotoSelectAndCrop: React.FC<IProps> = ({ onImageSet }) => {
         !(files.length > 0) ?
             <Fragment>
                 <Segment basic className='clearFix'>
+                    <Header content='Photo upload'/>
+                    <Divider />
                     <div {...getRootProps()} style={isDragActive ? { ...dropzoneStyles, ...dropzoneActive } : dropzoneStyles}>
                         <input {...getInputProps()} />
-                        <Icon name='upload' size='huge' />
+                        <Icon name='cloud upload' size='huge' />
                         <Header content='Drop image here' />
                     </div>
                     <Button basic content='CANCEL' onClick={closeModal} icon='cancel' 
