@@ -57,24 +57,6 @@ export default class MatchStore {
     return [...liveMatches, ...openMatches, ...finishedMatches];
   }
 
-
-  @computed get matchSelections() {
-    if (!this.selectedMatch)
-      return [];
-
-    return [
-      {
-        key: this.selectedMatch.teamA.id.toString(),
-        text: this.selectedMatch.teamA.name,
-        value: this.selectedMatch.teamA.id.toString(),
-      }, {
-        key: this.selectedMatch.teamB.id.toString(),
-        text: this.selectedMatch.teamB.name,
-        value: this.selectedMatch.teamB.id.toString(),
-      }
-    ];
-  }
-
   @action setSelectedStatusFilter = (value: string) => {
     this.selectedStatusFilter = value;
   }
