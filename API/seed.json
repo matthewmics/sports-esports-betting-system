@@ -127,7 +127,8 @@
     },
     {
       "Id": 26,
-      "Name": "G2 Esports"
+      "Name": "G2 Esports",
+      "Image": "g2.png"
     },
     {
       "Id": 27,
@@ -146,19 +147,23 @@
     },
     {
       "Id": 30,
-      "Name": "Team Vitality"
+      "Name": "Team Vitality",
+      "Image": "vitality.png"
     },
     {
       "Id": 31,
-      "Name": "Renegades"
+      "Name": "Renegades",
+      "Image": "renegades.png"
     },
     {
       "Id": 32,
-      "Name": "Heroic"
+      "Name": "Winstrike",
+      "Image": "winstrike.png"
     },
     {
       "Id": 33,
-      "Name": "FURIA"
+      "Name": "FURIA",
+      "Image": "furia.png"
     },
     {
       "Id": 34,
@@ -167,7 +172,8 @@
     },
     {
       "Id": 35,
-      "Name": "compLexity Gaming"
+      "Name": "compLexity Gaming",
+      "Image": "complexity.png"
     },
     {
       "Id": 36,
@@ -176,19 +182,23 @@
     },
     {
       "Id": 37,
-      "Name": "ORDER"
+      "Name": "ORDER",
+      "Image": "order.png"
     },
     {
       "Id": 38,
-      "Name": "Team Spirit"
+      "Name": "Team Spirit",
+      "Image": "tspirit.png"
     },
     {
       "Id": 39,
-      "Name": "Sprout"
+      "Name": "Sprout",
+      "Image": "sprout.png"
     },
     {
       "Id": 40,
-      "Name": "FaZe Clan"
+      "Name": "FaZe Clan",
+      "Image": "faze.png"
     },
     {
       "Id": 41,
@@ -269,6 +279,46 @@
     {
       "Id": 60,
       "Name": "Thunder"
+    },
+    {
+      "Id": 61,
+      "Name": "76ers"
+    },
+    {
+      "Id": 62,
+      "Name": "Cavaliers"
+    },
+    {
+      "Id": 63,
+      "Name": "Pistons"
+    },
+    {
+      "Id": 64,
+      "Name": "Pacers"
+    },
+    {
+      "Id": 65,
+      "Name": "Hawks"
+    },
+    {
+      "Id": 66,
+      "Name": "Hornets"
+    },
+    {
+      "Id": 67,
+      "Name": "Wizards"
+    },
+    {
+      "Id": 68,
+      "Name": "Warriors"
+    },
+    {
+      "Id": 69,
+      "Name": "Rockets"
+    },
+    {
+      "Id": 70,
+      "Name": "Grizzlies"
     }
   ],
 

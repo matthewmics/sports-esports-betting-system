@@ -83,7 +83,7 @@ namespace Persistence
             var dotaTeams = teams.Take(20).ToList();
             var csgoTeams = teams.Skip(20).Take(20).ToList();
 
-            for (var i = 0; i < 10; i++)
+            for (var i = 0; i < 12; i++)
             {
                 dotaTeams.Shuffle();
                 var eventName = i < 5 ? "StarLadder ImbaTV Dota 2 Minor" : "ONE Esports Dota 2";
@@ -100,10 +100,10 @@ namespace Persistence
                 result.Add(match);
             }
 
-            for (var i = 0; i < 6; i++)
+            for (var i = 0; i < 12; i++)
             {
                 csgoTeams.Shuffle();
-                var eventName = i < 3 ? "DreamHack Open Winter" : "BLAST Premier";
+                var eventName = i < 5 ? "DreamHack Open Winter" : "BLAST Premier";
                 var days = _rand.Next(1, 6);
                 var match = new Match
                 {
