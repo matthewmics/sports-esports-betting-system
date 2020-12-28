@@ -10,8 +10,6 @@ namespace API.Controllers
 {
     public class PredictionsController : BaseController
     {
-        private readonly static SemaphoreSlim _sempaphorePredict
-            = new SemaphoreSlim(1);
 
         [HttpGet("{predictionId}/details")]
         public async Task<PredictionDetailsDto> PredictionDetails(int predictionId)
