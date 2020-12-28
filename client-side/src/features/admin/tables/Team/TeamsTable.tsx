@@ -3,7 +3,6 @@ import { observer } from 'mobx-react-lite'
 import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Table, Popup, Button, Icon, Pagination } from 'semantic-ui-react'
-import { IColumnHeader } from '../../../../app/models/tableColumn'
 import { ITeam } from '../../../../app/models/team'
 import { RootStoreContext } from '../../../../app/stores/rootStore'
 
@@ -22,9 +21,12 @@ const TeamsTable: React.FC<IProps> = ({ teams, totalPage, page, setPage, handleS
     const { openConfirmation, openErrorModal, closeModal } = rootStore.modalStore;
     const { delete: deleteTeam } = rootStore.teamStore;
 
-    const [state, setState] = useState<IColumnHeader>({
+    const [state, setState] = useState({
         column: null,
         direction: undefined
+    } as {
+        column: string | null;
+        direction: 'ascending' | 'descending' | undefined;
     });
 
     const { column, direction } = state;
