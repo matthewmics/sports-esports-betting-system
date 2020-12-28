@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain
 {
-    public class Customer
+    public class Wagerer
     {
         [Required]
         [Key]

@@ -55,7 +55,7 @@ namespace Application.User
 
                 if (
                     userInDb == null ||
-                    !(await _ctx.Customers.AnyAsync(x => x.AppUserId == userInDb.Id))
+                    !(await _ctx.Wagerers.AnyAsync(x => x.AppUserId == userInDb.Id))
                    )
                     throw new RestException(System.Net.HttpStatusCode.Unauthorized);
 

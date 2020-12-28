@@ -49,12 +49,12 @@ namespace Application.Prediction
                     throw new RestException(System.Net.HttpStatusCode.BadRequest,
                         new { Prediction = "Prediction is already finished" });
 
-                var customer = await _context.Customers.Include(x => x.AppUser)
+                var wagerer = await _context.Wagerers.Include(x => x.AppUser)
                               .Where(a => a.AppUser.Email == _userAccessor.GetCurrentEmail())
                               .SingleAsync();
 
                 var userPrediction = await _context.UserPredictions
-                    .SingleOrDefaultAsync(x => x.CustomerId == customer.AppUserId &&
+                    .SingleOrDefaultAsync(x => x.WagererId == wagerer.AppUserId &&
                                                x.PredictionId == prediction.Id);
 
                 if (userPrediction == null)

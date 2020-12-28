@@ -21,8 +21,7 @@ namespace Persistence
         public DbSet<Prediction> Predictions { get; set; }
         public DbSet<PredictionStatus> PredictionStatuses { get; set; }
         public DbSet<UserTransactionType> UserTransactionTypes { get; set; }
-        public DbSet<UserTransaction> UserTransactions { get; set; }
-        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Wagerer> Wagerers { get; set; }
         public DbSet<Admin> Admins { get; set; }
         public DbSet<UserPrediction> UserPredictions { get; set; }
         public DbSet<Game> Games { get; set; }
@@ -46,11 +45,11 @@ namespace Persistence
 
             modelBuilder.Entity<UserPrediction>(e =>
             {
-                e.HasKey(up => new { up.CustomerId, up.PredictionId });
+                e.HasKey(up => new { up.WagererId, up.PredictionId });
 
-                e.HasOne(up => up.Customer)
+                e.HasOne(up => up.Wagerer)
                  .WithMany(c => c.Predictions)
-                 .HasForeignKey(up => up.CustomerId);
+                 .HasForeignKey(up => up.WagererId);
 
                 e.HasOne(up => up.Prediction)
                 .WithMany(p => p.Predictors)
@@ -64,7 +63,12 @@ namespace Persistence
                 .HasForeignKey(x => x.WinnerId);
             });
 
-            // FOR MYSQL IDENTITY
+
+            /**********************************
+            ***********************************
+            **** MYSQL IDENTITY WORKAROUND ****
+            ***********************************
+            ***********************************/
             modelBuilder.Entity<IdentityUser>(entity => entity.Property(m => m.Id).HasMaxLength(85));
             modelBuilder.Entity<IdentityUser>(entity => entity.Property(m => m.NormalizedEmail).HasMaxLength(85));
             modelBuilder.Entity<IdentityUser>(entity => entity.Property(m => m.NormalizedUserName).HasMaxLength(85));

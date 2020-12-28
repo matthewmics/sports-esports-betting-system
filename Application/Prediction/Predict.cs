@@ -78,26 +78,27 @@ namespace Application.Prediction
                 var predictedTeamId = prediction.Match.TeamAId == request.TeamId ? prediction.Match.TeamAId : prediction.Match.TeamBId;
                 var team = await _context.Teams.FindAsync(predictedTeamId);
 
-                var customer = await _context.Customers.Include(x => x.AppUser)
+                var wagerer = await _context.Wagerers.Include(x => x.AppUser)
                               .Where(a => a.AppUser.Email == _userAccessor.GetCurrentEmail())
                               .SingleAsync();
 
                 var userPrediction = await _context.UserPredictions
-                    .SingleOrDefaultAsync(x => x.CustomerId == customer.AppUserId &&
+                    .SingleOrDefaultAsync(x => x.WagererId == wagerer.AppUserId &&
                                                x.PredictionId == prediction.Id);
 
                 if (userPrediction != null)
                     throw new RestException(System.Net.HttpStatusCode.BadRequest, new { Prediction = "Already have prediction" });
 
-                if (_walletReader.ReadWallet(customer) < request.Amount)
+                if (_walletReader.ReadWallet(wagerer) < request.Amount)
                     throw new RestException(System.Net.HttpStatusCode.BadRequest, new { Amount = "Not enough credits" });
 
                 userPrediction = new UserPrediction
                 {
-                    Customer = customer,
+                    Wagerer = wagerer,
                     Prediction = prediction,
                     Amount = request.Amount,
-                    Team = team
+                    Team = team,
+                    PredictedAt = DateTime.Now,
                 };
                 _context.UserPredictions.Add(userPrediction);
 

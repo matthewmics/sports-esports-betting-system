@@ -10,6 +10,6 @@ namespace Application.Interfaces
 {
     public interface IWalletReader
     {
-        decimal ReadWallet(Customer customer);
+        decimal ReadWallet(Wagerer wagerer);
     }
 }

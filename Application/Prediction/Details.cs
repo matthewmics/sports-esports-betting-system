@@ -44,16 +44,16 @@ namespace Application.Prediction
                 if (prediction == null)
                     throw new RestException(System.Net.HttpStatusCode.NotFound, new { Prediction = "Prediction not found" });
 
-                var customer = await _ctx.Customers.Include(x => x.AppUser)
+                var wagerer = await _ctx.Wagerers.Include(x => x.AppUser)
                               .Where(a => a.AppUser.Email == _userAccessor.GetCurrentEmail())
                               .SingleOrDefaultAsync();
 
                 ActivePredictionDto activePrediction = null;
 
-                if (customer != null)
+                if (wagerer != null)
                 {
                     var userPrediction = await _ctx.UserPredictions.Include(x => x.Team).SingleOrDefaultAsync(x =>
-                         x.CustomerId == customer.AppUserId && x.PredictionId == prediction.Id);
+                         x.WagererId == wagerer.AppUserId && x.PredictionId == prediction.Id);
 
                     if (userPrediction != null)
                         activePrediction = _mapper.Map<ActivePredictionDto>(userPrediction);

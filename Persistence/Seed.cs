@@ -52,16 +52,16 @@ namespace Persistence
                 ctx.Add(match);
             }
 
-            foreach (var userCustomer in dataSeed.Users)
+            foreach (var userWagerer in dataSeed.Users)
             {
                 var appUser = new AppUser
                 {
-                    DisplayName = userCustomer.DisplayName,
-                    Email = userCustomer.Email,
-                    UserName=  userCustomer.Email
+                    DisplayName = userWagerer.DisplayName,
+                    Email = userWagerer.Email,
+                    UserName=  userWagerer.Email
                 };
                 userManager.CreateAsync(appUser, "Password").Wait();
-                ctx.Customers.Add(new Customer { AppUser = appUser });
+                ctx.Wagerers.Add(new Wagerer { AppUser = appUser });
             }
 
             var adminUser = new AppUser

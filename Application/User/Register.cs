@@ -70,7 +70,7 @@ namespace Application.User
                 var result = await _userManager.CreateAsync(userToCreate, request.Password);
                 if (result.Succeeded)
                 {
-                    _context.Customers.Add(new Customer { AppUser = userToCreate });
+                    _context.Wagerers.Add(new Wagerer { AppUser = userToCreate });
                     await _context.SaveChangesAsync();
                     return _mapper.Map<UserDto>(userToCreate);
                 }

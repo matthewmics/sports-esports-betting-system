@@ -24,8 +24,8 @@ namespace Application.User
 
         public decimal Resolve(AppUser source, UserDto destination, decimal destMember, ResolutionContext context)
         {
-            var customer = _ctx.Customers.SingleAsync(x => x.AppUserId == source.Id).Result;
-            return _walletReader.ReadWallet(customer);            
+            var wagerer = _ctx.Wagerers.SingleAsync(x => x.AppUserId == source.Id).Result;
+            return _walletReader.ReadWallet(wagerer);            
         }
     }
 }

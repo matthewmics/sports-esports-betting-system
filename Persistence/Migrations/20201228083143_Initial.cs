@@ -92,7 +92,8 @@ namespace Persistence.Migrations
                 {
                     Id = table.Column<short>(nullable: false),
                     Name = table.Column<string>(nullable: true),
-                    DisplayText = table.Column<string>(nullable: true)
+                    DisplayText = table.Column<string>(nullable: true),
+                    Order = table.Column<short>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -251,16 +252,16 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Customers",
+                name: "Wagerers",
                 columns: table => new
                 {
                     AppUserId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Customers", x => x.AppUserId);
+                    table.PrimaryKey("PK_Wagerers", x => x.AppUserId);
                     table.ForeignKey(
-                        name: "FK_Customers_AspNetUsers_AppUserId",
+                        name: "FK_Wagerers_AspNetUsers_AppUserId",
                         column: x => x.AppUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -298,34 +299,6 @@ namespace Persistence.Migrations
                         name: "FK_Matches_Teams_TeamBId",
                         column: x => x.TeamBId,
                         principalTable: "Teams",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserTransactions",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    CustomerId = table.Column<string>(nullable: true),
-                    UserTransactionTypeId = table.Column<short>(nullable: false),
-                    Amount = table.Column<decimal>(type: "decimal(5, 2)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserTransactions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_UserTransactions_Customers_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "Customers",
-                        principalColumn: "AppUserId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_UserTransactions_UserTransactionTypes_UserTransactionTypeId",
-                        column: x => x.UserTransactionTypeId,
-                        principalTable: "UserTransactionTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -372,20 +345,15 @@ namespace Persistence.Migrations
                 name: "UserPredictions",
                 columns: table => new
                 {
-                    CustomerId = table.Column<string>(nullable: false),
+                    WagererId = table.Column<string>(nullable: false),
                     PredictionId = table.Column<int>(nullable: false),
                     TeamId = table.Column<int>(nullable: false),
-                    Amount = table.Column<decimal>(nullable: false)
+                    Amount = table.Column<decimal>(nullable: false),
+                    PredictedAt = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserPredictions", x => new { x.CustomerId, x.PredictionId });
-                    table.ForeignKey(
-                        name: "FK_UserPredictions_Customers_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "Customers",
-                        principalColumn: "AppUserId",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("PK_UserPredictions", x => new { x.WagererId, x.PredictionId });
                     table.ForeignKey(
                         name: "FK_UserPredictions_Predictions_PredictionId",
                         column: x => x.PredictionId,
@@ -397,6 +365,12 @@ namespace Persistence.Migrations
                         column: x => x.TeamId,
                         principalTable: "Teams",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserPredictions_Wagerers_WagererId",
+                        column: x => x.WagererId,
+                        principalTable: "Wagerers",
+                        principalColumn: "AppUserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -477,15 +451,33 @@ namespace Persistence.Migrations
                 table: "UserPredictions",
                 column: "TeamId");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_UserTransactions_CustomerId",
-                table: "UserTransactions",
-                column: "CustomerId");
+            /**********************************
+            ***********************************
+            ***** POPULATE REFERENCE DATA *****
+            ***********************************
+            ***********************************/
+            migrationBuilder.Sql("INSERT INTO PredictionStatuses(Id, Name, DisplayText)" +
+               "VALUES " +
+               "(0, 'open', 'Open')," +
+               "(1, 'settled', 'Settled')," +
+               "(2, 'cancelled', 'Cancelled')," +
+               "(3, 'live', 'Live')");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_UserTransactions_UserTransactionTypeId",
-                table: "UserTransactions",
-                column: "UserTransactionTypeId");
+            migrationBuilder.Sql("INSERT INTO UserTransactionTypes(Id, Name, DisplayText)" +
+               "VALUES " +
+               "(0, 'cashIn', 'Cash In')," +
+               "(1, 'cashOut', 'Cash Out')");
+
+            migrationBuilder.Sql("INSERT INTO Games(Id, Name, DisplayText)" +
+               "VALUES " +
+               "(0, 'dota2', 'Dota 2')," +
+               "(1, 'csgo', 'CSGO')," +
+               "(2, 'sports', 'Sports')");
+
+            migrationBuilder.Sql("UPDATE PredictionStatuses SET `Order` = 0 WHERE Name='live'");
+            migrationBuilder.Sql("UPDATE PredictionStatuses SET `Order` = 1 WHERE Name='open'");
+            migrationBuilder.Sql("UPDATE PredictionStatuses SET `Order` = 2 WHERE Name='cancelled'");
+            migrationBuilder.Sql("UPDATE PredictionStatuses SET `Order` = 2 WHERE Name='settled'");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -515,7 +507,7 @@ namespace Persistence.Migrations
                 name: "UserPredictions");
 
             migrationBuilder.DropTable(
-                name: "UserTransactions");
+                name: "UserTransactionTypes");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -524,10 +516,7 @@ namespace Persistence.Migrations
                 name: "Predictions");
 
             migrationBuilder.DropTable(
-                name: "Customers");
-
-            migrationBuilder.DropTable(
-                name: "UserTransactionTypes");
+                name: "Wagerers");
 
             migrationBuilder.DropTable(
                 name: "Matches");

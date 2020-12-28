@@ -94,16 +94,6 @@ namespace Persistence.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Domain.Customer", b =>
-                {
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("varchar(767)");
-
-                    b.HasKey("AppUserId");
-
-                    b.ToTable("Customers");
-                });
-
             modelBuilder.Entity("Domain.Game", b =>
                 {
                     b.Property<short>("Id")
@@ -234,7 +224,7 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.UserPrediction", b =>
                 {
-                    b.Property<string>("CustomerId")
+                    b.Property<string>("WagererId")
                         .HasColumnType("varchar(767)");
 
                     b.Property<int>("PredictionId")
@@ -243,43 +233,19 @@ namespace Persistence.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18, 2)");
 
+                    b.Property<DateTime>("PredictedAt")
+                        .HasColumnType("datetime");
+
                     b.Property<int>("TeamId")
                         .HasColumnType("int");
 
-                    b.HasKey("CustomerId", "PredictionId");
+                    b.HasKey("WagererId", "PredictionId");
 
                     b.HasIndex("PredictionId");
 
                     b.HasIndex("TeamId");
 
                     b.ToTable("UserPredictions");
-                });
-
-            modelBuilder.Entity("Domain.UserTransaction", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(5, 2)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime");
-
-                    b.Property<string>("CustomerId")
-                        .HasColumnType("varchar(767)");
-
-                    b.Property<short>("UserTransactionTypeId")
-                        .HasColumnType("smallint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("UserTransactionTypeId");
-
-                    b.ToTable("UserTransactions");
                 });
 
             modelBuilder.Entity("Domain.UserTransactionType", b =>
@@ -296,6 +262,16 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserTransactionTypes");
+                });
+
+            modelBuilder.Entity("Domain.Wagerer", b =>
+                {
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("varchar(767)");
+
+                    b.HasKey("AppUserId");
+
+                    b.ToTable("Wagerers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -503,15 +479,6 @@ namespace Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.Customer", b =>
-                {
-                    b.HasOne("Domain.AppUser", "AppUser")
-                        .WithMany()
-                        .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Domain.Match", b =>
                 {
                     b.HasOne("Domain.Game", "Game")
@@ -554,12 +521,6 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.UserPrediction", b =>
                 {
-                    b.HasOne("Domain.Customer", "Customer")
-                        .WithMany("Predictions")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Domain.Prediction", "Prediction")
                         .WithMany("Predictors")
                         .HasForeignKey("PredictionId")
@@ -571,17 +532,19 @@ namespace Persistence.Migrations
                         .HasForeignKey("TeamId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Domain.Wagerer", "Wagerer")
+                        .WithMany("Predictions")
+                        .HasForeignKey("WagererId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.UserTransaction", b =>
+            modelBuilder.Entity("Domain.Wagerer", b =>
                 {
-                    b.HasOne("Domain.Customer", "Customer")
+                    b.HasOne("Domain.AppUser", "AppUser")
                         .WithMany()
-                        .HasForeignKey("CustomerId");
-
-                    b.HasOne("Domain.UserTransactionType", "UserTransactionType")
-                        .WithMany()
-                        .HasForeignKey("UserTransactionTypeId")
+                        .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

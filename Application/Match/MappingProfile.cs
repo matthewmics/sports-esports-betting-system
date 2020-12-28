@@ -8,7 +8,7 @@ using Application.Match.Dtos;
 
 namespace Application.Match
 {
-    public class MappingProfile : Profile
+    public class MappingProfile : AutoMapper.Profile
     {
         public MappingProfile()
         {

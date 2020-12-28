@@ -8,7 +8,7 @@ using Application.Team.Dtos;
 
 namespace Application.Team
 {
-    public class MappingProfile : Profile
+    public class MappingProfile : AutoMapper.Profile
     {
         public MappingProfile()
         {

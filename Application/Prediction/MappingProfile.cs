@@ -8,7 +8,7 @@ using Application.Prediction.Dtos;
 
 namespace Application.Prediction
 {
-    public class MappingProfile : Profile
+    public class MappingProfile : AutoMapper.Profile
     {
         public MappingProfile()
         {

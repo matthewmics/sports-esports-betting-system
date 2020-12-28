@@ -18,20 +18,14 @@ namespace Application.User
             _ctx = dataContext;
         }
 
-        public decimal ReadWallet(Customer customer)
+        public decimal ReadWallet(Wagerer wagerer)
         {
-            decimal transactionTotal = _ctx.UserTransactions
-                                        .Where(x => x.CustomerId == customer.AppUserId)
-                                        .AsEnumerable()
-                                        .Sum(x => x.UserTransactionTypeId == UserTransactionType.CashIn ? 
-                                                  x.Amount : -x.Amount);
-
             decimal predictionTotal = _ctx.UserPredictions
-                                      .Where(x => x.CustomerId == customer.AppUserId)
+                                      .Where(x => x.WagererId == wagerer.AppUserId)
                                       .AsEnumerable()
                                       .Sum(x => x.Amount);
 
-            return transactionTotal - predictionTotal;
+            return 1000 - predictionTotal;
         }
     }
 }
