@@ -76,7 +76,7 @@ namespace Application.Prediction
                 var predictedTeamId = prediction.Match.TeamAId == request.TeamId ? prediction.Match.TeamAId : prediction.Match.TeamBId;
                 var team = await _context.Teams.FindAsync(predictedTeamId);
 
-                var wagerer = await _context.Wagerers.Include(x => x.AppUser)
+                var wagerer = await _context.Wagerers
                               .SingleAsync(a => a.AppUser.Email == _userAccessor.GetCurrentEmail());
 
                 var userPrediction = await _context.UserPredictions

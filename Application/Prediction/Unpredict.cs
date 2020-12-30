@@ -49,7 +49,7 @@ namespace Application.Prediction
                     throw new RestException(System.Net.HttpStatusCode.BadRequest,
                         new { Prediction = "Prediction is already finished" });
 
-                var wagerer = await _context.Wagerers.Include(x => x.AppUser)
+                var wagerer = await _context.Wagerers
                               .SingleAsync(a => a.AppUser.Email == _userAccessor.GetCurrentEmail());
 
                 var userPrediction = await _context.UserPredictions
