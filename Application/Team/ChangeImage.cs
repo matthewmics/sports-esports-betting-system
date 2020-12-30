@@ -1,5 +1,5 @@
 ﻿using Application.Errors;
-using Application.Interfaces;
+using Application.Photo;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Persistence;

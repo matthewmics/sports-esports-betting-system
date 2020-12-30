@@ -1,5 +1,4 @@
 ﻿using Application.Errors;
-using Application.Interfaces;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;

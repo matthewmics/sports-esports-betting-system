@@ -9,7 +9,6 @@ interface IProps {
 export const SearchAsYouType: React.FC<IProps> = ({ handleSearch, initialValue }) => {
 
     var typeAndSearch: any;
-    var ref = React.createRef<any>();
 
     const handleSearchInput = (term: string) => {
         clearTimeout(typeAndSearch);

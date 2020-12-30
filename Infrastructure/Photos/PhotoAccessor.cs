@@ -1,5 +1,4 @@
-﻿using Application.Interfaces;
-using Application.Photo;
+﻿using Application.Photo;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;

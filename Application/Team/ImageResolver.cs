@@ -1,29 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Application.Photo;
 using Application.Team.Dtos;
 using AutoMapper;
-using Microsoft.AspNetCore.Http;
 
 namespace Application.Team
 {
     public class ImageResolver : IValueResolver<Domain.Team, TeamDto, string>
     {
-        private readonly IHttpContextAccessor _httpAccessor;
+        private readonly IImageHostGenerator _imageHostGenerator;
 
-        public ImageResolver(IHttpContextAccessor httpContext)
+        public ImageResolver(IImageHostGenerator imageHostGenerator)
         {
-            _httpAccessor = httpContext;
+            _imageHostGenerator = imageHostGenerator;
         }
 
         public string Resolve(Domain.Team source, TeamDto destination, string destMember, ResolutionContext context)
         {
             if (source.Image == null)
                 return null;
-            return "http://" +
-                _httpAccessor.HttpContext.Request.Host.Value + 
-                "/commons/images/" + 
-                source.Image;
+            return _imageHostGenerator.GetHostImage(source.Image);
         }
     }
 }

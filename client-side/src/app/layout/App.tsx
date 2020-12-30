@@ -11,7 +11,7 @@ import { observer } from 'mobx-react-lite';
 import { RootStoreContext } from '../stores/rootStore';
 import PredictionPage from '../../features/predictions/PredictionPage';
 import axios from 'axios';
-import { ProfilePage } from '../../features/profiles/ProfilePage';
+import ProfilePage from '../../features/profiles/ProfilePage';
 import ErrorModalContainer from '../common/modals/ErrorModalContainer';
 
 
