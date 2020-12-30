@@ -8,6 +8,7 @@ import 'cropperjs/dist/cropper.css'
 
 interface IProps {
     onImageSet: (file: Blob | null) => void;
+    aspectRatio?: number;
 }
 
 const dropzoneStyles = {
@@ -22,7 +23,7 @@ const dropzoneActive = {
     borderColor: 'green'
 }
 
-const PhotoSelectAndCrop: React.FC<IProps> = ({ onImageSet }) => {
+const PhotoSelectAndCrop: React.FC<IProps> = ({ onImageSet, aspectRatio }) => {
 
     const rootStore = useContext(RootStoreContext);
     const { closeModal } = rootStore.modalStore;
@@ -64,15 +65,15 @@ const PhotoSelectAndCrop: React.FC<IProps> = ({ onImageSet }) => {
         !(files.length > 0) ?
             <Fragment>
                 <Segment basic className='clearFix'>
-                    <Header content='Photo upload'/>
+                    <Header content='Photo upload' />
                     <Divider />
                     <div {...getRootProps()} style={isDragActive ? { ...dropzoneStyles, ...dropzoneActive } : dropzoneStyles}>
                         <input {...getInputProps()} />
                         <Icon name='cloud upload' size='huge' />
                         <Header content='Drop image here' />
                     </div>
-                    <Button basic content='CANCEL' onClick={closeModal} icon='cancel' 
-                        style={{marginTop:'20px', float: 'right'}}/>
+                    <Button basic content='CANCEL' onClick={closeModal} icon='cancel'
+                        style={{ marginTop: '20px', float: 'right' }} />
                 </Segment>
             </Fragment>
             :
@@ -83,7 +84,7 @@ const PhotoSelectAndCrop: React.FC<IProps> = ({ onImageSet }) => {
                         src={files[0].preview}
                         style={{ height: 200, width: '100%' }}
                         // Cropper.js options
-                        aspectRatio={4 / 3}
+                        aspectRatio={aspectRatio || (4 / 3)}
                         guides={false}
                         viewMode={1}
                         dragMode='move'
