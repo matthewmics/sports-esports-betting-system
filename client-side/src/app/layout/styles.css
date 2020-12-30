@@ -84,3 +84,11 @@ body {
 .match-finished {
   opacity: 0.65;
 }
+
+.text-muted {
+  color: teal
+}
+
+.text-small {
+  font-size: 10px;
+}
