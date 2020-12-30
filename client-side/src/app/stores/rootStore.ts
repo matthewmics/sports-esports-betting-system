@@ -4,6 +4,7 @@ import AdminUserStore from "./adminUserStore";
 import MatchStore from "./matchStore";
 import ModalStore from "./modalStore";
 import PredictionStore from "./predictionStore";
+import ProfileStore from "./profileStore";
 import TeamStore from "./teamStore";
 import UserStore from "./userStore";
 
@@ -16,6 +17,7 @@ export class RootStore {
   predictionStore: PredictionStore;
   userStore: UserStore;
   teamStore: TeamStore;
+  profileStore: ProfileStore;
 
   adminUserStore: AdminUserStore;
 
@@ -24,6 +26,7 @@ export class RootStore {
     this.modalStore = new ModalStore();
     this.userStore = new UserStore(this);
     this.predictionStore = new PredictionStore(this);
+    this.profileStore = new ProfileStore(this);
 
     this.adminUserStore = new AdminUserStore(this);
     this.teamStore = new TeamStore();

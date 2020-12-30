@@ -1,6 +1,5 @@
 import { action, computed, makeObservable, observable, reaction, runInAction } from "mobx";
 import { toast } from "react-toastify";
-import { history } from "../..";
 import agent from "../api/agent";
 import { IUser, IUserFormValues } from "../models/user";
 import { RootStore } from "./rootStore";
@@ -10,7 +9,7 @@ export default class UserStore {
     rootStore: RootStore;
     @observable user: IUser | null = null;
     @observable loading = false;
-    @observable userLoading = false;
+    @observable userLoading = true;
 
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore;
@@ -87,7 +86,6 @@ export default class UserStore {
 
     @action logout = () => {
         this.user = null;
-        history.push('/');
         toast.info("Logout Successful!");
     }
 }

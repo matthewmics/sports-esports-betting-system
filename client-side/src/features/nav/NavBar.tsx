@@ -100,7 +100,7 @@ const NavBar = () => {
                                             <Menu.Item>
                                                 <Image bordered spaced avatar
                                                     size='mini'
-                                                    src='/assets/user_default.png' />
+                                                    src={user!.photo || '/assets/user_default.png'} />
                                                 <div>
                                                     <span style={{
                                                         fontSize: '14px', display: 'block', marginBottom: '4px',
@@ -119,7 +119,7 @@ const NavBar = () => {
                                                 height: '50px', width: '50px',
                                                 marginRight: '10px'
                                             }} bordered spaced avatar
-                                                src='/assets/user_default.png' />
+                                            src={user!.photo || '/assets/user_default.png'} />
 
                                             <div style={{ display: 'block', minWidth: '150px' }}>
                                                 <span style={{

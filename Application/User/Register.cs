@@ -70,9 +70,10 @@ namespace Application.User
                 var result = await _userManager.CreateAsync(userToCreate, request.Password);
                 if (result.Succeeded)
                 {
-                    _context.Wagerers.Add(new Wagerer { AppUser = userToCreate });
+                    var wagerer = new Wagerer { AppUser = userToCreate };
+                    _context.Wagerers.Add(wagerer);
                     await _context.SaveChangesAsync();
-                    return _mapper.Map<UserDto>(userToCreate);
+                    return _mapper.Map<UserDto>(wagerer);
                 }
 
                 throw new Exception("Problem creating user");

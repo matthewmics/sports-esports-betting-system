@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { history } from "../..";
 import { IMatch, IMatchEnvelope, IMatchForm } from "../models/match";
 import { IActivePrediction, IPrediction, IPredictionCreateForm, IPredictionDetails } from "../models/prediction";
+import { IProfileChangePhotoResult, IProfilePredictionStats, IUserPredictionEnvelope } from "../models/profile";
 import { ITeamEnvelope, ITeamFormValues } from "../models/team";
 import { IUser, IUserAdmin, IUserFormValues } from "../models/user";
 
@@ -130,8 +131,25 @@ const Teams = {
   }
 }
 
+const Profile = {
+  listPredictions: (params: URLSearchParams): Promise<IUserPredictionEnvelope> =>
+    axios.get(`/profile/predictions`, { params: params })
+      .then(sleep(500))
+      .then(responseBody),
+  getPredictionStats: (): Promise<IProfilePredictionStats> =>
+    requests.get(`/profile/predictionStats`),
+  changePhoto: (file: Blob): Promise<IProfileChangePhotoResult> => {
+    var formData = new FormData();
+    formData.append('File', file);
+    return axios.post(`/profile/changePhoto`, formData, { headers: { "Content-Type": "multipart/form-data" } })
+      .then(sleep(500))
+      .then(responseBody);
+  }
+
+}
+
 const agent = {
-  Matches, User, Teams, Predictions
+  Matches, User, Teams, Predictions, Profile
 }
 
 export default agent;

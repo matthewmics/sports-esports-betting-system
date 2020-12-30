@@ -269,6 +269,9 @@ namespace Persistence.Migrations
                     b.Property<string>("AppUserId")
                         .HasColumnType("varchar(767)");
 
+                    b.Property<string>("ProfilePhoto")
+                        .HasColumnType("text");
+
                     b.HasKey("AppUserId");
 
                     b.ToTable("Wagerers");

@@ -46,24 +46,27 @@ namespace Application.User
                 _ctx = ctx;
                 _mapper = mapper;
                 _userManager = userManager;
-                this._signInManager = signInManager;
+                _signInManager = signInManager;
             }
 
             public async System.Threading.Tasks.Task<UserDto> Handle(Query request, CancellationToken cancellationToken)
             {
                 var userInDb = await _userManager.FindByEmailAsync(request.Email);
-
-                if (
-                    userInDb == null ||
-                    !(await _ctx.Wagerers.AnyAsync(x => x.AppUserId == userInDb.Id))
-                   )
+                if (userInDb == null)
                     throw new RestException(System.Net.HttpStatusCode.Unauthorized);
+
 
                 var result = await _signInManager.CheckPasswordSignInAsync(userInDb, request.Password, false);
 
                 if (result.Succeeded)
                 {
-                    return _mapper.Map<UserDto>(userInDb);
+                    var wagerer = await _ctx.Wagerers.SingleOrDefaultAsync(x => x.AppUserId == userInDb.Id);
+                    if (wagerer == null)
+                        throw new Exception("Successfull login but wagerer wasn't found");
+
+                    wagerer.AppUser = userInDb;
+
+                    return _mapper.Map<UserDto>(wagerer);
                 }
 
                 throw new RestException(System.Net.HttpStatusCode.Unauthorized);

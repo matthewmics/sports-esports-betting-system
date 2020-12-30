@@ -73,6 +73,7 @@ export default class MatchStore {
 
     if (reload) {
       this.page = 0;
+      this.matchCount = 0;
       this.matchRegistry.clear();
       this.loadMatches();
     }

@@ -1,5 +1,4 @@
-﻿using Application.Interfaces;
-using Domain;
+﻿using Domain;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 using System;
@@ -25,7 +24,7 @@ namespace Application.User
                                       .AsEnumerable()
                                       .Sum(x => x.Amount);
 
-            return 1000 - predictionTotal;
+            return 10000 - predictionTotal;
         }
     }
 }

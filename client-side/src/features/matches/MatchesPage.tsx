@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import React, { useContext } from 'react'
-import { Grid, GridColumn } from 'semantic-ui-react';
+import { Grid, GridColumn, Header, Icon, Segment } from 'semantic-ui-react';
 import { IMatch } from '../../app/models/match';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import MatchDetail from './MatchDetails';
@@ -25,6 +25,15 @@ const MatchesPage = () => {
         <Grid centered>
             <GridColumn computer={12} tablet={16} mobile={16}>
                 <MatchFilters />
+
+                {!loadingMatches && matchList.length === 0 &&
+                    <Segment placeholder>
+                        <Header icon>
+                            <Icon name='search' />
+                            No matches found.
+                        </Header>
+                    </Segment>
+                }
 
                 <InfiniteScroll
                     hasMore={!loadingMatches && (page + 1 < totalPages)}

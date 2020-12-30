@@ -6,6 +6,7 @@ interface IUserBase {
 
 export interface IUser extends IUserBase {   
     walletBalance: number;
+    photo: string;
 }
 
 export interface IUserAdmin extends IUserBase {

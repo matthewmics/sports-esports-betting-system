@@ -10,7 +10,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using API.Security;
-using Application.Interfaces;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
 using MediatR;
@@ -22,6 +21,8 @@ using Infrastructure.Photos;
 using FluentValidation.AspNetCore;
 using Infrastructure.Security;
 using Microsoft.AspNetCore.Authorization;
+using Application.Photo;
+using Application.Interfaces;
 
 namespace API
 {
@@ -88,6 +89,7 @@ namespace API
             services.AddScoped<IUserAccessor, UserAccessor>();
             services.AddScoped<IWalletReader, WalletReader>();
             services.AddScoped<IPhotoAccessor, PhotoAccessor>();
+            services.AddScoped<IImageHostGenerator, ImageHostGenerator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

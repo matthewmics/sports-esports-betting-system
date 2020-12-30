@@ -8,5 +8,6 @@ namespace Application.User.Dtos
     public class UserDto : BaseUser
     {
         public decimal WalletBalance { get; set; }
+        public string Photo { get; set; }
     }
 }
