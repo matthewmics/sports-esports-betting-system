@@ -12,24 +12,7 @@ namespace Persistence
     public class Seed
     {
 
-        private static readonly Random _rand = new Random();
-
-        private class SeedUserModel
-        {
-            [JsonPropertyName("userName")]
-            public string UserName { get; set; }
-            [JsonPropertyName("displayName")]
-            public string DisplayName { get; set; }
-            [JsonPropertyName("email")]
-            public string Email { get; set; }
-        }
-        private class SeedModel
-        {
-            [JsonPropertyName("teams")]
-            public ICollection<Team> Teams { get; set; }
-            [JsonPropertyName("users")]
-            public ICollection<SeedUserModel> Users { get; set; }
-        }
+        private static Random _rand = new Random();
 
         public static void SeedData(DataContext ctx, UserManager<AppUser> userManager)
         {
@@ -45,12 +28,7 @@ namespace Persistence
                 ctx.Add(team);
             }
 
-            var matches = GenerateMatches(dataSeed.Teams);
-
-            foreach (var match in matches)
-            {
-                ctx.Add(match);
-            }
+            ctx.Matches.AddRange(GenerateMatches(dataSeed.Teams));
 
             foreach (var userWagerer in dataSeed.Users)
             {
@@ -61,22 +39,56 @@ namespace Persistence
                     UserName=  userWagerer.Email
                 };
                 userManager.CreateAsync(appUser, "Password").Wait();
-                ctx.Wagerers.Add(new Wagerer { AppUser = appUser });
+                var wagerer = new Wagerer { AppUser = appUser };
+                ctx.Wagerers.Add(wagerer);
             }
+
+            ctx.UserPredictions.AddRange(GenerateUserPredictions(ctx));
 
             var adminUser = new AppUser
             {
-                DisplayName = "Zain Tuffin",
-                Email = "tuffin@test.com",
-                UserName = "admin"
+                DisplayName = "Admin",
+                Email = "admin@test.com",
+                UserName = "admin@test.com"
             };
-            userManager.CreateAsync(adminUser, "Pa$$word").Wait();
+            userManager.CreateAsync(adminUser, "P@ssword").Wait();
             ctx.Admins.Add(new Admin { AppUser = adminUser });
 
             ctx.SaveChanges();
+
+            // cleanup
+            _rand = null;
         }
 
-        private static List<Match> GenerateMatches(ICollection<Team> teams)
+        private static IEnumerable<UserPrediction> GenerateUserPredictions(DataContext context)
+        {
+            var wagerers = context.Wagerers.ToList();
+            var predictions = context.Predictions.ToList();
+
+            foreach(var wagerer in wagerers)
+            {
+                predictions.Shuffle();
+                for (var i = 0; i < 24; i++)
+                {
+                    var amount = _rand.Next(50, 401);
+                    var iseven = (amount % 2) == 0;
+                    var prediction = predictions[i];
+
+                    var userPred = new UserPrediction
+                    {
+                        Amount = amount,
+                        Wagerer = wagerer,
+                        Prediction = prediction,
+                        PredictedAt = prediction.StartDate.AddHours(-_rand.Next(1, 11)),
+                        Team = iseven ? prediction.Match.TeamA : prediction.Match.TeamB
+                    };
+
+                    yield return userPred;
+                }
+            }
+        }
+
+        private static ICollection<Match> GenerateMatches(ICollection<Team> teams)
         {
             var result = new List<Match>();
 
@@ -120,7 +132,7 @@ namespace Persistence
             return result;
         }
 
-        private static List<Prediction> Dota2Predictions(int days)
+        private static ICollection<Prediction> Dota2Predictions(int days)
         {
             var result = new List<Prediction>()
             {
@@ -185,7 +197,7 @@ namespace Persistence
             return result;
         }
 
-        private static List<Prediction> CSGOPredictions(int days)
+        private static ICollection<Prediction> CSGOPredictions(int days)
         {
             var result = new List<Prediction>()
             {
@@ -226,5 +238,23 @@ namespace Persistence
             return result;
         }
 
+        private class SeedUserModel
+        {
+            [JsonPropertyName("userName")]
+            public string UserName { get; set; }
+            [JsonPropertyName("displayName")]
+            public string DisplayName { get; set; }
+            [JsonPropertyName("email")]
+            public string Email { get; set; }
+        }
+        private class SeedModel
+        {
+            [JsonPropertyName("teams")]
+            public ICollection<Team> Teams { get; set; }
+            [JsonPropertyName("users")]
+            public ICollection<SeedUserModel> Users { get; set; }
+        }
+
     }
+
 }
