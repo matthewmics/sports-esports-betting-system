@@ -22,17 +22,17 @@ namespace API.Controllers
         public async Task<ActionResult<ActivePredictionDto>> Predict(int predictionId,
             [FromBody] Application.Prediction.Predict.Command command)
         {
-            await _sempaphorePredict.WaitAsync();
+            await SemaphorePredict.WaitAsync();
             command.PredictionId = predictionId;
             try
             {
                 var result = await Mediator.Send(command);
-                _sempaphorePredict.Release();
+                SemaphorePredict.Release();
                 return result;
             }
             catch (Exception err)
             {
-                _sempaphorePredict.Release();
+                SemaphorePredict.Release();
                 throw err;
             }
         }
@@ -42,17 +42,17 @@ namespace API.Controllers
         public async Task<ActionResult<ActivePredictionDto>> UpdatePrediction(int predictionId,
             [FromBody] Application.Prediction.UpdatePrediction.Command command)
         {
-            await _sempaphorePredict.WaitAsync();
+            await SemaphorePredict.WaitAsync();
             command.PredictionId = predictionId;
             try
             {
                 var result = await Mediator.Send(command);
-                _sempaphorePredict.Release();
+                SemaphorePredict.Release();
                 return result;
             }
             catch (Exception err)
             {
-                _sempaphorePredict.Release();
+                SemaphorePredict.Release();
                 throw err;
             }
         }

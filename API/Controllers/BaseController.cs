@@ -15,7 +15,7 @@ namespace API.Controllers
     [ApiController]
     public class BaseController : ControllerBase
     {
-        protected readonly static SemaphoreSlim _sempaphorePredict
+        protected readonly static SemaphoreSlim SemaphorePredict
             = new SemaphoreSlim(1);
 
         private IMediator _mediator;
