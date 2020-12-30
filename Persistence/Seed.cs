@@ -79,7 +79,7 @@ namespace Persistence
                         Amount = amount,
                         Wagerer = wagerer,
                         Prediction = prediction,
-                        PredictedAt = prediction.StartDate.AddHours(-_rand.Next(1, 11)),
+                        PredictedAt = DateTime.Now.AddDays(-_rand.Next(0, 3)).AddHours(-_rand.Next(1, 11)),
                         Team = iseven ? prediction.Match.TeamA : prediction.Match.TeamB
                     };
 
