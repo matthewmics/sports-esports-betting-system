@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 
-namespace Application.Interfaces
+namespace Application.User
 {
     public interface IWalletReader
     {
