@@ -22,14 +22,13 @@ const ProfileInfo = () => {
     if (loading)
         return <ProfileInfoPlaceholder />
 
-
     return (
         <Fragment>
             <Segment.Group>
                 <Segment textAlign='center'>
-                    <Reveal animated='move up'>
-                        <Reveal.Content visible style={{ width: '100%' }}>
-                            <Image circular size='tiny' src={user && (user.photo || '/assets/user_default.png')} centered />
+                    <Reveal animated='rotate' style={{display: 'inline-block'}}>
+                        <Reveal.Content visible>
+                            <Image circular size='tiny' src={user && (user.photo || '/assets/user_default.png')} />
                         </Reveal.Content>
                         <Reveal.Content hidden>
                             <Button style={{ height: '80px', width: '80px', fontSize: '10px' }}
