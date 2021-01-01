@@ -54,4 +54,13 @@ export const teamName = createValidator(
   'team name must only contain letters and numbers'
 )
 
+export const lettersAndNumbers = createValidator(
+  message => value => {
+    if (value && !/^[a-zA-Z0-9 ]+$/.test(value)) {
+      return message
+    }
+  },
+  field => `${field} must only contain letters and numbers`
+)
+
 
