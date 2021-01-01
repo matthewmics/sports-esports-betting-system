@@ -1,9 +1,9 @@
 import { observer } from 'mobx-react-lite'
 import React, { useContext, useEffect } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
-import { Grid, Loader } from 'semantic-ui-react'
+import { Grid } from 'semantic-ui-react'
 import { RootStoreContext } from '../../app/stores/rootStore'
-import MatchComments from './MatchComments'
+import MatchComments from './MatchComments/MatchComments'
 import PredictionDetails from './PredictionDetails/PredictionDetails'
 import PredictionHeader from './PredictionHeader'
 import PredictionTabs from './PredictionTabs'
@@ -19,43 +19,29 @@ interface RouteParams {
     id: string
 }
 
-interface IProps extends RouteComponentProps<RouteParams> {
-
-}
-
-const PredictionPage: React.FC<IProps> = ({ match }) => {
+const PredictionPage: React.FC<RouteComponentProps<RouteParams>> = ({ match }) => {
 
     const rootStore = useContext(RootStoreContext);
-    const { selectMatch, selectedMatch, loading
-    } = rootStore.matchStore;
-    const { selectPrediction, selectedPrediction, unpredict, loading: predictionLoading } = rootStore.predictionStore;
-
-    const { openModal } = rootStore.modalStore;
-    const { isLoggedIn } = rootStore.userStore;
+    const { selectMatch, createHubConnection, stopHubConnection } = rootStore.matchStore;
 
     useEffect(() => {
-        selectMatch(+match.params.id)
-    }, [selectMatch, match.params.id])
+        selectMatch(+match.params.id);
+        createHubConnection(+match.params.id);
 
-    if (!selectedMatch) return <Loader active={true} content='Loading match...'  />
+        return () => { stopHubConnection(); };
+
+    }, [selectMatch, match.params.id, stopHubConnection, createHubConnection])
 
     return (
-        <Grid>
+        <Grid stackable>
             <Grid.Column width={16}>
-                <PredictionHeader match={selectedMatch} />
+                <PredictionHeader />
             </Grid.Column>
             <Grid.Column width={12} style={{ paddingTop: '0px' }}>
-                <PredictionTabs match={selectedMatch} loading={predictionLoading}
-                    selectPrediction={selectPrediction}
-                    selectedPrediction={selectedPrediction}
-                />
+                <PredictionTabs />
             </Grid.Column>
             <Grid.Column width={12} style={{ paddingTop: '0px' }}>
-                <PredictionDetails match={selectedMatch} prediction={selectedPrediction}
-                    unpredict={unpredict}
-                    loading={loading}
-                    openModal={openModal}
-                    isLoggedIn={isLoggedIn} />
+                <PredictionDetails />
                 <MatchComments />
             </Grid.Column>
             <Grid.Column width={4} style={{ paddingTop: '0px' }}>

@@ -23,6 +23,8 @@ using Infrastructure.Security;
 using Microsoft.AspNetCore.Authorization;
 using Application.Photo;
 using Application.Interfaces;
+using API.SignalR;
+using System.Threading.Tasks;
 
 namespace API
 {
@@ -71,6 +73,20 @@ namespace API
                         ValidateAudience = false,
                         ValidateIssuer = false
                     };
+
+                    opt.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            var accessToken = context.Request.Query["access_token"];
+                            var path = context.HttpContext.Request.Path;
+                            if(!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/chat")))
+                            {
+                                context.Token = accessToken;
+                            }
+                            return Task.CompletedTask;
+                        }
+                    };
                 });
 
             services.AddAuthorization(o =>
@@ -84,6 +100,8 @@ namespace API
 
             services.AddAutoMapper(typeof(Application.Match.List));
             services.AddMediatR(typeof(Application.Match.List).Assembly);
+
+            services.AddSignalR();
 
             services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
             services.AddScoped<IUserAccessor, UserAccessor>();
@@ -123,6 +141,7 @@ namespace API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/chat");
             });
         }
     }

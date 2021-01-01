@@ -25,6 +25,7 @@ namespace Persistence
         public DbSet<Admin> Admins { get; set; }
         public DbSet<UserPrediction> UserPredictions { get; set; }
         public DbSet<Game> Games { get; set; }
+        public DbSet<MatchComment> MatchComments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

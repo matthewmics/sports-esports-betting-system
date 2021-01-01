@@ -18,6 +18,15 @@ export interface IMatch {
     series: number;
     matchStatus: IPredictionStatus;
     game: IGame;
+    comments: IComment[];
+}
+
+export interface IComment {
+    id: string;
+    displayName: string;
+    message: string;
+    photo: string;
+    createdAt: Date;
 }
 
 export interface IGame {

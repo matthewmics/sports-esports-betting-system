@@ -1,22 +1,20 @@
 import { observer } from 'mobx-react-lite'
-import React, { Fragment } from 'react'
+import React, { Fragment, useContext } from 'react'
 import { Segment, Grid, Image, Label } from 'semantic-ui-react'
 import { StatusDetails } from '../../../app/common/StatusDetails'
-import { IMatch } from '../../../app/models/match'
-import { IPrediction, predictionStatus } from '../../../app/models/prediction'
+import { predictionStatus } from '../../../app/models/prediction'
+import { RootStoreContext } from '../../../app/stores/rootStore'
 import PredictionDetailsActions from './PredictionDetailsActions'
 import { PredictionDetailsActivePrediction } from './PredictionDetailsActivePrediction'
 
-interface IProps {
-    prediction: IPrediction | null;
-    match: IMatch | null;
-    openModal: (body: any) => void;
-    unpredict: () => Promise<void>;
-    isLoggedIn: boolean;
-    loading: boolean;
-}
 
-const PredictionDetails: React.FC<IProps> = ({ prediction, match, openModal, isLoggedIn, loading, unpredict }) => {
+const PredictionDetails = () => {
+
+    const rootStore = useContext(RootStoreContext);
+    const { isLoggedIn } = rootStore.userStore;
+    const { openModal } = rootStore.modalStore;
+    const { loading, selectedMatch: match } = rootStore.matchStore;
+    const { selectedPrediction: prediction, unpredict } = rootStore.predictionStore;
 
     return (
         <Segment.Group>

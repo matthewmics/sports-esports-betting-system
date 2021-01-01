@@ -18,11 +18,10 @@ interface IProps extends FormFieldProps, FieldRenderProps<number, HTMLElement> {
 }
 
 export const PredictionFormTeamInput: React.FC<IProps> = ({
-    match,
+    match: { teamB, teamA },
     input
 }) => {
 
-    const { teamA, teamB } = match;
 
     return (
         <Grid centered>

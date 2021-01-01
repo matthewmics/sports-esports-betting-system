@@ -1,9 +1,11 @@
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
 import { toast } from "react-toastify";
 import agent from "../api/agent";
-import { IMatch, IMatchForm } from "../models/match";
+import { IComment, IMatch, IMatchForm } from "../models/match";
 import { IPrediction } from "../models/prediction";
 import { RootStore } from "./rootStore";
+import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
+import { getJwtToken } from "../common/util/security";
 
 const LIMIT: number = 6;
 
@@ -20,6 +22,9 @@ export default class MatchStore {
   @observable matchFilters = new Map();
   @observable hasLoaded = false;
   @observable selectedStatusFilter = 'all';
+  @observable loadingRecentComments = false;
+
+  @observable.ref hubConnection: HubConnection | null = null;
 
   constructor(rootStore: RootStore) {
     makeObservable(this);
@@ -57,6 +62,67 @@ export default class MatchStore {
     return [...liveMatches, ...openMatches, ...finishedMatches];
   }
 
+  @action createHubConnection = (matchId: number) => {
+    this.hubConnection = new HubConnectionBuilder()
+      .withUrl('http://localhost:5000/chat', {
+        accessTokenFactory: () => getJwtToken() || ''
+      })
+      .configureLogging(LogLevel.Information)
+      .build();
+
+    this.hubConnection.start()
+      //.then(() => console.log(this.hubConnection!.state))
+      .then(() => this.hubConnection!.invoke("AddToMatchGroup", matchId))
+      .catch(error => console.log('Error establishing connection', error));
+
+    this.hubConnection.on('ReceiveComment', (comment: IComment) => {
+      comment.createdAt = new Date(comment.createdAt);
+      const match = this.selectedMatch!;
+      runInAction(() => {
+        if (match.comments.length !== 20)
+          match.comments.push(comment);
+        else {
+          const comments = match.comments.filter((v, i) => i !== 0);
+          match.comments = [...comments, comment];
+        }
+      })
+    });
+  }
+
+  @action stopHubConnection = () => {
+    this.hubConnection!.stop();
+  }
+
+  @action sendComment = (values: any) => {
+    values.matchId = this.selectedMatch!.id;
+    try {
+      this.hubConnection!.invoke('SendComment', values);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  @action loadRecentComments = async () => {
+    this.loadingRecentComments = true;
+    try {
+      const result = await agent.Matches.recentComments(this.selectedMatch!.id);
+      result.forEach(comment => {
+        comment.createdAt = new Date(comment.createdAt);
+      });
+      runInAction(() => {
+        this.selectedMatch!.comments = result.sort((a, b) => {
+          return a.createdAt.getTime() - b.createdAt.getTime()
+        })
+      })
+    } catch (error) {
+      console.log(error);
+    } finally {
+      runInAction(() => {
+        this.loadingRecentComments = false;
+      })
+    }
+  }
+
   @action setSelectedStatusFilter = (value: string) => {
     this.selectedStatusFilter = value;
   }
@@ -84,6 +150,7 @@ export default class MatchStore {
   }
 
   initializeMatch = (match: IMatch): IMatch => {
+    match.comments = [];
     match.startDate = new Date(match.startDate);
     match.predictions.forEach(p => p.startDate = new Date(p.startDate));
     match.predictions = this.sortPredictionsBySequence(match.predictions);

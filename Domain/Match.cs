@@ -23,6 +23,7 @@ namespace Domain
 
 
         public ICollection<Prediction> Predictions { get; set; }
+        public ICollection<MatchComment> MatchComments{ get; set; }
 
     }
 }

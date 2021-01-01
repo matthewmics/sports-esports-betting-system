@@ -1,6 +1,7 @@
 import { action, computed, makeObservable, observable, reaction, runInAction } from "mobx";
 import { toast } from "react-toastify";
 import agent from "../api/agent";
+import { getJwtToken } from "../common/util/security";
 import { IUser, IUserFormValues } from "../models/user";
 import { RootStore } from "./rootStore";
 
@@ -69,6 +70,9 @@ export default class UserStore {
     }
 
     @action getUser = async () => {
+        if(!getJwtToken())
+            this.userLoading = false;   
+
         this.userLoading = true;
         try {
             const user = await agent.User.current();

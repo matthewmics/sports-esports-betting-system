@@ -13,6 +13,7 @@ import PredictionPage from '../../features/predictions/PredictionPage';
 import axios from 'axios';
 import ProfilePage from '../../features/profiles/ProfilePage';
 import ErrorModalContainer from '../common/modals/ErrorModalContainer';
+import { getJwtToken } from '../common/util/security';
 
 
 
@@ -20,7 +21,7 @@ const App = () => {
 
   axios.interceptors.request.use(
     (config) => {
-      const token = window.localStorage.getItem("jwt");
+      const token = getJwtToken();
       if (token) {
         config.headers.Authorization = "Bearer " + token;
       }
@@ -36,9 +37,7 @@ const App = () => {
   const { getUser } = rootStore.userStore;
 
   useEffect(() => {
-    if (window.localStorage.getItem('jwt')) {
-      getUser();
-    }
+    getUser();
   }, [getUser]);
 
   return (

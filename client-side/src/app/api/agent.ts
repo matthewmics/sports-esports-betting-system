@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { history } from "../..";
-import { IMatch, IMatchEnvelope, IMatchForm } from "../models/match";
+import { IComment, IMatch, IMatchEnvelope, IMatchForm } from "../models/match";
 import { IActivePrediction, IPrediction, IPredictionCreateForm, IPredictionDetails } from "../models/prediction";
 import { IProfileChangePhotoResult, IProfilePredictionStats, IUserPredictionEnvelope } from "../models/profile";
 import { ITeamEnvelope, ITeamFormValues } from "../models/team";
@@ -62,6 +62,8 @@ const Matches = {
   get: (id: number): Promise<IMatch> => requests.get(`/matches/${id}`),
   create: (match: IMatchForm): Promise<IMatch> =>
     requests.post(`/matches`, match),
+  recentComments: (matchId: number): Promise<IComment[]> =>
+    requests.get(`/matches/${matchId}/comments/recent`)
 };
 
 const Predictions = {

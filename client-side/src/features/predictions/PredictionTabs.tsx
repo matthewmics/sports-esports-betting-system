@@ -1,34 +1,32 @@
 import { observer } from 'mobx-react-lite'
-import React, { Fragment } from 'react'
+import React, { Fragment, useContext } from 'react'
 import { Label } from 'semantic-ui-react'
-import { IMatch } from '../../app/models/match'
-import { IPrediction } from '../../app/models/prediction'
+import { RootStoreContext } from '../../app/stores/rootStore'
 
-interface IProps {
-    match: IMatch | null;
-    selectedPrediction: IPrediction | null;
-    selectPrediction: (id: number) => void;
-    loading: boolean;
+
+const inactiveStyle = {
+    opacity: '50%',
+    marginBottom: '9px'
+}
+const activeStyle = {
+    marginBottom: '9px'
 }
 
-const PredictionTabs: React.FC<IProps> = ({ match, selectPrediction, selectedPrediction, loading }) => {
+const PredictionTabs = () => {
 
-    const inactiveStyle = {
-        opacity: '50%',
-        marginBottom: '9px'
-    }
-    const activeStyle = {
-        marginBottom: '9px'
-    }
-    
+    const rootStore = useContext(RootStoreContext);
+    const { loading, selectPrediction, selectedPrediction } = rootStore.predictionStore;
+    const { selectedMatch: match } = rootStore.matchStore;
+
+
     return (
         <Fragment>
             {match && match.predictions.map(prediction => {
                 const predictionStatusName = prediction.predictionStatus.name;
                 var statusColor = 'green' as any;
-                if(predictionStatusName === 'live')
+                if (predictionStatusName === 'live')
                     statusColor = 'red';
-                else if(predictionStatusName === 'cancelled' || predictionStatusName === 'settled')
+                else if (predictionStatusName === 'cancelled' || predictionStatusName === 'settled')
                     statusColor = 'teal';
                 return (
                     <Label key={prediction.id}
@@ -42,7 +40,7 @@ const PredictionTabs: React.FC<IProps> = ({ match, selectPrediction, selectedPre
                         style={loading ? inactiveStyle : activeStyle}>
                         {prediction.title}
                         <Label style={{ marginLeft: '9px' }}
-                               content={prediction.predictionStatus.displayText} color={statusColor} />
+                            content={prediction.predictionStatus.displayText} color={statusColor} />
                     </Label>
                 )
             })}

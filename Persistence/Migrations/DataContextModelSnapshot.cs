@@ -142,6 +142,34 @@ namespace Persistence.Migrations
                     b.ToTable("Matches");
                 });
 
+            modelBuilder.Entity("Domain.MatchComment", b =>
+                {
+                    b.Property<byte[]>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("varbinary(16)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime");
+
+                    b.Property<int>("MatchId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("text");
+
+                    b.Property<string>("WagererId")
+                        .IsRequired()
+                        .HasColumnType("varchar(767)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MatchId");
+
+                    b.HasIndex("WagererId");
+
+                    b.ToTable("MatchComments");
+                });
+
             modelBuilder.Entity("Domain.Prediction", b =>
                 {
                     b.Property<int>("Id")
@@ -499,6 +527,21 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Team", "TeamB")
                         .WithMany("TeamBMatches")
                         .HasForeignKey("TeamBId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.MatchComment", b =>
+                {
+                    b.HasOne("Domain.Match", "Match")
+                        .WithMany("MatchComments")
+                        .HasForeignKey("MatchId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Wagerer", "Wagerer")
+                        .WithMany()
+                        .HasForeignKey("WagererId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
