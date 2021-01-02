@@ -25,6 +25,8 @@ using Application.Photo;
 using Application.Interfaces;
 using API.SignalR;
 using System.Threading.Tasks;
+using Infrastructure.Paypal;
+using Application.Paypal;
 
 namespace API
 {
@@ -102,12 +104,15 @@ namespace API
             services.AddMediatR(typeof(Application.Match.List).Assembly);
 
             services.AddSignalR();
+            services.AddHttpClient();
 
             services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
             services.AddScoped<IUserAccessor, UserAccessor>();
             services.AddScoped<IWalletReader, WalletReader>();
             services.AddScoped<IPhotoAccessor, PhotoAccessor>();
             services.AddScoped<IImageHostGenerator, ImageHostGenerator>();
+            services.AddScoped<IPaypalAccessor, PaypalAccessor>();
+            services.Configure<PaypalSettings>(Configuration.GetSection("PaypalSettings"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
