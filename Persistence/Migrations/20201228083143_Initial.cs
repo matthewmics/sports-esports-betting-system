@@ -463,6 +463,11 @@ namespace Persistence.Migrations
                "(2, 'cancelled', 'Cancelled')," +
                "(3, 'live', 'Live')");
 
+            migrationBuilder.Sql("INSERT INTO UserTransactionTypes(Id, Name, DisplayText)" +
+               "VALUES " +
+               "(0, 'cashIn', 'Cash In')," +
+               "(1, 'cashOut', 'Cash Out')");
+
             migrationBuilder.Sql("INSERT INTO Games(Id, Name, DisplayText)" +
                "VALUES " +
                "(0, 'dota2', 'Dota 2')," +

@@ -17,19 +17,17 @@ const MatchComments = () => {
     const ref = useRef<any>(null);
 
     useEffect(() => {
-        setTimeout(() => {
 
-            if (ref && ref.current) {
-                ref.current.addEventListener('DOMNodeInserted', (event: any) => {
-                    const { currentTarget: target } = event;
-                    target!.scroll({ top: target!.scrollHeight, behavior: 'smooth' });
-                });
-            }
+        if (ref && ref.current) {
+            ref.current.addEventListener('DOMNodeInserted', (event: any) => {
+                const { currentTarget: target } = event;
+                target!.scroll({ top: target!.scrollHeight, behavior: 'smooth' });
+            });
+        }
 
-            if (selectedMatch) {
-                loadRecentComments();
-            }
-        }, 20);
+        if (selectedMatch) {
+            loadRecentComments();
+        }
     }, [loadRecentComments, selectedMatch, ref])
 
     return (

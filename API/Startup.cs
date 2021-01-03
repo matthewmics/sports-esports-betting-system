@@ -112,7 +112,7 @@ namespace API
             services.AddScoped<IPhotoAccessor, PhotoAccessor>();
             services.AddScoped<IImageHostGenerator, ImageHostGenerator>();
             services.AddScoped<IPaypalAccessor, PaypalAccessor>();
-            services.Configure<PaypalSettings>(Configuration.GetSection("Paypal"));
+            services.Configure<PaypalSettings>(Configuration.GetSection("PaypalSettings"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
