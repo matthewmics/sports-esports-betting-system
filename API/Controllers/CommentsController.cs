@@ -1,4 +1,5 @@
-﻿using Application.MatchComment.Dtos;
+﻿using Application.MatchComment;
+using Application.MatchComment.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace API.Controllers
         [HttpGet("{matchId}/comments/recent")]
         public async Task<List<MatchCommentDto>> RecentComments(int matchId)
         {
-            return await Mediator.Send(new Application.MatchComment.RecentComments.Query { MatchId = matchId });
+            return await Mediator.Send(new RecentComments.Query { MatchId = matchId });
         }
 
     }
