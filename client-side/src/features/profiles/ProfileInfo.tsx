@@ -38,6 +38,7 @@ const ProfileInfo = () => {
                                 }} />)} />
                         </Reveal.Content>
                     </Reveal>
+                    <div className='text-muted text-small' style={{textAlign: 'center', fontWeight: 'bold'}}>Hover to change photo</div>
                     <Header content={user?.displayName} style={{ marginTop: '7px' }} />
                 </Segment>
                 <Segment textAlign='center'>

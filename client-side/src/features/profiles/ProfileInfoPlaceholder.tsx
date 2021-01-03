@@ -4,53 +4,40 @@ import { Segment, Placeholder } from 'semantic-ui-react'
 export const ProfileInfoPlaceholder = () => {
     return (
         <Fragment>
-
-            <Segment>
-                <Placeholder fluid>
+            <Segment raised>
+                <Placeholder>
                     <Placeholder.Header image>
                         <Placeholder.Line />
                         <Placeholder.Line />
                     </Placeholder.Header>
-                    <Placeholder.Header>
-                        <Placeholder.Line />
-                        <Placeholder.Line />
-                    </Placeholder.Header>
-                    <Placeholder.Header>
-                        <Placeholder.Line />
-                        <Placeholder.Line />
-                    </Placeholder.Header>
-                    <Placeholder.Header>
-                        <Placeholder.Line />
-                        <Placeholder.Line />
-                    </Placeholder.Header>
+                    <Placeholder.Paragraph>
+                        <Placeholder.Line length='medium' />
+                        <Placeholder.Line length='short' />
+                    </Placeholder.Paragraph>
                 </Placeholder>
             </Segment>
-
-            
-            <Segment>
-                <Placeholder fluid>
-                    <Placeholder.Header>
+            <Segment raised>
+                <Placeholder>
+                    <Placeholder.Header image>
                         <Placeholder.Line />
                         <Placeholder.Line />
                     </Placeholder.Header>
-                    <Placeholder.Header>
-                        <Placeholder.Line />
-                        <Placeholder.Line />
-                    </Placeholder.Header>
+                    <Placeholder.Paragraph>
+                        <Placeholder.Line length='medium' />
+                        <Placeholder.Line length='short' />
+                    </Placeholder.Paragraph>
                 </Placeholder>
             </Segment>
-
-            
-            <Segment>
-                <Placeholder fluid>
-                    <Placeholder.Header>
+            <Segment raised>
+                <Placeholder>
+                    <Placeholder.Header image>
                         <Placeholder.Line />
                         <Placeholder.Line />
                     </Placeholder.Header>
-                    <Placeholder.Header>
-                        <Placeholder.Line />
-                        <Placeholder.Line />
-                    </Placeholder.Header>
+                    <Placeholder.Paragraph>
+                        <Placeholder.Line length='medium' />
+                        <Placeholder.Line length='short' />
+                    </Placeholder.Paragraph>
                 </Placeholder>
             </Segment>
         </Fragment>
