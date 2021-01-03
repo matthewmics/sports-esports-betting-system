@@ -170,6 +170,60 @@ namespace Persistence.Migrations
                     b.ToTable("MatchComments");
                 });
 
+            modelBuilder.Entity("Domain.PaypalOrder", b =>
+                {
+                    b.Property<string>("OrderCode")
+                        .HasColumnType("varchar(767)");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<decimal>("AmountWithFees")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<DateTime?>("CapturedDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime");
+
+                    b.Property<bool>("IsCaptured")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("WagererId")
+                        .HasColumnType("varchar(767)");
+
+                    b.HasKey("OrderCode");
+
+                    b.HasIndex("WagererId");
+
+                    b.ToTable("PaypalOrders");
+                });
+
+            modelBuilder.Entity("Domain.PaypalPayout", b =>
+                {
+                    b.Property<string>("BatchId")
+                        .HasColumnType("varchar(767)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime");
+
+                    b.Property<decimal>("DeductedAmount")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<decimal>("RequestedAmount")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<string>("WagererId")
+                        .HasColumnType("varchar(767)");
+
+                    b.HasKey("BatchId");
+
+                    b.HasIndex("WagererId");
+
+                    b.ToTable("PaypalPayouts");
+                });
+
             modelBuilder.Entity("Domain.Prediction", b =>
                 {
                     b.Property<int>("Id")
@@ -274,22 +328,6 @@ namespace Persistence.Migrations
                     b.HasIndex("TeamId");
 
                     b.ToTable("UserPredictions");
-                });
-
-            modelBuilder.Entity("Domain.UserTransactionType", b =>
-                {
-                    b.Property<short>("Id")
-                        .HasColumnType("smallint");
-
-                    b.Property<string>("DisplayText")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UserTransactionTypes");
                 });
 
             modelBuilder.Entity("Domain.Wagerer", b =>
@@ -544,6 +582,20 @@ namespace Persistence.Migrations
                         .HasForeignKey("WagererId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.PaypalOrder", b =>
+                {
+                    b.HasOne("Domain.Wagerer", "Wagerer")
+                        .WithMany()
+                        .HasForeignKey("WagererId");
+                });
+
+            modelBuilder.Entity("Domain.PaypalPayout", b =>
+                {
+                    b.HasOne("Domain.Wagerer", "Wagerer")
+                        .WithMany()
+                        .HasForeignKey("WagererId");
                 });
 
             modelBuilder.Entity("Domain.Prediction", b =>

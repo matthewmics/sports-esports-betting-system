@@ -19,13 +19,14 @@ namespace Persistence
         public DbSet<Match> Matches { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<Prediction> Predictions { get; set; }
-        public DbSet<PredictionStatus> PredictionStatuses { get; set; }
-        public DbSet<UserTransactionType> UserTransactionTypes { get; set; }
+        public DbSet<PredictionStatus> PredictionStatuses { get; set; } 
         public DbSet<Wagerer> Wagerers { get; set; }
         public DbSet<Admin> Admins { get; set; }
         public DbSet<UserPrediction> UserPredictions { get; set; }
         public DbSet<Game> Games { get; set; }
         public DbSet<MatchComment> MatchComments { get; set; }
+        public DbSet<PaypalOrder> PaypalOrders { get; set; }
+        public DbSet<PaypalPayout> PaypalPayouts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
