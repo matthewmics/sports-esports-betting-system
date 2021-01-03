@@ -19,21 +19,12 @@ namespace Application.User
 
         public decimal ReadWallet(Wagerer wagerer)
         {
-
-            var ongoingPredictionValue = _ctx.UserPredictions
-                                      .Where(x => x.WagererId == wagerer.AppUserId
-                                        && (x.Prediction.PredictionStatusId == PredictionStatus.Open
-                                        || x.Prediction.PredictionStatusId == PredictionStatus.Live))
-                                      .Select(x => -x.Amount)
-                                      .Sum();
-
-            var paypalDepositTotal = _ctx.PaypalOrders
+            decimal predictionTotal = _ctx.UserPredictions
                                       .Where(x => x.WagererId == wagerer.AppUserId)
-                                      .Select(x => x.Amount)
-                                      .Sum();
+                                      .AsEnumerable()
+                                      .Sum(x => x.Amount);
 
-
-            return 10000 + ongoingPredictionValue + paypalDepositTotal;
+            return 10000 - predictionTotal;
         }
     }
 }
