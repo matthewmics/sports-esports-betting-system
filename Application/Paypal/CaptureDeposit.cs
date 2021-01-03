@@ -14,12 +14,12 @@ namespace Application.Paypal
     public class CaptureDeposit
     {
 
-        public class Command : IRequest<PaypalCaptureOrderDto>
+        public class Command : IRequest
         {
             public string OrderId { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, PaypalCaptureOrderDto>
+        public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _context;
             private readonly IPaypalAccessor _paypalAccessor;
@@ -30,7 +30,7 @@ namespace Application.Paypal
                 _paypalAccessor = paypalAccessor;
             }
 
-            public async Task<PaypalCaptureOrderDto> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 var order = await _context.PaypalOrders.FindAsync(request.OrderId);
                 if (order == null)
@@ -47,7 +47,7 @@ namespace Application.Paypal
                 var success = await _context.SaveChangesAsync() > 0;
 
                 if (success)
-                    return result;
+                    return Unit.Value;
 
                 throw new Exception("Problem saving changes");
             }

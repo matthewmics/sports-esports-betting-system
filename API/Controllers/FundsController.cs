@@ -20,7 +20,7 @@ namespace API.Controllers
 
 
         [HttpPost("paypal/captureDeposit")]
-        public async Task<PaypalCaptureOrderDto> PaypalCaptureDeposit([FromBody] CaptureDeposit.Command command)
+        public async Task<MediatR.Unit> PaypalCaptureDeposit([FromBody] CaptureDeposit.Command command)
         {
             return await Mediator.Send(command);
         }
