@@ -14,6 +14,7 @@ import axios from 'axios';
 import ProfilePage from '../../features/profiles/ProfilePage';
 import ErrorModalContainer from '../common/modals/ErrorModalContainer';
 import { getJwtToken } from '../common/util/security';
+import { NotFound } from '../common/NotFound';
 
 
 
@@ -57,7 +58,7 @@ const App = () => {
                 <Route exact path='/matches' component={MatchesPage} />
                 <Route path='/matches/:id' component={PredictionPage} />
                 <Route path='/profile' component={ProfilePage} />
-                <Route render={() => <h1>ERROR 404</h1>} />
+                <Route render={() => <NotFound />} />
               </Switch>
             </Fragment>
           )
