@@ -28,7 +28,7 @@ namespace Application.User
                                       .Sum();
 
             var paypalDepositTotal = _ctx.PaypalOrders
-                                      .Where(x => x.WagererId == wagerer.AppUserId)
+                                      .Where(x => x.WagererId == wagerer.AppUserId && x.IsCaptured)
                                       .Select(x => x.Amount)
                                       .Sum();
 
