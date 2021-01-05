@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace Application.User
 {
@@ -56,7 +57,7 @@ namespace Application.User
             public async Task<UserDto> Handle(Command request, CancellationToken cancellationToken)
             {
                 if (await _context.Users.AnyAsync(u => u.Email == request.Email))
-                    throw new RestException(System.Net.HttpStatusCode.BadRequest, new { Email = "Email Already exists"});
+                    throw new RestException(System.Net.HttpStatusCode.BadRequest, new { Email = "Email Already exists" });
 
                 var displayName = request.Firstname + " " + request.Lastname;
 
@@ -68,6 +69,7 @@ namespace Application.User
                 };
 
                 var result = await _userManager.CreateAsync(userToCreate, request.Password);
+                await _userManager.AddClaimAsync(userToCreate, new Claim(ClaimTypes.Email, request.Email));
                 if (result.Succeeded)
                 {
                     var wagerer = new Wagerer { AppUser = userToCreate };

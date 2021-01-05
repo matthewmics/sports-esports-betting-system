@@ -27,6 +27,7 @@ using API.SignalR;
 using System.Threading.Tasks;
 using Infrastructure.Paypal;
 using Application.Paypal;
+using Microsoft.AspNetCore.SignalR;
 
 namespace API
 {
@@ -104,6 +105,8 @@ namespace API
             services.AddMediatR(typeof(Application.Match.List).Assembly);
 
             services.AddSignalR();
+            services.AddSingleton<IUserIdProvider, EmailBasedUserIdProvider>();
+
             services.AddHttpClient();
 
             services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
@@ -112,6 +115,7 @@ namespace API
             services.AddScoped<IPhotoAccessor, PhotoAccessor>();
             services.AddScoped<IImageHostGenerator, ImageHostGenerator>();
             services.AddScoped<IPaypalAccessor, PaypalAccessor>();
+
             services.Configure<PaypalSettings>(Configuration.GetSection("Paypal"));
         }
 
@@ -124,7 +128,7 @@ namespace API
             //{
             //    app.UseDeveloperExceptionPage();
             //}
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
             app.UseStaticFiles(new StaticFileOptions
             {

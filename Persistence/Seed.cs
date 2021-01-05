@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -38,7 +39,10 @@ namespace Persistence
                     Email = userWagerer.Email,
                     UserName=  userWagerer.Email
                 };
+
                 userManager.CreateAsync(appUser, "Password").Wait();
+                userManager.AddClaimAsync(appUser, new Claim(ClaimTypes.Email, userWagerer.Email)).Wait();
+
                 var wagerer = new Wagerer { AppUser = appUser };
                 ctx.Wagerers.Add(wagerer);
             }
