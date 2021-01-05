@@ -86,9 +86,13 @@ body {
 }
 
 .text-muted {
-  color: teal
+  color: teal;
 }
 
 .text-small {
   font-size: 10px;
+}
+
+.text-bold {
+  font-weight: bold;
 }
