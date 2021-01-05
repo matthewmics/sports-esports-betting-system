@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { Grid, Divider, Button, Label } from 'semantic-ui-react'
-import { IActivePrediction, IPrediction } from '../../../app/models/prediction'
+import { IActivePrediction, IPrediction, predictionStatus } from '../../../app/models/prediction'
 import PredictionForm from '../PredictionForm/PredictionForm'
 
 interface IProps {
@@ -27,12 +27,16 @@ export const PredictionDetailsActivePrediction: React.FC<IProps> = ({ activePred
                     {" "}₱{activePrediction.potentialReward.toFixed(2)}
                 </Grid.Column>
             </Grid>
-            <Divider />
-            <Button.Group widths={2}>   
-                <Button content='Cancel' onClick={unpredict} icon='cancel'/>
-                <Button content='Change' primary icon='retweet'
-                    onClick={() => openModal(<PredictionForm activePrediciton={activePrediction} prediction={prediction} />)} />
-            </Button.Group>
+            {prediction.predictionStatus.name === predictionStatus.open.name &&
+                <Fragment>
+                    <Divider />
+                    <Button.Group widths={2}>
+                        <Button content='Cancel' onClick={unpredict} icon='cancel' />
+                        <Button content='Change' primary icon='retweet'
+                            onClick={() => openModal(<PredictionForm activePrediciton={activePrediction} prediction={prediction} />)} />
+                    </Button.Group>
+                </Fragment>
+            }
         </Fragment>
     )
 }
