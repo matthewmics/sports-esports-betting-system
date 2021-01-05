@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Application.Paypal.Dtos;
 using Application.Interfaces;
 using FluentValidation;
+using System.Linq;
 
 namespace Application.Paypal
 {
@@ -50,20 +51,28 @@ namespace Application.Paypal
                 var amount = request.Amount.AddPaypalFees();
                 var result = _paypal.CreateOrder(amount);
 
+                var uncapturedOrders = await _context.PaypalOrders
+                    .Where(x => x.WagererId == wagerer.AppUserId &&
+                                x.CreatedAt < DateTime.Now.AddDays(-1) &&
+                               !x.IsCaptured).ToListAsync();
+
+                if (uncapturedOrders.Any())
+                    _context.PaypalOrders.RemoveRange(uncapturedOrders);
+
                 var paypalOrder = new Domain.PaypalOrder
                 {
                     Amount = request.Amount,
                     AmountWithFees = amount,
                     CreatedAt = DateTime.Now,
                     OrderCode = result.OrderId,
-                    Wagerer = wagerer,                
+                    Wagerer = wagerer,
                 };
 
                 _context.PaypalOrders.Add(paypalOrder);
 
                 var success = await _context.SaveChangesAsync() > 0;
 
-                if(success)
+                if (success)
                     return result;
 
                 throw new Exception("Problem creating order");
