@@ -1,5 +1,6 @@
 import { action, computed, makeObservable, observable, reaction, runInAction } from "mobx";
 import { toast } from "react-toastify";
+import { history } from "../..";
 import agent from "../api/agent";
 import { getJwtToken } from "../common/util/security";
 import { IUser, IUserFormValues } from "../models/user";
@@ -60,6 +61,7 @@ export default class UserStore {
             runInAction(() => {
                 this.user = user;
             })
+            history.push('/matches');
         } catch (error) {
             throw error;
         } finally {
