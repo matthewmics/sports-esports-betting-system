@@ -202,123 +202,153 @@
     },
     {
       "Id": 41,
-      "Name": "Spurs"
+      "Name": "Spurs",
+      "Image": "spurs.png"
     },
     {
       "Id": 42,
-      "Name": "Lakers"
+      "Name": "Lakers",
+      "Image": "lakers.png"
     },
     {
       "Id": 43,
-      "Name": "Nets"
+      "Name": "Nets",
+      "Image": "nets.png"
     },
     {
       "Id": 44,
-      "Name": "Pelicans"
+      "Name": "Pelicans",
+      "Image": "pelicans.png"
     },
     {
       "Id": 45,
-      "Name": "Suns"
+      "Name": "Suns",
+      "Image": "suns.png"
     },
     {
       "Id": 46,
-      "Name": "Heat"
+      "Name": "Heat",
+      "Image": "heat.png"
     },
     {
       "Id": 47,
-      "Name": "Celtics"
+      "Name": "Celtics",
+      "Image": "celtics.png"
     },
     {
       "Id": 48,
-      "Name": "Bucks"
+      "Name": "Bucks",
+      "Image": "bucks.png"
     },
     {
       "Id": 49,
-      "Name": "Knicks"
+      "Name": "Knicks",
+      "Image": "knicks.png"
     },
     {
       "Id": 50,
-      "Name": "Kings"
+      "Name": "Kings",
+      "Image": "kings.png"
     },
     {
       "Id": 51,
-      "Name": "Mavericks"
+      "Name": "Mavericks",
+      "Image": "mavericks.png"
     },
     {
       "Id": 52,
-      "Name": "Trail Blazers"
+      "Name": "Trail Blazers",
+      "Image": "trailblazers.png"
     },
     {
       "Id": 53,
-      "Name": "Clippers"
+      "Name": "Clippers",
+      "Image": "clippers.png"
     },
     {
       "Id": 54,
-      "Name": "Bulls"
+      "Name": "Bulls",
+      "Image": "bulls.png"
     },
     {
       "Id": 55,
-      "Name": "Jazz"
+      "Name": "Jazz",
+      "Image": "jazz.png"
     },
     {
       "Id": 56,
-      "Name": "Nuggets"
+      "Name": "Nuggets",
+      "Image": "nuggets.png"
     },
     {
       "Id": 57,
-      "Name": "Timberwolves"
+      "Name": "Timberwolves",
+      "Image": "timberwolves.png"
     },
     {
       "Id": 58,
-      "Name": "Magic"
+      "Name": "Magic",
+      "Image": "magic.png"
     },
     {
       "Id": 59,
-      "Name": "Raptors"
+      "Name": "Raptors",
+      "Image": "raptors.png"
     },
     {
       "Id": 60,
-      "Name": "Thunder"
+      "Name": "Thunder",
+      "Image": "thunder.png"
     },
     {
       "Id": 61,
-      "Name": "76ers"
+      "Name": "76ers",
+      "Image": "sixers.png"
     },
     {
       "Id": 62,
-      "Name": "Cavaliers"
+      "Name": "Cavaliers",
+      "Image": "cavaliers.png"
     },
     {
       "Id": 63,
-      "Name": "Pistons"
+      "Name": "Pistons",
+      "Image": "pistons.png"
     },
     {
       "Id": 64,
-      "Name": "Pacers"
+      "Name": "Pacers",
+      "Image": "pacers.png"
     },
     {
       "Id": 65,
-      "Name": "Hawks"
+      "Name": "Hawks",
+      "Image": "hawks.png"
     },
     {
       "Id": 66,
-      "Name": "Hornets"
+      "Name": "Hornets",
+      "Image": "hornets.png"
     },
     {
       "Id": 67,
-      "Name": "Wizards"
+      "Name": "Wizards",
+      "Image": "wizards.png"
     },
     {
       "Id": 68,
-      "Name": "Warriors"
+      "Name": "Warriors",
+      "Image": "warriors.png"
     },
     {
       "Id": 69,
-      "Name": "Rockets"
+      "Name": "Rockets",
+      "Image": "rockets.png"
     },
     {
       "Id": 70,
-      "Name": "Grizzlies"
+      "Name": "Grizzlies",
+      "Image": "grizzlies.png"
     }
   ],
 
@@ -326,6 +356,10 @@
     {
       "displayName": "Dejounte Walker",
       "email": "user@test.com"
+    },
+    {
+      "displayName": "Oscar Phillip",
+      "email": "user1@test.com"
     },
     {
       "displayName": "Greg David",
@@ -362,10 +396,6 @@
     {
       "displayName": "Kanye Fry",
       "email": "user10@test.com"
-    },
-    {
-      "displayName": "Oscar Phillip",
-      "email": "oscar@test.com"
     },
     {
       "displayName": "Jevan Gobert",

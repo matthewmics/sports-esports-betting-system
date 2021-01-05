@@ -38,7 +38,7 @@ namespace Application.User
                                       .Sum();
 
 
-            return 10000 + ongoingPredictionValue + paypalDepositTotal + paypalWithdrawTotal;
+            return ongoingPredictionValue + paypalDepositTotal + paypalWithdrawTotal;
         }
     }
 }
