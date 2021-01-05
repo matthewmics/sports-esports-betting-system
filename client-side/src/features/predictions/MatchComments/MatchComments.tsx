@@ -20,6 +20,9 @@ const MatchComments = () => {
         setTimeout(() => {
 
             if (ref && ref.current) {
+
+                ref.current.scroll({ top: ref.current.scrollHeight, behavior: 'smooth' });
+
                 ref.current.addEventListener('DOMNodeInserted', (event: any) => {
                     const { currentTarget: target } = event;
                     target!.scroll({ top: target!.scrollHeight, behavior: 'smooth' });
