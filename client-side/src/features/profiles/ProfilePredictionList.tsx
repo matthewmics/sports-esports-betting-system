@@ -36,9 +36,9 @@ const ProfilePredictionList = () => {
 
     useEffect(() => {
         if (!hasLoaded) {
-            setFilter('outcome', 'all');
+            loadPredictions();
         }
-    }, [hasLoaded, setFilter])
+    }, [hasLoaded, setFilter, loadPredictions])
 
 
     return (
