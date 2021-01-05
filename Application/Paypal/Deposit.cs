@@ -25,7 +25,8 @@ namespace Application.Paypal
         {
             public CommandValidator()
             {
-                RuleFor(x => x.Amount).NotEmpty().GreaterThanOrEqualTo(500).WithMessage("Minimum deposit is 500");
+                RuleFor(x => x.Amount).NotEmpty().GreaterThanOrEqualTo(500).WithMessage("Minimum deposit is 500.00")
+                                                 .LessThanOrEqualTo(1_000_000).WithMessage("Maximum deposit is 1,000,000.00");
             }
         }
 
