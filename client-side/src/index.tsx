@@ -8,6 +8,7 @@ import { Route, Router, Switch } from 'react-router-dom';
 import ScrollToTop from './app/layout/ScrollToTop';
 import App from './app/layout/App';
 import AdminApp from './app/layout/AdminApp';
+import { PaypalCaptureOrder } from './features/paypal/Deposit/PaypalCaptureOrder';
 
 export const history = createBrowserHistory();
 
@@ -15,6 +16,7 @@ ReactDOM.render(
   <Router history={history}>
     <ScrollToTop />
     <Switch>
+      <Route path='/paypal/accept' component={PaypalCaptureOrder} />
       <Route path='/admin' component={AdminApp} />
       <Route component={App} />
     </Switch>

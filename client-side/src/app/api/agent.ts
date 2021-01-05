@@ -1,13 +1,18 @@
 import axios, { AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { history } from "../..";
+import { IPaypalDepositResult } from "../models/fund";
 import { IComment, IMatch, IMatchEnvelope, IMatchForm } from "../models/match";
 import { IActivePrediction, IPrediction, IPredictionCreateForm, IPredictionDetails } from "../models/prediction";
 import { IProfileChangePhotoResult, IProfilePredictionStats, IUserPredictionEnvelope } from "../models/profile";
 import { ITeamEnvelope, ITeamFormValues } from "../models/team";
 import { IUser, IUserAdmin, IUserFormValues } from "../models/user";
 
-axios.defaults.baseURL = "http://localhost:5000/api";
+export const apiUrl = 'https://localhost:5000';
+//export const ApiUrl = 'https://898b9eef9af8.ngrok.io';
+
+axios.defaults.baseURL = apiUrl + '/api';
+const sleepDuration = 500;
 
 axios.interceptors.response.use(undefined, error => {
 
@@ -45,19 +50,19 @@ const sleep = (ms: number) => (response: AxiosResponse) =>
   );
 
 const requests = {
-  get: (url: string) => axios.get(url).then(sleep(500)).then(responseBody),
+  get: (url: string) => axios.get(url).then(sleep(sleepDuration)).then(responseBody),
   post: (url: string, body: {}) =>
-    axios.post(url, body).then(sleep(500)).then(responseBody),
+    axios.post(url, body).then(sleep(sleepDuration)).then(responseBody),
   put: (url: string, body: {}) =>
-    axios.put(url, body).then(sleep(500)).then(responseBody),
+    axios.put(url, body).then(sleep(sleepDuration)).then(responseBody),
   delete: (url: string) =>
-    axios.delete(url).then(sleep(500)).then(responseBody),
+    axios.delete(url).then(sleep(sleepDuration)).then(responseBody),
 };
 
 const Matches = {
   list: (urlParams: URLSearchParams): Promise<IMatchEnvelope> =>
     axios.get(`/matches`, { params: urlParams })
-      .then(sleep(500))
+      .then(sleep(sleepDuration))
       .then(responseBody),
   get: (id: number): Promise<IMatch> => requests.get(`/matches/${id}`),
   create: (match: IMatchForm): Promise<IMatch> =>
@@ -110,7 +115,7 @@ const User = {
 
 const Teams = {
   list: (urlParams: URLSearchParams): Promise<ITeamEnvelope> =>
-    axios.get(`/teams`, { params: urlParams }).then(sleep(500)).then(responseBody),
+    axios.get(`/teams`, { params: urlParams }).then(sleep(sleepDuration)).then(responseBody),
   get: (id: number) =>
     requests.get(`/teams/${id}`),
   update: (id: number, values: ITeamFormValues) =>
@@ -121,7 +126,7 @@ const Teams = {
       formData.append("file", formValues.file)
     formData.append("name", formValues.name)
     return axios.post(`/teams`, formData, { headers: { "Content-type": "multipart/form-data" } })
-      .then(sleep(500)).then(responseBody)
+      .then(sleep(sleepDuration)).then(responseBody)
   },
   delete: (id: number): Promise<void> =>
     requests.delete(`/teams/${id}`),
@@ -129,14 +134,14 @@ const Teams = {
     const formData = new FormData();
     formData.append("file", file);
     return axios.post(`/teams/${id}/changeimage`, formData, { headers: { "Content-type": "multipart/form-data" } })
-      .then(sleep(500)).then(responseBody)
+      .then(sleep(sleepDuration)).then(responseBody)
   }
 }
 
 const Profile = {
   listPredictions: (params: URLSearchParams): Promise<IUserPredictionEnvelope> =>
     axios.get(`/profile/predictions`, { params: params })
-      .then(sleep(500))
+      .then(sleep(sleepDuration))
       .then(responseBody),
   getPredictionStats: (): Promise<IProfilePredictionStats> =>
     requests.get(`/profile/predictionStats`),
@@ -144,14 +149,27 @@ const Profile = {
     var formData = new FormData();
     formData.append('File', file);
     return axios.post(`/profile/changePhoto`, formData, { headers: { "Content-Type": "multipart/form-data" } })
-      .then(sleep(500))
+      .then(sleep(sleepDuration))
       .then(responseBody);
   }
-
 }
 
+const Funds = {
+  paypalDeposit: (amount: number): Promise<IPaypalDepositResult> =>
+    requests.post(`/funds/paypal/deposit`, { amount: amount }),
+  // paypalCapture: (orderId: string): Promise<void> =>
+  //   requests.post(`/funds/paypal/captureDeposit`, { orderId: orderId }),
+  paypalWithdraw: (amount: number, email: string): Promise<void> =>
+    requests.post(`/funds/paypal/withdraw`, { amount: amount, email: email }),
+};
+
 const agent = {
-  Matches, User, Teams, Predictions, Profile
+  Matches,
+  User,
+  Teams,
+  Predictions,
+  Profile,
+  Funds,
 }
 
 export default agent;

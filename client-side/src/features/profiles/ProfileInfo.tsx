@@ -4,6 +4,8 @@ import { Segment, Header, Statistic, Button, Image, Reveal } from 'semantic-ui-r
 import PhotoSelectAndCrop from '../../app/common/photos/PhotoSelectAndCrop';
 import { formatToLocalPH } from '../../app/common/util/util';
 import { RootStoreContext } from '../../app/stores/rootStore'
+import PaypalDepositForm from '../paypal/Deposit/PaypalDepositForm';
+import PaypalWithdrawForm from '../paypal/Withdraw/PaypalWithdrawForm';
 import { ProfileInfoPlaceholder } from './ProfileInfoPlaceholder';
 
 const ProfileInfo = () => {
@@ -26,7 +28,7 @@ const ProfileInfo = () => {
         <Fragment>
             <Segment.Group>
                 <Segment textAlign='center'>
-                    <Reveal animated='rotate' style={{display: 'inline-block'}}>
+                    <Reveal animated='rotate' style={{ display: 'inline-block' }}>
                         <Reveal.Content visible>
                             <Image circular size='tiny' src={user && (user.photo || '/assets/user_default.png')} />
                         </Reveal.Content>
@@ -38,7 +40,7 @@ const ProfileInfo = () => {
                                 }} />)} />
                         </Reveal.Content>
                     </Reveal>
-                    <div className='text-muted text-small' style={{textAlign: 'center', fontWeight: 'bold'}}>Hover to change photo</div>
+                    <div className='text-muted text-small' style={{ textAlign: 'center', fontWeight: 'bold' }}>Hover to change photo</div>
                     <Header content={user?.displayName} style={{ marginTop: '7px' }} />
                 </Segment>
                 <Segment textAlign='center'>
@@ -58,8 +60,10 @@ const ProfileInfo = () => {
                         <Statistic.Value>{user && formatToLocalPH(user.walletBalance)}</Statistic.Value>
                         <span style={{ color: 'teal' }}>TOTAL BALANCE</span>
                     </Statistic>
-                    <Button content='WITHDRAW' fluid />
+                    <Button content='WITHDRAW' fluid
+                        onClick={() => openModal(<PaypalWithdrawForm />)} />
                     <Button content='ADD CREDITS' fluid primary
+                        onClick={() => openModal(<PaypalDepositForm />)}
                         style={{ marginTop: '1em' }} />
                 </Segment>
             </Segment.Group>
