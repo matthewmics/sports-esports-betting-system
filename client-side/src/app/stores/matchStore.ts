@@ -1,6 +1,6 @@
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
 import { toast } from "react-toastify";
-import agent from "../api/agent";
+import agent, { apiUrl } from "../api/agent";
 import { IComment, IMatch, IMatchForm } from "../models/match";
 import { IPrediction } from "../models/prediction";
 import { RootStore } from "./rootStore";
@@ -64,7 +64,7 @@ export default class MatchStore {
 
   @action createHubConnection = (matchId: number) => {
     this.hubConnection = new HubConnectionBuilder()
-      .withUrl('http://localhost:5000/chat', {
+      .withUrl(apiUrl + '/chat', {
         accessTokenFactory: () => getJwtToken() || ''
       })
       .configureLogging(LogLevel.Information)
