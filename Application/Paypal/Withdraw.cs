@@ -54,19 +54,19 @@ namespace Application.Paypal
                 if (wagerer == null)
                     throw new RestException(System.Net.HttpStatusCode.NotFound, new { Wagerer = "Not found" });
 
-                if (_walletReader.ReadWallet(wagerer) < (decimal)request.Amount)
+                decimal amount = request.Amount.AddPaypalWithdrawFees();
+
+                if (_walletReader.ReadWallet(wagerer) < amount)
                     throw new RestException(System.Net.HttpStatusCode.BadRequest, new { Wallet = "Not enough credits" });
 
-                decimal amount = Math.Round((decimal)request.Amount, 2);
-
-                var result = _paypal.CreatePayout(amount, request.Email);
+                var result = _paypal.CreatePayout(request.Amount, request.Email);
                 var paypalPayout = new Domain.PaypalPayout
                 {
                      BatchId = result.BatchId,
                      CreatedAt = DateTime.Now,
                      Wagerer = wagerer,
-                     DeductedAmount = (amount + 12.5m),
-                     RequestedAmount = amount
+                     DeductedAmount = amount,
+                     RequestedAmount = request.Amount
                 };
 
                 _context.PaypalPayouts.Add(paypalPayout);

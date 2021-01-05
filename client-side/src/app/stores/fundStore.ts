@@ -34,7 +34,7 @@ export default class FundStore {
         try {
             await agent.Funds.paypalWithdraw(amount, email);
             runInAction(() => {
-                this.rootStore.userStore.user!.walletBalance -= amount + paypalPayoutFee;
+                this.rootStore.userStore.user!.walletBalance -= (amount + paypalPayoutFee);
             });
             toast.success('Withdraw successful');
         } catch (error) {

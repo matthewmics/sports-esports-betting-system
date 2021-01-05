@@ -13,5 +13,9 @@ namespace Application.Paypal
             var result = amount + totalFees;
             return Math.Round(result, 2);
         }
+        public static decimal AddPaypalWithdrawFees(this int amount)
+        {
+            return Math.Round(amount + 12.5m, 2);
+        }
     }
 }
