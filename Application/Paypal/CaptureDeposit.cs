@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using Application.Errors;
 using Microsoft.EntityFrameworkCore;
 using Application.Paypal.Dtos;
+using Microsoft.AspNetCore.SignalR;
+using Application.Notification;
 
 namespace Application.Paypal
 {
@@ -23,11 +25,14 @@ namespace Application.Paypal
         {
             private readonly DataContext _context;
             private readonly IPaypalAccessor _paypalAccessor;
+            private readonly IHubContext<NotificationHub> _hubContext;
 
-            public Handler(DataContext context, IPaypalAccessor paypalAccessor)
+            public Handler(DataContext context, IPaypalAccessor paypalAccessor,
+                IHubContext<NotificationHub> hubContext)
             {
                 _context = context;
                 _paypalAccessor = paypalAccessor;
+                _hubContext = hubContext;
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
@@ -47,7 +52,16 @@ namespace Application.Paypal
                 var success = await _context.SaveChangesAsync() > 0;
 
                 if (success)
+                {
+                    var wagerer = await _context.Wagerers
+                        .Include(x => x.AppUser)
+                        .SingleAsync(x => x.AppUserId == order.WagererId);
+
+                    await _hubContext.Clients.User(wagerer.AppUser.Email)
+                        .SendAsync("ReceiveDeposit", new { amount = order.Amount });
+
                     return Unit.Value;
+                }
 
                 throw new Exception("Problem saving changes");
             }

@@ -28,6 +28,7 @@ using System.Threading.Tasks;
 using Infrastructure.Paypal;
 using Application.Paypal;
 using Microsoft.AspNetCore.SignalR;
+using Application.Notification;
 
 namespace API
 {
@@ -83,7 +84,8 @@ namespace API
                         {
                             var accessToken = context.Request.Query["access_token"];
                             var path = context.HttpContext.Request.Path;
-                            if(!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/chat")))
+                            if(!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/chat") || 
+                                                                      path.StartsWithSegments("/mainhub")))
                             {
                                 context.Token = accessToken;
                             }
@@ -151,6 +153,7 @@ namespace API
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<ChatHub>("/chat");
+                endpoints.MapHub<NotificationHub>("/mainhub");
             });
         }
     }

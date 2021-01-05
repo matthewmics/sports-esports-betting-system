@@ -1,8 +1,10 @@
+import { HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { action, computed, makeObservable, observable, reaction, runInAction } from "mobx";
 import { toast } from "react-toastify";
 import { history } from "../..";
-import agent from "../api/agent";
+import agent, { apiUrl } from "../api/agent";
 import { getJwtToken } from "../common/util/security";
+import { formatToLocalPH } from "../common/util/util";
 import { IUser, IUserFormValues } from "../models/user";
 import { RootStore } from "./rootStore";
 
@@ -12,6 +14,8 @@ export default class UserStore {
     @observable user: IUser | null = null;
     @observable loading = false;
     @observable userLoading = true;
+
+    @observable.ref hubConnection: HubConnection | null = null;
 
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore;
@@ -23,8 +27,10 @@ export default class UserStore {
             (user) => {
                 if (user) {
                     window.localStorage.setItem("jwt", user.token)
+                    this.createHubConnection(this.user!.token);
                 } else {
                     window.localStorage.removeItem("jwt")
+                    this.stopHubConnection();
                 }
             }
         )
@@ -33,6 +39,30 @@ export default class UserStore {
     @computed get isLoggedIn() {
         return !!this.user;
     }
+
+    @action createHubConnection = (token: string) => {
+        this.hubConnection = new HubConnectionBuilder()
+            .withUrl(apiUrl + '/mainhub', {
+                accessTokenFactory: () => token
+            })
+            .configureLogging(LogLevel.Information)
+            .build();
+
+        this.hubConnection.start()
+            .catch(error => console.log('Error establishing connection', error));
+
+        this.hubConnection.on('ReceiveDeposit', (data: any) => {
+            runInAction(() => {
+                this.user!.walletBalance += data.amount;
+                toast.success('You have received ' + formatToLocalPH(data.amount));
+            });
+        });
+    }
+
+    @action stopHubConnection = () => {
+        this.hubConnection!.stop();
+    }
+
 
     @action register = async (formValues: IUserFormValues) => {
         this.loading = true;
@@ -72,9 +102,6 @@ export default class UserStore {
     }
 
     @action getUser = async () => {
-        if(!getJwtToken())
-            this.userLoading = false;   
-
         this.userLoading = true;
         try {
             const user = await agent.User.current();
