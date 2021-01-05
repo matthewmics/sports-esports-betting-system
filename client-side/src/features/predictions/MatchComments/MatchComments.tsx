@@ -36,7 +36,7 @@ const MatchComments = () => {
         <Segment>
 
             <Header as='h3' dividing>
-                Comments for this match
+                Realtime comments
                 </Header>
             <Ref innerRef={ref}>
 
