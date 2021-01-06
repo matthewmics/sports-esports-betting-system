@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import { Grid, Divider, Button, Label } from 'semantic-ui-react'
+import { formatToLocalPH } from '../../../app/common/util/util'
 import { IActivePrediction, IPrediction, predictionStatus } from '../../../app/models/prediction'
 import PredictionForm from '../PredictionForm/PredictionForm'
 
@@ -20,11 +21,11 @@ export const PredictionDetailsActivePrediction: React.FC<IProps> = ({ activePred
                 </Grid.Column>
                 <Grid.Column>
                     <Label content='Amount' basic />
-                    {" "}₱{activePrediction.amount.toFixed(2)}
+                    {" "}{formatToLocalPH(activePrediction.amount)}
                 </Grid.Column>
                 <Grid.Column>
                     <Label content='Potential Reward' basic />
-                    {" "}₱{activePrediction.potentialReward.toFixed(2)}
+                    {" "}{formatToLocalPH(activePrediction.potentialReward)}
                 </Grid.Column>
             </Grid>
             {prediction.predictionStatus.name === predictionStatus.open.name &&

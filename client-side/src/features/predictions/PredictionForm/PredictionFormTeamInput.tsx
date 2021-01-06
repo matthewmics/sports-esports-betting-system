@@ -18,6 +18,9 @@ interface IProps extends FormFieldProps, FieldRenderProps<number, HTMLElement> {
 }
 
 export const PredictionFormTeamInput: React.FC<IProps> = ({
+    onValueChanged,
+    teamAOdds,
+    teamBOdds,
     match: { teamB, teamA },
     input
 }) => {
@@ -28,19 +31,25 @@ export const PredictionFormTeamInput: React.FC<IProps> = ({
             <Grid.Column width={6} textAlign='center'>
                 <div style={input.value === teamA.id ? activeSelectionStyle : selectionStyle}
                     className='selection-team'
-                    onClick={() => input.onChange(teamA.id)}>
+                    onClick={() => {
+                        onValueChanged(teamA.id);
+                        input.onChange(teamA.id);
+                    }}>
                     <Image src={teamA.image || '/assets/noimage.png'} size='tiny' centered />
                     {teamA.name}
-                    <div>(x1.95)</div>
+                    <div>(x{teamAOdds})</div>
                 </div>
             </Grid.Column>
             <Grid.Column width={6} textAlign='center'>
                 <div style={input.value === teamB.id ? activeSelectionStyle : selectionStyle}
                     className='selection-team'
-                    onClick={() => input.onChange(teamB.id)}>
+                    onClick={() => {
+                        onValueChanged(teamB.id);
+                        input.onChange(teamB.id);
+                    }}>
                     <Image src={teamB.image || '/assets/noimage.png'} size='tiny' centered />
                     {teamB.name}
-                    <div>(x1.95)</div>
+                    <div>(x{teamBOdds})</div>
                 </div>
             </Grid.Column>
         </Grid>

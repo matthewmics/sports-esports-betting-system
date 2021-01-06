@@ -13,7 +13,8 @@ namespace Application.Prediction
         public MappingProfile()
         {
             CreateMap<Domain.Prediction, PredictionDto>();
-            CreateMap<UserPrediction, ActivePredictionDto>();
+            CreateMap<UserPrediction, ActivePredictionDto>()
+                .ForMember(x => x.PotentialReward, x => x.MapFrom<PotentialRewardResolver>());
         }
     }
 }
