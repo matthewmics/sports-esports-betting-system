@@ -9,5 +9,6 @@ namespace Application.Prediction.Dtos
     {
         public ActivePredictionDto ActivePrediction { get; set; }
         public PredictionDto Prediction { get; set; }
+        public TeamPredictionEnvelope TeamPredictionEnvelope { get; set; }
     }
 }

@@ -61,5 +61,16 @@ export interface IActivePrediction {
 
 export interface IPredictionDetails {
     activePrediction: IActivePrediction | null;
-    prediction: IPrediction
+    prediction: IPrediction;
+    teamPredictionEnvelope: ITeamPredictionEnvelope;
+}
+
+export interface ITeamPredictionEnvelope {
+    teamA: ITeamPredictionDetails;
+    teamB: ITeamPredictionDetails;
+}
+
+export interface ITeamPredictionDetails {
+    odds: number;
+    percentage: number;
 }

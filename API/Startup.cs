@@ -29,6 +29,7 @@ using Infrastructure.Paypal;
 using Application.Paypal;
 using Microsoft.AspNetCore.SignalR;
 using Application.Notification;
+using Application.Prediction;
 
 namespace API
 {
@@ -116,6 +117,7 @@ namespace API
             services.AddScoped<IWalletReader, WalletReader>();
             services.AddScoped<IPhotoAccessor, PhotoAccessor>();
             services.AddScoped<IImageHostGenerator, ImageHostGenerator>();
+            services.AddScoped<IPredictionOddsReader, PredictionOddsReader>();
             services.AddScoped<IPaypalAccessor, PaypalAccessor>();
 
             services.Configure<PaypalSettings>(Configuration.GetSection("Paypal"));

@@ -16,6 +16,9 @@ const PredictionDetails = () => {
     const { loading, selectedMatch: match } = rootStore.matchStore;
     const { selectedPrediction: prediction, unpredict } = rootStore.predictionStore;
 
+    const teamAPredictionDetails = prediction?.predictionDetails?.teamPredictionEnvelope.teamA;
+    const teamBPredictionDetails = prediction?.predictionDetails?.teamPredictionEnvelope.teamB;
+
     return (
         <Segment.Group>
             <Segment clearing>
@@ -41,7 +44,9 @@ const PredictionDetails = () => {
                             <Image src={match?.teamA.image || '/assets/noimage.png'} centered
                                 size='tiny' style={{ marginBottom: '7px' }} />
                             {match?.teamA.name}<br />
-                            <b>(x1.00)</b>
+                            {prediction && prediction.predictionDetails &&
+                                <b>(x{teamAPredictionDetails!.odds})</b>
+                            }
                         </Grid.Column>
                         <Grid.Column width={2}>
                             VS
@@ -50,7 +55,9 @@ const PredictionDetails = () => {
                             <Image src={match?.teamB.image || '/assets/noimage.png'} centered
                                 size='tiny' style={{ marginBottom: '7px' }} />
                             {match?.teamB.name} <br />
-                            <b>(x1.00)</b>
+                            {prediction && prediction.predictionDetails &&
+                                <b>(x{teamBPredictionDetails!.odds})</b>
+                            }
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>

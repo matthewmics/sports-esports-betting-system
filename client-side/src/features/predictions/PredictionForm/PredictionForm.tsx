@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
 import { combineValidators, composeValidators, isNumeric, isRequired } from 'revalidate'
 import { Button, Divider, Header, Form, Grid } from 'semantic-ui-react'
 import { IActivePrediction, IPrediction } from '../../../app/models/prediction'
@@ -11,6 +11,7 @@ import { PredictionFormTeamInput } from './PredictionFormTeamInput'
 import { PredictionFormAmountInput } from './PredictionFormAmountInput'
 import { ErrorMessage } from '../../../app/common/forms/ErrorMessage'
 import { FORM_ERROR } from 'final-form'
+import { formatToLocalPH } from '../../../app/common/util/util'
 
 interface IProps {
     initialTeam?: ITeam;
@@ -34,6 +35,9 @@ const PredictionForm: React.FC<IProps> = ({ initialTeam, activePrediciton, predi
     const { selectedMatch } = rootStore.matchStore;
     const { predict, updatePrediction, loading } = rootStore.predictionStore;
 
+    const teamAOdds = prediction.predictionDetails.teamPredictionEnvelope.teamA.odds;
+    const teamBOdds = prediction.predictionDetails.teamPredictionEnvelope.teamB.odds;
+
     const initialValue = {
         teamId: activePrediciton ? activePrediciton.team.id : initialTeam!.id,
         amount: activePrediciton ? activePrediciton.amount : undefined
@@ -51,27 +55,52 @@ const PredictionForm: React.FC<IProps> = ({ initialTeam, activePrediciton, predi
         }
     }
 
+    var potentialRewardRef = useRef<HTMLSpanElement>(null);
+
+    let selectedTeamId = initialValue.teamId;
+    let amountPlaced = activePrediciton ? activePrediciton.amount : 0;
+
+    const computePotential = () => {
+        let odds = selectedTeamId === selectedMatch!.teamA.id ? teamAOdds : teamBOdds;
+        if (potentialRewardRef.current)
+            potentialRewardRef.current.innerHTML = formatToLocalPH(odds * amountPlaced);
+    };
+
+    useEffect(() => {
+        computePotential();
+    }, [computePotential])
+
     return (
         <FinalForm
             onSubmit={(values) => handleFormSubmit(values)}
             validate={validate}
             initialValues={initialValue}
             render={({ handleSubmit, submitError, dirtySinceLastSubmit }) =>
-                <Form error onSubmit={handleSubmit} className='clearFix x-hidden'>
+                <Form error onSubmit={handleSubmit} className='clearFix x-hidden' autoComplete='off'>
                     <Header content={prediction.description} />
                     <Divider />
                     <Field component={PredictionFormTeamInput}
+                        onValueChanged={(value: any) => {
+                            selectedTeamId = value;
+                            computePotential();
+                        }}
+                        teamAOdds={teamAOdds}
+                        teamBOdds={teamBOdds}
                         match={selectedMatch}
                         name='teamId' />
                     <Divider />
                     <Field component={PredictionFormAmountInput}
+                        onValueChanged={(value: any) => {
+                            amountPlaced = value;
+                            computePotential();
+                        }}
                         name='amount' />
 
-                    <Grid centered style={{margin: 0}}>
-                        <Grid.Column computer={12} mobile={16} style={{paddingLeft: '0'}}>
-                            Potential reward :
-                            <span style={{ color: 'green' }}>
-                                {` ₱239.25`}
+                    <Grid centered style={{ margin: 0 }}>
+                        <Grid.Column computer={12} mobile={16} style={{ paddingLeft: '0' }}>
+                            Potential reward:
+                            <span style={{ color: '#2185d0', marginLeft: '7px', fontWeight: 'bold' }} ref={potentialRewardRef}>
+                                {formatToLocalPH(0.00)}
                             </span>
                         </Grid.Column>
                     </Grid>
