@@ -1,5 +1,7 @@
-﻿using Domain;
+﻿using Application.Prediction;
+using Domain;
 using Microsoft.AspNetCore.Identity;
+using Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +10,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace Persistence
+namespace API
 {
     public class Seed
     {
@@ -96,7 +98,7 @@ namespace Persistence
         {
             var wagerers = context.Wagerers.ToList();
 
-            foreach(var wagerer in wagerers)
+            foreach (var wagerer in wagerers)
             {
                 var randomSeconds = -_rand.Next(720);
                 yield return new PaypalOrder
@@ -150,7 +152,7 @@ namespace Persistence
                 for (var i = 0; i < 24; i++)
                 {
                     var amount = _rand.Next(200, 401);
-                    var iseven = (amount % 2) == 0;
+                    var iseven = amount % 2 == 0;
                     var prediction = predictions[i];
 
                     var userPred = new UserPrediction
@@ -196,7 +198,7 @@ namespace Persistence
             {
                 dotaTeams.Shuffle();
                 var eventName = "DPC Pro Circuit Season 1";
-                var winner = (_rand.Next(100) % 2) == 0 ? dotaTeams[0] : dotaTeams[1];
+                var winner = _rand.Next(100) % 2 == 0 ? dotaTeams[0] : dotaTeams[1];
                 var days = _rand.Next(1, 6);
                 var match = new Match
                 {
@@ -231,7 +233,7 @@ namespace Persistence
             {
                 csgoTeams.Shuffle();
                 var eventName = "IEM Katowice";
-                var winner = (_rand.Next(100) % 2) == 0 ? csgoTeams[0] : csgoTeams[1];
+                var winner = _rand.Next(100) % 2 == 0 ? csgoTeams[0] : csgoTeams[1];
                 var days = _rand.Next(1, 6);
                 var match = new Match
                 {
@@ -249,7 +251,7 @@ namespace Persistence
             {
                 nbaTeams.Shuffle();
                 var eventName = "NBA Regular season";
-                var winner = (_rand.Next(100) % 2) == 0 ? nbaTeams[0] : nbaTeams[1];
+                var winner = _rand.Next(100) % 2 == 0 ? nbaTeams[0] : nbaTeams[1];
                 var days = _rand.Next(1, 6);
                 var match = new Match
                 {
@@ -273,7 +275,7 @@ namespace Persistence
             var result = new List<Prediction>()
             {
                 new Prediction
-                {                    
+                {
                     Winner = winner,
                     Sequence = 1,
                     Title = "Series Winner",
