@@ -1,4 +1,5 @@
 import { IGame } from "./match";
+import { IPredictionStatus } from "./prediction";
 
 export interface IUserPredictionTeam {
     id: number;
@@ -16,6 +17,8 @@ export interface IUserPrediction {
     predictedAt: Date;
     predictionId: number;
     matchId: number;
+    outcome: number;
+    predictionStatus: IPredictionStatus;
 }
 
 export interface IUserPredictionEnvelope {

@@ -1,4 +1,5 @@
 ﻿using Application.Team.Dtos;
+using Domain;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,5 +16,7 @@ namespace Application.Profile.Dtos
         public decimal Amount { get; set; }
         public DateTime PredictedAt { get; set; }
         public Domain.Game Game { get; set; }
+        public decimal Outcome { get; set; }
+        public PredictionStatus PredictionStatus { get; set; }
     }
 }

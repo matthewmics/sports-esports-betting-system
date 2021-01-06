@@ -7,7 +7,7 @@ using Domain;
 
 namespace Application.Prediction
 {
-    public class OutcomeResolver : IValueResolver<Domain.UserPrediction, ActivePredictionDto, decimal>
+    public class OutcomeResolver<T> : IValueResolver<Domain.UserPrediction, T, decimal>
     {
         private readonly IPredictionOddsReader _oddsReader;
 
@@ -16,7 +16,7 @@ namespace Application.Prediction
             _oddsReader = oddsReader;
         }
 
-        public decimal Resolve(UserPrediction source, ActivePredictionDto destination, decimal destMember, ResolutionContext context)
+        public decimal Resolve(UserPrediction source, T destination, decimal destMember, ResolutionContext context)
         {
             if(source.Prediction.PredictionStatusId == Domain.PredictionStatus.Settled)
             {

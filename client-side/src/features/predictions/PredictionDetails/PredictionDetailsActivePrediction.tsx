@@ -30,7 +30,7 @@ export const PredictionDetailsActivePrediction: React.FC<IProps> = ({ activePred
                         <Grid.Column>
                             <Label content='Outcome' basic />
                             {" "}{activePrediction.outcome < 0 ?
-                                <span className='text-red'>{formatToLocalPH(activePrediction.outcome)}</span>
+                                <span className='text-red'>-{formatToLocalPH(activePrediction.outcome)}</span>
                                 :
                                 <span className='text-green'>+{formatToLocalPH(activePrediction.outcome)}</span>
                             }

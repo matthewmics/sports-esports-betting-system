@@ -24,7 +24,8 @@ export default class PredictionStore {
         .predictionDetails(this.selectedPrediction!.id);
       runInAction(() => {
         this.selectedPrediction!.predictionDetails = predictionDetails;
-        this.selectedPrediction!.predictionStatus = predictionDetails.prediction.predictionStatus;
+        this.selectedPrediction!.predictionStatus = predictionDetails.predictionStatus;
+        this.selectedPrediction!.startDate = new Date(predictionDetails.schedule);
       });
     } catch (error) {
       console.log(error);

@@ -66,8 +66,9 @@ namespace Application.Prediction
                 var predictionDetails = new PredictionDetailsDto
                 {
                     ActivePrediction = activePrediction,
-                    Prediction = _mapper.Map<PredictionDto>(prediction),
-                    TeamPredictionEnvelope = _oddsReader.ReadOdds(prediction)
+                    PredictionStatus = prediction.PredictionStatus,
+                    TeamPredictionEnvelope = _oddsReader.ReadOdds(prediction),
+                    Schedule = prediction.StartDate
                 };
 
                 return predictionDetails;

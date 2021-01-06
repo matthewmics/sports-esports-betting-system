@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import React, { useContext, useEffect } from 'react'
-import { RouteComponentProps } from 'react-router-dom'
+import { RouteComponentProps, useLocation } from 'react-router-dom'
 import { Grid } from 'semantic-ui-react'
 import { RootStoreContext } from '../../app/stores/rootStore'
 import MatchComments from './MatchComments/MatchComments'
@@ -19,13 +19,24 @@ interface RouteParams {
     id: string
 }
 
+const useQuery = () => {
+    return new URLSearchParams(useLocation().search);
+}
+
 const PredictionPage: React.FC<RouteComponentProps<RouteParams>> = ({ match }) => {
+
+    let query = useQuery();
 
     const rootStore = useContext(RootStoreContext);
     const { selectMatch, createHubConnection, stopHubConnection } = rootStore.matchStore;
+    const { selectPrediction } = rootStore.predictionStore;
 
     useEffect(() => {
-        selectMatch(+match.params.id);
+        selectMatch(+match.params.id).then(() => {
+            const pid = query.get('pid');
+            if (pid)
+                selectPrediction(+pid);
+        });
         createHubConnection(+match.params.id);
 
         return () => { stopHubConnection(); };

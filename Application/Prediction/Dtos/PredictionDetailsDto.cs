@@ -8,7 +8,8 @@ namespace Application.Prediction.Dtos
     public class PredictionDetailsDto
     {
         public ActivePredictionDto ActivePrediction { get; set; }
-        public PredictionDto Prediction { get; set; }
+        public Domain.PredictionStatus PredictionStatus { get; set; }
         public TeamPredictionEnvelope TeamPredictionEnvelope { get; set; }
+        public DateTime Schedule { get; set; }
     }
 }

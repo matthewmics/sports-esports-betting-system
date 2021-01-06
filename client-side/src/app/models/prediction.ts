@@ -62,8 +62,9 @@ export interface IActivePrediction {
 
 export interface IPredictionDetails {
     activePrediction: IActivePrediction | null;
-    prediction: IPrediction;
+    predictionStatus: IPredictionStatus;
     teamPredictionEnvelope: ITeamPredictionEnvelope;
+    schedule: Date;
 }
 
 export interface ITeamPredictionEnvelope {

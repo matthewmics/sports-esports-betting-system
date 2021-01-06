@@ -52,6 +52,8 @@ namespace Application.Profile
                 var queryable = _ctx.UserPredictions
                     .Where(x => x.WagererId == wagerer.AppUserId)
                     .Include(x => x.Prediction)
+                        .ThenInclude(x => x.PredictionStatus)
+                    .Include(x => x.Prediction)
                         .ThenInclude(x => x.Match)
                             .ThenInclude(x => x.TeamA)
                     .Include(x => x.Prediction)
