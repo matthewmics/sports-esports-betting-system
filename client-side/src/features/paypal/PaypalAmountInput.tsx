@@ -1,4 +1,3 @@
-import { ConsoleLogger } from '@microsoft/signalr/dist/esm/Utils'
 import React, { Fragment } from 'react'
 import { FieldRenderProps } from 'react-final-form'
 import { FormFieldProps, Input, Label } from 'semantic-ui-react'
