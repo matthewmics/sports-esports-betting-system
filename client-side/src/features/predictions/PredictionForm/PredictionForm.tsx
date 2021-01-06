@@ -68,7 +68,7 @@ const PredictionForm: React.FC<IProps> = ({ initialTeam, activePrediciton, predi
 
     useEffect(() => {
         computePotential();
-    }, [computePotential])
+    });
 
     return (
         <FinalForm
