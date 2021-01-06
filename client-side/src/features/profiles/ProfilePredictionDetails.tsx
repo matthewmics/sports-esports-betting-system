@@ -22,8 +22,8 @@ export const ProfilePredictionDetails: React.FC<{ userPrediction: IUserPredictio
                     <Image centered src={up.teamA.image || '/assets/noimage.png'} size='tiny' />
                     {up.teamA.name}
                     {up.teamA.isSelected &&
-                        <div className='text-muted'>
-                            Stake: <b>{formatToLocalPH(up.amount)}</b>
+                        <div className='text-muted text-small'>
+                            stake: <b style={{color: '#2185d0'}}>{formatToLocalPH(up.amount)}</b>
                         </div>
                     }
                 </Grid.Column>
@@ -34,13 +34,13 @@ export const ProfilePredictionDetails: React.FC<{ userPrediction: IUserPredictio
                     <Image centered src={up.teamB.image || '/assets/noimage.png'} size='tiny' />
                     {up.teamB.name}
                 {up.teamB.isSelected &&
-                        <div className='text-muted'>
-                            Stake: <b>{formatToLocalPH(up.amount)}</b>
+                        <div className='text-muted text-small'>
+                            stake: <b style={{color: '#2185d0'}}>{formatToLocalPH(up.amount)}</b>
                         </div>
                     }
                 </Grid.Column>
                 <Grid.Column width={3} textAlign='center'>
-                    <div style={{ color: 'red' }}>Live</div>
+                    <div style={{ color: 'red', marginBottom:'8px' }}>Live</div>
                     <Button basic content='Preview' />
                 </Grid.Column>
             </Grid>
