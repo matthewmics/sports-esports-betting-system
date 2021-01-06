@@ -44,7 +44,7 @@ const PaypalWithdrawForm = () => {
             <FinalForm onSubmit={(values) => handleFormSubmit(values)}
                 validate={validate}
                 render={({ handleSubmit, submitError, dirtySinceLastSubmit }) =>
-                    <Form error onSubmit={handleSubmit}>
+                    <Form error onSubmit={handleSubmit} autoComplete='off'>
                         <Field name='email'
                             label='Email'
                             component={TextInput}

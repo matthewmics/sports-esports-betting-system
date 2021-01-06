@@ -95,7 +95,7 @@ const PaypalDepositForm = () => {
             <FinalForm onSubmit={(values) => submitHandle(values)}
                 validate={validate}
                 render={({ handleSubmit, submitError, dirtySinceLastSubmit }) =>
-                    <Form error onSubmit={handleSubmit}>
+                    <Form error onSubmit={handleSubmit} autoComplete='off'>
                         <Field component={PaypalAmountInput}
                             name='amount'
                             label='Amount'
