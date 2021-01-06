@@ -40,30 +40,33 @@ const NavBar = () => {
                 {
                     !userLoading &&
                     <Fragment>
+
                         <Menu.Item
                             as={NavLink}
                             to='/matches'
                             name='matches'
                         >
                             Matches
-                        </Menu.Item>
-
-                        <Menu.Item
+                                </Menu.Item>
+                        {/* <Menu.Item
                             as={NavLink}
                             to='/outrights'
                             name='outrights'
                         >
                             Outrights
-                        </Menu.Item>
+                        </Menu.Item> */}
                         {isLoggedIn &&
+                            <Fragment>
 
-                            <Menu.Item
-                                as={NavLink}
-                                to='/profile'
-                                name='profile'
-                            >
-                                Profile
-                        </Menu.Item>}
+                                <Menu.Item
+                                    as={NavLink}
+                                    to='/profile'
+                                    name='profile'
+                                >
+                                    Profile
+                                </Menu.Item>
+                            </Fragment>
+                        }
                     </Fragment>
                 }
 
@@ -119,7 +122,7 @@ const NavBar = () => {
                                                 height: '50px', width: '50px',
                                                 marginRight: '10px'
                                             }} bordered spaced avatar
-                                            src={user!.photo || '/assets/user_default.png'} />
+                                                src={user!.photo || '/assets/user_default.png'} />
 
                                             <div style={{ display: 'block', minWidth: '150px' }}>
                                                 <span style={{
