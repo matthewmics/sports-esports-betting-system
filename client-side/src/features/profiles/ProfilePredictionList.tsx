@@ -7,7 +7,7 @@ import { RootStoreContext } from '../../app/stores/rootStore';
 import { ProfilePredictionDetails } from './ProfilePredictionDetails';
 
 const outcomeOptions = [
-    { key: 3, text: 'Ongoing', value: 'Ongoing' },
+    { key: 3, text: 'Ongoing', value: 'ongoing' },
     { key: 1, text: 'Won', value: 'won' },
     { key: 2, text: 'Lost', value: 'lost' },
     { key: 4, text: 'Cancelled', value: 'cancelled' },
