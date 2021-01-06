@@ -44,6 +44,15 @@ export default class ProfileStore {
         return params;
     }
 
+    @action reset = () => {
+        this.predictionRegistry.clear();
+        this.predictionFilters.clear();
+        this.page = 0;
+        this.predictionCount = 0;
+        this.hasLoaded = false;
+        this.predictionStats = null;
+    }
+
     @action setFilter = (key: string, value: string, reload = true) => {
         if (this.loadingPrediction)
             return;
@@ -103,8 +112,8 @@ export default class ProfileStore {
         this.loading = true;
         try {
             const response = await agent.Profile.changePhoto(file);
-            runInAction(()=>{
-                this.rootStore.userStore.user!.photo = response.photoUrl; 
+            runInAction(() => {
+                this.rootStore.userStore.user!.photo = response.photoUrl;
             });
         } catch (error) {
             console.log(error);

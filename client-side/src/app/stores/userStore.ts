@@ -28,8 +28,9 @@ export default class UserStore {
                 if (user) {
                     window.localStorage.setItem("jwt", user.token)
                     this.createHubConnection(this.user!.token);
+                    this.rootStore.profileStore.reset();    
                 } else {
-                    window.localStorage.removeItem("jwt")
+                    window.localStorage.removeItem("jwt");
                     this.stopHubConnection();
                 }
             }
