@@ -14,7 +14,8 @@ namespace Application.Prediction
         {
             CreateMap<Domain.Prediction, PredictionDto>();
             CreateMap<UserPrediction, ActivePredictionDto>()
-                .ForMember(x => x.PotentialReward, x => x.MapFrom<PotentialRewardResolver>());
+                .ForMember(x => x.PotentialReward, x => x.MapFrom<PotentialRewardResolver>())
+                .ForMember(x => x.Outcome, x => x.MapFrom<OutcomeResolver>());
         }
     }
 }

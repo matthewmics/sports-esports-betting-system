@@ -11,5 +11,6 @@ namespace Application.Prediction.Dtos
         public TeamDto Team { get; set; }
         public decimal Amount { get; set; }
         public decimal PotentialReward { get; set; }
+        public decimal Outcome { get; set; }
     }
 }

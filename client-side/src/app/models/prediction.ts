@@ -57,6 +57,7 @@ export interface IActivePrediction {
     team: ITeam;
     amount: number;
     potentialReward: number;
+    outcome: number;
 }
 
 export interface IPredictionDetails {

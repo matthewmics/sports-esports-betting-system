@@ -12,6 +12,8 @@ interface IProps {
 }
 
 export const PredictionDetailsActivePrediction: React.FC<IProps> = ({ activePrediction, unpredict, openModal, prediction }) => {
+
+
     return (
         <Fragment>
             <Grid centered columns='equal' verticalAlign='middle'>
@@ -20,13 +22,26 @@ export const PredictionDetailsActivePrediction: React.FC<IProps> = ({ activePred
                     {" "}{activePrediction.team.name}
                 </Grid.Column>
                 <Grid.Column>
-                    <Label content='Amount' basic />
+                    <Label content='Stake' basic />
                     {" "}{formatToLocalPH(activePrediction.amount)}
                 </Grid.Column>
-                <Grid.Column>
-                    <Label content='Potential Reward' basic />
-                    {" "}{formatToLocalPH(activePrediction.potentialReward)}
-                </Grid.Column>
+                <Fragment>
+                    {prediction.predictionStatus.name === predictionStatus.settled.name ?
+                        <Grid.Column>
+                            <Label content='Outcome' basic />
+                            {" "}{activePrediction.outcome < 0 ?
+                                <span className='text-red'>{formatToLocalPH(activePrediction.outcome)}</span>
+                                :
+                                <span className='text-green'>+{formatToLocalPH(activePrediction.outcome)}</span>
+                            }
+                        </Grid.Column>
+                        :
+                        <Grid.Column>
+                            <Label content='Potential' basic />
+                            {" "}{formatToLocalPH(activePrediction.potentialReward)}
+                        </Grid.Column>
+                    }
+                </Fragment>
             </Grid>
             {prediction.predictionStatus.name === predictionStatus.open.name &&
                 <Fragment>
