@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import React, { Fragment, useContext } from 'react'
-import { Divider, Label, Loader, Placeholder } from 'semantic-ui-react'
+import { Divider, Label, Placeholder } from 'semantic-ui-react'
 import { RootStoreContext } from '../../app/stores/rootStore'
 
 

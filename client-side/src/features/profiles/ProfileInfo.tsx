@@ -1,7 +1,6 @@
 import { format } from 'date-fns';
 import { observer } from 'mobx-react-lite';
 import React, { Fragment, useContext, useEffect } from 'react'
-import InfiniteScroll from 'react-infinite-scroller';
 import { Segment, Header, Statistic, Button, Image, Reveal } from 'semantic-ui-react'
 import PhotoSelectAndCrop from '../../app/common/photos/PhotoSelectAndCrop';
 import { formatToLocalPH } from '../../app/common/util/util';
@@ -9,7 +8,6 @@ import { RootStoreContext } from '../../app/stores/rootStore'
 import PaypalDepositForm from '../paypal/Deposit/PaypalDepositForm';
 import PaypalWithdrawForm from '../paypal/Withdraw/PaypalWithdrawForm';
 import { ProfileInfoPlaceholder } from './ProfileInfoPlaceholder';
-import { ProfileTransactionDetails } from './ProfileTransaction/ProfileTransactionDetails';
 import ProfileTransactionList from './ProfileTransaction/ProfileTransactionList';
 
 const ProfileInfo = () => {
