@@ -11,13 +11,14 @@ using Application.Paypal.Dtos;
 using Application.Interfaces;
 using FluentValidation;
 using Application.User;
+using Application.Profile.Dtos;
 
 namespace Application.Paypal
 {
     public class Withdraw
     {
 
-        public class Command : IRequest
+        public class Command : IRequest<TransactionDto>
         {
             public string Email { get; set; }
             public int Amount { get; set; }
@@ -32,7 +33,7 @@ namespace Application.Paypal
             }
         }
 
-        public class Handler : IRequestHandler<Command>
+        public class Handler : IRequestHandler<Command, TransactionDto>
         {
             private readonly DataContext _context;
             private readonly IPaypalAccessor _paypal;
@@ -48,7 +49,7 @@ namespace Application.Paypal
                 _walletReader = walletReader;
             }
 
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<TransactionDto> Handle(Command request, CancellationToken cancellationToken)
             {
                 var wagerer = await _context.Wagerers.SingleOrDefaultAsync(x => x.AppUser.Email == _userAccessor.GetCurrentEmail());
                 if (wagerer == null)
@@ -73,8 +74,15 @@ namespace Application.Paypal
 
                 var success = await _context.SaveChangesAsync() > 0;
 
-                if(success)
-                    return Unit.Value;
+                if (success)
+                    return new TransactionDto
+                    {
+                        Amount = request.Amount,
+                        Fees = amount - request.Amount,
+                        Id = result.BatchId,
+                        When = DateTime.Now,
+                        Type = "withdraw",
+                    };
 
                 throw new Exception("Problem saving changes");
             }

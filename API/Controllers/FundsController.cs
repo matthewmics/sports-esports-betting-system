@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Text.Json.Serialization;
+using Application.Profile.Dtos;
 
 namespace API.Controllers
 {
@@ -55,7 +56,7 @@ namespace API.Controllers
         }
 
         [HttpPost("paypal/withdraw")]
-        public async Task<MediatR.Unit> PaypalWithdraw([FromBody] Withdraw.Command command)
+        public async Task<TransactionDto> PaypalWithdraw([FromBody] Withdraw.Command command)
         {
             return await Mediator.Send(command);
         }

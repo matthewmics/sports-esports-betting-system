@@ -4,7 +4,7 @@ import { history } from "../..";
 import { IPaypalDepositResult } from "../models/fund";
 import { IComment, IMatch, IMatchEnvelope, IMatchForm } from "../models/match";
 import { IActivePrediction, IPrediction, IPredictionCreateForm, IPredictionDetails } from "../models/prediction";
-import { IProfileChangePhotoResult, IProfilePredictionStats, IUserPredictionEnvelope, IWagererTransactionEnvelope } from "../models/profile";
+import { IProfileChangePhotoResult, IProfilePredictionStats, IUserPredictionEnvelope, IWagererTransaction, IWagererTransactionEnvelope } from "../models/profile";
 import { ITeamEnvelope, ITeamFormValues } from "../models/team";
 import { IUser, IUserAdmin, IUserFormValues } from "../models/user";
 
@@ -163,7 +163,7 @@ const Funds = {
     requests.post(`/funds/paypal/deposit`, { amount: amount }),
   // paypalCapture: (orderId: string): Promise<void> =>
   //   requests.post(`/funds/paypal/captureDeposit`, { orderId: orderId }),
-  paypalWithdraw: (amount: number, email: string): Promise<void> =>
+  paypalWithdraw: (amount: number, email: string): Promise<IWagererTransaction> =>
     requests.post(`/funds/paypal/withdraw`, { amount: amount, email: email }),
 };
 

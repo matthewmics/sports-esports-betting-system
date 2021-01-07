@@ -32,9 +32,11 @@ export default class FundStore {
     @action paypalWithdraw = async (amount: number, email: string) => {
         this.loading = true;
         try {
-            await agent.Funds.paypalWithdraw(amount, email);
+            const result = await agent.Funds.paypalWithdraw(amount, email);
             runInAction(() => {
                 this.rootStore.userStore.user!.walletBalance -= (amount + paypalPayoutFee);
+                result.when = new Date(result.when);
+                this.rootStore.profileStore.transactionRegistry.set(result.id, result);
             });
             toast.success('Withdraw successful');
         } catch (error) {

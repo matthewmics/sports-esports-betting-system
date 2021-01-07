@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Application.Paypal.Dtos;
 using Microsoft.AspNetCore.SignalR;
 using Application.Notification;
+using Application.Profile.Dtos;
 
 namespace Application.Paypal
 {
@@ -58,7 +59,14 @@ namespace Application.Paypal
                         .SingleAsync(x => x.AppUserId == order.WagererId);
 
                     await _hubContext.Clients.User(wagerer.AppUser.Email)
-                        .SendAsync("ReceiveDeposit", new { amount = order.Amount });
+                        .SendAsync("ReceiveDeposit", new TransactionDto
+                        {
+                            Amount = order.Amount,
+                            Id = order.OrderCode,
+                            Fees = order.AmountWithFees - order.Amount,
+                            Type = "deposit",
+                            When = order.CreatedAt,
+                        });
 
                     return Unit.Value;
                 }

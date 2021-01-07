@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { history } from "../..";
 import agent, { apiUrl } from "../api/agent";
 import { formatToLocalPH } from "../common/util/util";
+import { IWagererTransaction } from "../models/profile";
 import { IUser, IUserFormValues } from "../models/user";
 import { RootStore } from "./rootStore";
 
@@ -27,7 +28,7 @@ export default class UserStore {
                 if (user) {
                     window.localStorage.setItem("jwt", user.token)
                     this.createHubConnection(this.user!.token);
-                    this.rootStore.profileStore.reset();    
+                    this.rootStore.profileStore.reset();
                 } else {
                     window.localStorage.removeItem("jwt");
                     this.stopHubConnection();
@@ -51,10 +52,12 @@ export default class UserStore {
         this.hubConnection.start()
             .catch(error => console.log('Error establishing connection', error));
 
-        this.hubConnection.on('ReceiveDeposit', (data: any) => {
+        this.hubConnection.on('ReceiveDeposit', (despositData: IWagererTransaction) => {
             runInAction(() => {
-                this.user!.walletBalance += data.amount;
-                toast.success('You have received ' + formatToLocalPH(data.amount));
+                this.user!.walletBalance += despositData.amount;
+                despositData.when = new Date(despositData.when);
+                this.rootStore.profileStore.transactionRegistry.set(despositData.id, despositData);
+                toast.success('You have received ' + formatToLocalPH(despositData.amount));
             });
         });
     }
