@@ -52,8 +52,7 @@ export default class PredictionStore {
       });
       toast.info("You have cancelled prediction");
     } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong while cancelling your prediction");
+      this.rootStore.modalStore.openErrorModal(error, 'Could not cancel prediction')
     } finally {
       runInAction(() => {
         this.loading = false;
