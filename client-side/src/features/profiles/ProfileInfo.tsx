@@ -8,6 +8,7 @@ import { RootStoreContext } from '../../app/stores/rootStore'
 import PaypalDepositForm from '../paypal/Deposit/PaypalDepositForm';
 import PaypalWithdrawForm from '../paypal/Withdraw/PaypalWithdrawForm';
 import { ProfileInfoPlaceholder } from './ProfileInfoPlaceholder';
+import { ProfileTransactionDetails } from './ProfileTransaction/ProfileTransactionDetails';
 
 const ProfileInfo = () => {
 
@@ -88,7 +89,7 @@ const ProfileInfo = () => {
                             }
                             <div style={{ textAlign: 'right', marginTop: '8px' }}
                                 className='text-muted text-italic'>
-                                Last updated: {" "}{format(predictionStats.lastUpdated, 'ccc, MMM Lo, p')}
+                                Last updated: {" "}{format(predictionStats.lastUpdated, 'ccc, MMM Do, p')}
                             </div>
                         </Segment>
                     </Segment.Group>
@@ -108,13 +109,25 @@ const ProfileInfo = () => {
                             }
                             <div style={{ textAlign: 'right', marginTop: '8px' }}
                                 className='text-muted text-italic'>
-                                Last updated: {" "}{format(predictionStats.lastUpdated, 'ccc, MMM Lo, p')}
+                                Last updated: {" "}{format(predictionStats.lastUpdated, 'ccc, MMM Do, p')}
                             </div>
                         </Segment>
                     </Segment.Group>
                 </Fragment>
             }
+
+            <Segment.Group>
+                <Segment>
+                    <Header content='Transactions' icon='credit card outline' />
+                </Segment>
+                <ProfileTransactionDetails />
+                <ProfileTransactionDetails />
+                <ProfileTransactionDetails />
+                <ProfileTransactionDetails />
+            </Segment.Group>
         </Fragment>
+
+
     )
 }
 
