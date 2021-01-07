@@ -1,7 +1,8 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useContext } from 'react'
 import { Grid, Divider, Button, Label } from 'semantic-ui-react'
 import { formatToLocalPH } from '../../../app/common/util/util'
 import { IActivePrediction, IPrediction, predictionStatus } from '../../../app/models/prediction'
+import { RootStoreContext } from '../../../app/stores/rootStore'
 import PredictionForm from '../PredictionForm/PredictionForm'
 
 interface IProps {
@@ -13,7 +14,8 @@ interface IProps {
 
 export const PredictionDetailsActivePrediction: React.FC<IProps> = ({ activePrediction, unpredict, openModal, prediction }) => {
 
-
+    const rootStore = useContext(RootStoreContext);
+    const { openConfirmation } = rootStore.modalStore;
     return (
         <Fragment>
             <Grid centered columns='equal' verticalAlign='middle'>
@@ -47,7 +49,11 @@ export const PredictionDetailsActivePrediction: React.FC<IProps> = ({ activePred
                 <Fragment>
                     <Divider />
                     <Button.Group widths={2}>
-                        <Button content='Cancel' onClick={unpredict} icon='cancel' />
+                        <Button content='Cancel' onClick={() => {
+                            openConfirmation('Are you sure you want to cancel prediction?', 'Cancel prediction', () => {
+                                unpredict();
+                            })
+                        }} icon='cancel' />
                         <Button content='Change' primary icon='retweet'
                             onClick={() => openModal(<PredictionForm activePrediciton={activePrediction} prediction={prediction} />)} />
                     </Button.Group>
