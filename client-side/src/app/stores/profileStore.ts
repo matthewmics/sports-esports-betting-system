@@ -96,6 +96,7 @@ export default class ProfileStore {
         this.loading = true;
         try {
             const response = await agent.Profile.getPredictionStats();
+            response.lastUpdated = new Date(response.lastUpdated);
             runInAction(() => {
                 this.predictionStats = response;
             })

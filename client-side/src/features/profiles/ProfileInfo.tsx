@@ -1,3 +1,4 @@
+import { format } from 'date-fns';
 import { observer } from 'mobx-react-lite';
 import React, { Fragment, useContext, useEffect } from 'react'
 import { Segment, Header, Statistic, Button, Image, Reveal } from 'semantic-ui-react'
@@ -68,26 +69,51 @@ const ProfileInfo = () => {
                 </Segment>
             </Segment.Group>
 
-            <Segment.Group>
-                <Segment>
-                    <Header content='Monthly earnings' icon='money bill alternate outline' />
-                </Segment>
-                <Segment>
-                    <Statistic color='green' size='tiny' style={{ display: 'block' }}>
-                        <Statistic.Value>+₱200.00</Statistic.Value>
-                    </Statistic>
-                </Segment>
-            </Segment.Group>
-            <Segment.Group>
-                <Segment>
-                    <Header content='Total earnings' icon='money bill alternate outline' />
-                </Segment>
-                <Segment>
-                    <Statistic color='green' size='tiny' style={{ display: 'block' }}>
-                        <Statistic.Value>+₱200.00</Statistic.Value>
-                    </Statistic>
-                </Segment>
-            </Segment.Group>
+            {predictionStats &&
+                <Fragment>
+                    <Segment.Group>
+                        <Segment>
+                            <Header content='Monthly earnings' icon='money bill alternate outline' />
+                        </Segment>
+                        <Segment className='clearFix'>
+                            {predictionStats.monthlyEarnings >= 0 ?
+
+                                <div className='text-green' style={{ textAlign: 'center' }}>
+                                    +{formatToLocalPH(predictionStats.monthlyEarnings)}
+                                </div>
+                                :
+                                <div className='text-red' style={{ textAlign: 'center' }}>
+                                    <h1>-{formatToLocalPH(predictionStats.monthlyEarnings)}</h1>
+                                </div>
+                            }
+                            <div style={{ textAlign: 'right', marginTop: '8px' }}
+                                className='text-muted text-italic'>
+                                Last updated: {" "}{format(predictionStats.lastUpdated, 'ccc, MMM Lo, p')}
+                            </div>
+                        </Segment>
+                    </Segment.Group>
+                    <Segment.Group>
+                        <Segment>
+                            <Header content='Total earnings' icon='money bill alternate outline' />
+                        </Segment>
+                        <Segment className='clearFix'>
+                            {predictionStats.allTimeEarnings >= 0 ?
+                                <div className='text-green' style={{ textAlign: 'center' }}>
+                                    +{formatToLocalPH(predictionStats.allTimeEarnings)}
+                                </div>
+                                :
+                                <div className='text-red' style={{ textAlign: 'center' }}>
+                                    <h1>-{formatToLocalPH(predictionStats.allTimeEarnings)}</h1>
+                                </div>
+                            }
+                            <div style={{ textAlign: 'right', marginTop: '8px' }}
+                                className='text-muted text-italic'>
+                                Last updated: {" "}{format(predictionStats.lastUpdated, 'ccc, MMM Lo, p')}
+                            </div>
+                        </Segment>
+                    </Segment.Group>
+                </Fragment>
+            }
         </Fragment>
     )
 }

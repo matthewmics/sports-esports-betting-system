@@ -96,3 +96,19 @@ body {
 .text-bold {
   font-weight: bold;
 }
+
+.text-italic {
+  font-style: italic;
+}
+
+.text-blue {
+  color: #2196f3;
+}
+
+.text-red {
+  color: #f44336;
+}
+
+.text-green {
+  color: #4caf50;
+}

@@ -343,6 +343,31 @@ namespace Persistence.Migrations
                     b.ToTable("Wagerers");
                 });
 
+            modelBuilder.Entity("Domain.WagererStats", b =>
+                {
+                    b.Property<string>("WagererId")
+                        .HasColumnType("varchar(767)");
+
+                    b.Property<decimal>("AllTimeEarnings")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<decimal>("MonthlyEarnings")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<int>("PredictionTotal")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PredictionValue")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime");
+
+                    b.HasKey("WagererId");
+
+                    b.ToTable("WagererStats");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -643,6 +668,15 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.AppUser", "AppUser")
                         .WithMany()
                         .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.WagererStats", b =>
+                {
+                    b.HasOne("Domain.Wagerer", "Wagerer")
+                        .WithMany()
+                        .HasForeignKey("WagererId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

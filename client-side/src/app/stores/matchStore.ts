@@ -178,7 +178,7 @@ export default class MatchStore {
     }
   };
 
-  @action selectMatch = async (id: number, loadUserPredictionDetails = true) => {
+  @action selectMatch = async (id: number, loadUserPredictionDetails = true, selectFirstPrediction = true) => {
     this.selectedMatch = this.matchRegistry.get(id);
     if (!this.selectedMatch) {
       try {
@@ -192,9 +192,11 @@ export default class MatchStore {
       }
     }
 
-    runInAction(() => {
-      this.rootStore.predictionStore.selectedPrediction = this.selectedMatch!.predictions[0];
-    });
+    if (selectFirstPrediction) {
+      runInAction(() => {
+        this.rootStore.predictionStore.selectedPrediction = this.selectedMatch!.predictions[0];
+      });
+    }
 
     if (loadUserPredictionDetails)
       this.rootStore.predictionStore.loadPredictionDetails();

@@ -118,6 +118,7 @@ namespace API
             services.AddScoped<IPhotoAccessor, PhotoAccessor>();
             services.AddScoped<IImageHostGenerator, ImageHostGenerator>();
             services.AddScoped<IPredictionOddsReader, PredictionOddsReader>();
+            services.AddScoped<IPredictionOutcomeReader, PredictionOutcomeReader>();
             services.AddScoped<IPaypalAccessor, PaypalAccessor>();
 
             services.Configure<PaypalSettings>(Configuration.GetSection("Paypal"));

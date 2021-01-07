@@ -29,6 +29,9 @@ export interface IUserPredictionEnvelope {
 export interface IProfilePredictionStats {
     predictionValue: number;
     predictionTotal: number;
+    monthlyEarnings: number;
+    allTimeEarnings: number;
+    lastUpdated: Date;
 }
 
 export interface IProfileChangePhotoResult {

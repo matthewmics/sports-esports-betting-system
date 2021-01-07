@@ -19,6 +19,9 @@ namespace Application.Profile
                 .ForMember(x => x.TeamA, x => x.MapFrom<UserPredictionTeamAResolver>())
                 .ForMember(x => x.TeamB, x => x.MapFrom<UserPredictionTeamBResolver>())
                 .ForMember(x => x.Outcome, x => x.MapFrom<OutcomeResolver<Dtos.UserPredictionDto>>());
+
+            CreateMap<Domain.WagererStats, Dtos.PredictionStatsDto>()
+                .ForMember(x => x.LastUpdated, x => x.MapFrom(x => x.UpdatedAt));
         }
     }
 }

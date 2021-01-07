@@ -9,28 +9,16 @@ namespace Application.Prediction
 {
     public class OutcomeResolver<T> : IValueResolver<Domain.UserPrediction, T, decimal>
     {
-        private readonly IPredictionOddsReader _oddsReader;
+        private readonly IPredictionOutcomeReader _outcomeReader;
 
-        public OutcomeResolver(IPredictionOddsReader oddsReader)
+        public OutcomeResolver(IPredictionOutcomeReader outcomeReader)
         {
-            _oddsReader = oddsReader;
+            this._outcomeReader = outcomeReader;
         }
 
         public decimal Resolve(UserPrediction source, T destination, decimal destMember, ResolutionContext context)
         {
-            if(source.Prediction.PredictionStatusId == Domain.PredictionStatus.Settled)
-            {
-                if(source.Prediction.WinnerId == source.TeamId)
-                {
-                    var teamOdds = _oddsReader.ReadOdds(source.Prediction);
-                    var selectedOdds = source.TeamId == source.Prediction.Match.TeamAId ? teamOdds.TeamA.Odds : teamOdds.TeamB.Odds;
-                    return selectedOdds * source.Amount;
-                }
-
-                return -source.Amount;
-            }
-
-            return 0m;
+            return _outcomeReader.Read(source);
         }
     }
 }

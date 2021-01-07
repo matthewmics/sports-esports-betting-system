@@ -21,6 +21,7 @@ namespace Persistence
         public DbSet<Prediction> Predictions { get; set; }
         public DbSet<PredictionStatus> PredictionStatuses { get; set; } 
         public DbSet<Wagerer> Wagerers { get; set; }
+        public DbSet<WagererStats> WagererStats { get; set; }
         public DbSet<Admin> Admins { get; set; }
         public DbSet<UserPrediction> UserPredictions { get; set; }
         public DbSet<Game> Games { get; set; }
