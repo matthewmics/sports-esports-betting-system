@@ -99,7 +99,7 @@ const PredictionForm: React.FC<IProps> = ({ initialTeam, activePrediciton, predi
                     <Grid centered style={{ margin: 0 }}>
                         <Grid.Column computer={12} mobile={16} style={{ paddingLeft: '0' }}>
                             Potential reward:
-                            <span style={{ color: '#2185d0', marginLeft: '7px', fontWeight: 'bold' }} ref={potentialRewardRef}>
+                            <span style={{ color: 'black', marginLeft: '7px', fontWeight: 'bold' }} ref={potentialRewardRef}>
                                 {formatToLocalPH(0.00)}
                             </span>
                         </Grid.Column>

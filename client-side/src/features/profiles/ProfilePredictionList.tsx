@@ -24,8 +24,7 @@ const ProfilePredictionList = () => {
 
     const { loadingPrediction, loadPredictions,
         predictionList, setPage, predictionFilters, hasLoaded,
-        page, totalPages, setFilter } = rootStore.profileStore;
-        
+        page, totalPages, setFilter } = rootStore.profileStore;        
 
     const handleLoadNext = () => {
         if (!loadingPrediction && totalPages > 0) {
@@ -38,7 +37,7 @@ const ProfilePredictionList = () => {
         if (!hasLoaded) {
             loadPredictions();
         }
-    }, [hasLoaded, setFilter, loadPredictions])
+    }, [hasLoaded, loadPredictions])
 
 
     return (
