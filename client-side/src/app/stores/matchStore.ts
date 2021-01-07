@@ -103,9 +103,11 @@ export default class MatchStore {
   }
 
   @action loadRecentComments = async () => {
+    if (!this.selectedMatch)
+      return;
     this.loadingRecentComments = true;
     try {
-      const result = await agent.Matches.recentComments(this.selectedMatch!.id);
+      const result = await agent.Matches.recentComments(this.selectedMatch.id);
       result.forEach(comment => {
         comment.createdAt = new Date(comment.createdAt);
       });
