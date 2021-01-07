@@ -4,7 +4,7 @@ import { history } from "../..";
 import { IPaypalDepositResult } from "../models/fund";
 import { IComment, IMatch, IMatchEnvelope, IMatchForm } from "../models/match";
 import { IActivePrediction, IPrediction, IPredictionCreateForm, IPredictionDetails } from "../models/prediction";
-import { IProfileChangePhotoResult, IProfilePredictionStats, IUserPredictionEnvelope } from "../models/profile";
+import { IProfileChangePhotoResult, IProfilePredictionStats, IUserPredictionEnvelope, IWagererTransactionEnvelope } from "../models/profile";
 import { ITeamEnvelope, ITeamFormValues } from "../models/team";
 import { IUser, IUserAdmin, IUserFormValues } from "../models/user";
 
@@ -151,7 +151,11 @@ const Profile = {
     return axios.post(`/profile/changePhoto`, formData, { headers: { "Content-Type": "multipart/form-data" } })
       .then(sleep(sleepDuration))
       .then(responseBody);
-  }
+  },
+  listTransactions: (params: URLSearchParams): Promise<IWagererTransactionEnvelope> =>
+    axios.get(`/profile/transactions`, { params: params })
+      .then(sleep(sleepDuration))
+      .then(responseBody)
 }
 
 const Funds = {

@@ -37,3 +37,16 @@ export interface IProfilePredictionStats {
 export interface IProfileChangePhotoResult {
     photoUrl: string;
 }
+
+export interface IWagererTransactionEnvelope {
+    transactionCount: number;
+    transactions: IWagererTransaction[];
+}
+
+export interface IWagererTransaction {
+    amount: number;
+    fees: number;
+    when: Date;
+    type: string;
+    id: string;
+}

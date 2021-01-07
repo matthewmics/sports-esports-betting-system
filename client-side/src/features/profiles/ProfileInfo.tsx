@@ -1,6 +1,7 @@
 import { format } from 'date-fns';
 import { observer } from 'mobx-react-lite';
 import React, { Fragment, useContext, useEffect } from 'react'
+import InfiniteScroll from 'react-infinite-scroller';
 import { Segment, Header, Statistic, Button, Image, Reveal } from 'semantic-ui-react'
 import PhotoSelectAndCrop from '../../app/common/photos/PhotoSelectAndCrop';
 import { formatToLocalPH } from '../../app/common/util/util';
@@ -9,6 +10,7 @@ import PaypalDepositForm from '../paypal/Deposit/PaypalDepositForm';
 import PaypalWithdrawForm from '../paypal/Withdraw/PaypalWithdrawForm';
 import { ProfileInfoPlaceholder } from './ProfileInfoPlaceholder';
 import { ProfileTransactionDetails } from './ProfileTransaction/ProfileTransactionDetails';
+import ProfileTransactionList from './ProfileTransaction/ProfileTransactionList';
 
 const ProfileInfo = () => {
 
@@ -73,14 +75,12 @@ const ProfileInfo = () => {
             {predictionStats &&
                 <Fragment>
                     <Segment.Group>
-                        <Segment>
-                            <Header content='Monthly earnings' icon='money bill alternate outline' />
-                        </Segment>
-                        <Segment className='clearFix'>
+                        <Header content='Monthly earnings' icon='money bill alternate outline' attached='top' />
+                        <Segment className='clearFix' attached>
                             {predictionStats.monthlyEarnings >= 0 ?
 
                                 <div className='text-green' style={{ textAlign: 'center' }}>
-                                    +{formatToLocalPH(predictionStats.monthlyEarnings)}
+                                    <h1>+{formatToLocalPH(predictionStats.monthlyEarnings)}</h1>
                                 </div>
                                 :
                                 <div className='text-red' style={{ textAlign: 'center' }}>
@@ -94,13 +94,12 @@ const ProfileInfo = () => {
                         </Segment>
                     </Segment.Group>
                     <Segment.Group>
-                        <Segment>
-                            <Header content='Total earnings' icon='money bill alternate outline' />
-                        </Segment>
-                        <Segment className='clearFix'>
+
+                        <Header content='Total earnings' icon='money bill alternate outline' attached='top' />
+                        <Segment className='clearFix' attached>
                             {predictionStats.allTimeEarnings >= 0 ?
                                 <div className='text-green' style={{ textAlign: 'center' }}>
-                                    +{formatToLocalPH(predictionStats.allTimeEarnings)}
+                                    <h1>+{formatToLocalPH(predictionStats.allTimeEarnings)}</h1>
                                 </div>
                                 :
                                 <div className='text-red' style={{ textAlign: 'center' }}>
@@ -115,19 +114,9 @@ const ProfileInfo = () => {
                     </Segment.Group>
                 </Fragment>
             }
-
-            <Segment.Group>
-                <Segment>
-                    <Header content='Transactions' icon='credit card outline' />
-                </Segment>
-                <ProfileTransactionDetails />
-                <ProfileTransactionDetails />
-                <ProfileTransactionDetails />
-                <ProfileTransactionDetails />
-            </Segment.Group>
+            
+            <ProfileTransactionList />
         </Fragment>
-
-
     )
 }
 

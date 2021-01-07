@@ -1,7 +1,7 @@
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
 import { toast } from "react-toastify";
 import agent from "../api/agent";
-import { IProfilePredictionStats, IUserPrediction } from "../models/profile";
+import { IProfilePredictionStats, IUserPrediction, IWagererTransaction } from "../models/profile";
 import { RootStore } from "./rootStore";
 
 const LIMIT = 6;
@@ -15,9 +15,15 @@ export default class ProfileStore {
     @observable predictionCount = 0;
     @observable loadingPrediction = false;
     @observable hasLoaded = false;
+    @observable hasLoadedTransaction = false;
 
     @observable loading = false;
     @observable predictionStats: IProfilePredictionStats | null = null;
+
+    @observable transactionRegistry = new Map();
+    @observable pageTransaction = 0;
+    @observable transactionCount = 0;
+    @observable loadingTransaction = false;
 
     constructor(rootStore: RootStore) {
         makeObservable(this);
@@ -28,9 +34,19 @@ export default class ProfileStore {
         return Math.ceil(this.predictionCount / LIMIT);
     }
 
+    @computed get totalPagesTransaction() {
+        return Math.ceil(this.predictionCount / LIMIT);
+    }
+
     @computed get predictionList() {
         return Array.from(this.predictionRegistry.values()).sort((a: IUserPrediction, b: IUserPrediction) => {
             return b.predictedAt.getTime() - a.predictedAt.getTime();
+        });
+    }
+
+    @computed get transactionList() {
+        return Array.from(this.transactionRegistry.values()).sort((a: IWagererTransaction, b: IWagererTransaction) => {
+            return b.when.getTime() - a.when.getTime();
         });
     }
 
@@ -44,12 +60,29 @@ export default class ProfileStore {
         return params;
     }
 
+    @computed get transactionParams() {
+        var params = new URLSearchParams();
+        params.append('limit', String(LIMIT));
+        params.append('offset', String(this.pageTransaction * LIMIT));
+
+        return params;
+    }
+
     @action reset = () => {
         this.predictionRegistry.clear();
+        this.transactionRegistry.clear();
+
         this.predictionFilters.clear();
+
         this.page = 0;
+        this.pageTransaction = 0;
+
         this.predictionCount = 0;
+        this.transactionCount = 0;
+
         this.hasLoaded = false;
+        this.hasLoadedTransaction = false;
+
         this.predictionStats = null;
     }
 
@@ -71,6 +104,10 @@ export default class ProfileStore {
         this.page = page;
     }
 
+    @action setPageTransaction = (page: number) => {
+        this.pageTransaction = page;
+    }
+
     @action loadPredictions = async () => {
         this.hasLoaded = true;
         this.loadingPrediction = true;
@@ -88,6 +125,27 @@ export default class ProfileStore {
         } finally {
             runInAction(() => {
                 this.loadingPrediction = false;
+            })
+        }
+    }
+
+    @action loadTransactions = async () => {
+        this.hasLoadedTransaction = true;
+        this.loadingTransaction = true;
+        try {
+            const response = await agent.Profile.listTransactions(this.transactionParams);
+            runInAction(() => {
+                response.transactions.forEach(x => {
+                    x.when = new Date(x.when);
+                    this.transactionRegistry.set(x.id, x);
+                });
+                this.transactionCount = response.transactionCount;
+            });
+        } catch (error) {
+            console.log(error);
+        } finally {
+            runInAction(() => {
+                this.loadingTransaction = false;
             })
         }
     }
