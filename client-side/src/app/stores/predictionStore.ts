@@ -17,6 +17,13 @@ export default class PredictionStore {
     this.rootStore = rootStore;
   }
 
+  getMatch = () => {
+    return this.rootStore.matchStore.selectedMatch!;
+  }
+  getPrediction = (predictionId: number) => {
+    return this.getMatch().predictions.filter(x => x.id === predictionId)[0];
+  }
+
   @action loadPredictionDetails = async () => {
     this.loading = true;
     try {
@@ -26,6 +33,11 @@ export default class PredictionStore {
         this.selectedPrediction!.predictionDetails = predictionDetails;
         this.selectedPrediction!.predictionStatus = predictionDetails.predictionStatus;
         this.selectedPrediction!.startDate = new Date(predictionDetails.schedule);
+        if(this.selectedPrediction!.isMain){
+          const match = this.getMatch();
+          match.matchStatus = predictionDetails.predictionStatus;
+          match.startDate = new Date(predictionDetails.schedule);
+        }
       });
     } catch (error) {
       console.log(error);
@@ -112,14 +124,6 @@ export default class PredictionStore {
       })
     }
   }
-
-  getMatch = () => {
-    return this.rootStore.matchStore.selectedMatch!;
-  }
-  getPrediction = (predictionId: number) => {
-    return this.getMatch().predictions.filter(x => x.id === predictionId)[0];
-  }
-
 
   @action setLive = async (predictionId: number) => {
     this.loading = true;
