@@ -32,16 +32,20 @@ const PredictionPage: React.FC<RouteComponentProps<RouteParams>> = ({ match }) =
     const { selectPrediction } = rootStore.predictionStore;
 
     useEffect(() => {
-        selectMatch(+match.params.id).then(() => {
-            const pid = query.get('pid');
-            if (pid)
+
+        const pid = query.get('pid');
+        if (pid) {
+            selectMatch(+match.params.id, false, false).then(() => {
                 selectPrediction(+pid);
-        });
+            });
+        }else{
+            selectMatch(+match.params.id);
+        }
         createHubConnection(+match.params.id);
 
         return () => { stopHubConnection(); };
 
-    }, [selectMatch, match.params.id, stopHubConnection, createHubConnection])
+    }, [selectMatch, match.params.id, stopHubConnection, createHubConnection, query, selectPrediction])
 
     return (
         <Grid stackable>
