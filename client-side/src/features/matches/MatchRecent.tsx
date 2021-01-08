@@ -22,7 +22,7 @@ const MatchRecent = () => {
             </div>
             <div className='ui segments' style={{ borderTop: '0', marginTop: '0' }}>
                 {recentMatchesList.map(x =>
-                    <Segment className='flex-even match-recent height-70'
+                    <Segment key={x.id} className='flex-even match-recent height-70'
                         textAlign='center' onClick={() => {
                         history.push(`/matches/${x.id}`)
                     }}>

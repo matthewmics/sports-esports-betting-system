@@ -28,8 +28,8 @@ export const MatchDetails: React.FC<IProps> = ({ match }) => {
             <Segment>
 
                 {match.matchStatus.name === predictionStatus.settled.name &&
-                    <Label as='a' color='green' ribbon={match.winner.id === match.teamA.id ? true : 'right'}>
-                        Winner
+                    <Label icon='trophy'  as='a' color='green' corner={match.winner.id === match.teamA.id ? 'left' : 'right'}>
+                        
                     </Label>
                 }
                 <Grid columns={3} stackable textAlign='center'>

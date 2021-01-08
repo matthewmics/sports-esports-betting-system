@@ -1,12 +1,13 @@
 import { observer } from 'mobx-react-lite'
 import React, { useContext } from 'react'
-import { Grid, GridColumn, Header, Icon, Segment } from 'semantic-ui-react';
+import { Grid, GridColumn, Header, Icon, Image, Label, Segment } from 'semantic-ui-react';
 import { IMatch } from '../../app/models/match';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import MatchDetail from './MatchDetails';
 import MatchFilters from './MatchFilters';
 import MatchPlaceholder from './MatchPlaceholder';
 import InfiniteScroll from 'react-infinite-scroller';
+import MatchRecent from './MatchRecent';
 
 
 const MatchesPage = () => {
@@ -22,7 +23,7 @@ const MatchesPage = () => {
     }
 
     return (
-        <Grid centered>
+        <Grid centered stackable>
             <GridColumn computer={12} tablet={16} mobile={16}>
                 <MatchFilters />
 
@@ -49,6 +50,9 @@ const MatchesPage = () => {
                 {loadingMatches &&
                     <MatchPlaceholder total={2} />}
 
+            </GridColumn>
+            <GridColumn computer={4}>
+                <MatchRecent />
             </GridColumn>
         </Grid>
     )

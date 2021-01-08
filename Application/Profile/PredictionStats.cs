@@ -55,7 +55,7 @@ namespace Application.Profile
                         .ToListAsync();
 
                     var monthlyEarnings = 0m;
-                    foreach (var item in userSettledPredictions.Where(x => x.PredictedAt > DateTime.Now.AddDays(-30)))
+                    foreach (var item in userSettledPredictions.Where(x => x.Prediction.SettledDate > DateTime.Now.AddDays(-30)))
                     {
                         monthlyEarnings += _outcomeReader.Read(item);
                     }
