@@ -9,7 +9,7 @@ export interface IPrediction {
     startDate: Date;
     predictionDetails: IPredictionDetails;
     isMain: boolean;
-    winner: ITeam;
+    winner: ITeam | null;
 }
 
 export interface IPredictionStatus {
@@ -63,6 +63,7 @@ export interface IActivePrediction {
 export interface IPredictionDetails {
     activePrediction: IActivePrediction | null;
     predictionStatus: IPredictionStatus;
+    winner: ITeam | null;
     teamPredictionEnvelope: ITeamPredictionEnvelope;
     schedule: Date;
 }

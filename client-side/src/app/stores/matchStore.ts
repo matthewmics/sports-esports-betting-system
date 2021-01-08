@@ -60,7 +60,7 @@ export default class MatchStore {
     const liveMatches = matches.filter(x => x.matchStatus.name === 'live');
     const finishedMatches = matches.filter(x => x.matchStatus.name === 'cancelled' || x.matchStatus.name === 'settled')
       .sort((a: IMatch, b: IMatch) =>
-        a.startDate.getTime() - b.startDate.getTime());
+        b.settledDate.getTime() - a.settledDate.getTime());
     const openMatches = matches.filter(x => x.matchStatus.name === 'open').sort((a: IMatch, b: IMatch) =>
       a.startDate.getTime() - b.startDate.getTime());
     return [...liveMatches, ...openMatches, ...finishedMatches];
@@ -158,6 +158,7 @@ export default class MatchStore {
   initializeMatch = (match: IMatch): IMatch => {
     match.comments = [];
     match.startDate = new Date(match.startDate);
+    match.settledDate = new Date(match.settledDate);
     match.predictions.forEach(p => p.startDate = new Date(p.startDate));
     match.predictions = this.sortPredictionsBySequence(match.predictions);
     return match;

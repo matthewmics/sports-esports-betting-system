@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Prediction
@@ -59,6 +60,7 @@ namespace Application.Prediction
                         if (p.PredictionStatusId != Domain.PredictionStatus.Settled)
                         {
                             p.PredictionStatusId = Domain.PredictionStatus.Cancelled;
+                            p.SettledDate = DateTime.Now;
                         }
                     }
                 }
@@ -66,6 +68,7 @@ namespace Application.Prediction
                 prediction.PredictionStatusId = Domain.PredictionStatus.Settled;
                 prediction.SettledDate = DateTime.Now;
                 prediction.WinnerId = winningTeamId;
+
 
                 var success = await _context.SaveChangesAsync() > 0;
 

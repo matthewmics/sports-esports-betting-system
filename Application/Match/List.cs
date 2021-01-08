@@ -44,6 +44,7 @@ namespace Application.Match
                     .ThenInclude(x => x.Winner)
                 .Include(x => x.Game)
                 .OrderBy(x => x.Predictions.Single(p => p.IsMain).PredictionStatus.Order)
+                .ThenByDescending(x => x.Predictions.Single(p => p.IsMain).SettledDate)
                 .ThenBy(x => x.Predictions.Single(p => p.IsMain).StartDate)
                 .AsQueryable();
 
@@ -68,7 +69,7 @@ namespace Application.Match
                     switch (request.Status)
                     {
                         case "upcoming":
-                            queryable = queryable.Where(x => 
+                            queryable = queryable.Where(x =>
                             x.Predictions.Single(x => x.IsMain)
                             .PredictionStatusId == PredictionStatus.Open);
                             break;

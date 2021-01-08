@@ -48,11 +48,13 @@ namespace Application.Prediction
                         if(p.PredictionStatusId != Domain.PredictionStatus.Settled)
                         {
                             p.PredictionStatusId = Domain.PredictionStatus.Cancelled;
+                            p.SettledDate = DateTime.Now;
                         }
                     }
                 }
-                else
-                    prediction.PredictionStatusId = Domain.PredictionStatus.Cancelled;
+                    
+                prediction.PredictionStatusId = Domain.PredictionStatus.Cancelled;
+                prediction.SettledDate = DateTime.Now;
 
                 var success = await _context.SaveChangesAsync() > 0;
 

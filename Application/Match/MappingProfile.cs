@@ -15,6 +15,7 @@ namespace Application.Match
             CreateMap<Domain.Match, MatchDto>()
                 .ForMember(x => x.StartDate, x =>
                 x.MapFrom(y => y.Predictions.Single(x => x.IsMain).StartDate))
+                .ForMember(x => x.SettledDate, x => x.MapFrom(x => x.Predictions.Single(x => x.IsMain).SettledDate))
                 .ForMember(x => x.MatchStatus, x => x.MapFrom(x => x.Predictions.Single(x => x.IsMain).PredictionStatus))
                 .ForMember(x => x.Winner, x => x.MapFrom(x => x.Predictions.Single(x => x.IsMain).Winner));
 

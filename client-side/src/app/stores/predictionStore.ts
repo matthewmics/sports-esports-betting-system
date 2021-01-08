@@ -24,30 +24,6 @@ export default class PredictionStore {
     return this.getMatch().predictions.filter(x => x.id === predictionId)[0];
   }
 
-  @action loadPredictionDetails = async () => {
-    this.loading = true;
-    try {
-      const predictionDetails = await agent.Predictions
-        .predictionDetails(this.selectedPrediction!.id);
-      runInAction(() => {
-        this.selectedPrediction!.predictionDetails = predictionDetails;
-        this.selectedPrediction!.predictionStatus = predictionDetails.predictionStatus;
-        this.selectedPrediction!.startDate = new Date(predictionDetails.schedule);
-        if(this.selectedPrediction!.isMain){
-          const match = this.getMatch();
-          match.matchStatus = predictionDetails.predictionStatus;
-          match.startDate = new Date(predictionDetails.schedule);
-        }
-      });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      runInAction(() => {
-        this.loading = false;
-      })
-    }
-  }
-
   @action selectPrediction = (id: number) => {
     this.selectedPrediction = this.rootStore.matchStore.selectedMatch!.predictions.filter(p => p.id === id)[0];
 
@@ -242,6 +218,34 @@ export default class PredictionStore {
       toast.success("Prediction created");
     } catch (error) {
       throw error;
+    } finally {
+      runInAction(() => {
+        this.loading = false;
+      })
+    }
+  }
+
+
+  @action loadPredictionDetails = async () => {
+    this.loading = true;
+    try {
+      const predictionDetails = await agent.Predictions
+        .predictionDetails(this.selectedPrediction!.id);
+      runInAction(() => {
+        this.selectedPrediction!.predictionDetails = predictionDetails;
+        this.selectedPrediction!.predictionStatus = predictionDetails.predictionStatus;
+        this.selectedPrediction!.startDate = new Date(predictionDetails.schedule);
+        this.selectedPrediction!.winner = predictionDetails.winner;
+        if (this.selectedPrediction!.isMain) {
+          const match = this.getMatch();
+          match.matchStatus = predictionDetails.predictionStatus;
+          match.startDate = new Date(predictionDetails.schedule);
+          if (predictionDetails.winner)
+            match.winner = predictionDetails.winner;
+        }
+      });
+    } catch (error) {
+      console.log(error);
     } finally {
       runInAction(() => {
         this.loading = false;

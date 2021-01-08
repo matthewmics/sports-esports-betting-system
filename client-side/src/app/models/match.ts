@@ -11,6 +11,7 @@ export interface IMatch {
     category: string;
     eventName: string;
     startDate: Date;
+    settledDate: Date;
     teamA: ITeam;
     teamB: ITeam;
     winner: ITeam;
