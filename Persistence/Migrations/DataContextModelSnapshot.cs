@@ -245,6 +245,9 @@ namespace Persistence.Migrations
                     b.Property<int>("Sequence")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("SettledDate")
+                        .HasColumnType("datetime");
+
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime");
 

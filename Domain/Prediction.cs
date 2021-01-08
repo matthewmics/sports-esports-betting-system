@@ -28,6 +28,8 @@ namespace Domain
 
 
         public DateTime StartDate { get; set; }
+        public DateTime? SettledDate { get; set; }
+
         public ICollection<UserPrediction> Predictors { get; set; }
     }
 }

@@ -64,6 +64,7 @@ namespace Application.Prediction
                 }
 
                 prediction.PredictionStatusId = Domain.PredictionStatus.Settled;
+                prediction.SettledDate = DateTime.Now;
                 prediction.WinnerId = winningTeamId;
 
                 var success = await _context.SaveChangesAsync() > 0;
