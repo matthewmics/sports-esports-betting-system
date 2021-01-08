@@ -7,7 +7,7 @@ import MatchComments from './MatchComments/MatchComments'
 import PredictionDetails from './PredictionDetails/PredictionDetails'
 import PredictionHeader from './PredictionHeader'
 import PredictionTabs from './PredictionTabs'
-import RecentPredictions from './RecentPredictions'
+import RecentPredictions from './RecentPrediction/RecentPredictions'
 
 export const btnBetStyle = {
     float: 'right',

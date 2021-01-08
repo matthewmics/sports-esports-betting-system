@@ -39,6 +39,7 @@ export default class PredictionStore {
         this.selectedPrediction!.predictionDetails.activePrediction = null;
       });
       toast.info("You have cancelled prediction");
+      this.rootStore.matchStore.loadRecentMatchPredictions();
     } catch (error) {
       this.rootStore.modalStore.openErrorModal(error, 'Could not cancel prediction')
     } finally {
@@ -63,6 +64,7 @@ export default class PredictionStore {
 
       this.rootStore.modalStore.closeModal();
       toast.success("Prediction successful");
+      this.rootStore.matchStore.loadRecentMatchPredictions();
 
     } catch (error) {
       throw error;
@@ -91,6 +93,7 @@ export default class PredictionStore {
 
       this.rootStore.modalStore.closeModal();
       toast.success("Prediction updated");
+      this.rootStore.matchStore.loadRecentMatchPredictions();
 
     } catch (error) {
       throw error;

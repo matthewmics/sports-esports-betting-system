@@ -28,8 +28,17 @@ namespace API.Controllers
             return await Mediator.Send(query);
         }
 
+
+        [HttpGet("{id}/recentPrediction")]
+        public async Task<System.Collections.Generic.List<PredictionRecentDto>> 
+            RecentPrediction([FromRoute] int id, [FromQuery] GetRecentPredictions.Query query)
+        {
+            query.MatchId = id;
+            return await Mediator.Send(query);
+        }
+
         [HttpGet("recent")]
-        public async Task<System.Collections.Generic.List<MatchRecentDto>> Recent([FromQuery] Recent.Query query)
+        public async Task<System.Collections.Generic.List<MatchRecentDto>> RecentMatch([FromQuery] Recent.Query query)
         {
             return await Mediator.Send(query);
         }

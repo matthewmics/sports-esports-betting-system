@@ -54,3 +54,10 @@ export interface IMatchRecent {
     settledDate: Date;
     id: number;
 }
+
+export interface IMatchPredictionRecent {
+    userPhoto: string;
+    predictionName: string;
+    amount: number;
+    when: Date;
+}

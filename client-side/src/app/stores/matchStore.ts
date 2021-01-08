@@ -1,7 +1,7 @@
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
 import { toast } from "react-toastify";
 import agent, { apiUrl } from "../api/agent";
-import { IComment, IMatch, IMatchForm, IMatchRecent } from "../models/match";
+import { IComment, IMatch, IMatchForm, IMatchPredictionRecent, IMatchRecent } from "../models/match";
 import { IPrediction } from "../models/prediction";
 import { RootStore } from "./rootStore";
 import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
@@ -22,6 +22,9 @@ export default class MatchStore {
 
   @observable loadingMatchRecent = false;
   @observable recentMatchesList: IMatchRecent[] = [];
+
+  @observable loadingMatchRecentPrediction = false;
+  @observable recentMatchePredictionsList: IMatchPredictionRecent[] = [];
 
   @observable matchFilters = new Map();
   @observable hasLoaded = false;
@@ -241,6 +244,23 @@ export default class MatchStore {
     } finally {
       runInAction(() => {
         this.loadingMatchRecent = false;
+      })
+    }
+  }
+
+  @action loadRecentMatchPredictions = async () => {
+    this.loadingMatchRecentPrediction = true;
+    try {
+      const response = await agent.Matches.recentMatchPredictions(this.selectedMatch!.id);
+      response.forEach(x => x.when = new Date(x.when));
+      runInAction(() => {
+        this.recentMatchePredictionsList = response;
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      runInAction(() => {
+        this.loadingMatchRecentPrediction = false;
       })
     }
   }
