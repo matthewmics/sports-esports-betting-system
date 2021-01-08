@@ -19,6 +19,7 @@ import TeamEdit from '../../features/admin/tables/Team/TeamEdit';
 import ManagePredictionsPage from '../../features/admin/predictions/ManagePredictionsPage';
 import ErrorModalContainer from '../common/modals/ErrorModalContainer';
 import { NotFound } from '../common/NotFound';
+import WagerersPage from '../../features/admin/tables/Wagerer/WagerersPage';
 
 
 const AdminApp: React.FC<RouteComponentProps> = ({ location }) => {
@@ -74,6 +75,9 @@ const AdminApp: React.FC<RouteComponentProps> = ({ location }) => {
                                     <Route path='/admin/tables/teams/:id/edit' component={TeamEdit} />
                                     <Route path='/admin/tables/teams/:id' component={TeamDetails} />
                                     <Route path='/admin/tables/teams' component={TeamsPage} />
+
+                                    
+                                    <Route path='/admin/tables/wagerers' component={WagerersPage} />
 
 
                                     <Route render={() => <NotFound />} />

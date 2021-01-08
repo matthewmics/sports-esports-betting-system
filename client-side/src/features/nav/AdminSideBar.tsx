@@ -56,7 +56,9 @@ const AdminSideBar = () => {
                         to='/admin/tables/teams'
                     />
                     <Menu.Item
-                        name='Users'
+                        name='Wagerers'
+                        as={NavLink}
+                        to='/admin/tables/wagerers'
                     />
                 </Menu.Menu>
             </Menu.Item>

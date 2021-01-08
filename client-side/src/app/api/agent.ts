@@ -7,6 +7,7 @@ import { IActivePrediction, IPrediction, IPredictionCreateForm, IPredictionDetai
 import { IProfileChangePhotoResult, IProfilePredictionStats, IUserPredictionEnvelope, IWagererTransaction, IWagererTransactionEnvelope } from "../models/profile";
 import { ITeamEnvelope, ITeamFormValues } from "../models/team";
 import { IUser, IUserAdmin, IUserFormValues } from "../models/user";
+import { IWagererDataEnvelope } from "../models/wagerer";
 
 export const apiUrl = 'https://localhost:5000';
 //export const ApiUrl = 'https://898b9eef9af8.ngrok.io';
@@ -171,6 +172,13 @@ const Funds = {
     requests.post(`/funds/paypal/withdraw`, { amount: amount, email: email }),
 };
 
+const Wagerers = {
+  list: (params: URLSearchParams): Promise<IWagererDataEnvelope> =>
+    axios.get(`/wagerers`, { params: params })
+      .then(sleep(sleepDuration))
+      .then(responseBody)
+}
+
 const agent = {
   Matches,
   User,
@@ -178,6 +186,7 @@ const agent = {
   Predictions,
   Profile,
   Funds,
+  Wagerers
 }
 
 export default agent;

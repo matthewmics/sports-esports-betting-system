@@ -8,6 +8,7 @@ import PredictionStore from "./predictionStore";
 import ProfileStore from "./profileStore";
 import TeamStore from "./teamStore";
 import UserStore from "./userStore";
+import WagererStore from "./wagererStore";
 
 configure({ enforceActions: "always" });
 
@@ -20,6 +21,7 @@ export class RootStore {
   teamStore: TeamStore;
   profileStore: ProfileStore;
   fundStore: FundStore;
+  wagererStore: WagererStore;
 
   adminUserStore: AdminUserStore;
 
@@ -30,6 +32,7 @@ export class RootStore {
     this.predictionStore = new PredictionStore(this);
     this.profileStore = new ProfileStore(this);
     this.fundStore = new FundStore(this);
+    this.wagererStore = new WagererStore(this);
 
     this.adminUserStore = new AdminUserStore(this);
     this.teamStore = new TeamStore();
