@@ -33,7 +33,8 @@ const PredictionDetails = () => {
                 }
             </Segment>
             <Segment>
-                {(prediction && match) && prediction.predictionStatus.name === predictionStatus.settled.name &&
+                {(prediction && match) && prediction.predictionStatus.name === predictionStatus.settled.name
+                    && prediction.winner &&
                     <Label as='a' color='green' ribbon={prediction.winner.id === match.teamA.id ? true : 'right'}>
                         Winner
                     </Label>

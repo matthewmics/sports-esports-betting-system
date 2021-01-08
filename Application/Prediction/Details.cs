@@ -1,6 +1,7 @@
 ﻿using Application.Errors;
 using Application.Interfaces;
 using Application.Prediction.Dtos;
+using Application.Team.Dtos;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -68,6 +69,7 @@ namespace Application.Prediction
                     ActivePrediction = activePrediction,
                     PredictionStatus = prediction.PredictionStatus,
                     TeamPredictionEnvelope = _oddsReader.ReadOdds(prediction),
+                    Winner = _mapper.Map<TeamDto>(prediction.Winner),
                     Schedule = prediction.StartDate
                 };
 

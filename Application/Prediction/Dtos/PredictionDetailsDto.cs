@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Application.Team.Dtos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ namespace Application.Prediction.Dtos
         public ActivePredictionDto ActivePrediction { get; set; }
         public Domain.PredictionStatus PredictionStatus { get; set; }
         public TeamPredictionEnvelope TeamPredictionEnvelope { get; set; }
+        public TeamDto Winner { get; set; }
         public DateTime Schedule { get; set; }
     }
 }

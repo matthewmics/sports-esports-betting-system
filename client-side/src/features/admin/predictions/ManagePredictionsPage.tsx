@@ -152,7 +152,7 @@ const ManagePredictionsPage: React.FC<IProps> = ({ match }) => {
                                                         />
                                                     }
 
-                                                    {x.predictionStatus.name === 'settled' &&
+                                                    {x.predictionStatus.name === 'settled' && x.winner &&
                                                         <Label color='green' icon='trophy' content={x.winner.name} />
                                                     }
 
