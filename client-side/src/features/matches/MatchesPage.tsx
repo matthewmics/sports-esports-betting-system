@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import React, { useContext } from 'react'
-import { Grid, GridColumn, Header, Icon, Image, Label, Segment } from 'semantic-ui-react';
+import { Grid, GridColumn, Header, Icon, Segment } from 'semantic-ui-react';
 import { IMatch } from '../../app/models/match';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import MatchDetail from './MatchDetails';
