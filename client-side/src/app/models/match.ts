@@ -45,3 +45,11 @@ export interface IMatchForm {
     description: string;
     startsAt: Date;
 }
+
+export interface IMatchRecent {
+    teamA: ITeam;
+    teamB: ITeam;
+    winner: ITeam;
+    settledDate: Date;
+    id: number;
+}

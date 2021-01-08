@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { history } from "../..";
 import { IPaypalDepositResult } from "../models/fund";
-import { IComment, IMatch, IMatchEnvelope, IMatchForm } from "../models/match";
+import { IComment, IMatch, IMatchEnvelope, IMatchForm, IMatchRecent } from "../models/match";
 import { IActivePrediction, IPrediction, IPredictionCreateForm, IPredictionDetails } from "../models/prediction";
 import { IProfileChangePhotoResult, IProfilePredictionStats, IUserPredictionEnvelope, IWagererTransaction, IWagererTransactionEnvelope } from "../models/profile";
 import { ITeamEnvelope, ITeamFormValues } from "../models/team";
@@ -68,7 +68,9 @@ const Matches = {
   create: (match: IMatchForm): Promise<IMatch> =>
     requests.post(`/matches`, match),
   recentComments: (matchId: number): Promise<IComment[]> =>
-    requests.get(`/matches/${matchId}/comments/recent`)
+    requests.get(`/matches/${matchId}/comments/recent`),
+  recentMatches: (): Promise<IMatchRecent[]> =>
+    requests.get(`/matches/recent`)
 };
 
 const Predictions = {
