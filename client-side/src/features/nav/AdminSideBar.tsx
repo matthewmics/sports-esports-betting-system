@@ -15,7 +15,7 @@ const AdminSideBar = () => {
                 <Menu.Header>Matches</Menu.Header>
 
                 <Menu.Menu>
-                    <Menu.Item
+                    <Menu.Item                        
                         as={NavLink}
                         to='/admin/matches/upcoming'
                         name='Upcoming'
@@ -33,7 +33,7 @@ const AdminSideBar = () => {
                 </Menu.Menu>
             </Menu.Item>
 
-            <Menu.Item>
+            {/* <Menu.Item>
                 <Menu.Header>Outrights</Menu.Header>
 
                 <Menu.Menu>
@@ -44,7 +44,7 @@ const AdminSideBar = () => {
                         name='Live'
                     />
                 </Menu.Menu>
-            </Menu.Item>
+            </Menu.Item> */}
 
             <Menu.Item>
                 <Menu.Header>Tables</Menu.Header>
