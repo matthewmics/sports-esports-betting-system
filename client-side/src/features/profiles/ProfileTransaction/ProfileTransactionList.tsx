@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import InfiniteScroll from 'react-infinite-scroller';
 import { Header, Loader, Segment } from 'semantic-ui-react';
 import { RootStoreContext } from '../../../app/stores/rootStore';
@@ -8,14 +8,9 @@ import { ProfileTransactionDetails } from './ProfileTransactionDetails';
 const ProfileTransactionList = () => {
 
     const rootStore = useContext(RootStoreContext);
-    const { transactionList, loadingTransaction, hasLoadedTransaction,
+    const { transactionList, loadingTransaction,
         loadTransactions, totalPagesTransaction,
         setPageTransaction, pageTransaction } = rootStore.profileStore;
-
-    useEffect(() => {
-        if (hasLoadedTransaction)
-            loadTransactions();
-    }, [hasLoadedTransaction, loadTransactions]);
 
     const handleLoadNext = () => {
         if (!loadingTransaction && totalPagesTransaction > 0) {

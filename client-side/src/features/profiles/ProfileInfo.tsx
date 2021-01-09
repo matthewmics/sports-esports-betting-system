@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 import { observer } from 'mobx-react-lite';
-import React, { Fragment, useContext, useEffect } from 'react'
+import React, { Fragment, useContext, useEffect, useState } from 'react'
 import { Segment, Header, Statistic, Button, Image, Reveal } from 'semantic-ui-react'
 import PhotoSelectAndCrop from '../../app/common/photos/PhotoSelectAndCrop';
 import { formatToLocalPH } from '../../app/common/util/util';
@@ -13,9 +13,11 @@ import ProfileTransactionList from './ProfileTransaction/ProfileTransactionList'
 const ProfileInfo = () => {
 
     const rootStore = useContext(RootStoreContext);
-    const { predictionStats, loading, loadPredictionStats, changePhoto } = rootStore.profileStore;
+    const { predictionStats, loading, loadPredictionStats, changePhoto, loadTransactions } = rootStore.profileStore;
     const { openModal } = rootStore.modalStore;
     const { user } = rootStore.userStore;
+
+    const [showTransaction, setShowTransaction] = useState(false);
 
     useEffect(() => {
         if (!predictionStats)
@@ -112,8 +114,19 @@ const ProfileInfo = () => {
                     </Segment.Group>
                 </Fragment>
             }
-            
-            <ProfileTransactionList />
+            {showTransaction ?
+                <Fragment>
+                    <Button content='Hide transactions' icon='eye slash' fluid onClick={() => {
+                        setShowTransaction(false);
+                    }} />
+                    <ProfileTransactionList />
+                </Fragment>
+                :
+                <Button content='Show transactions' icon='eye' fluid onClick={() => {
+                    setShowTransaction(true);
+                    loadTransactions();
+                }} />
+            }
         </Fragment>
     )
 }
