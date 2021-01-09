@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Persistence;
 using Application.User.Dtos;
 
-namespace Application.User
+namespace Application.Wagerers
 {
     public class WalletResolver : IValueResolver<Wagerer, UserDto, decimal>
     {
@@ -21,7 +21,7 @@ namespace Application.User
 
         public decimal Resolve(Wagerer source, UserDto destination, decimal destMember, ResolutionContext context)
         {
-            return _walletReader.ReadWallet(source);            
+            return _walletReader.ReadWallet(source);
         }
     }
 }

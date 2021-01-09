@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Domain;
 using AutoMapper;
 using Application.User.Dtos;
+using Application.Wagerers;
 
 namespace Application.User
 {

@@ -1,7 +1,7 @@
 ﻿using Application.Errors;
 using Application.Interfaces;
 using Application.Prediction.Dtos;
-using Application.User;
+using Application.Wagerers;
 using AutoMapper;
 using FluentValidation;
 using MediatR;

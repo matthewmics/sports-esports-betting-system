@@ -15,7 +15,6 @@ using System.IO;
 using MediatR;
 using Persistence;
 using Infrastrucure.Security;
-using Application.User;
 using API.Middleware;
 using Infrastructure.Photos;
 using FluentValidation.AspNetCore;
@@ -31,6 +30,7 @@ using Microsoft.AspNetCore.SignalR;
 using Application.Notification;
 using Application.Prediction;
 using Application.AdminDashboard;
+using Application.Wagerers;
 
 namespace API
 {

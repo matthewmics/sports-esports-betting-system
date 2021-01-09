@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using Application.Paypal.Dtos;
 using Application.Interfaces;
 using FluentValidation;
-using Application.User;
 using Application.Profile.Dtos;
+using Application.Wagerers;
 
 namespace Application.Paypal
 {
