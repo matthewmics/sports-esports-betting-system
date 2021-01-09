@@ -20,7 +20,7 @@ namespace Application.Team
             public int? Offset { get; set; }
             public string Q { get; set; } // Search term
             public string SortBy { get; set; }
-            public string OrderBy { get; set; }
+            public string OrderBy { get; set; } // ASC or DESC
 
         }
 
