@@ -13,7 +13,7 @@ interface IProps {
 
 export const MatchDetails: React.FC<IProps> = ({ match }) => {
     return (
-        <Segment.Group>
+        <Segment.Group className={(match.matchStatus.name === 'cancelled' || match.matchStatus.name === 'settled') ? 'match-finished' : undefined}>
             <Segment clearing>
                 <Label basic image>
                     <img src={`/assets/${match.game.name}.png`} alt='Team' /> {match.game.displayText}
@@ -52,12 +52,9 @@ export const MatchDetails: React.FC<IProps> = ({ match }) => {
                 </Grid>
             </Segment>
             <Segment>
-                <Button.Group widths={2}>
-                    <Button content='Predictions'
+                    <Button content='Predictions' color='teal'
                         className='button-prediction'
                         onClick={() => history.push(`/admin/matches/${match.id}/predictions`)} />
-                    <Button content='Cancel match' />
-                </Button.Group>
             </Segment>
         </Segment.Group>
     )

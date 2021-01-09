@@ -37,7 +37,7 @@ export const ProfileTransactionDetails: React.FC<{
 
                 <Segment>
                     <span style={{ display: 'flex' }}>
-                        <div style={{ width: '220px' }}>
+                        <div className='width-100p'>
                             <div className='text-bold'>
                                 Withdraw {formatToLocalPH(transaction.amount)}
                             </div>

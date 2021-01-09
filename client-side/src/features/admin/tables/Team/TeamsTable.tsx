@@ -76,7 +76,7 @@ const TeamsTable: React.FC<IProps> = ({ teams, totalPage, page, setPage, handleS
                             <Table.Cell>{format(team.createdAt, "PPpp")}</Table.Cell>
                             <Table.Cell>
                                 <Popup content='Delete' trigger={
-                                    <Button icon size='tiny' color='red'
+                                    <Button icon size='mini' color='red'
                                         onClick={() => openConfirmation(
                                             `Are you sure you want to delete ${team.name} ?`,
                                             'Confirm delete team',

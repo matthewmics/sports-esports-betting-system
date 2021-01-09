@@ -10,7 +10,7 @@ import { formatToLocalPH } from '../../app/common/util/util'
 
 
 const notificationBadgeStyle = {
-    backgroundColor: 'red',
+    backgroundColor: '#f44336',
     height: '20px',
     width: '20px',
     position: 'absolute' as 'absolute',
@@ -86,7 +86,7 @@ const NavBar = () => {
                             isLoggedIn ? (
                                 <Fragment>
                                     <Menu.Item>
-                                        <Dropdown icon='bell outline' pointing='top right' >
+                                        <Dropdown  icon='bell outline' pointing='top right' >
                                             <Dropdown.Menu>
                                                 <Dropdown.Item text='Notifications will be displayed here.' />
                                             </Dropdown.Menu>
@@ -105,12 +105,12 @@ const NavBar = () => {
                                                     size='mini'
                                                     src={user!.photo || '/assets/user_default.png'} />
                                                 <div>
-                                                    <span style={{
-                                                        fontSize: '14px', display: 'block', marginBottom: '4px',
+                                                    <div style={{
+                                                        fontSize: '14px', paddingBottom: '4px',
                                                         overflow: 'hidden', maxWidth: '150px',
                                                         textOverflow: 'ellipsis', whiteSpace: 'nowrap'
                                                     }}>
-                                                        {user!.displayName}</span>
+                                                        {user!.displayName}</div>
                                                     <Label size='tiny' color='green' content={formatToLocalPH(user!.walletBalance)} />
                                                 </div>
                                             </Menu.Item>
@@ -119,19 +119,21 @@ const NavBar = () => {
 
                                         <div style={{ display: 'flex' }}>
                                             <Image style={{
-                                                height: '50px', width: '50px',
+                                                height: '50px', 
+                                                width: '50px',
                                                 marginRight: '10px'
                                             }} bordered spaced avatar
                                                 src={user!.photo || '/assets/user_default.png'} />
 
-                                            <div style={{ display: 'block', minWidth: '150px' }}>
-                                                <span style={{
-                                                    fontWeight: 'bold', display: 'block',
-                                                    overflow: 'hidden', maxWidth: '150px',
+                                            <div style={{ minWidth: '150px' }}>
+                                                <div style={{
+                                                    fontWeight: 'bold',
+                                                    overflow: 'hidden', 
+                                                    maxWidth: '150px',
                                                     textOverflow: 'ellipsis'
                                                 }}>
                                                     {user!.displayName}
-                                                </span>
+                                                </div>
                                                 <span>
                                                     {user!.email}
                                                 </span>
