@@ -257,6 +257,9 @@ namespace Persistence.Migrations
                     b.Property<int?>("WinnerId")
                         .HasColumnType("int");
 
+                    b.Property<decimal>("WinningOdds")
+                        .HasColumnType("decimal(18, 2)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("MatchId");

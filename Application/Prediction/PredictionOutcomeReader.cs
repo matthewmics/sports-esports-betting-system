@@ -20,13 +20,7 @@ namespace Application.Prediction
             {
                 if (userPrediction.Prediction.WinnerId == userPrediction.TeamId)
                 {
-                    var teamOdds = _oddsReader.ReadOdds(userPrediction.Prediction);
-
-                    var selectedOdds = userPrediction.TeamId == userPrediction.Prediction.Match.TeamAId ? 
-                        teamOdds.TeamA.Odds : 
-                        teamOdds.TeamB.Odds;
-
-                    return selectedOdds * userPrediction.Amount;
+                    return userPrediction.Prediction.WinningOdds * userPrediction.Amount;
                 }
 
                 return -userPrediction.Amount;

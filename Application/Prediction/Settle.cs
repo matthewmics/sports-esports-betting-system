@@ -23,17 +23,19 @@ namespace Application.Prediction
         public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _context;
+            private readonly IPredictionOddsReader _oddsReader;
 
-            public Handler(DataContext context)
+            public Handler(DataContext context, IPredictionOddsReader oddsReader)
             {
                 _context = context;
+                _oddsReader = oddsReader;
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 var prediction = await _context.Predictions
                     .Include(x => x.Match).ThenInclude(x => x.Predictions)
-                    .Include(x => x.PredictionStatus)
+                    .Include(x => x.Predictors)
                     .SingleOrDefaultAsync(x => x.Id == request.PredictionId);
 
                 if (prediction == null)
@@ -42,7 +44,7 @@ namespace Application.Prediction
 
                 var match = prediction.Match;
 
-                if(prediction.PredictionStatus.Id != Domain.PredictionStatus.Live)
+                if(prediction.PredictionStatusId != Domain.PredictionStatus.Live)
                     throw new RestException(System.Net.HttpStatusCode.NotFound, 
                         new { Prediction = "Prediction must be live in order to settle" });
 
@@ -69,6 +71,9 @@ namespace Application.Prediction
                 prediction.SettledDate = DateTime.Now;
                 prediction.WinnerId = winningTeamId;
 
+                var odds = _oddsReader.ReadOdds(prediction);
+
+                prediction.WinningOdds = winningTeamId == prediction.Match.TeamAId ? odds.TeamA.Odds : odds.TeamB.Odds;
 
                 var success = await _context.SaveChangesAsync() > 0;
 

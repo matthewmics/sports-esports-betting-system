@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using Application.Prediction;
+using Domain;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 using System;
@@ -11,21 +12,30 @@ namespace Application.User
     public class WalletReader : IWalletReader
     {
         private readonly DataContext _ctx;
+        private readonly IPredictionOutcomeReader _outcomeReader;
 
-        public WalletReader(DataContext dataContext)
+        public WalletReader(DataContext dataContext, IPredictionOutcomeReader outcomeReader)
         {
             _ctx = dataContext;
+            _outcomeReader = outcomeReader;
         }
 
         public decimal ReadWallet(Wagerer wagerer)
         {
+            var userPredictions = _ctx.UserPredictions
+                                        .Include(x => x.Prediction)
+                                            .ThenInclude(x => x.Match)
+                                      .Where(x => x.WagererId == wagerer.AppUserId)
+                                      .ToList();
 
-            var ongoingPredictionValue = _ctx.UserPredictions
-                                      .Where(x => x.WagererId == wagerer.AppUserId
-                                        && (x.Prediction.PredictionStatusId == PredictionStatus.Open
-                                        || x.Prediction.PredictionStatusId == PredictionStatus.Live))
+            var predictionValue = userPredictions
+                                      .Where(x => x.Prediction.PredictionStatusId != PredictionStatus.Cancelled)
                                       .Select(x => -x.Amount)
                                       .Sum();
+
+            var outcomeValue = userPredictions
+                .Where(x => x.Prediction.PredictionStatusId == PredictionStatus.Settled)
+                .Select(x => _outcomeReader.Read(x)).Sum();
 
             var paypalDepositTotal = _ctx.PaypalOrders
                                       .Where(x => x.WagererId == wagerer.AppUserId && x.IsCaptured)
@@ -37,8 +47,7 @@ namespace Application.User
                                       .Select(x => -x.DeductedAmount)
                                       .Sum();
 
-
-            return ongoingPredictionValue + paypalDepositTotal + paypalWithdrawTotal;
+            return predictionValue + paypalDepositTotal + paypalWithdrawTotal + outcomeValue;
         }
     }
 }
