@@ -54,16 +54,10 @@ namespace Application.Profile
                                x.WagererId == wagerer.AppUserId)
                         .ToListAsync();
 
-                    var monthlyEarnings = 0m;
-                    foreach (var item in userSettledPredictions.Where(x => x.Prediction.SettledDate > DateTime.Now.AddDays(-30)))
-                    {
-                        monthlyEarnings += _outcomeReader.Read(item);
-                    }
-                    var totalEarnings = 0m;
-                    foreach (var item in userSettledPredictions)
-                    {
-                        totalEarnings += _outcomeReader.Read(item);
-                    }
+                    var monthlyEarnings = userSettledPredictions.Where(x => x.Prediction.SettledDate > DateTime.Now.AddDays(-30))
+                        .Select(x => _outcomeReader.Read(x)).Sum();
+
+                    var totalEarnings = userSettledPredictions.Select(x => _outcomeReader.Read(x)).Sum();
 
                     if (wagererStats == null)
                     {
