@@ -56,7 +56,7 @@ const WagerersPage = () => {
 
                         <WagerersTable wagerers={wagererList}
                             totalPage={totalPage}
-                            setPage={setPage}
+                            setPage={handleSetPage}
                             page={page}
                             handleSort={handleSort} />
                     </Segment>
