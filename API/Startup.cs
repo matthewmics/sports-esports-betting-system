@@ -30,6 +30,7 @@ using Application.Paypal;
 using Microsoft.AspNetCore.SignalR;
 using Application.Notification;
 using Application.Prediction;
+using Application.AdminDashboard;
 
 namespace API
 {
@@ -120,6 +121,7 @@ namespace API
             services.AddScoped<IPredictionOddsReader, PredictionOddsReader>();
             services.AddScoped<IPredictionOutcomeReader, PredictionOutcomeReader>();
             services.AddScoped<IPaypalAccessor, PaypalAccessor>();
+            services.AddScoped<IProfitReader, ProfitReader>();
 
             services.Configure<PaypalSettings>(Configuration.GetSection("Paypal"));
         }

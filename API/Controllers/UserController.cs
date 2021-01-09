@@ -27,17 +27,5 @@ namespace API.Controllers
             return await Mediator.Send(query);
         }
 
-        [HttpPost("admin/login")]
-        public async Task<AdminDto> AdminLogin(AdminLogin.Query query)
-        {
-            return await Mediator.Send(query);
-        }
-
-        [HttpGet("admin")]
-        [Authorize]
-        public async Task<AdminDto> CurrentAdminUser()
-        {
-            return await Mediator.Send(new GetCurrentAdmin.Query());
-        }
     }
 }

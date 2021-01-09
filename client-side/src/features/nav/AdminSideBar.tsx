@@ -1,9 +1,14 @@
 import { observer } from 'mobx-react-lite'
-import React from 'react'
+import React, { useContext } from 'react'
 import { NavLink } from 'react-router-dom';
 import { Menu } from 'semantic-ui-react';
+import { RootStoreContext } from '../../app/stores/rootStore';
 
 const AdminSideBar = () => {
+
+    const rootStore = useContext(RootStoreContext);
+    const { loadingMatches } = rootStore.matchStore;
+
     return (
         <Menu fixed='left' id='sideBar' vertical style={{ overflowY: 'auto' }}>
             {/* <Menu.Item>
@@ -15,20 +20,23 @@ const AdminSideBar = () => {
                 <Menu.Header>Matches</Menu.Header>
 
                 <Menu.Menu>
-                    <Menu.Item                        
+                    <Menu.Item
                         as={NavLink}
                         to='/admin/matches/upcoming'
                         name='Upcoming'
+                        disabled={loadingMatches}
                     />
                     <Menu.Item
                         as={NavLink}
                         to='/admin/matches/live'
                         name='Live'
+                        disabled={loadingMatches}
                     />
                     <Menu.Item
                         as={NavLink}
                         to='/admin/matches/finished'
                         name='Finished'
+                        disabled={loadingMatches}
                     />
                 </Menu.Menu>
             </Menu.Item>

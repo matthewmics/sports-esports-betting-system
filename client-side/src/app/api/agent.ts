@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { history } from "../..";
+import { IDashboardDto } from "../models/admin";
 import { IPaypalDepositResult } from "../models/fund";
 import { IComment, IMatch, IMatchEnvelope, IMatchForm, IMatchPredictionRecent, IMatchRecent } from "../models/match";
 import { IActivePrediction, IPrediction, IPredictionCreateForm, IPredictionDetails } from "../models/prediction";
@@ -110,13 +111,18 @@ const Predictions = {
 const User = {
   login: (formValues: IUserFormValues): Promise<IUser> =>
     requests.post('/user/login', formValues),
-  adminLogin: (formValues: IUserFormValues): Promise<IUserAdmin> =>
-    requests.post('/user/admin/login', formValues),
   register: (values: IUserFormValues): Promise<IUser> =>
     requests.post('/user/register', values),
   current: (): Promise<IUser> => requests.get('/user'),
-  currentAdmin: (): Promise<IUser> => requests.get('/user/admin'),
 };
+
+const Admin = {
+  login: (formValues: IUserFormValues): Promise<IUserAdmin> =>
+    requests.post('/admin/login', formValues),
+  current: (): Promise<IUser> => requests.get('/admin'),
+  dashboard: (): Promise<IDashboardDto> =>
+    requests.get(`/admin/dashboard`)
+}
 
 const Teams = {
   list: (urlParams: URLSearchParams): Promise<ITeamEnvelope> =>
@@ -186,7 +192,8 @@ const agent = {
   Predictions,
   Profile,
   Funds,
-  Wagerers
+  Wagerers,
+  Admin
 }
 
 export default agent;

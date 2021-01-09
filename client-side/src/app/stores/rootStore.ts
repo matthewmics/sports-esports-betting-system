@@ -1,6 +1,6 @@
 import { configure } from "mobx";
 import { createContext } from "react";
-import AdminUserStore from "./adminUserStore";
+import AdminStore from "./adminStore";
 import FundStore from "./fundStore";
 import MatchStore from "./matchStore";
 import ModalStore from "./modalStore";
@@ -23,7 +23,7 @@ export class RootStore {
   fundStore: FundStore;
   wagererStore: WagererStore;
 
-  adminUserStore: AdminUserStore;
+  adminStore: AdminStore;
 
   constructor() {
     this.matchStore = new MatchStore(this);
@@ -34,7 +34,7 @@ export class RootStore {
     this.fundStore = new FundStore(this);
     this.wagererStore = new WagererStore(this);
 
-    this.adminUserStore = new AdminUserStore(this);
+    this.adminStore = new AdminStore(this);
     this.teamStore = new TeamStore();
   }
 }

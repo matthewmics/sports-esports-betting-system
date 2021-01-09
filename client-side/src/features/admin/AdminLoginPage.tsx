@@ -18,7 +18,7 @@ const validate = combineValidators({
 const AdminLoginPage = () => {
 
     const rootStore = useContext(RootStoreContext);
-    const { login, loading, isLoggedIn } = rootStore.adminUserStore;
+    const { login, loading, isLoggedIn } = rootStore.adminStore;
 
     useEffect(() => {
         if (isLoggedIn) {

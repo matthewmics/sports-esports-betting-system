@@ -10,7 +10,7 @@ import ModalContainer from '../common/modals/ModalContainer';
 import { RootStoreContext } from '../stores/rootStore';
 import axios from 'axios';
 import { Container } from 'semantic-ui-react';
-import { AdminDashboard } from '../../features/admin/AdminDashboard';
+import AdminDashboard from '../../features/admin/AdminDashboard';
 import UpcomingMatchesPage from '../../features/admin/matches/MatchesPage';
 import TeamsPage from '../../features/admin/tables/Team/TeamsPage';
 import TeamCreate from '../../features/admin/tables/Team/TeamCreate';
@@ -38,7 +38,7 @@ const AdminApp: React.FC<RouteComponentProps> = ({ location }) => {
     )
 
     const rootStore = useContext(RootStoreContext);
-    const { loadingUser, getCurrentAdmin } = rootStore.adminUserStore;
+    const { loadingUser, getCurrentAdmin } = rootStore.adminStore;
 
     useEffect(() => {
         getCurrentAdmin();

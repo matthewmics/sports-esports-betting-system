@@ -7,7 +7,7 @@ import CreateMatchForm from '../admin/matches/CreateMatchForm'
 
 const AdminNavBar = () => {
     const rootStore = useContext(RootStoreContext);
-    const { logout, adminUser } = rootStore.adminUserStore;
+    const { logout, adminUser } = rootStore.adminStore;
     const { openModal } = rootStore.modalStore;
     return (
         <Menu fixed='top'>
