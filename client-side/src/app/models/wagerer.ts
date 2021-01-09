@@ -1,7 +1,7 @@
 export interface IWagererData {
     displayName: string;
     email: string;
-    blocked: boolean;
+    banned: boolean;
     id: string;
 }
 export interface IWagererDataEnvelope {

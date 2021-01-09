@@ -341,6 +341,9 @@ namespace Persistence.Migrations
                     b.Property<string>("AppUserId")
                         .HasColumnType("varchar(767)");
 
+                    b.Property<bool>("Banned")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("ProfilePhoto")
                         .HasColumnType("text");
 

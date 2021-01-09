@@ -40,7 +40,7 @@ const LoginForm = () => {
                             placeholder='Password' />
 
                         {submitError && !dirtySinceLastSubmit &&
-                            <ErrorMessage text='Invalid email or password' error={submitError} />}
+                            <ErrorMessage  error={submitError} />}
 
                         <Button content='LOGIN' type='submit' primary
                             floated='right'

@@ -182,7 +182,11 @@ const Wagerers = {
   list: (params: URLSearchParams): Promise<IWagererDataEnvelope> =>
     axios.get(`/wagerers`, { params: params })
       .then(sleep(sleepDuration))
-      .then(responseBody)
+      .then(responseBody),
+  ban: (id: string): Promise<void> =>
+    requests.post(`/wagerers/${id}/ban`, {}),
+  unban: (id: string): Promise<void> =>
+    requests.post(`/wagerers/${id}/unban`, {})
 }
 
 const agent = {

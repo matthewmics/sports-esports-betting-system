@@ -1,7 +1,8 @@
 import { observer } from 'mobx-react-lite';
-import React, { useState } from 'react'
-import { Button, Pagination, Table } from 'semantic-ui-react';
+import React, { useContext, useState } from 'react'
+import { Button, Icon, Label, Pagination, Table } from 'semantic-ui-react';
 import { IWagererData } from '../../../../app/models/wagerer'
+import { RootStoreContext } from '../../../../app/stores/rootStore';
 
 interface IProps {
     wagerers: IWagererData[] | null;
@@ -12,8 +13,12 @@ interface IProps {
 }
 
 export const WagerersTable: React.FC<IProps> = ({
-    wagerers, totalPage, page, setPage, handleSort
+    wagerers, totalPage, page, setPage, handleSort,
 }) => {
+
+    const rootStore = useContext(RootStoreContext);
+    const { ban, unban } = rootStore.wagererStore;
+    const { openConfirmation } = rootStore.modalStore;
 
     const [state, setState] = useState({
         column: null,
@@ -51,8 +56,9 @@ export const WagerersTable: React.FC<IProps> = ({
                         width={6}>Name</Table.HeaderCell>
                     <Table.HeaderCell sorted={column === 'email' ? direction : undefined}
                         onClick={() => handleSorting('email')}
-                        width={5}>Email</Table.HeaderCell>
-                    <Table.HeaderCell width={2}>Status</Table.HeaderCell>
+                        width={4}>Email</Table.HeaderCell>
+                    <Table.HeaderCell width={3} sorted={column === 'status' ? direction : undefined}
+                        onClick={() => handleSorting('status')}>Status</Table.HeaderCell>
                     <Table.HeaderCell>Action</Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
@@ -62,8 +68,29 @@ export const WagerersTable: React.FC<IProps> = ({
                     <Table.Row key={x.id}>
                         <Table.Cell>{x.displayName}</Table.Cell>
                         <Table.Cell>{x.email}</Table.Cell>
-                        <Table.Cell>Active</Table.Cell>
-                        <Table.Cell><Button content='Ban' color='red' /></Table.Cell>
+                        <Table.Cell>
+                            {x.banned ?
+                                <Label basic color='red'>
+                                    <Icon name='warning' />
+                                    banned
+                                </Label>
+                                :
+                                <Label basic content='active' color='green' />
+                            }
+                        </Table.Cell>
+                        <Table.Cell>
+                            {x.banned ?
+                                <Button content='Unban' color='orange' size='mini' onClick={() => {
+                                    openConfirmation(`Are you sure you want to Unban ${x.displayName} ?`, 'Ban user',
+                                        () => { unban(x.id) })
+                                }} />
+                                :
+                                <Button content='Ban' size='mini' color='red' onClick={() => {
+                                    openConfirmation(`Are you sure you want to ban ${x.displayName} ?`, 'Unban user',
+                                        () => { ban(x.id) })
+                                }} />
+                            }
+                        </Table.Cell>
                     </Table.Row>
                 )}
             </Table.Body>

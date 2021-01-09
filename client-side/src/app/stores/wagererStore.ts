@@ -1,4 +1,5 @@
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
+import { toast } from "react-toastify";
 import agent from "../api/agent";
 import { IWagererData } from "../models/wagerer";
 import { RootStore } from "./rootStore";
@@ -64,6 +65,40 @@ export default class WagererStore {
             });
         } catch (error) {
             console.log(error);
+        } finally {
+            runInAction(() => {
+                this.loading = false;
+            })
+        }
+    }
+
+    @action ban = async (id: string) => {
+        this.loading = true;
+        try {
+            await agent.Wagerers.ban(id);
+            const user = this.wagererList.filter(x => x.id === id)[0];
+            runInAction(() => {
+                user.banned = true;
+            })
+        } catch (error) {
+            toast.error("Problem occured while banning user")
+        } finally {
+            runInAction(() => {
+                this.loading = false;
+            })
+        }
+    }
+
+    @action unban = async (id: string) => {
+        this.loading = true;
+        try {
+            await agent.Wagerers.unban(id);
+            const user = this.wagererList.filter(x => x.id === id)[0];
+            runInAction(() => {
+                user.banned = false;
+            })
+        } catch (error) {
+            toast.error("Problem occured while Unbanning user")
         } finally {
             runInAction(() => {
                 this.loading = false;

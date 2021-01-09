@@ -16,6 +16,8 @@ namespace Domain
         public AppUser AppUser { get; set; }
         public string ProfilePhoto { get; set; }
 
+        public bool Banned { get; set; }
+
         public ICollection<UserPrediction> Predictions { get; set; }
     }
 }

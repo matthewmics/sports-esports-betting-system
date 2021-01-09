@@ -55,21 +55,20 @@ namespace Application.User
                 if (userInDb == null)
                     throw new RestException(System.Net.HttpStatusCode.Unauthorized);
 
-
                 var result = await _signInManager.CheckPasswordSignInAsync(userInDb, request.Password, false);
 
                 if (result.Succeeded)
                 {
                     var wagerer = await _ctx.Wagerers.SingleOrDefaultAsync(x => x.AppUserId == userInDb.Id);
-                    if (wagerer == null)
-                        throw new Exception("Successfull login but wagerer wasn't found");
+                    if (wagerer.Banned)
+                        throw new RestException(System.Net.HttpStatusCode.BadRequest, new { Wagerer = "Account is banned" });
 
                     wagerer.AppUser = userInDb;
 
                     return _mapper.Map<UserDto>(wagerer);
                 }
 
-                throw new RestException(System.Net.HttpStatusCode.Unauthorized);
+                throw new RestException(System.Net.HttpStatusCode.BadRequest, new { Login = "Invalid email or password" });
             }
         }
 

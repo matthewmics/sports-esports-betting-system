@@ -8,7 +8,7 @@ namespace Application.Wagerers.Dtos
     {
         public string DisplayName { get; set; }
         public string Email { get; set; }
-        public bool Blocked { get; set; }
+        public bool Banned { get; set; }
         public string Id { get; set; }
     }
 }

@@ -47,6 +47,7 @@ namespace Application.Wagerers
                 System.Linq.Expressions.Expression<Func<Domain.Wagerer, object>>
                     sortAs = request.SortBy switch
                     {
+                        "status" => x => x.Banned,
                         "email" => x => x.AppUser.Email ,
                         _ => x => x.AppUser.DisplayName,
                     };
