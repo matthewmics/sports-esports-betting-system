@@ -17,7 +17,7 @@ namespace API.Controllers
 
         [HttpPost]
         [Authorize(Policy = "IsAdmin")]
-        public async Task<MatchDto> Create([FromBody] Create.Command command)
+        public async Task<MediatR.Unit> Create([FromBody] Create.Command command)
         {
             return await Mediator.Send(command);
         }

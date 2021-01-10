@@ -9,11 +9,13 @@ import ScrollToTop from './app/layout/ScrollToTop';
 import App from './app/layout/App';
 import AdminApp from './app/layout/AdminApp';
 import { PaypalCaptureOrder } from './features/paypal/Deposit/PaypalCaptureOrder';
+import CommonConnection from './app/common/CommonConnection';
 
 export const history = createBrowserHistory();
 
 ReactDOM.render(
   <Router history={history}>
+    <CommonConnection />
     <ScrollToTop />
     <Switch>
       <Route path='/paypal/accept' component={PaypalCaptureOrder} />

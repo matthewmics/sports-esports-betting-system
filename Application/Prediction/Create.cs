@@ -12,13 +12,16 @@ using AutoMapper;
 using Application.Prediction.Dtos;
 using System.Linq;
 using Application.Validators;
+using Microsoft.AspNetCore.SignalR;
+using Application.Hubs;
+using Application.Match;
 
 namespace Application.Prediction
 {
     public class Create
     {
 
-        public class Command : IRequest<PredictionDto>
+        public class Command : IRequest
         {
             public int MatchId { get; set; }
             public string Title { get; set; }
@@ -40,18 +43,21 @@ namespace Application.Prediction
             }
         }
 
-        public class Handler : IRequestHandler<Command, PredictionDto>
+        public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _context;
-            private readonly IMapper _mapper;
 
-            public Handler(DataContext context, IMapper mapper)
+            private readonly IHubContext<CommonHub> _hubContext;
+            private readonly IMediator _mediator;
+
+            public Handler(DataContext context, IHubContext<CommonHub> hubContext, IMediator mediator)
             {
                 _context = context;
-                _mapper = mapper;
+                _hubContext = hubContext;
+                _mediator = mediator;
             }
 
-            public async Task<PredictionDto> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 var match = await _context.Matches.Include(x => x.Predictions).SingleOrDefaultAsync(x => x.Id == request.MatchId);
                 if (match == null)
@@ -70,8 +76,13 @@ namespace Application.Prediction
                 match.Predictions.Add(prediction);
 
                 var success = await _context.SaveChangesAsync() > 0;
-                if(success)
-                return _mapper.Map<PredictionDto>(prediction);
+
+                if (success)
+                {
+                    var matchDto = await _mediator.Send(new Get.Query { Id = prediction.MatchId });
+                    await _hubContext.Clients.All.SendAsync("PredictionUpdate", matchDto);
+                    return Unit.Value;
+                }
 
                 throw new Exception("Problem saving changes");
             }

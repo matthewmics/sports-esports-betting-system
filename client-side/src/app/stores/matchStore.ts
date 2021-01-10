@@ -204,7 +204,11 @@ export default class MatchStore {
 
     if (selectFirstPrediction) {
       runInAction(() => {
-        this.rootStore.predictionStore.selectedPrediction = this.selectedMatch!.predictions[0];
+        const { selectedPrediction } = this.rootStore.predictionStore;
+        if (!selectedPrediction ||
+          this.selectedMatch!.predictions.filter(x => x.id === selectedPrediction.id).length === 0) {
+          this.rootStore.predictionStore.selectedPrediction = this.selectedMatch!.predictions[0];
+        }
       });
     }
 
@@ -216,12 +220,15 @@ export default class MatchStore {
     this.loading = true;
     try {
       let match = await agent.Matches.create(matchForm);
+      
+      this.rootStore.modalStore.closeModal();
+      toast.success("Match created");
+      
       match = this.initializeMatch(match);
       runInAction(() => {
         if (this.matchFilters.get("status") === 'upcoming')
           this.matchRegistry.set(match.id, match);
       });
-      toast.success("Match created");
     } catch (error) {
       throw error;
     } finally {
@@ -249,6 +256,8 @@ export default class MatchStore {
   }
 
   @action loadRecentMatchPredictions = async () => {
+    if (!this.selectedMatch)
+      return;
     this.loadingMatchRecentPrediction = true;
     try {
       const response = await agent.Matches.recentMatchPredictions(this.selectedMatch!.id);

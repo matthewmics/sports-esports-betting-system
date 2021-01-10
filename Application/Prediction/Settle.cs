@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 using Application.Errors;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.SignalR;
+using Application.Hubs;
+using Application.Match;
 
 namespace Application.Prediction
 {
@@ -24,11 +27,15 @@ namespace Application.Prediction
         {
             private readonly DataContext _context;
             private readonly IPredictionOddsReader _oddsReader;
+            private readonly IHubContext<CommonHub> _hubContext;
+            private readonly IMediator _mediator;
 
-            public Handler(DataContext context, IPredictionOddsReader oddsReader)
+            public Handler(DataContext context, IPredictionOddsReader oddsReader, IHubContext<CommonHub> hubContext, IMediator mediator)
             {
                 _context = context;
                 _oddsReader = oddsReader;
+                _hubContext = hubContext;
+                _mediator = mediator;
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
@@ -78,7 +85,11 @@ namespace Application.Prediction
                 var success = await _context.SaveChangesAsync() > 0;
 
                 if (success)
+                {
+                    var matchDto = await _mediator.Send(new Get.Query { Id = prediction.MatchId });
+                    await _hubContext.Clients.All.SendAsync("PredictionUpdate", matchDto);
                     return Unit.Value;
+                }
 
                 throw new Exception("Problem saving changes");
             }

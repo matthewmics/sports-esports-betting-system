@@ -96,7 +96,7 @@ namespace API.Controllers
 
         [Authorize(policy: "IsAdmin")]
         [HttpPost]
-        public async Task<PredictionDto> Create([FromBody] Application.Prediction.Create.Command command)
+        public async Task<MediatR.Unit> Create([FromBody] Application.Prediction.Create.Command command)
         {
             return await Mediator.Send(command);
         }

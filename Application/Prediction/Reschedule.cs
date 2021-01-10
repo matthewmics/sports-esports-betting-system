@@ -9,6 +9,9 @@ using Application.Errors;
 using Microsoft.EntityFrameworkCore;
 using FluentValidation;
 using Application.Validators;
+using Microsoft.AspNetCore.SignalR;
+using Application.Hubs;
+using Application.Match;
 
 namespace Application.Prediction
 {
@@ -35,10 +38,14 @@ namespace Application.Prediction
         public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _context;
+            private readonly IHubContext<CommonHub> _hubContext;
+            private readonly IMediator _mediator;
 
-            public Handler(DataContext context)
+            public Handler(DataContext context, IHubContext<CommonHub> hubContext, IMediator mediator)
             {
                 _context = context;
+                _hubContext = hubContext;
+                _mediator = mediator;
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
@@ -55,9 +62,16 @@ namespace Application.Prediction
                 prediction.PredictionStatusId = Domain.PredictionStatus.Open;
                 prediction.StartDate = request.Schedule;
 
-                await _context.SaveChangesAsync();
+                var success = await _context.SaveChangesAsync() > 0;
 
-                return Unit.Value;
+                if (success)
+                {
+                    var matchDto = await _mediator.Send(new Get.Query { Id = prediction.MatchId });
+                    await _hubContext.Clients.All.SendAsync("PredictionUpdate", matchDto);
+                    return Unit.Value;
+                }
+
+                throw new Exception("Problem saving changes");
             }
         }
 

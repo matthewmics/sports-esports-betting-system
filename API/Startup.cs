@@ -158,7 +158,7 @@ namespace API
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<MainHub>("/mainhub");
-                endpoints.MapHub<MainHub>("/commonhub");
+                endpoints.MapHub<CommonHub>("/commonhub");
                 endpoints.MapHub<ChatHub>("/chat");
             });
         }

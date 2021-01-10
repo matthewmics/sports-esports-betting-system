@@ -1,7 +1,7 @@
 import { action, makeObservable, observable, runInAction } from "mobx";
 import { toast } from "react-toastify";
 import agent from "../api/agent";
-import { IPrediction, IPredictionCreateForm, predictionStatus } from "../models/prediction";
+import { IPrediction, IPredictionCreateForm } from "../models/prediction";
 import { RootStore } from "./rootStore";
 
 export default class PredictionStore {
@@ -109,17 +109,6 @@ export default class PredictionStore {
     this.targetLoading = predictionId;
     try {
       await agent.Predictions.setLive(predictionId);
-      const prediction = this.getPrediction(predictionId);
-      const match = this.getMatch();
-      runInAction(() => {
-        prediction.predictionStatus = predictionStatus.live;
-        prediction.startDate = new Date();
-        if (prediction.isMain) {
-          match.matchStatus = predictionStatus.live;
-          match.startDate = new Date();
-        }
-      });
-      toast.success("Prediction is now live");
     } catch (error) {
       throw error;
     } finally {
@@ -133,17 +122,6 @@ export default class PredictionStore {
     this.loading = true;
     try {
       await agent.Predictions.reschedule(predictionId, schedule);
-      const prediction = this.getPrediction(predictionId);
-      const match = this.getMatch();
-      runInAction(() => {
-        prediction.predictionStatus = predictionStatus.open;
-        prediction.startDate = new Date(schedule);
-        if (prediction.isMain) {
-          match.matchStatus = predictionStatus.open;
-          match.startDate = new Date(schedule);
-        }
-      });
-      toast.success("Prediction rescheduled");
     } catch (error) {
       throw error;
     } finally {
@@ -157,21 +135,6 @@ export default class PredictionStore {
     this.loading = true;
     try {
       await agent.Predictions.settle(predictionId, teamId);
-      const match = this.rootStore.matchStore.selectedMatch!;
-      const prediction = match.predictions.filter(x => x.id === predictionId)[0];
-      runInAction(() => {
-        prediction.predictionStatus = predictionStatus.settled;
-        const teamWinner = match.teamA.id === teamId ? match.teamA : match.teamB;
-        prediction.winner = teamWinner;
-        if (prediction.isMain) {
-          match.predictions.forEach(p => {
-            if (p.predictionStatus.name !== 'settled')
-              p.predictionStatus = predictionStatus.cancelled;
-          });
-          match.winner = teamWinner;
-          match.matchStatus = predictionStatus.settled;
-        }
-      });
     } catch (error) {
       throw error;
     } finally {
@@ -186,19 +149,6 @@ export default class PredictionStore {
     this.loading = true;
     try {
       await agent.Predictions.cancel(predictionId);
-      const prediction = this.getPrediction(predictionId);
-      const match = this.getMatch();
-      runInAction(() => {
-        prediction.predictionStatus = predictionStatus.cancelled;
-        if (prediction.isMain) {
-          match.predictions.forEach(p => {
-            if (p.predictionStatus.name !== 'settled')
-              p.predictionStatus = predictionStatus.cancelled;
-          });
-          match.matchStatus = predictionStatus.cancelled;
-        }
-      })
-      toast.success("Prediction cancelled");
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong while processing your request")
@@ -212,13 +162,13 @@ export default class PredictionStore {
   @action create = async (formValues: IPredictionCreateForm) => {
     this.loading = true;
     try {
-      const prediction = await agent.Predictions.create(formValues);
-      prediction.startDate = new Date(prediction.startDate);
-      const match = this.getMatch();
-      runInAction(() => {
-        match.predictions.push(prediction);
-      });
-      toast.success("Prediction created");
+      await agent.Predictions.create(formValues);
+      // prediction.startDate = new Date(prediction.startDate);
+      // const match = this.getMatch();
+      // runInAction(() => {
+      //   match.predictions.push(prediction);
+      // });
+      // toast.success("Prediction created");
     } catch (error) {
       throw error;
     } finally {
@@ -236,16 +186,6 @@ export default class PredictionStore {
         .predictionDetails(this.selectedPrediction!.id);
       runInAction(() => {
         this.selectedPrediction!.predictionDetails = predictionDetails;
-        this.selectedPrediction!.predictionStatus = predictionDetails.predictionStatus;
-        this.selectedPrediction!.startDate = new Date(predictionDetails.schedule);
-        this.selectedPrediction!.winner = predictionDetails.winner;
-        if (this.selectedPrediction!.isMain) {
-          const match = this.getMatch();
-          match.matchStatus = predictionDetails.predictionStatus;
-          match.startDate = new Date(predictionDetails.schedule);
-          if (predictionDetails.winner)
-            match.winner = predictionDetails.winner;
-        }
       });
     } catch (error) {
       console.log(error);

@@ -10,13 +10,16 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.SignalR;
+using Application.Hubs;
+using Application.Match;
 
 namespace Application.Match
 {
     public class Create
     {
 
-        public class Command : IRequest<MatchDto>
+        public class Command : IRequest
         {
             // Match
             public string EventName { get; set; }
@@ -52,18 +55,20 @@ namespace Application.Match
             }
         }
 
-        public class Handler : IRequestHandler<Command, MatchDto>
+        public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
+            private readonly IHubContext<CommonHub> _hubContext;
 
-            public Handler(DataContext context, IMapper mapper)
+            public Handler(DataContext context, IMapper mapper, IHubContext<CommonHub> hubContext)
             {
                 _context = context;
                 _mapper = mapper;
+                _hubContext = hubContext;
             }
 
-            public async Task<MatchDto> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 if (request.TeamAId == request.TeamBId)
                     throw new RestException(System.Net.HttpStatusCode.BadRequest, new { Teams = "Teams must not be the same" });
@@ -92,11 +97,20 @@ namespace Application.Match
                     prediction
                 };
 
+
                 _context.Matches.Add(match);
 
-                await _context.SaveChangesAsync();
+                var success = await _context.SaveChangesAsync() > 0;
 
-                return _mapper.Map<MatchDto>(match);
+                if (success)
+                {
+                    var matchDto = _mapper.Map<MatchDto>(match);
+                    await _hubContext.Clients.All.SendAsync("PredictionUpdate", matchDto);
+                    return Unit.Value;
+                }
+
+                throw new Exception("Problem saving changes");
+
             }
         }
 
