@@ -46,7 +46,7 @@ export default class UserStore {
             .withUrl(apiUrl + '/mainhub', {
                 accessTokenFactory: () => token
             })
-            .configureLogging(LogLevel.Information)
+            .configureLogging(LogLevel.None)
             .build();
 
         this.hubConnection.start()
@@ -59,6 +59,10 @@ export default class UserStore {
                 this.rootStore.profileStore.transactionRegistry.set(despositData.id, despositData);
                 toast.success('You have received ' + formatToLocalPH(despositData.amount));
             });
+        });
+
+        this.hubConnection.on("Banned", () => {
+            this.logout();
         });
     }
 
