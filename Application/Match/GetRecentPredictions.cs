@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using System.Linq;
 using Application.Match.Dtos;
+using Application.Photo;
 
 namespace Application.Match
 {
@@ -25,11 +26,13 @@ namespace Application.Match
         {
             private readonly DataContext _ctx;
             private readonly IMapper _mapper;
+            private readonly IImageHostGenerator _imageHostGenerator;
 
-            public Handler(DataContext ctx, IMapper mapper)
+            public Handler(DataContext ctx, IMapper mapper, IImageHostGenerator imageHostGenerator)
             {
                 _ctx = ctx;
                 _mapper = mapper;
+                _imageHostGenerator = imageHostGenerator;
             }
 
             public async Task<List<PredictionRecentDto>> Handle(Query request, CancellationToken cancellationToken)
@@ -43,7 +46,8 @@ namespace Application.Match
                 if (match == null)
                     throw new RestException(System.Net.HttpStatusCode.NotFound, new { Match = "Not found" });
 
-                return match.Predictions
+
+                var recentPredictors = match.Predictions
                     .SelectMany(x => x.Predictors)
                     .Select(x => new PredictionRecentDto
                     {
@@ -55,6 +59,13 @@ namespace Application.Match
                     .OrderByDescending(x => x.When)
                     .Take(8)
                     .ToList();
+
+                recentPredictors.ForEach(x =>
+                {
+                    x.UserPhoto = _imageHostGenerator.GetHostImage(x.UserPhoto);
+                });
+
+                return recentPredictors;
             }
         }
 

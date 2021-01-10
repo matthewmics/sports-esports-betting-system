@@ -45,7 +45,9 @@ const RecentPredictions = () => {
                     :
                     recentMatchePredictionsList.map((x, i) =>
                         <Segment key={i} style={{ display: 'flex', alignItems: 'center', height: '85px' }}>
-                            <Image src={x.userPhoto || '/assets/noimage.png'} size='tiny' />
+                            <Image circular src={x.userPhoto || '/assets/user_default.png'} style={{
+                                height:'55px', marginRight: '10px'
+                            }} />
                             <div>
                                 <label className='text-muted'>
                                     {x.predictionName}
