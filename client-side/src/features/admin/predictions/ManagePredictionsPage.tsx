@@ -128,7 +128,9 @@ const ManagePredictionsPage: React.FC<IProps> = ({ match }) => {
                                         }
                                         {x.predictionStatus.displayText}</Table.Cell>
                                     <Table.Cell>
-                                        {format(x.startDate, 'EEEE, MMM dd, yyyy, p',)}
+                                        <div>
+                                            {format(x.startDate, 'EEEE, MMM dd, yyyy, p',)}
+                                        </div>
                                         {x.predictionStatus.name === predictionStatus.open.name &&
                                             <ScheduleTimer date={x.startDate} />
                                         }
