@@ -10,9 +10,10 @@ interface IProps {
     match: IMatch,
     prediction: IPrediction | null,
     openModal: (body: any) => void;
+    loading: boolean;
 }
 
-const PredictionDetailsActions: React.FC<IProps> = ({ match, openModal, prediction }) => {
+const PredictionDetailsActions: React.FC<IProps> = ({ match, openModal, prediction, loading }) => {
 
     const cannotPredict = prediction?.predictionStatus.name !== predictionStatus.open.name;
 
@@ -20,7 +21,7 @@ const PredictionDetailsActions: React.FC<IProps> = ({ match, openModal, predicti
         <Fragment>
             <Button style={btnBetStyle} 
                 className='button-prediction'
-                disabled={cannotPredict}
+                disabled={cannotPredict || loading}
                 onClick={() => openModal(<PredictionForm
                     prediction={prediction!}
                     initialTeam={match.teamB} />)}>
@@ -28,7 +29,7 @@ const PredictionDetailsActions: React.FC<IProps> = ({ match, openModal, predicti
             </Button>
             <Button style={btnBetStyle} 
                 className='button-prediction'
-                disabled={cannotPredict}
+                disabled={cannotPredict || loading}
                 onClick={() => openModal(<PredictionForm
                     prediction={prediction!}
                     initialTeam={match.teamA} />)}>
