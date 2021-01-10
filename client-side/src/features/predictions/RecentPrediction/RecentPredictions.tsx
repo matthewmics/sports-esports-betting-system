@@ -11,9 +11,11 @@ const RecentPredictions = () => {
         selectedMatch, loadRecentMatchPredictions } = rootStore.matchStore;
 
     useEffect(() => {
-        if (selectedMatch) {
-            loadRecentMatchPredictions();
-        }
+        setTimeout(() => {
+            if (selectedMatch) {
+                loadRecentMatchPredictions();
+            }
+        }, 20);
     }, [loadRecentMatchPredictions, selectedMatch])
 
     return (
@@ -21,9 +23,11 @@ const RecentPredictions = () => {
             <Header as='h3' attached='top'>
                 Recent Predictions
             </Header>
-            {/* <Segment attached style={{ minHeight: 'initial', height: 'auto', textAlign: 'center' }}>
-                No user has predicted yet on this match.
-            </Segment> */}
+            { !loadingMatchRecentPrediction && recentMatchePredictionsList.length === 0 &&
+                <Segment attached style={{ minHeight: 'initial', height: 'auto', textAlign: 'center' }}>
+                    No user has predicted yet on this match.
+                </Segment>
+            }
             <Segment.Group style={{ marginTop: '0', borderTop: '0' }}>
                 {loadingMatchRecentPrediction ?
                     <Fragment>
