@@ -16,6 +16,9 @@ namespace Infrastructure.Photos
         }
         public string GetHostImage(string imageName)
         {
+            if (string.IsNullOrEmpty(imageName))
+                return imageName;
+
             var connection = _httpContext.HttpContext.Request.IsHttps ? "https://" : "http://";
             return connection +
                 _httpContext.HttpContext.Request.Host.Value +

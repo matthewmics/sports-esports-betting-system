@@ -15,6 +15,8 @@ export default class WagererStore {
     @observable limit = 10;
     @observable hasLoaded = false;
 
+    @observable onlineUsers: IWagererData[] = [];
+
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore;
         makeObservable(this);
@@ -32,6 +34,18 @@ export default class WagererStore {
 
     @computed get totalPage() {
         return Math.ceil(this.wagererCount / this.limit);
+    }
+
+    @action addOnlineUser = (user: IWagererData) => {
+        this.onlineUsers.push(user);
+    }
+
+    @action removeOnlineUser = (userIdentifier: string) => {
+        this.onlineUsers = this.onlineUsers.filter(x => x.email !== userIdentifier);
+    }
+
+    @action setOnlineUsers = (users: IWagererData[]) => {
+        this.onlineUsers = users;
     }
 
     @action setPage = (page: number) => {

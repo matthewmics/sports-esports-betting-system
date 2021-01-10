@@ -1,10 +1,13 @@
+import { HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { action, computed, makeObservable, observable, reaction, runInAction } from "mobx";
 import { toast } from "react-toastify";
 import { history } from "../..";
-import agent from "../api/agent";
+import agent, { apiUrl } from "../api/agent";
 import { IDashboardDto } from "../models/admin";
 import { IUserAdmin, IUserFormValues } from "../models/user";
+import { IWagererData } from "../models/wagerer";
 import { RootStore } from "./rootStore";
+import WagererStore from "./wagererStore";
 
 export default class AdminStore {
     rootStore: RootStore;
@@ -14,6 +17,8 @@ export default class AdminStore {
     @observable adminUser: IUserAdmin | null = null;
 
     @observable dashboard: IDashboardDto | null = null;
+
+    @observable.ref hubConnection: HubConnection | null = null;
 
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore;
@@ -25,8 +30,10 @@ export default class AdminStore {
             () => {
                 if (this.adminUser) {
                     window.localStorage.setItem("jwt_admin", this.adminUser.token);
+                    this.createHubConnection(this.adminUser!.token);
                 } else {
                     window.localStorage.removeItem("jwt_admin");
+                    this.stopHubConnection();
                 }
             }
         )
@@ -34,6 +41,42 @@ export default class AdminStore {
 
     @computed get isLoggedIn() {
         return !!this.adminUser;
+    }
+
+    @action createHubConnection = (token: string) => {
+        this.hubConnection = new HubConnectionBuilder()
+            .withUrl(apiUrl + '/mainhub', {
+                accessTokenFactory: () => token
+            })
+            .configureLogging(LogLevel.None)
+            .build();
+
+        this.hubConnection.start()
+            .then(() => {
+                this.hubConnection!.invoke('GetOnlineUsers', this.adminUser!.email)
+            })
+            .catch(error => console.log('Error establishing connection', error));
+
+
+        let { addOnlineUser, removeOnlineUser, setOnlineUsers } = this.rootStore.wagererStore;
+
+        this.hubConnection.on('UserConnect', (user: IWagererData) => {
+            addOnlineUser(user);
+        })
+
+
+        this.hubConnection.on('UserDisconnect', (userId: string) => {
+            removeOnlineUser(userId);
+        })
+
+        this.hubConnection.on('UsersFetched', (users: IWagererData[]) => {
+            setOnlineUsers(users);
+        })
+    }
+
+
+    @action stopHubConnection = () => {
+        this.hubConnection!.stop();
     }
 
     @action login = async (values: IUserFormValues) => {

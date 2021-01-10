@@ -3,6 +3,7 @@ export interface IWagererData {
     email: string;
     banned: boolean;
     id: string;
+    photo: string;
 }
 export interface IWagererDataEnvelope {
     wagerers: IWagererData[];
