@@ -111,10 +111,12 @@ export default class UserStore {
     @action getUser = async () => {
         this.userLoading = true;
         try {
-            const user = await agent.User.current();
-            runInAction(() => {
-                this.user = user;
-            });
+            if (window.localStorage.getItem("jwt")) {
+                const user = await agent.User.current();
+                runInAction(() => {
+                    this.user = user;
+                });
+            }
         } catch (error) {
             console.log(error);
         } finally {
