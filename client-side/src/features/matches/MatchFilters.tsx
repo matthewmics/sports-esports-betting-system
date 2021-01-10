@@ -11,7 +11,7 @@ const tabImageStyle = {
 const MatchFilters = () => {
 
     const rootStore = useContext(RootStoreContext);
-    const { matchFilters, setFilter, matchList, selectedStatusFilter, setSelectedStatusFilter } = rootStore.matchStore;
+    const { matchFilters, setFilter, matchList, selectedStatusFilter, setSelectedStatusFilter, loadingMatches } = rootStore.matchStore;
 
     const handleGameFilter = (game: string) => {
         setFilter("game", game);
@@ -62,6 +62,7 @@ const MatchFilters = () => {
                 <Menu.Item>
                     <Icon name='filter' />
                     <Dropdown options={predictionStatusSelection}
+                        disabled={loadingMatches}
                         value={selectedStatusFilter}
                         onChange={(e, data) => {
                             setSelectedStatusFilter(String(data.value));
