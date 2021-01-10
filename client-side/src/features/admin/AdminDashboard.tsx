@@ -71,8 +71,8 @@ const AdminDashboard = () => {
                                     <Table celled size='large' style={{ borderRadius: '0px' }}>
 
                                         <Table.Body>
-                                            {onlineUsers.map(x =>
-                                                <Table.Row key={x.id}>
+                                            {onlineUsers.map((x,i) =>
+                                                <Table.Row key={i}>
                                                     <Table.Cell>
                                                         <div style={{ display: 'flex', alignItems: 'center' }}>
                                                             <Image src={x.photo || '/assets/user_default.png'} size='mini' style={{

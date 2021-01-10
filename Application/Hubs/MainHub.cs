@@ -27,21 +27,21 @@ namespace Application.Hubs
 
         public override async Task OnConnectedAsync()
         {
-            var id = Context.UserIdentifier;
+            var uId = Context.UserIdentifier;
+            var connId = Context.ConnectionId;
 
             try
             {
-                var wagerer = await _mediatr.Send(new Application.Wagerers.Get.Query { Email = id });
 
-                if (_onlineUsers.ContainsKey(id))
-                    _onlineUsers[id] = wagerer;
-                else
-                    _onlineUsers.Add(id, wagerer);
+                var wagerer = await _mediatr.Send(new Application.Wagerers.Get.Query { Email = uId });
+
+                _onlineUsers.Add(connId, wagerer);
 
                 await Clients.Users(_ctx.Admins.Include(x => x.AppUser).Select(x => x.AppUser.Email).ToList())
-                    .SendAsync("UserConnect", wagerer);
+                    .SendAsync("UserConnect", new { connId, wagerer });
+
             }
-            catch(RestException)
+            catch (RestException)
             {
                 // RestException -> user is not a wagerer
             }
@@ -50,21 +50,18 @@ namespace Application.Hubs
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {
-            var id = Context.UserIdentifier;
+            var connId = Context.ConnectionId;
 
-            if (_onlineUsers.ContainsKey(id))
-            {
-                _onlineUsers.Remove(id);
+            _onlineUsers.Remove(connId);
 
-                await Clients.Users(_ctx.Admins.Include(x => x.AppUser).Select(x => x.AppUser.Email).ToList())
-                    .SendAsync("UserDisconnect", id);
-            }
+            await Clients.Users(_ctx.Admins.Include(x => x.AppUser).Select(x => x.AppUser.Email).ToList())
+                .SendAsync("UserDisconnect", connId);
         }
 
         [Authorize(policy: "IsAdmin")]
         public async Task GetOnlineUsers(string adminEmail)
         {
-            await Clients.User(adminEmail).SendAsync("UsersFetched", _onlineUsers.Values.ToList());
+            await Clients.User(adminEmail).SendAsync("UsersFetched", _onlineUsers);
         }
 
     }

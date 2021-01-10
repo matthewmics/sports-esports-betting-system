@@ -58,19 +58,28 @@ export default class AdminStore {
             .catch(error => console.log('Error establishing connection', error));
 
 
-        let { addOnlineUser, removeOnlineUser, setOnlineUsers } = this.rootStore.wagererStore;
+        let { onlinerUserRegistry } = this.rootStore.wagererStore;
 
-        this.hubConnection.on('UserConnect', (user: IWagererData) => {
-            addOnlineUser(user);
+        this.hubConnection.on('UserConnect', ({ connId, wagerer }) => {
+            runInAction(() => {
+                onlinerUserRegistry.set(connId, wagerer);
+            })
         })
 
 
-        this.hubConnection.on('UserDisconnect', (userId: string) => {
-            removeOnlineUser(userId);
+        this.hubConnection.on('UserDisconnect', (connId: string) => {
+            runInAction(() => {
+                onlinerUserRegistry.delete(connId);
+            })
         })
 
-        this.hubConnection.on('UsersFetched', (users: IWagererData[]) => {
-            setOnlineUsers(users);
+        this.hubConnection.on('UsersFetched', (usersMap: Map<string, IWagererData>) => {
+            const entries = Object.entries(usersMap);
+            runInAction(() => {
+                entries.forEach((k) => {
+                    onlinerUserRegistry.set(k[0], k[1]);
+                })
+            })
         })
     }
 
