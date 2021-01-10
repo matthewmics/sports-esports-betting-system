@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite'
 import React, { useContext, useEffect } from 'react'
 import { Menu, Image, Dropdown, Icon } from 'semantic-ui-react'
-import { predictionStatusSelection } from '../../app/common/options'
+import { predictionStatusSelection } from '../../app/common/options/options'
 import { RootStoreContext } from '../../app/stores/rootStore'
 
 const tabImageStyle = {

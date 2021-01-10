@@ -9,8 +9,8 @@ using Application.Errors;
 using Microsoft.EntityFrameworkCore;
 using Application.Paypal.Dtos;
 using Microsoft.AspNetCore.SignalR;
-using Application.Notification;
 using Application.Profile.Dtos;
+using Application.Hubs;
 
 namespace Application.Paypal
 {
@@ -26,10 +26,10 @@ namespace Application.Paypal
         {
             private readonly DataContext _context;
             private readonly IPaypalAccessor _paypalAccessor;
-            private readonly IHubContext<NotificationHub> _hubContext;
+            private readonly IHubContext<MainHub> _hubContext;
 
             public Handler(DataContext context, IPaypalAccessor paypalAccessor,
-                IHubContext<NotificationHub> hubContext)
+                IHubContext<MainHub> hubContext)
             {
                 _context = context;
                 _paypalAccessor = paypalAccessor;

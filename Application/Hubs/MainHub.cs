@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Application.Notification
+namespace Application.Hubs
 {
-    public class NotificationHub : Hub
+    public class MainHub : Hub
     {
-        public NotificationHub()
+        public MainHub()
         {
 
         }

@@ -74,7 +74,7 @@ export default class MatchStore {
       .withUrl(apiUrl + '/chat', {
         accessTokenFactory: () => getJwtToken() || ''
       })
-      .configureLogging(LogLevel.Information)
+      .configureLogging(LogLevel.None)
       .build();
 
     this.hubConnection.start()

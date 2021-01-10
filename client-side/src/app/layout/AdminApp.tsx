@@ -5,7 +5,7 @@ import { ToastContainer } from 'react-toastify';
 import AdminLoginPage from '../../features/admin/AdminLoginPage';
 import AdminNavBar from '../../features/nav/AdminNavBar';
 import AdminSideBar from '../../features/nav/AdminSideBar';
-import { LoadingComponent } from '../common/LoadingComponent';
+import { LoadingComponent } from '../common/components/LoadingComponent';
 import ModalContainer from '../common/modals/ModalContainer';
 import { RootStoreContext } from '../stores/rootStore';
 import axios from 'axios';
@@ -18,7 +18,7 @@ import TeamDetails from '../../features/admin/tables/Team/TeamDetails';
 import TeamEdit from '../../features/admin/tables/Team/TeamEdit';
 import ManagePredictionsPage from '../../features/admin/predictions/ManagePredictionsPage';
 import ErrorModalContainer from '../common/modals/ErrorModalContainer';
-import { NotFound } from '../common/NotFound';
+import { NotFound } from '../common/components/NotFound';
 import WagerersPage from '../../features/admin/tables/Wagerer/WagerersPage';
 
 

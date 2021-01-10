@@ -9,7 +9,7 @@ import { isFutureDate } from '../../../app/common/forms/formValidations'
 import { RemoteSelectInput } from '../../../app/common/forms/RemoteSelectInput'
 import SelectInput from '../../../app/common/forms/SelectInput'
 import TextInput from '../../../app/common/forms/TextInput'
-import { seriesSelection, gameSelection } from '../../../app/common/options'
+import { seriesSelection, gameSelection } from '../../../app/common/options/options'
 import { IMatchForm } from '../../../app/models/match'
 import { RootStoreContext } from '../../../app/stores/rootStore'
 

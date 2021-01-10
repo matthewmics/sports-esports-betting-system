@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { Label } from 'semantic-ui-react'
-import { IPredictionStatus } from '../models/prediction'
-import { ScheduleTimer } from './dates/ScheduleTimer'
+import { IPredictionStatus } from '../../models/prediction'
+import { ScheduleTimer } from '../dates/ScheduleTimer'
 
 export const StatusDetails: React.FC<{ status: IPredictionStatus, startDate: Date }> = ({ status, startDate }) => {
     return (

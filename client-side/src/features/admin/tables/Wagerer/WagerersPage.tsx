@@ -1,8 +1,8 @@
 import { observer } from 'mobx-react-lite';
 import React, { Fragment, useContext, useEffect } from 'react'
 import { Breadcrumb, Divider, Dropdown, Grid, Segment } from 'semantic-ui-react'
-import { entrySelection } from '../../../../app/common/options';
-import { SearchAsYouType } from '../../../../app/common/SearchAsYouType';
+import { entrySelection } from '../../../../app/common/options/options';
+import { SearchAsYouType } from '../../../../app/common/components/SearchAsYouType';
 import { RootStoreContext } from '../../../../app/stores/rootStore'
 import { WagerersTable } from './WagerersTable';
 

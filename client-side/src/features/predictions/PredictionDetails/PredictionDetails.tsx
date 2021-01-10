@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite'
 import React, { Fragment, useContext } from 'react'
 import { Segment, Grid, Image, Label } from 'semantic-ui-react'
-import { StatusDetails } from '../../../app/common/StatusDetails'
+import { StatusDetails } from '../../../app/common/options/StatusDetails'
 import { predictionStatus } from '../../../app/models/prediction'
 import { RootStoreContext } from '../../../app/stores/rootStore'
 import PredictionDetailsActions from './PredictionDetailsActions'

@@ -9,7 +9,7 @@ using Application.Errors;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.SignalR;
-using Application.Notification;
+using Application.Hubs;
 
 namespace Application.Wagerers
 {
@@ -24,9 +24,9 @@ namespace Application.Wagerers
         public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _context;
-            private readonly IHubContext<NotificationHub> _hubContext;
+            private readonly IHubContext<MainHub> _hubContext;
 
-            public Handler(DataContext context, IHubContext<NotificationHub> hubContext)
+            public Handler(DataContext context, IHubContext<MainHub> hubContext)
             {
                 _context = context;
                 _hubContext = hubContext;

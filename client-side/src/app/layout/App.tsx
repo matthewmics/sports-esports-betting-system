@@ -14,7 +14,7 @@ import axios from 'axios';
 import ProfilePage from '../../features/profiles/ProfilePage';
 import ErrorModalContainer from '../common/modals/ErrorModalContainer';
 import { getJwtToken } from '../common/util/security';
-import { NotFound } from '../common/NotFound';
+import { NotFound } from '../common/components/NotFound';
 
 
 

@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Segment, Label, Grid, Button, Image } from 'semantic-ui-react'
-import { StatusDetails } from '../../app/common/StatusDetails'
+import { StatusDetails } from '../../app/common/options/StatusDetails'
 import { IMatch } from '../../app/models/match'
 import { predictionStatus } from '../../app/models/prediction'
 

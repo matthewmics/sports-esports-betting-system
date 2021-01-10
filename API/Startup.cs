@@ -27,10 +27,10 @@ using System.Threading.Tasks;
 using Infrastructure.Paypal;
 using Application.Paypal;
 using Microsoft.AspNetCore.SignalR;
-using Application.Notification;
 using Application.Prediction;
 using Application.AdminDashboard;
 using Application.Wagerers;
+using Application.Hubs;
 
 namespace API
 {
@@ -157,8 +157,9 @@ namespace API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<MainHub>("/mainhub");
+                endpoints.MapHub<MainHub>("/commonhub");
                 endpoints.MapHub<ChatHub>("/chat");
-                endpoints.MapHub<NotificationHub>("/mainhub");
             });
         }
     }
