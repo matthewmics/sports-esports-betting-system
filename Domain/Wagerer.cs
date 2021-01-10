@@ -19,5 +19,8 @@ namespace Domain
         public bool Banned { get; set; }
 
         public ICollection<UserPrediction> Predictions { get; set; }
+        public ICollection<PredictionNotification> PredictionNotifications { get; set; }
+        public ICollection<PaypalOrder> PaypalOrders { get; set; }
+        public ICollection<PaypalPayout> PaypalPayouts { get; set; }
     }
 }
