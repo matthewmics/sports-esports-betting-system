@@ -14,7 +14,7 @@ const PredictionDetails = () => {
     const { isLoggedIn } = rootStore.userStore;
     const { openModal } = rootStore.modalStore;
     const { loading, selectedMatch: match } = rootStore.matchStore;
-    const { selectedPrediction: prediction, unpredict } = rootStore.predictionStore;
+    const { selectedPrediction: prediction, unpredict, loading: loadingPrediction } = rootStore.predictionStore;
 
     const teamAPredictionDetails = prediction?.predictionDetails?.teamPredictionEnvelope.teamA;
     const teamBPredictionDetails = prediction?.predictionDetails?.teamPredictionEnvelope.teamB;
@@ -72,6 +72,7 @@ const PredictionDetails = () => {
                             openModal={openModal} />
                         :
                         <PredictionDetailsActions
+                            loading={loadingPrediction}
                             prediction={prediction}
                             match={match!} openModal={openModal} />
                 ) : (
