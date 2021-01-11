@@ -1,6 +1,6 @@
 import React, { Fragment, useContext, useEffect } from 'react'
 import 'semantic-ui-css/semantic.min.css'
-import NavBar from '../../features/nav/NavBar';
+import NavBar from '../../features/nav/userNav/NavBar';
 import MatchesPage from '../../features/matches/MatchesPage';
 import { Container } from 'semantic-ui-react';
 import { Redirect, Route, Switch } from 'react-router-dom';

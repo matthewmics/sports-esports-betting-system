@@ -36,6 +36,70 @@ body {
   background-color: rgb(245, 245, 245) !important;
 }
 
+.gradient-background-2 {
+  background-image: radial-gradient(
+      circle at 52% 94%,
+      rgba(169, 169, 169, 0.04) 0%,
+      rgba(169, 169, 169, 0.04) 50%,
+      rgba(199, 199, 199, 0.04) 50%,
+      rgba(199, 199, 199, 0.04) 100%
+    ),
+    radial-gradient(
+      circle at 96% 98%,
+      rgba(61, 61, 61, 0.04) 0%,
+      rgba(61, 61, 61, 0.04) 50%,
+      rgba(201, 201, 201, 0.04) 50%,
+      rgba(201, 201, 201, 0.04) 100%
+    ),
+    radial-gradient(
+      circle at 93% 97%,
+      rgba(227, 227, 227, 0.04) 0%,
+      rgba(227, 227, 227, 0.04) 50%,
+      rgba(145, 145, 145, 0.04) 50%,
+      rgba(145, 145, 145, 0.04) 100%
+    ),
+    radial-gradient(
+      circle at 79% 52%,
+      rgba(245, 245, 245, 0.04) 0%,
+      rgba(245, 245, 245, 0.04) 50%,
+      rgba(86, 86, 86, 0.04) 50%,
+      rgba(86, 86, 86, 0.04) 100%
+    ),
+    linear-gradient(90deg, rgb(197, 210, 9), rgb(118, 115, 25)) !important;
+}
+
+.gradient-background-1 {
+  background-image: radial-gradient(
+      circle at 52% 94%,
+      rgba(169, 169, 169, 0.04) 0%,
+      rgba(169, 169, 169, 0.04) 50%,
+      rgba(199, 199, 199, 0.04) 50%,
+      rgba(199, 199, 199, 0.04) 100%
+    ),
+    radial-gradient(
+      circle at 96% 98%,
+      rgba(61, 61, 61, 0.04) 0%,
+      rgba(61, 61, 61, 0.04) 50%,
+      rgba(201, 201, 201, 0.04) 50%,
+      rgba(201, 201, 201, 0.04) 100%
+    ),
+    radial-gradient(
+      circle at 93% 97%,
+      rgba(227, 227, 227, 0.04) 0%,
+      rgba(227, 227, 227, 0.04) 50%,
+      rgba(145, 145, 145, 0.04) 50%,
+      rgba(145, 145, 145, 0.04) 100%
+    ),
+    radial-gradient(
+      circle at 79% 52%,
+      rgba(245, 245, 245, 0.04) 0%,
+      rgba(245, 245, 245, 0.04) 50%,
+      rgba(86, 86, 86, 0.04) 50%,
+      rgba(86, 86, 86, 0.04) 100%
+    ),
+    linear-gradient(90deg, rgb(210, 9, 198), rgb(25, 38, 118)) !important;
+}
+
 .button-prediction {
   background-image: repeating-linear-gradient(
       135deg,
@@ -119,4 +183,46 @@ body {
 
 .width-100p {
   width: 100%;
+}
+.width-35p {
+  width: 35%;
+}
+
+.width-20p {
+  width: 20p;
+}
+
+.height-41 {
+  height: 41px;
+}
+
+.height-70 {
+  height: 70px;
+}
+
+.flex-even {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.match-recent {
+  opacity: 0.7;
+}
+
+.match-recent:hover {
+  opacity: 1;
+  cursor: pointer;
+  background-color: #f1f8e9 !important;
+}
+
+.item-notification:hover {
+  background-color: #e0f2f1;
+  opacity: 0.8;
+
+}
+.item-notification {
+  cursor: pointer;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 16px;
 }

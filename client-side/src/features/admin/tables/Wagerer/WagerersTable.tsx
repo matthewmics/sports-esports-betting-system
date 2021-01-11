@@ -81,12 +81,12 @@ export const WagerersTable: React.FC<IProps> = ({
                         <Table.Cell>
                             {x.banned ?
                                 <Button content='Unban' color='orange' size='mini' onClick={() => {
-                                    openConfirmation(`Are you sure you want to Unban ${x.displayName} ?`, 'Ban user',
+                                    openConfirmation(`Are you sure you want to Unban ${x.displayName} ?`, 'Unban user',
                                         () => { unban(x.id) })
                                 }} />
                                 :
                                 <Button content='Ban' size='mini' color='red' onClick={() => {
-                                    openConfirmation(`Are you sure you want to ban ${x.displayName} ?`, 'Unban user',
+                                    openConfirmation(`Are you sure you want to ban ${x.displayName} ?`, 'Ban user',
                                         () => { ban(x.id) })
                                 }} />
                             }

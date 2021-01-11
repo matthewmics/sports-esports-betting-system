@@ -1,27 +1,13 @@
 import React, { Fragment, useContext } from 'react'
 import { Container, Menu, Button, Image, Dropdown, Placeholder, Label, Popup } from 'semantic-ui-react'
 import { NavLink } from 'react-router-dom'
-import { RootStoreContext } from '../../app/stores/rootStore'
+import { RootStoreContext } from '../../../app/stores/rootStore'
 import { observer } from 'mobx-react-lite'
-import LoginForm from '../user/LoginForm'
-import RegisterForm from '../user/RegisterForm'
-import { history } from '../..'
-import { formatToLocalPH } from '../../app/common/util/util'
-
-
-const notificationBadgeStyle = {
-    backgroundColor: '#f44336',
-    height: '20px',
-    width: '20px',
-    position: 'absolute' as 'absolute',
-    right: 12, top: 12,
-    border: '2.5px solid #eee',
-    borderRadius: '20px',
-    color: 'white',
-    fontSize: '8px',
-    textAlign: 'center' as 'center',
-    lineHeight: '15px'
-};
+import LoginForm from '../../user/LoginForm'
+import RegisterForm from '../../user/RegisterForm'
+import { history } from '../../..'
+import { formatToLocalPH } from '../../../app/common/util/util'
+import UserNotification from './UserNotification'
 
 const NavBar = () => {
     const rootStore = useContext(RootStoreContext);
@@ -85,16 +71,7 @@ const NavBar = () => {
                         (
                             isLoggedIn ? (
                                 <Fragment>
-                                    <Menu.Item>
-                                        <Dropdown  icon='bell outline' pointing='top right' >
-                                            <Dropdown.Menu>
-                                                <Dropdown.Item text='Notifications will be displayed here.' />
-                                            </Dropdown.Menu>
-                                        </Dropdown>
-                                        <div style={notificationBadgeStyle}>
-                                            22
-                                        </div>
-                                    </Menu.Item>
+                                    <UserNotification />
                                     <Popup
                                         position='bottom right'
                                         on='click'
@@ -119,7 +96,7 @@ const NavBar = () => {
 
                                         <div style={{ display: 'flex' }}>
                                             <Image style={{
-                                                height: '50px', 
+                                                height: '50px',
                                                 width: '50px',
                                                 marginRight: '10px'
                                             }} bordered spaced avatar
@@ -128,7 +105,7 @@ const NavBar = () => {
                                             <div style={{ minWidth: '150px' }}>
                                                 <div style={{
                                                     fontWeight: 'bold',
-                                                    overflow: 'hidden', 
+                                                    overflow: 'hidden',
                                                     maxWidth: '150px',
                                                     textOverflow: 'ellipsis'
                                                 }}>
