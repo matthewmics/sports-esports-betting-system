@@ -85,6 +85,7 @@ export default class UserStore {
         })
 
         this.hubConnection.on("Banned", () => {
+            toast.warning("You got banned!");
             this.logout();
         });
     }
@@ -153,7 +154,8 @@ export default class UserStore {
 
     @action logout = () => {
         this.user = null;
-        toast.info("Logout Successful!");
+        
+        toast.info("You are now logged out");
     }
 
     @action readPredictionNotification = (id: number) => {
