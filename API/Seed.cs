@@ -71,7 +71,7 @@ namespace API
                 userManager.CreateAsync(appUser, "Password").Wait();
                 userManager.AddClaimAsync(appUser, new Claim(ClaimTypes.Email, userWagerer.Email)).Wait();
 
-                var wagerer = new Wagerer { AppUser = appUser };
+                var wagerer = new Wagerer { AppUser = appUser, ProfilePhoto = userWagerer.Image };
                 ctx.Wagerers.Add(wagerer);
             }
 
@@ -80,12 +80,12 @@ namespace API
             ctx.PaypalOrders.AddRange(GenerateDeposits(ctx));
             ctx.PaypalPayouts.AddRange(GenerateWithdraws(ctx));
 
-
             var adminUser = new AppUser
             {
                 DisplayName = "Admin",
                 Email = "admin@test.com",
-                UserName = "admin@test.com"
+                UserName = "admin@test.com",
+
             };
             userManager.CreateAsync(adminUser, "P@ssword").Wait();
             userManager.AddClaimAsync(adminUser, new Claim(ClaimTypes.Email, adminUser.Email)).Wait();
@@ -107,7 +107,7 @@ namespace API
 
             foreach (var wagerer in wagerers)
             {
-                for(var i = 0; i < 10; i++)
+                for (var i = 0; i < 10; i++)
                 {
                     var randomSeconds = -_rand.Next(720);
                     var randomDays = -_rand.Next(5);
@@ -306,7 +306,7 @@ namespace API
         private static ICollection<Prediction> Dota2Predictions(int days, Team winner = null)
         {
             var randomMinutes = -_rand.Next(30);
-            var randomHrs = -_rand.Next(3,15);
+            var randomHrs = -_rand.Next(3, 15);
             var startDate = DateTime.Now.AddDays(days).AddMinutes(randomMinutes);
             DateTime? settledDate = null;
             if (winner != null)
@@ -501,8 +501,8 @@ namespace API
 
         private class SeedUserModel
         {
-            [JsonPropertyName("userName")]
-            public string UserName { get; set; }
+            [JsonPropertyName("image")]
+            public string Image { get; set; }
             [JsonPropertyName("displayName")]
             public string DisplayName { get; set; }
             [JsonPropertyName("email")]

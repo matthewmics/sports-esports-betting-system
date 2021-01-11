@@ -355,43 +355,53 @@
   "users": [
     {
       "displayName": "Dejounte Walker",
-      "email": "user@test.com"
+      "email": "user@test.com",
+      "image":  "user.jpg"
     },
     {
       "displayName": "Oscar Phillip",
-      "email": "user1@test.com"
+      "email": "user1@test.com",
+      "image": "user1.jpg"
     },
     {
       "displayName": "Greg David",
-      "email": "user2@test.com"
+      "email": "user2@test.com",
+      "image": "user2.jpg"
     },
     {
       "displayName": "Tony Mills",
-      "email": "user3@test.com"
+      "email": "user3@test.com",
+      "image": "user3.jpg"
     },
     {
       "displayName": "Timmy Robinsons",
-      "email": "user4@test.com"
+      "email": "user4@test.com",
+      "image": "user4.jpg"
     },
     {
       "displayName": "Jakob Aldridge",
-      "email": "user5@test.com"
+      "email": "user5@test.com",
+      "image": "user5.jpg"
     },
     {
       "displayName": "Caiden Markham",
-      "email": "user6@test.com"
+      "email": "user6@test.com",
+      "image": "user6.jpg"
     },
     {
       "displayName": "Agnes Portillo",
-      "email": "user7@test.com"
+      "email": "user7@test.com",
+      "image": "user7.jpg"
     },
     {
       "displayName": "Demi Rose",
-      "email": "user8@test.com"
+      "email": "user8@test.com",
+      "image": "user8.jpg"
     },
     {
       "displayName": "Kacie Lee",
-      "email": "user9@test.com"
+      "email": "user9@test.com",
+      "image": "user9.jpg"
     },
     {
       "displayName": "Kanye Fry",
@@ -399,47 +409,47 @@
     },
     {
       "displayName": "Jevan Gobert",
-      "email": "jevan@test.com"
+      "email": "user11@test.com"
     },
     {
       "displayName": "Yasin Patterson",
-      "email": "yasin@test.com"
+      "email": "user12@test.com"
     },
     {
       "displayName": "Aras Hunter",
-      "email": "aras@test.com"
+      "email": "user13@test.com"
     },
     {
       "displayName": "Carla Darkly",
-      "email": "carla@test.com"
+      "email": "user14@test.com"
     },
     {
       "displayName": "John Rush",
-      "email": "john@test.com"
+      "email": "user15@test.com"
     },
     {
       "displayName": "Nayan Campbell",
-      "email": "nayan@test.com"
+      "email": "user16@test.com"
     },
     {
       "displayName": "Derrick Newsome",
-      "email": "derrick@test.com"
+      "email": "user17@test.com"
     },
     {
       "displayName": "Charles Williams",
-      "email": "charles@test.com"
+      "email": "user18@test.com"
     },
     {
       "displayName": "Monty Myers",
-      "email": "monty@test.com"
+      "email": "user19@test.com"
     },
     {
       "displayName": "Simmon Waiters",
-      "email": "simmon@test.com"
+      "email": "user20@test.com"
     },
     {
       "displayName": "Dion Haumea",
-      "email": "dion@test.com"
+      "email": "user21@test.com"
     }
   ]
 }
