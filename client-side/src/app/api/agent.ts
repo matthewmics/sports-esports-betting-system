@@ -10,8 +10,7 @@ import { ITeamEnvelope, ITeamFormValues } from "../models/team";
 import { IUser, IUserAdmin, IUserFormValues } from "../models/user";
 import { IWagererDataEnvelope } from "../models/wagerer";
 
-export const apiUrl = 'https://localhost:5000';
-//export const ApiUrl = 'https://898b9eef9af8.ngrok.io';
+export const apiUrl = process.env.REACT_APP_API_URL;
 
 axios.defaults.baseURL = apiUrl + '/api';
 const sleepDuration = 500;
