@@ -47,7 +47,7 @@ const UserNotification = () => {
                     }
                 </Menu.Item>
             }
-            style={{ padding: '0' }}
+            style={{ padding: '0', maxHeight:'80vh', overflowY: 'auto' }}
             focusable={false}
             position='bottom right'
         >

@@ -23,11 +23,6 @@ namespace Application.User
             CreateMap<AppUser, AdminDto>()
                 .ForMember(x => x.Token, x => x.MapFrom<TokenResolver<AppUser>>());
 
-            CreateMap<PredictionNotification, PredictionNotificationDto>()
-                .ForMember(x => x.When, x => x.MapFrom(x => x.CreatedAt))
-                .ForMember(x => x.MatchId, x => x.MapFrom(x => x.Prediction.MatchId))
-                .ForMember(x => x.MatchPredictionName, x => 
-                x.MapFrom(x => $"{x.Prediction.Match.TeamA.Name} vs {x.Prediction.Match.TeamB.Name} | {x.Prediction.Title}"));
         }
     }
 }

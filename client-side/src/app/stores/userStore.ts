@@ -5,7 +5,7 @@ import { history } from "../..";
 import agent, { apiUrl } from "../api/agent";
 import { formatToLocalPH } from "../common/util/util";
 import { IWagererTransaction } from "../models/profile";
-import { IUser, IUserFormValues } from "../models/user";
+import { IPredictionNotification, IUser, IUserFormValues } from "../models/user";
 import { RootStore } from "./rootStore";
 
 export default class UserStore {
@@ -70,6 +70,19 @@ export default class UserStore {
                 toast.success('You have received ' + formatToLocalPH(despositData.amount));
             });
         });
+
+        this.hubConnection.on('ReceivePredictionOutome', (notif: IPredictionNotification) => {
+            runInAction(() => {
+                this.user!.predictionNotifications = [notif, ...this.user!.predictionNotifications]
+
+                if (notif.outcome > 0) {
+                    this.user!.walletBalance += notif.outcome;
+                    toast.info('You have won a prediction')
+                }
+                else
+                    toast.info('You have lost a prediction')
+            })
+        })
 
         this.hubConnection.on("Banned", () => {
             this.logout();

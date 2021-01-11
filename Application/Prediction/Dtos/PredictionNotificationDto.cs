@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Application.User.Dtos
+namespace Application.Prediction.Dtos
 {
     public class PredictionNotificationDto
     {
