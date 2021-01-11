@@ -17,10 +17,7 @@ namespace Application.User
     public class GetCurrentAdmin
     {
 
-        public class Query : IRequest<AdminDto>
-        {
-
-        }
+        public class Query : IRequest<AdminDto> { }
 
         public class Handler : IRequestHandler<Query, AdminDto>
         {
@@ -44,7 +41,7 @@ namespace Application.User
                 if (!_context.Admins.Any(x => x.AppUserId == user.Id))
                     throw new RestException(System.Net.HttpStatusCode.Unauthorized);
                 if (user == null)
-                    throw new RestException(System.Net.HttpStatusCode.Unauthorized);
+                    throw new RestException(System.Net.HttpStatusCode.NotFound);
                 return _mapper.Map<AdminDto>(user);
             }
         }
