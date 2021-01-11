@@ -5,6 +5,7 @@ using MediatR;
 using Application.Prediction.Dtos;
 using System.Threading;
 using System;
+using Application.Prediction;
 
 namespace API.Controllers
 {
@@ -64,6 +65,13 @@ namespace API.Controllers
             return await Mediator.Send(new Application.Prediction.Unpredict.Command() { PredictionId = predictionId });
         }
 
+        [Authorize]
+        [HttpPost("notifications/{id}/read")]
+        public async Task<MediatR.Unit> ReadNotif(int id)
+        {
+            return await Mediator.Send(new ReadPredictionNotification.Command { Id = id });
+        }
+
         [Authorize(policy: "IsAdmin")]
         [HttpPost("{predictionId}/setLive")]
         public async Task<Unit> SetLive(int predictionId)
@@ -100,6 +108,7 @@ namespace API.Controllers
         {
             return await Mediator.Send(command);
         }
+
 
     }
 }

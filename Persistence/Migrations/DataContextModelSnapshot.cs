@@ -271,6 +271,37 @@ namespace Persistence.Migrations
                     b.ToTable("Predictions");
                 });
 
+            modelBuilder.Entity("Domain.PredictionNotification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime");
+
+                    b.Property<decimal>("Outcome")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<int>("PredictionId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Read")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("WagererId")
+                        .IsRequired()
+                        .HasColumnType("varchar(767)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PredictionId");
+
+                    b.HasIndex("WagererId");
+
+                    b.ToTable("PredictionNotification");
+                });
+
             modelBuilder.Entity("Domain.PredictionStatus", b =>
                 {
                     b.Property<short>("Id")
@@ -621,14 +652,14 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.PaypalOrder", b =>
                 {
                     b.HasOne("Domain.Wagerer", "Wagerer")
-                        .WithMany()
+                        .WithMany("PaypalOrders")
                         .HasForeignKey("WagererId");
                 });
 
             modelBuilder.Entity("Domain.PaypalPayout", b =>
                 {
                     b.HasOne("Domain.Wagerer", "Wagerer")
-                        .WithMany()
+                        .WithMany("PaypalPayouts")
                         .HasForeignKey("WagererId");
                 });
 
@@ -649,6 +680,21 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Team", "Winner")
                         .WithMany("WinningPredictions")
                         .HasForeignKey("WinnerId");
+                });
+
+            modelBuilder.Entity("Domain.PredictionNotification", b =>
+                {
+                    b.HasOne("Domain.Prediction", "Prediction")
+                        .WithMany()
+                        .HasForeignKey("PredictionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Wagerer", "Wagerer")
+                        .WithMany("PredictionNotifications")
+                        .HasForeignKey("WagererId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.UserPrediction", b =>

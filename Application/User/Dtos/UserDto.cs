@@ -9,5 +9,6 @@ namespace Application.User.Dtos
     {
         public decimal WalletBalance { get; set; }
         public string Photo { get; set; }
+        public ICollection<PredictionNotificationDto> PredictionNotifications { get; set; }
     }
 }

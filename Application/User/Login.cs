@@ -10,6 +10,7 @@ using Persistence;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using System.Threading;
 
 namespace Application.User
@@ -53,15 +54,28 @@ namespace Application.User
             {
                 var userInDb = await _userManager.FindByEmailAsync(request.Email);
                 if (userInDb == null)
-                    throw new RestException(System.Net.HttpStatusCode.Unauthorized);
+                    throw new RestException(System.Net.HttpStatusCode.BadRequest, 
+                        new { Login = "Invalid email or password" });
 
                 var result = await _signInManager.CheckPasswordSignInAsync(userInDb, request.Password, false);
 
                 if (result.Succeeded)
                 {
-                    var wagerer = await _ctx.Wagerers.SingleOrDefaultAsync(x => x.AppUserId == userInDb.Id);
+                    var wagerer = await _ctx.Wagerers
+                        .SingleOrDefaultAsync(x => x.AppUserId == userInDb.Id);
+
                     if (wagerer.Banned)
                         throw new RestException(System.Net.HttpStatusCode.BadRequest, new { Wagerer = "Account is banned" });
+
+                    wagerer.PredictionNotifications =
+                        await _ctx.PredictionNotification
+                        .Include(x => x.Prediction)
+                            .ThenInclude(x => x.Match)
+                                .ThenInclude(x => x.TeamA)
+                        .Include(x => x.Prediction)
+                            .ThenInclude(x => x.Match)
+                                .ThenInclude(x => x.TeamB)
+                        .Where(x => !x.Read && x.WagererId == wagerer.AppUserId).ToListAsync();
 
                     wagerer.AppUser = userInDb;
 

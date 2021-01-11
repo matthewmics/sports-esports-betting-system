@@ -28,6 +28,7 @@ namespace Persistence
         public DbSet<MatchComment> MatchComments { get; set; }
         public DbSet<PaypalOrder> PaypalOrders { get; set; }
         public DbSet<PaypalPayout> PaypalPayouts { get; set; }
+        public DbSet<PredictionNotification> PredictionNotification { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

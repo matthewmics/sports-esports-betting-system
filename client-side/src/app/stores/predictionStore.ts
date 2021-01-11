@@ -195,4 +195,12 @@ export default class PredictionStore {
       })
     }
   }
+
+  @action readNotification = async (id: number) => {
+    try {
+      await agent.Predictions.readNotification(id);
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }

@@ -4,7 +4,7 @@ import { history } from "../..";
 import { IDashboardDto } from "../models/admin";
 import { IPaypalDepositResult } from "../models/fund";
 import { IComment, IMatch, IMatchEnvelope, IMatchForm, IMatchPredictionRecent, IMatchRecent } from "../models/match";
-import { IActivePrediction, IPrediction, IPredictionCreateForm, IPredictionDetails } from "../models/prediction";
+import { IActivePrediction, IPredictionCreateForm, IPredictionDetails } from "../models/prediction";
 import { IProfileChangePhotoResult, IProfilePredictionStats, IUserPredictionEnvelope, IWagererTransaction, IWagererTransactionEnvelope } from "../models/profile";
 import { ITeamEnvelope, ITeamFormValues } from "../models/team";
 import { IUser, IUserAdmin, IUserFormValues } from "../models/user";
@@ -96,6 +96,8 @@ const Predictions = {
     (predictionId: number)
       : Promise<IPredictionDetails> =>
       requests.get(`/predictions/${predictionId}/details`),
+  readNotification: (id: number): Promise<void> =>
+    requests.post(`/predictions/notifications/${id}/read`, {}),
   setLive: (predictionId: number): Promise<void> =>
     requests.post(`/predictions/${predictionId}/setLive`, {}),
   reschedule: (predictionId: number, schedule: string): Promise<void> =>

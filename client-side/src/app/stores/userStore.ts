@@ -41,6 +41,16 @@ export default class UserStore {
         return !!this.user;
     }
 
+    initializeUser = (user: IUser) => {
+        if (user.predictionNotifications) {
+            user.predictionNotifications.forEach(x => x.when = new Date(x.when));
+            user.predictionNotifications = user.predictionNotifications.sort((a, b) => {
+                return b.when.getTime() - a.when.getTime()
+            })
+        }
+        return user;
+    }
+
     @action createHubConnection = (token: string) => {
         this.hubConnection = new HubConnectionBuilder()
             .withUrl(apiUrl + '/mainhub', {
@@ -92,9 +102,10 @@ export default class UserStore {
     @action login = async (formValues: IUserFormValues) => {
         this.loading = true;
         try {
-            const user = await agent.User.login(formValues);
+            let user = await agent.User.login(formValues);
             toast.success("Login Successful!");
             this.rootStore.modalStore.closeModal();
+            user = this.initializeUser(user);
             runInAction(() => {
                 this.user = user;
             })
@@ -112,7 +123,8 @@ export default class UserStore {
         this.userLoading = true;
         try {
             if (window.localStorage.getItem("jwt")) {
-                const user = await agent.User.current();
+                let user = await agent.User.current();
+                user = this.initializeUser(user);
                 runInAction(() => {
                     this.user = user;
                 });
@@ -129,5 +141,11 @@ export default class UserStore {
     @action logout = () => {
         this.user = null;
         toast.info("Logout Successful!");
+    }
+
+    @action readPredictionNotification = (id: number) => {
+        this.user!.predictionNotifications = this.user!.predictionNotifications.filter(x => x.id !== id);
+        this.rootStore.predictionStore
+            .readNotification(id);
     }
 }
