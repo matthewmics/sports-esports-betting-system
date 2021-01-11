@@ -38,10 +38,10 @@ namespace Application.User
             public async System.Threading.Tasks.Task<AdminDto> Handle(Query request, CancellationToken cancellationToken)
             {
                 var user = await _userManager.FindByEmailAsync(_userAccessor.GetCurrentEmail());
-                if (!_context.Admins.Any(x => x.AppUserId == user.Id))
-                    throw new RestException(System.Net.HttpStatusCode.Unauthorized);
+
                 if (user == null)
                     throw new RestException(System.Net.HttpStatusCode.NotFound);
+
                 return _mapper.Map<AdminDto>(user);
             }
         }
