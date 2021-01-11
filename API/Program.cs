@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Prediction;
 using Domain;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -29,7 +30,8 @@ namespace API
                     var context = services.GetRequiredService<DataContext>();
                     context.Database.Migrate();
                     var userManager = services.GetRequiredService<UserManager<AppUser>>();
-                    Seed.SeedData(context, userManager);
+                    var oddsReader = services.GetRequiredService<IPredictionOddsReader>();
+                    Seed.SeedData(context, userManager, oddsReader);
                 } catch(Exception err)
                 {
                     var logger = services.GetRequiredService<ILogger<Program>>();

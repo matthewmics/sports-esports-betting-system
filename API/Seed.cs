@@ -1,4 +1,5 @@
-﻿using Application.Prediction;
+﻿using Application.Paypal;
+using Application.Prediction;
 using Domain;
 using Microsoft.AspNetCore.Identity;
 using Persistence;
@@ -9,6 +10,7 @@ using System.Security.Claims;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace API
 {
@@ -41,7 +43,7 @@ namespace API
         };
         /******************************************/
 
-        public static void SeedData(DataContext ctx, UserManager<AppUser> userManager)
+        public static void SeedData(DataContext ctx, UserManager<AppUser> userManager, IPredictionOddsReader oddsReader)
         {
             var dataSeedText = System.IO.File.ReadAllText("seed.json");
             var dataSeed = JsonSerializer.Deserialize<SeedModel>(dataSeedText);
@@ -76,6 +78,8 @@ namespace API
             ctx.UserPredictions.AddRange(GenerateUserPredictions(ctx));
             ctx.MatchComments.AddRange(GenerateMatchComments(ctx));
             ctx.PaypalOrders.AddRange(GenerateDeposits(ctx));
+            ctx.PaypalPayouts.AddRange(GenerateWithdraws(ctx));
+
 
             var adminUser = new AppUser
             {
@@ -84,14 +88,17 @@ namespace API
                 UserName = "admin@test.com"
             };
             userManager.CreateAsync(adminUser, "P@ssword").Wait();
+            userManager.AddClaimAsync(adminUser, new Claim(ClaimTypes.Email, adminUser.Email)).Wait();
             ctx.Admins.Add(new Admin { AppUser = adminUser });
 
             ctx.SaveChanges();
+            SetFinalOdds(ctx, oddsReader);
 
             // cleanup
             _rand = null;
             _comments = null;
         }
+
 
 
         private static IEnumerable<PaypalOrder> GenerateDeposits(DataContext context)
@@ -100,19 +107,46 @@ namespace API
 
             foreach (var wagerer in wagerers)
             {
-                var randomSeconds = -_rand.Next(720);
-                yield return new PaypalOrder
+                for(var i = 0; i < 10; i++)
                 {
-                    IsCaptured = true,
-                    CapturedDate = DateTime.Now.AddDays(-1).AddSeconds(randomSeconds),
-                    CreatedAt = DateTime.Now.AddDays(-1).AddSeconds(-randomSeconds - 30),
-                    Wagerer = wagerer,
-                    Amount = 20_000,
-                    AmountWithFees = 20_073,
-                    OrderCode = "seeded-" + Guid.NewGuid().ToString(),
-                };
+                    var randomSeconds = -_rand.Next(720);
+                    var randomDays = -_rand.Next(5);
+                    int randomAmount = _rand.Next(2_000, 2_500);
+                    yield return new PaypalOrder
+                    {
+                        IsCaptured = true,
+                        CapturedDate = DateTime.Now.AddDays(randomDays).AddSeconds(randomSeconds),
+                        CreatedAt = DateTime.Now.AddDays(randomDays).AddSeconds(randomSeconds + 30),
+                        Wagerer = wagerer,
+                        Amount = randomAmount,
+                        AmountWithFees = randomAmount.AddPaypalFees(),
+                        OrderCode = "seeded-" + Guid.NewGuid().ToString(),
+                    };
+                }
             }
+        }
 
+        private static IEnumerable<PaypalPayout> GenerateWithdraws(DataContext context)
+        {
+            var wagerers = context.Wagerers.ToList();
+
+            foreach (var wagerer in wagerers)
+            {
+                for (var i = 0; i < 10; i++)
+                {
+                    var randomSeconds = -_rand.Next(720);
+                    var randomDays = -_rand.Next(5);
+                    int randomAmount = _rand.Next(400, 700);
+                    yield return new PaypalPayout
+                    {
+                        CreatedAt = DateTime.Now.AddDays(randomDays).AddSeconds(randomSeconds + 30),
+                        Wagerer = wagerer,
+                        BatchId = "seeded-" + Guid.NewGuid().ToString(),
+                        DeductedAmount = randomAmount.AddPaypalWithdrawFees(),
+                        RequestedAmount = randomAmount,
+                    };
+                }
+            }
         }
 
         private static IEnumerable<MatchComment> GenerateMatchComments(DataContext context)
@@ -271,7 +305,13 @@ namespace API
 
         private static ICollection<Prediction> Dota2Predictions(int days, Team winner = null)
         {
-            var randomSeconds = -_rand.Next(60);
+            var randomMinutes = -_rand.Next(30);
+            var randomHrs = -_rand.Next(3,15);
+            var startDate = DateTime.Now.AddDays(days).AddMinutes(randomMinutes);
+            DateTime? settledDate = null;
+            if (winner != null)
+                settledDate = startDate.AddHours(randomHrs);
+
             var result = new List<Prediction>()
             {
                 new Prediction
@@ -282,7 +322,8 @@ namespace API
                     IsMain = true,
                     Description = "Which team will win the series?",
                     PredictionStatusId = winner != null ? PredictionStatus.Settled : PredictionStatus.Open,
-                    StartDate = DateTime.Now.AddDays(days).AddSeconds(randomSeconds),
+                    StartDate = startDate,
+                    SettledDate = settledDate
                 },
                 new Prediction
                 {
@@ -291,7 +332,8 @@ namespace API
                     Title = "Game 1 Winner",
                     Description = "Which team will win game 1 of this series?",
                     PredictionStatusId = winner != null ? PredictionStatus.Settled : PredictionStatus.Open,
-                    StartDate = DateTime.Now.AddDays(days),
+                    StartDate = startDate,
+                    SettledDate = settledDate
                 },
                 new Prediction
                 {
@@ -300,7 +342,8 @@ namespace API
                     Title = "Game 2 Winner",
                     Description = "Which team will win game 2 of this series?",
                     PredictionStatusId = winner != null ? PredictionStatus.Settled : PredictionStatus.Open,
-                    StartDate = DateTime.Now.AddDays(days).AddHours(1),
+                    StartDate = startDate.AddHours(1),
+                    SettledDate = settledDate
                 },
                 new Prediction
                 {
@@ -309,7 +352,8 @@ namespace API
                     Title = "Game 3 Winner",
                     Description = "Which team will win game 3 of this series?",
                     PredictionStatusId = winner != null ? PredictionStatus.Settled : PredictionStatus.Open,
-                    StartDate = DateTime.Now.AddDays(days).AddHours(2),
+                    StartDate = startDate.AddHours(2),
+                    SettledDate = settledDate
                 },
                 new Prediction
                 {
@@ -318,7 +362,8 @@ namespace API
                     Title = "Game 1 F10K",
                     Description = "Which team is the first to get 10 kills in game 1?",
                     PredictionStatusId = winner != null ? PredictionStatus.Settled : PredictionStatus.Open,
-                    StartDate = DateTime.Now.AddDays(days),
+                    StartDate = startDate,
+                    SettledDate = settledDate
                 },
                 new Prediction
                 {
@@ -327,7 +372,9 @@ namespace API
                     Title = "Game 2 F10K",
                     Description = "Which team is the first to get 10 kills in game 2?",
                     PredictionStatusId = winner != null ? PredictionStatus.Settled : PredictionStatus.Open,
-                    StartDate = DateTime.Now.AddDays(days).AddHours(1),
+                    StartDate = startDate.AddHours(1),
+                    SettledDate = settledDate
+
                 },
                 new Prediction
                 {
@@ -336,7 +383,8 @@ namespace API
                     Title = "Game 3 F10K",
                     Description = "Which team is the first to get 10 kills in game 3?",
                     PredictionStatusId = winner != null ? PredictionStatus.Settled : PredictionStatus.Open,
-                    StartDate = DateTime.Now.AddDays(days).AddHours(2),
+                    StartDate = startDate.AddHours(2),
+                    SettledDate = settledDate
                 }
             };
             return result;
@@ -344,7 +392,14 @@ namespace API
 
         private static ICollection<Prediction> CSGOPredictions(int days, Team winner = null)
         {
-            var randomSeconds = -_rand.Next(60);
+
+            var randomMinutes = -_rand.Next(30);
+            var randomHrs = -_rand.Next(3, 15);
+            var startDate = DateTime.Now.AddDays(days).AddMinutes(randomMinutes);
+            DateTime? settledDate = null;
+            if (winner != null)
+                settledDate = startDate.AddHours(randomHrs);
+
             var result = new List<Prediction>()
             {
                 new Prediction
@@ -355,7 +410,8 @@ namespace API
                     IsMain = true,
                     Description = "Which team will win the series?",
                     PredictionStatusId = winner != null ? PredictionStatus.Settled : PredictionStatus.Open,
-                    StartDate = DateTime.Now.AddDays(days).AddSeconds(randomSeconds),
+                    StartDate = startDate,
+                    SettledDate = settledDate
                 },
                   new Prediction
                 {
@@ -364,7 +420,8 @@ namespace API
                     Title = "Game 1 Winner",
                     Description = "Which team will win game 1 of this series?",
                     PredictionStatusId = winner != null ? PredictionStatus.Settled : PredictionStatus.Open,
-                    StartDate = DateTime.Now.AddDays(days),
+                    StartDate = startDate,
+                    SettledDate = settledDate
                 },
                 new Prediction
                 {
@@ -373,7 +430,8 @@ namespace API
                     Title = "Game 2 Winner",
                     Description = "Which team will win game 2 of this series?",
                     PredictionStatusId = winner != null ? PredictionStatus.Settled : PredictionStatus.Open,
-                    StartDate = DateTime.Now.AddDays(days).AddHours(1),
+                    StartDate = startDate.AddHours(1),
+                    SettledDate = settledDate
                 },
                 new Prediction
                 {
@@ -382,7 +440,8 @@ namespace API
                     Title = "Game 3 Winner",
                     Description = "Which team will win game 3 of this series?",
                     PredictionStatusId = winner != null ? PredictionStatus.Settled : PredictionStatus.Open,
-                    StartDate = DateTime.Now.AddDays(days).AddHours(2),
+                    StartDate = startDate.AddHours(2),
+                    SettledDate = settledDate
                 },
             };
             return result;
@@ -390,7 +449,14 @@ namespace API
 
         private static ICollection<Prediction> NBAPredictions(int days, Team winner = null)
         {
-            var randomSeconds = -_rand.Next(720);
+
+            var randomMinutes = -_rand.Next(30);
+            var randomHrs = -_rand.Next(3, 15);
+            var startDate = DateTime.Now.AddDays(days).AddMinutes(randomMinutes);
+            DateTime? settledDate = null;
+            if (winner != null)
+                settledDate = startDate.AddHours(randomHrs);
+
             var result = new List<Prediction>()
             {
                 new Prediction
@@ -401,7 +467,8 @@ namespace API
                     IsMain = true,
                     Description = "Which team will win the game?",
                     PredictionStatusId = winner != null ? PredictionStatus.Settled : PredictionStatus.Open,
-                    StartDate = DateTime.Now.AddDays(days).AddSeconds(randomSeconds),
+                    StartDate = startDate,
+                    SettledDate = settledDate
                 },
                   new Prediction
                 {
@@ -410,10 +477,26 @@ namespace API
                     Title = "1st Half Winner",
                     Description = "Which team will win the 1st half of this game?",
                     PredictionStatusId = winner != null ? PredictionStatus.Settled : PredictionStatus.Open,
-                    StartDate = DateTime.Now.AddDays(days).AddSeconds(randomSeconds),
+                    StartDate = startDate,
+                    SettledDate = settledDate
                 },
             };
             return result;
+        }
+
+        private static void SetFinalOdds(DataContext ctx, IPredictionOddsReader oddsReader)
+        {
+            var settledPrediction = ctx.Predictions
+                .Include(x => x.Predictors)
+                .Include(x => x.Match)
+                .Where(x => x.PredictionStatusId == Domain.PredictionStatus.Settled).ToList();
+            foreach (var prediction in settledPrediction)
+            {
+                var odds = oddsReader.ReadOdds(prediction);
+                prediction.WinningOdds = prediction.WinnerId == prediction.Match.TeamAId ? odds.TeamA.Odds : odds.TeamB.Odds;
+            }
+
+            ctx.SaveChanges();
         }
 
         private class SeedUserModel
