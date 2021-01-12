@@ -40,3 +40,4 @@ msbuild.wrn
 *.log
 
 API/Uploads
+API/wwwroot/
