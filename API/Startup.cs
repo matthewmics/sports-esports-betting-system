@@ -77,7 +77,8 @@ namespace API
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = key,
                         ValidateAudience = false,
-                        ValidateIssuer = false
+                        ValidateIssuer = false,
+                        ValidateLifetime = true,
                     };
 
                     opt.Events = new JwtBearerEvents
@@ -135,8 +136,11 @@ namespace API
             //{
             //    app.UseDeveloperExceptionPage();
             //}
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
+            app.UseDefaultFiles();
+
+            app.UseStaticFiles();
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(
@@ -160,6 +164,8 @@ namespace API
                 endpoints.MapHub<MainHub>("/mainhub");
                 endpoints.MapHub<CommonHub>("/commonhub");
                 endpoints.MapHub<ChatHub>("/chat");
+
+                endpoints.MapFallbackToController("Index", "Fallback");
             });
         }
     }
