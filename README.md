@@ -14,7 +14,7 @@ Paypal's sandbox environment is used for users` money transactions.
 | ------------- |:-------------:|
 | user@test.com | Password      |
 | user1@test.com| Password      |
-| user<2-21> | Password      | 
+| user<2-21>@test.com | Password      | 
 
 ## Demo admin
 http://matthewmics77-001-site1.etempurl.com/admin
