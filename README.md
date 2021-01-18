@@ -14,15 +14,16 @@ Paypal's sandbox environment is used for users` money transactions.
 | ------------- |:-------------:|
 | user@test.com | Password      |
 | user1@test.com| Password      |
-| user<2-21>@test.com | Password      | 
+| user<2-21>@test.com | Password| 
 
 ## Demo admin
 http://matthewmics77-001-site1.etempurl.com/admin
 
-I always have the database reseeded so you can do or test anything you want in admin
-#### Admin user
-   Email: admin@test.com  
-   Password: P@ssword    
+I always have the database reseeded so you can do or test anything you want in admin  
+
+  **Admin user**  
+  Email: admin@test.com  
+  Password: P@ssword    
 
 ## Paypal sandbox accounts
 | Type | Email         | Password      | 
