@@ -8,7 +8,7 @@ Each match can have 1 or more predictions, reward for making the right predictio
 Paypal's sandbox environment is used for users` money transactions.
 
 ## Demo client
-   http://matthewmics77-001-site1.etempurl.com/  
+   http://matthewmics77-001-site1.etempurl.com/  (not working and currently working on uploading it to azure)
 #### Seeded users  
 | Email         | Password      |
 | ------------- |:-------------:|
@@ -17,7 +17,7 @@ Paypal's sandbox environment is used for users` money transactions.
 | user<2-21>@test.com | Password| 
 
 ## Demo admin
-http://matthewmics77-001-site1.etempurl.com/admin
+http://matthewmics77-001-site1.etempurl.com/admin (not working and currently working on uploading it to azure)
 
 I always have the database reseeded so you can do or test anything you want in admin  
 
