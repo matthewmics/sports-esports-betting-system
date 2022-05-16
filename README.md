@@ -1,33 +1,3 @@
-# WagerzLounge
-An online Sports/E-Sports betting Application
+## Screenshots 
 
-This is a demo application I've written using ASP.NET core 3.1 and React TS. 
-
-This is an application where users place money to make a prediction on a match. 
-Each match can have 1 or more predictions, reward for making the right prediction will depend on the odds. 
-Paypal's sandbox environment is used for users` money transactions.
-
-## Demo client
-   http://matthewmics77-001-site1.etempurl.com/  (not working and currently working on uploading it to azure)
-#### Seeded users  
-| Email         | Password      |
-| ------------- |:-------------:|
-| user@test.com | Password      |
-| user1@test.com| Password      |
-| user<2-21>@test.com | Password| 
-
-## Demo admin
-http://matthewmics77-001-site1.etempurl.com/admin (not working and currently working on uploading it to azure)
-
-I always have the database reseeded so you can do or test anything you want in admin  
-
-  **Admin user**  
-  Email: admin@test.com  
-  Password: P@ssword    
-
-## Paypal sandbox accounts
-| Type | Email         | Password      | 
-| ------- | ------------- |:-------------:|
-| Customer | sb-5ngoo1292932@personal.example.com | Ge5V@5&j |
-| Customer | sb-d8y731352619@personal.example.com | ?/;8Nwf) |
-| Merchant | sb-pnsvd1300283@business.example.com | S:@[mlh3 | 
+<img src="https://user-images.githubusercontent.com/38750461/168603015-54fb620b-2d8c-45e2-bfd2-456f3a58ae30.PNG" width="45%"></img> <img src="https://user-images.githubusercontent.com/38750461/168603027-683ae94d-4701-41e3-acef-0c2889e707a6.PNG" width="45%"></img> <img src="https://user-images.githubusercontent.com/38750461/168603033-1af1fa82-3c21-4341-97f9-5b13f456ce15.PNG" width="45%"></img> <img src="https://user-images.githubusercontent.com/38750461/168603039-905aaaab-25b3-485c-b5a2-6c10bfc2ed74.PNG" width="45%"></img> <img src="https://user-images.githubusercontent.com/38750461/168603045-d34584fe-4c85-4c22-ad5d-f52f5e0703f3.PNG" width="45%"></img> <img src="https://user-images.githubusercontent.com/38750461/168603050-bcf111cc-296d-42a2-aa2e-1493f02f584a.PNG" width="45%"></img> <img src="https://user-images.githubusercontent.com/38750461/168603055-7ff0e946-759f-43f3-9dfd-190030194bfd.PNG" width="45%"></img> <img src="https://user-images.githubusercontent.com/38750461/168603064-3c015051-7d76-4cae-9fee-617008d70be1.PNG" width="45%"></img> <img src="https://user-images.githubusercontent.com/38750461/168603070-85561464-11f6-4e9b-b30b-b781a081f266.PNG" width="45%"></img> <img src="https://user-images.githubusercontent.com/38750461/168603072-a6e1d66a-5590-4262-ab37-78f37803432b.PNG" width="45%"></img> <img src="https://user-images.githubusercontent.com/38750461/168603076-6da6cf4a-b32b-4bc6-83e7-19b0eefd9b1e.PNG" width="45%"></img> <img src="https://user-images.githubusercontent.com/38750461/168603080-f3671fe6-eb99-45d7-b0ce-64b4529d485b.PNG" width="45%"></img> <img src="https://user-images.githubusercontent.com/38750461/168603089-0aecd130-1463-429b-b01a-7252446ba883.PNG" width="45%"></img> <img src="https://user-images.githubusercontent.com/38750461/168603094-c879f63c-4678-419b-b1f8-b88c07f82b2d.PNG" width="45%"></img> <img src="https://user-images.githubusercontent.com/38750461/168603096-414c1a2f-c233-458e-b856-4d28174fb1d6.PNG" width="45%"></img> <img src="https://user-images.githubusercontent.com/38750461/168603101-3fdd96bf-ddaa-4eca-a6d5-3b8fe8ff7a39.PNG" width="45%"></img> <img src="https://user-images.githubusercontent.com/38750461/168603105-0b0b6b90-fbc9-49ec-91a2-b7bcdac88b07.PNG" width="45%"></img> <img src="https://user-images.githubusercontent.com/38750461/168603111-94ce094d-41fa-4fc8-9897-ac45d325108c.PNG" width="45%"></img> <img src="https://user-images.githubusercontent.com/38750461/168603118-fc59415d-d86d-4868-8078-d8ddf417c40e.PNG" width="45%"></img> <img src="https://user-images.githubusercontent.com/38750461/168603125-486895f1-a733-48cc-9146-5a486b235cf6.PNG" width="45%"></img> <img src="https://user-images.githubusercontent.com/38750461/168603130-197171f7-949e-4880-b485-0d960b29406f.PNG" width="45%"></img> <img src="https://user-images.githubusercontent.com/38750461/168603132-32d34dcf-1540-4d0f-9c50-919ea8d33fd7.PNG" width="45%"></img> <img src="https://user-images.githubusercontent.com/38750461/168603136-d10a688f-f9bf-4270-a22e-2bd6d2fd9b92.PNG" width="45%"></img> <img src="https://user-images.githubusercontent.com/38750461/168603141-8c5b22fa-df6d-4af2-81c4-317b47800bc0.PNG" width="45%"></img> <img src="https://user-images.githubusercontent.com/38750461/168603151-a0ef8022-32d0-4297-95ca-56abf9e3bbd5.PNG" width="45%"></img> <img src="https://user-images.githubusercontent.com/38750461/168603155-55844be8-8e04-4cd3-8797-e02b57c81875.PNG" width="45%"></img> <img src="https://user-images.githubusercontent.com/38750461/168603157-60654ddd-ac31-4007-b178-7adef3c5edda.PNG" width="45%"></img> <img src="https://user-images.githubusercontent.com/38750461/168603161-83c8cc03-795f-4751-8d87-b675990bc420.PNG" width="45%"></img> 
